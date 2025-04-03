@@ -1,0 +1,92 @@
+services:
+
+  gateway:
+    container_name: "wrc-gateway"
+    image: wearecooking-gateway:latest
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "$GATEWAY_PORT:8000"
+    networks:
+      - authenticationNetwork
+      - wrcNetwork
+
+  keycloak:
+    container_name: "authorization-keycloak"
+    image: quay.io/keycloak/keycloak:26.0.7
+    ports:
+      - "$KEYCLOAK_PORT:8080"
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://db:5432/awasome
+      - KC_HEALTH_ENABLED=true
+      - KC_DB_USERNAME=admin
+      - KC_DB_PASSWORD=admin
+      - KC_FILE=/opt/keycloak/conf/WeAreCookingRealms.json
+    volumes:
+      - ./realms:/opt/keycloak/conf
+    depends_on:
+      - db
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'exec 3<>/dev/tcp/localhost/9000; echo -e "GET /health/ready HTTP/1.1\nhost: localhost:9000\n" >&3; timeout --preserve-status 1 cat <&3 | grep -m 1 status | grep -m 1 UP; ERROR=$?; exec 3<&-; exec 3>&-; exit $ERROR'
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: "start-dev --health-enabled=true --metrics-enabled=true"
+    networks:
+      - authenticationNetwork
+
+  db:
+    container_name: "authorization-db"
+    image: postgres:17
+    ports:
+      - "$KEYClOAK_DB:5432"
+    environment:
+      POSTGRES_DB: awasome
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./authentication-DB-data:/var/lib/postgresql/data
+    networks:
+      - authenticationNetwork
+
+  keycloak-config-cli:
+    container_name: "authorization-keycloak-config-cli"
+    image: adorsys/keycloak-config-cli:latest
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    volumes:
+      - ./realms:/config
+    environment:
+      - KEYCLOAK_URL=http://authorization-keycloak:8080
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_AVAILABILITYCHECK_ENABLED
+      - SPRING_PROFILES_ACTIVE=dev
+      - DEBUG=true
+      - IMPORT_FILES_LOCATIONS=/config/*
+    networks:
+      - authenticationNetwork
+
+
+networks:
+  authenticationNetwork:
+    name: authenticationNetwork
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+  wrcNetwork:
+    name: wrcNetwork
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24

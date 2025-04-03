@@ -43,12 +43,6 @@ run_compose() {
 
     watch -n 1 docker compose -f infrastructure/compose.yaml ps
 }
-
-
-
-
-
-
-run_compose
-
+#run_compose
+docker-compose -f infrastructure/compose.yaml up
 set +ex
