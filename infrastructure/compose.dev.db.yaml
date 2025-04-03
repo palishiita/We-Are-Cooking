@@ -1,0 +1,22 @@
+services:
+  wrc-db:
+    container_name: "wrc-db"
+    image: postgres:17
+    ports:
+      - "$KEYClOAK_DB:5432"
+    environment:
+      POSTGRES_DB: wrc
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./wrc-db-data:/var/lib/postgresql/data
+    networks:
+      - wrcNetwork
+
+networks:
+  wrcNetwork:
+    name: wrcNetwork
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24

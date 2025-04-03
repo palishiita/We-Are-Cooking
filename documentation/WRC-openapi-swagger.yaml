@@ -1,0 +1,28 @@
+openapi: 3.0.3
+
+info:
+  title: We Are Cooking
+  description: We Are Cooking
+  version: 1.0.0
+  
+servers:
+  - url: https://www.wearecooking.com/
+  - url: http://localhost:8000/
+
+tags:
+  - name: Test
+paths:
+
+  /test:
+    get:
+      tags:
+        - Test
+      responses:
+        '200':
+          description: Returned anything
+          content:
+            application/json:
+              schema:
+                type: string
+
+#components.schemas:
