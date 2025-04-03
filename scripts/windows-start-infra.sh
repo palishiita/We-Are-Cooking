@@ -1,0 +1,1 @@
+docker compose --env-file /infrastructure/.env -f /infrastructure/keycloak/compose.dev.yaml up -d
