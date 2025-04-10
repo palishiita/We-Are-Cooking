@@ -3,6 +3,8 @@ use std::net::TcpListener;
 use actix_web::{dev::Server, web, App, HttpServer};
 use sqlx::PgConnection;
 
+use crate::controller;
+
 pub fn run(
     listener: TcpListener,
     connection: PgConnection 
@@ -11,6 +13,8 @@ pub fn run(
     let server = HttpServer::new(move || {
         App::new()
         .app_data(connection.clone())
+        .configure(controller::init_user_controller)
+        .configure(controller::init_health_controller)
     })
     .listen(listener)?
     .run();

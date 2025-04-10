@@ -4,8 +4,8 @@ app:
   port: "8000"
 # database config
 database:
-  username: "postgres" 
-  password: "password"
-  database_name: "reels"
+  username: "admin" 
+  password: "admin"
+  database_name: "wrc"
   host: "127.0.0.1"
   port: 5432
