@@ -13,8 +13,8 @@ pub fn run(
     let server = HttpServer::new(move || {
         App::new()
         .app_data(connection.clone())
-        .configure(controller::init_user_controller)
         .configure(controller::init_health_controller)
+        .configure(controller::init_reel_controller)
     })
     .listen(listener)?
     .run();

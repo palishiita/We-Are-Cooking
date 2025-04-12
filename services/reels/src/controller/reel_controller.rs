@@ -1,12 +1,12 @@
-use actix_web::{get, web, HttpResponse, Responder};
-
-use crate::AppState;
+use actix_web::{get, post, web, HttpResponse, Responder};
+use uuid::Uuid;
+use crate::{model::Reel, AppState};
 
 use super::log_request;
 
 pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(get_reel);
-    //cfg.service(post_reel);
+    cfg.service(post_reel);
     //cfg.service(get_reels);
     //cfg.service(delete_reel);
     //cfg.service(update_reel);
@@ -27,7 +27,25 @@ async fn get_reel(
     }
 }
 
-async fn post_reel() {}
+#[post("/reel/post")]
+async fn post_reel(
+    reel: web::Json<Reel>,
+    app_state: web::Data<AppState<'_>>
+) -> impl Responder {
+    log_request("Post: /reel", &app_state.connections);
+ 
+    let mut reel = reel.into_inner();
+    reel.id = Uuid::new_v4().to_string();
+
+    let x = app_state.context.reels.add_reel(&reel).await;
+
+    match x {
+        Ok(_) => {
+            HttpResponse::Created().body(reel.id)
+        }
+        Err(_) => HttpResponse::InternalServerError().finish()
+    }
+}
 
 async fn get_reels() {}
 

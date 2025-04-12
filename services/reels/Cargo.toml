@@ -10,7 +10,7 @@ actix-web = "4.10.2"
 config = "0.15.11"
 serde = "1.0.219"
 serde_json = "1.0.140"
-uuid = "1.16.0"
+uuid = { version = "1.16.0", features = ["serde", "v4"] }
 sqlx = { version = "0.8", default-features = false, features = [
     "runtime-tokio",
     "tls-rustls-ring-native-roots",
@@ -20,3 +20,4 @@ sqlx = { version = "0.8", default-features = false, features = [
     "chrono",
     "migrate"
 ] }
+env_logger = "0.11.8"

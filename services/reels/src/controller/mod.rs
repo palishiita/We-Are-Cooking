@@ -1,7 +1,7 @@
 use std::sync::Mutex;
 
 pub mod reel_controller;
-pub use reel_controller::init as init_user_controller;
+pub use reel_controller::init as init_reel_controller;
 
 pub mod health_controller;
 pub use health_controller::init as init_health_controller;

@@ -3,19 +3,21 @@ use sqlx::{FromRow, PgPool};
 use std::sync::Arc;
 use std::marker::PhantomData;
 
-use crate::model::Reel;
+use crate::model::{Reel, Video};
 
 pub struct Database<'c> {
     pub reels: Arc<Table<'c, Reel>>,
+    pub videos: Arc<Table<'c, Video>>,
 }
 
 impl<'a> Database<'a> {
-    pub async fn new(pg_url: &String) -> Database<'a> {
-        let conn = PgPool::connect(&pg_url).await.unwrap();
+    pub async fn new(pg_url: &str) -> Database<'a> {
+        let conn = PgPool::connect(pg_url).await.unwrap();
         let pool = Arc::new(conn);
 
         Database {
             reels: Arc::from(Table::new(pool.clone())),
+            videos: Arc::from(Table::new(pool.clone())),
         }
     } 
 }

@@ -2,24 +2,24 @@ use sqlx::postgres::PgRow;
 use sqlx::{FromRow, Row};
 
 #[derive(serde::Serialize, serde::Deserialize, Clone)]
-pub struct Reel {
+pub struct Video {
     pub id: String,
-    pub video_id: String,
     pub posting_user_id: String,
     pub title: String,
     pub description: String,
-    pub creation_timestamp: String,
+    pub video_length_seconds: i32,
+    pub video_url: String,
 }
 
-impl<'c> FromRow<'c, PgRow> for Reel {
+impl<'c> FromRow<'c, PgRow> for Video {
     fn from_row(row: &PgRow) -> Result<Self, sqlx::Error> {
-        Ok(Reel {
+        Ok(Video {
             id: row.get(0),
-            video_id: row.get(1),
             posting_user_id: row.get(2),
             title: row.get(3),
             description: row.get(4),
-            creation_timestamp: row.get(5),
+            video_length_seconds: row.get(5),
+            video_url: row.get(6),
         })
     }
 }

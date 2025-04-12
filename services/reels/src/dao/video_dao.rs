@@ -1,17 +1,18 @@
-use crate::model::Reel;
+use crate::model::Video;
 
 use super::database_context::Table;
 
-impl<'c> Table<'c, Reel> {
+
+
+impl<'c> Table<'c, Video> {
     pub async fn drop_table(&self) -> Result<(), sqlx::Error> {
-        sqlx::query("DROP TABLE IF EXISTS reels;")
+        sqlx::query("DROP TABLE IF EXISTS vidoes;")
             .execute(&*self.pool)
             .await
             .map(|_|())
     }
 
     pub async fn create_table(&self) -> Result<(), sqlx::Error> {
-        
         sqlx::query(
             r#"
 
@@ -22,7 +23,7 @@ impl<'c> Table<'c, Reel> {
             .map(|_|())
     }
 
-    pub async fn get_reel_by_id(&self, reel_id: &str) -> Result<Reel, sqlx::Error> {
+    pub async fn get_reel_by_id(&self, reel_id: &str) -> Result<Video, sqlx::Error> {
         sqlx::query_as(
             r#"
                 SELECT *
@@ -33,20 +34,5 @@ impl<'c> Table<'c, Reel> {
         .bind(reel_id)
         .fetch_one(&*self.pool)
         .await
-    }
-
-    pub async fn add_reel(&self, reel: &Reel) -> Result<u64, sqlx::Error> {
-        let _ = self.create_table().await;
-        sqlx::query(
-            r#"
-                INSERT INTO reels (`description`, `id`)
-                VALUES(?, ?)
-            "#,
-        )
-            .bind(&reel.description)
-            .bind(&reel.id)
-            .execute(&*self.pool) 
-            .await
-            .map(|x| x.rows_affected())
     }
 }
