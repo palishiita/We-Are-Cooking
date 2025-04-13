@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-04-13-2115-test
+      author: technosudo
+      changes:
+        - createTable:
+            tableName: test
+            columns:
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: value
+                  type: varchar(4096)
+                  constraints:
+                    - constraint:
+                        nullable: true
+        - createView:
+            viewName: test_list_view
+            selectQuery:
+              SELECT
+                uuid,
+                value,
+              FROM test

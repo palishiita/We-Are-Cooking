@@ -1,8 +1,8 @@
 services:
 
-  gateway:
+  wrc-gateway:
     container_name: "wrc-gateway"
-    image: wearecooking-gateway:latest
+    image: wrc-gateway:latest
     depends_on:
       keycloak:
         condition: service_healthy
@@ -12,7 +12,7 @@ services:
       - authenticationNetwork
       - wrcNetwork
 
-  keycloak:
+  authorization-keycloak:
     container_name: "authorization-keycloak"
     image: quay.io/keycloak/keycloak:26.0.7
     ports:
@@ -21,7 +21,7 @@ services:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
       - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://db:5432/awasome
+      - KC_DB_URL=jdbc:postgresql://authorization-db:5432/keycloak
       - KC_HEALTH_ENABLED=true
       - KC_DB_USERNAME=admin
       - KC_DB_PASSWORD=admin
@@ -29,7 +29,7 @@ services:
     volumes:
       - ./realms:/opt/keycloak/conf
     depends_on:
-      - db
+      - authorization-db
     healthcheck:
       test:
         [
@@ -43,13 +43,13 @@ services:
     networks:
       - authenticationNetwork
 
-  db:
+  authorization-db:
     container_name: "authorization-db"
     image: postgres:17
     ports:
       - "$KEYClOAK_DB:5432"
     environment:
-      POSTGRES_DB: awasome
+      POSTGRES_DB: keycloak
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     volumes:
@@ -61,7 +61,7 @@ services:
     container_name: "authorization-keycloak-config-cli"
     image: adorsys/keycloak-config-cli:latest
     depends_on:
-      keycloak:
+      authorization-keycloak:
         condition: service_healthy
     volumes:
       - ./realms:/config

@@ -3,13 +3,25 @@ services:
     container_name: "wrc-db"
     image: postgres:17
     ports:
-      - "$KEYClOAK_DB:5432"
+      - "$WRC_DB:5432"
     environment:
       POSTGRES_DB: wrc
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     volumes:
       - ./wrc-db-data:/var/lib/postgresql/data
+    networks:
+      - wrcNetwork
+
+  wrc-liquibase-db-main:
+    container_name: "wrc-liquibase-db-main"
+    image: postgres:17
+    environment:
+      DB_URL: jdbc:postgresql://wrc-db:5432/wrc
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+    depends_on:
+      - wrc-db
     networks:
       - wrcNetwork
 
