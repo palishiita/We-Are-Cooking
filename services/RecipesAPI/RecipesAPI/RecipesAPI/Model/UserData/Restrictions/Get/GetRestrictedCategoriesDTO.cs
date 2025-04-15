@@ -1,6 +1,6 @@
-﻿using RecipesAPI.Model.Ingredients;
+﻿using RecipesAPI.Model.Ingredients.Get;
 
-namespace RecipesAPI.Model.UserData.Restrictions
+namespace RecipesAPI.Model.UserData.Restrictions.Get
 {
     public record GetRestrictedCategoriesDTO(Guid UserId, GetIngredientTagDTO[] RestrictedCategories);
 }

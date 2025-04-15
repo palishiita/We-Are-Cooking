@@ -1,4 +1,4 @@
-﻿namespace RecipesAPI.Model.Recipes
+﻿namespace RecipesAPI.Model.Recipes.Get
 {
     public record GetRecipeWithIngredientIdsDTO(Guid Id, string Name, string Description, Guid[] IngredientIds);
 }

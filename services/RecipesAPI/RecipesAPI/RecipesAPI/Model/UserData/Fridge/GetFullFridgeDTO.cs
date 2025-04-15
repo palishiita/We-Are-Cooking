@@ -1,5 +1,5 @@
-﻿using RecipesAPI.Model.Ingredients;
-using RecipesAPI.Model.Recipes;
+﻿using RecipesAPI.Model.Ingredients.Get;
+using RecipesAPI.Model.Recipes.Get;
 
 namespace RecipesAPI.Model.UserData.Fridge
 {
