@@ -1,8 +1,11 @@
-﻿namespace RecipesAPI.Entities.Ingredients
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RecipesAPI.Entities.Ingredients
 {
     /// <summary>
     /// A connection between ingredient and its tag.
     /// </summary>
+    [Table("ingredient_categories_connections")]
     public class IngredientCategoryConnection
     {
         public Guid Id { get; set; }

@@ -1,8 +1,11 @@
-﻿namespace RecipesAPI.Entities.Recipes
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RecipesAPI.Entities.Recipes
 {
     /// <summary>
     /// A recipe.
     /// </summary>
+    [Table("recipes")]
     public class Recipe
     {
         public Guid Id { get; set; }
