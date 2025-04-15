@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using RecipesAPI.Entities.Recipes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Entities.UserData
 {
@@ -12,5 +13,7 @@ namespace RecipesAPI.Entities.UserData
         public Guid RecipeId { get; set; }
         public Guid UserId { get; set; }
         public bool IsFavorite { get; set; }
+
+        public virtual Recipe Recipe { get; set; }
     }
 }

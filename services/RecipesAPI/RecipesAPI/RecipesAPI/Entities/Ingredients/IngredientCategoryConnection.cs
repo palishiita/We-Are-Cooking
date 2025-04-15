@@ -11,5 +11,8 @@ namespace RecipesAPI.Entities.Ingredients
         public Guid Id { get; set; }
         public Guid IngredientTagId { get; set; }
         public Guid IngredientId { get; set; }
+
+        public virtual IngredientCategory IngredientCategory { get; set; }
+        public virtual Ingredient Ingredient { get; set; }
     }
 }

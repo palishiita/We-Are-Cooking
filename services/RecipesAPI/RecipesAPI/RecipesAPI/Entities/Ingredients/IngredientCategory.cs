@@ -11,5 +11,8 @@ namespace RecipesAPI.Entities.Ingredients
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+
+        public virtual HashSet<IngredientCategoryConnection> Connections { get; set; }
     }
 }

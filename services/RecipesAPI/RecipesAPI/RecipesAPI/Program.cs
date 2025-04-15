@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using RecipesAPI.Database;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
+
+// not implemented yet
+builder.Services.AddDbContext<RecipeDbContext>(
+    options => options.UseNpgsql(builder.Configuration.GetConnectionString("RecipesDb")));
 
 var app = builder.Build();
 
