@@ -2,9 +2,10 @@
 
 namespace RecipesAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("recipesapi/[controller]")]
     [ApiController]
     public class UserDataController : ControllerBase
     {
+
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RecipesAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("recipesapi/[controller]")]
     [ApiController]
     public class RecipesController : ControllerBase
     {

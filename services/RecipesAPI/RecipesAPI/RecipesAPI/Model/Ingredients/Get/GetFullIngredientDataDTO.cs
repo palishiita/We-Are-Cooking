@@ -1,4 +1,4 @@
 ﻿namespace RecipesAPI.Model.Ingredients.Get
 {
-    public record GetFullIngredientDataDTO(Guid Id, GetIngredientTagDTO[] IngredientTags);
+    public record GetFullIngredientDataDTO(Guid Id, string Name, string Description, GetIngredientCategoryDTO[] IngredientTags);
 }
