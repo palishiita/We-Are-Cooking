@@ -7,7 +7,7 @@ namespace RecipesAPI.Entities.UserData
     /// A representation of an ingredient in the fridge of a user.
     /// </summary>
     [Table("user_fridge_ingredients")]
-    public class UserFridgeIngredients
+    public class UserFridgeIngredients : IEntity
     {
         public Guid Id { get; set; }
         public Guid IngredientId { get; set; }

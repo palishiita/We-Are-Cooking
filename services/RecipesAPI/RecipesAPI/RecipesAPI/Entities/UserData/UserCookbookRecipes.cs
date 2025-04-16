@@ -7,7 +7,7 @@ namespace RecipesAPI.Entities.UserData
     /// Saved recipes are added to the user cookbook.
     /// </summary>
     [Table("user_cookbook_recipes")]
-    public class UserCookbookRecipes
+    public class UserCookbookRecipes : IEntity
     {
         public Guid Id { get; set; }
         public Guid RecipeId { get; set; }

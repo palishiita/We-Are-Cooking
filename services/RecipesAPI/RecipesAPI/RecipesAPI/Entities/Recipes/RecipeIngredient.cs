@@ -7,7 +7,7 @@ namespace RecipesAPI.Entities.Recipes
     /// Connection between the recipe and an ingredient.
     /// </summary>
     [Table("recipe_ingredients")]
-    public class RecipeIngredient
+    public class RecipeIngredient : IEntity
     {
         public Guid Id { get; set; }
         public Guid RecipeId { get; set; }

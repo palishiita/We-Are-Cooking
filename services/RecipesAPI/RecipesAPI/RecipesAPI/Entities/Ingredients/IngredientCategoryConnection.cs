@@ -6,7 +6,7 @@ namespace RecipesAPI.Entities.Ingredients
     /// A connection between ingredient and its tag.
     /// </summary>
     [Table("ingredient_categories_connections")]
-    public class IngredientCategoryConnection
+    public class IngredientCategoryConnection : IEntity
     {
         public Guid Id { get; set; }
         public Guid IngredientTagId { get; set; }
