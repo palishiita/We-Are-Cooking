@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Entities.Recipes
 {
@@ -10,13 +11,21 @@ namespace RecipesAPI.Entities.Recipes
     {
         public Recipe()
         {
-            Ingredients = new();
+            Ingredients = new HashSet<RecipeIngredient>();
         }
 
+        [Key]
+        [Column("id")]
         public Guid Id { get; set; }
+
+        [MaxLength(100)]
+        [Column("name")]
         public string Name { get; set; }
+
+        [MaxLength(2000)]
+        [Column("description")]
         public string Description { get; set; }
 
-        public virtual HashSet<RecipeIngredient> Ingredients { get; set; }
+        public virtual ICollection<RecipeIngredient> Ingredients { get; set; }
     }
 }

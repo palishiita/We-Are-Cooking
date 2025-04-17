@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Entities.Ingredients
 {
@@ -8,11 +9,25 @@ namespace RecipesAPI.Entities.Ingredients
     [Table("ingredient_categories_connections")]
     public class IngredientCategoryConnection : IEntity
     {
+        [Key]
+        [Column("id")]
         public Guid Id { get; set; }
-        public Guid IngredientTagId { get; set; }
+
+        [Key]
+        [Required]
+        [Column("category_id")]
+        public Guid CategoryId { get; set; }
+
+        [Key]
+        [Required]
+        [Column("ingredient_id")]
         public Guid IngredientId { get; set; }
 
+
+        [ForeignKey(nameof(CategoryId))]
         public virtual IngredientCategory IngredientCategory { get; set; }
+
+        [ForeignKey(nameof(IngredientId))]
         public virtual Ingredient Ingredient { get; set; }
     }
 }
