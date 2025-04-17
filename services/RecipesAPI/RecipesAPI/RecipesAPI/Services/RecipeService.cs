@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Database;
 using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
@@ -7,7 +6,6 @@ using RecipesAPI.Exceptions;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
-using System.Globalization;
 
 namespace RecipesAPI.Services
 {
@@ -62,6 +60,33 @@ namespace RecipesAPI.Services
                         ingredient.Id,
                         ingredient.Name,
                         ingredient.Description)).ToArray())).ToArray();
+
+            return result;
+        }
+
+        public GetRecipeDTO[] GetAllRecipes(int count, int page, bool orderByAsc, string sortBy)
+        {
+            IOrderedQueryable<Recipe> res;
+
+            if (_recipeProps.Contains(sortBy))
+            {
+                res = orderByAsc ? _recipes.OrderBy(x => sortBy) : _recipes.OrderByDescending(x => sortBy);
+            }
+            else
+            {
+                // by name by default
+                res = orderByAsc ? _recipes.OrderBy(x => x.Name) : _recipes.OrderByDescending(x => x.Name);
+            }
+
+            var result = res
+                .Skip(page * count)
+                .Take(count)
+                .Include(recipe => recipe.Ingredients)
+                .Select(recipe => new GetRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description))
+                .ToArray();
 
             return result;
         }

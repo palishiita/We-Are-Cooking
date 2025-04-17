@@ -6,6 +6,7 @@ namespace RecipesAPI.Services.Interfaces
     {
         GetRecipeDTO GetRecipeById(Guid recipeId);
         GetRecipeDTO[] GetRecipesByIds(Guid[] recipeIds, int count, int page, bool orderByAsc, string sortBy);
+        GetRecipeDTO[] GetAllRecipes(int count, int page, bool orderByAsc, string sortBy);
 
         GetFullRecipeDTO[] GetFullRecipesByIds(Guid[] recipeIds, int count, int page, bool orderByAsc, string sortBy);
         GetFullRecipeDTO GetFullRecipeById(Guid recipeId);
