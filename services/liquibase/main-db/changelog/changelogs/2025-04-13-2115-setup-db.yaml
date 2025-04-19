@@ -21,8 +21,4 @@ databaseChangeLog:
                         nullable: true
         - createView:
             viewName: test_list_view
-            selectQuery:
-              SELECT
-                uuid,
-                value,
-              FROM test
+            selectQuery: "SELECT uuid, value FROM test"

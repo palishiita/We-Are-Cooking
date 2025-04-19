@@ -1,5 +1,5 @@
 FROM liquibase/liquibase
-ADD /services/liquibase/main-db/changelog /liquibase/changelog
+ADD changelog /liquibase/changelog
 RUN pwd && ls && ls -la /liquibase/changelog
 USER root
 WORKDIR /liquibase/changelog
