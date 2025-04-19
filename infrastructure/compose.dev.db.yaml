@@ -15,7 +15,9 @@ services:
 
   wrc-liquibase-db-main:
     container_name: "wrc-liquibase-db-main"
-    image: postgres:17
+    build:
+      context: ../services/liquibase/main-db
+      dockerfile: Dockerfile
     environment:
       DB_URL: jdbc:postgresql://wrc-db:5432/wrc
       DB_USERNAME: admin
