@@ -1,0 +1,22 @@
+# Core data tools
+pandas
+numpy
+
+# Machine learning utilities
+scikit-learn
+
+# Fake data generator
+faker
+
+# FastAPI + ASGI server
+fastapi
+uvicorn[standard]
+
+# Redis caching
+redis
+
+# Prometheus metrics
+prometheus_client
+
+# Environment variable management
+python-dotenv
