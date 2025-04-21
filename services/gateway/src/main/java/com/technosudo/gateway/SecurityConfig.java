@@ -16,7 +16,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/**").permitAll()
+                        .pathMatchers("/test/**").permitAll()
                         .pathMatchers("/login/**", "/oauth2/**").permitAll()
                         .anyExchange().authenticated()
                 )

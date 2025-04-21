@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: creating-database
+      author: szymon misztal
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            relativeToChangelogFile: true
+            encoding: utf8
+            path: scripts/setup.sql
+            splitStatements: true
+            stripComments: true
+  - includeAll:
+      path: changelogs
+      relativeToChangelogFile: true

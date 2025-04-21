@@ -2,7 +2,7 @@ services:
 
   test:
     container_name: "wrc-test"
-    image: wearecooking-rest-test:latest
+    image: wrc-rest-test:latest
     ports:
       - "$BACKEND_TEST_PORT:8080"
     networks:
