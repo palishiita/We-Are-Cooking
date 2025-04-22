@@ -8,12 +8,8 @@ namespace RecipesAPI.Entities.UserData
     /// A representation of an ingredient in the fridge of a user.
     /// </summary>
     [Table("user_fridge_ingredients")]
-    public class UserFridgeIngredients : IEntity
+    public class UserFridgeIngredients
     {
-        [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-
         [Key]
         [Column("ingredient_id")]
         public Guid IngredientId { get; set; }

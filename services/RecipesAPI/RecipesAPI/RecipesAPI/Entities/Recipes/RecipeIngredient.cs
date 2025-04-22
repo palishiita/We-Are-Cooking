@@ -8,18 +8,16 @@ namespace RecipesAPI.Entities.Recipes
     /// Connection between the recipe and an ingredient.
     /// </summary>
     [Table("recipe_ingredients")]
-    public class RecipeIngredient : IEntity
+    public class RecipeIngredient
     {
         [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-
-        [Key]
         [Column("recipe_id")]
+        [Required]
         public Guid RecipeId { get; set; }
 
         [Key]
         [Column("ingredient_id")]
+        [Required]
         public Guid IngredientId { get; set; }
 
 

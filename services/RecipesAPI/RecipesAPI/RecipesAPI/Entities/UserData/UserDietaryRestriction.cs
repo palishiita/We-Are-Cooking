@@ -8,12 +8,8 @@ namespace RecipesAPI.Entities.UserData
     /// A connection between user and the tag of the ingredient that the user cannot use due to the choice or an allergy.
     /// </summary>
     [Table("user_dietary_restrictions")]
-    public class UserDietaryRestriction : IEntity
+    public class UserDietaryRestriction
     {
-        [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-
         [Key]
         [Column("ingredient_category_id")]
         public Guid IngredientCategoryId { get; set; }

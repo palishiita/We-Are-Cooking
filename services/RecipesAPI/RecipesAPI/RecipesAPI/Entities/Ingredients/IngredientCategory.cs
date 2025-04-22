@@ -7,7 +7,7 @@ namespace RecipesAPI.Entities.Ingredients
     /// Tags that define the category of an ingredient.
     /// </summary>
     [Table("ingredient_categories")]
-    public class IngredientCategory : IEntity
+    public class IngredientCategory
     {
         public IngredientCategory()
         {

@@ -7,7 +7,7 @@ namespace RecipesAPI.Entities.Recipes
     /// A recipe.
     /// </summary>
     [Table("recipes")]
-    public class Recipe : IEntity
+    public class Recipe
     {
         public Recipe()
         {

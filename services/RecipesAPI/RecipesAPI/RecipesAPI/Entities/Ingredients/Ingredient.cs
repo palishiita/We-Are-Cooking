@@ -7,7 +7,7 @@ namespace RecipesAPI.Entities.Ingredients
     /// Representation of an ingredient.
     /// </summary>
     [Table("ingredients")]
-    public class Ingredient : IEntity
+    public class Ingredient
     {
         public Ingredient()
         {

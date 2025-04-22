@@ -8,12 +8,8 @@ namespace RecipesAPI.Entities.UserData
     /// Saved recipes are added to the user cookbook.
     /// </summary>
     [Table("user_cookbook_recipes")]
-    public class UserCookbookRecipes : IEntity
+    public class UserCookbookRecipes
     {
-        [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-
         [Key]
         [Column("recipe_id")]
         public Guid RecipeId { get; set; }
