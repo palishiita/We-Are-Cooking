@@ -2,5 +2,5 @@
 
 namespace RecipesAPI.Model.Recipes.Get
 {
-    public record GetFullRecipeDTO(Guid Id, string Name, string Description, GetIngredientDTO[] Ingredients);
+    public record GetFullRecipeDTO(Guid Id, string Name, string Description, IEnumerable<GetIngredientDTO> Ingredients);
 }

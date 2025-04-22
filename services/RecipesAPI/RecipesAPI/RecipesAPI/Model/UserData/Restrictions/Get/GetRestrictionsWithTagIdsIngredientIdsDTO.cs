@@ -1,4 +1,4 @@
 ﻿namespace RecipesAPI.Model.UserData.Restrictions.Get
 {
-    public record GetRestrictionsWithTagIdsIngredientIdsDTO(Guid Id, Guid UserId, Guid[] IngredientCategoryIds, Guid[] IngredientIds);
+    public record GetRestrictionsWithTagIdsIngredientIdsDTO(Guid Id, Guid UserId, IEnumerable<Guid> IngredientCategoryIds, IEnumerable<Guid> IngredientIds);
 }
