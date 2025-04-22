@@ -1,11 +1,13 @@
 use sqlx::postgres::PgRow;
 use sqlx::{FromRow, Row};
+use uuid::Uuid;
 
 #[derive(serde::Serialize, serde::Deserialize, Clone)]
 pub struct Reel {
-    pub id: String,
-    pub video_id: String,
-    pub posting_user_id: String,
+    #[serde(skip_deserializing)]
+    pub id: Uuid,
+    pub video_id: Uuid,
+    pub posting_user_id: Uuid,
     pub title: String,
     pub description: String,
     pub creation_timestamp: String,

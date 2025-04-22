@@ -18,7 +18,6 @@ async fn get_reel(
     app_state: web::Data<AppState<'_>>,
 ) -> impl Responder {
     log_request("Get: /reel", &app_state.connections);
-
     let reel = app_state.context.reels.get_reel_by_id(&reel_id).await;
 
     match reel {
@@ -35,13 +34,14 @@ async fn post_reel(
     log_request("Post: /reel", &app_state.connections);
  
     let mut reel = reel.into_inner();
-    reel.id = Uuid::new_v4().to_string();
+    //reel.id = Uuid::new_v4().to_string();
+    reel.id = Uuid::new_v4();
 
     let x = app_state.context.reels.add_reel(&reel).await;
 
     match x {
         Ok(_) => {
-            HttpResponse::Created().body(reel.id)
+            HttpResponse::Created().body(reel.id.to_string())
         }
         Err(_) => HttpResponse::InternalServerError().finish()
     }

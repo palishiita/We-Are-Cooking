@@ -14,6 +14,7 @@ impl<'a> Database<'a> {
     pub async fn new(pg_url: &str) -> Database<'a> {
         let conn = PgPool::connect(pg_url).await.unwrap();
         let pool = Arc::new(conn);
+        println!("Database pool {:?}", pool);
 
         Database {
             reels: Arc::from(Table::new(pool.clone())),

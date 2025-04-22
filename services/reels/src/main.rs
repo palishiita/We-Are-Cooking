@@ -43,13 +43,11 @@ async fn main() -> std::io::Result<()> {
         context: Arc::new(db_context),
     });
 
-    println!("????/");
-
     let app = HttpServer::new(move || {
         App::new()
             .app_data(app_state.clone())
             .configure(controller::init_health_controller)
-            .configure(controller::init_health_controller)
+            .configure(controller::init_reel_controller)
     })
     .bind(adress)?;
     

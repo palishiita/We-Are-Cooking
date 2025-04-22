@@ -1,3 +1,5 @@
+use sqlx::types::chrono::Utc;
+
 use crate::model::Reel;
 
 use super::database_context::Table;
@@ -26,8 +28,8 @@ impl<'c> Table<'c, Reel> {
         sqlx::query_as(
             r#"
                 SELECT *
-                FROM 'reels'
-                WHERE 'id' = ?
+                FROM reels
+                WHERE id = ?
             "#,
         )
         .bind(reel_id)
@@ -39,12 +41,16 @@ impl<'c> Table<'c, Reel> {
         let _ = self.create_table().await;
         sqlx::query(
             r#"
-                INSERT INTO reels (`description`, `id`)
-                VALUES(?, ?)
-            "#,
+                INSERT INTO reels (id, video_id, posting_user_id, title, description, creation_timestamp)
+                VALUES($1, $2, $3, $4, $5, $6)
+            "#
         )
-            .bind(&reel.description)
-            .bind(&reel.id)
+            .bind(reel.id)               
+            .bind(reel.video_id)         
+            .bind(reel.posting_user_id)
+            .bind(reel.title.clone())
+            .bind(reel.description.clone())
+            .bind(Utc::now().naive_utc())
             .execute(&*self.pool) 
             .await
             .map(|x| x.rows_affected())

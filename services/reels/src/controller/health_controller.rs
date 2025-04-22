@@ -21,11 +21,10 @@ async fn state_check(
     app_state: web::Data<AppState<'_>>,
 ) -> impl Responder {
     log_request("State check: ", &app_state.connections);
-    HttpResponse::Ok().json(format!("{:?}", app_state.connections))
-    //HttpResponse::Ok().json(
-    //    serde_json::json!({
-    //        "status": "OK"
-    //    })
-    //)
+    HttpResponse::Ok().json(
+        serde_json::json!({
+            "status": "OK"
+        })
+    )
     
 }
