@@ -6,7 +6,9 @@ namespace RecipesAPI.Services.Interfaces
     public interface IIngredientService
     {
         GetIngredientDTO GetIngredientById(Guid ingredientId);
+        GetIngredientWithCategoriesDTO GetIngredientWithCategoriesById(Guid ingredientId);
         IEnumerable<GetIngredientDTO> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy);
+        IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientWithCategories(int count, int page, bool orderByAsc, string sortBy);
 
         IEnumerable<GetIngredientCategoryDTO> GetIngredientCategories(Guid ingredientId);
 

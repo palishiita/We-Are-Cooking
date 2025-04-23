@@ -4,6 +4,7 @@ using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Exceptions;
 using RecipesAPI.Model.Ingredients.Get;
+using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
 
@@ -11,6 +12,8 @@ namespace RecipesAPI.Services
 {
     public class RecipeService : IRecipeService
     {
+        ILogger<RecipeService> _logger;
+
         private readonly RecipeDbContext _dbContext;
         private readonly DbSet<Recipe> _recipes;
         private readonly DbSet<RecipeIngredient> _recipeIngredients;
@@ -18,8 +21,10 @@ namespace RecipesAPI.Services
 
         private readonly HashSet<string> _recipeProps;
 
-        public RecipeService(RecipeDbContext dbContext)
+        public RecipeService(ILogger<RecipeService> logger, RecipeDbContext dbContext)
         {
+            _logger = logger;
+
             _dbContext = dbContext;
             _recipeProps = typeof(Recipe)
                 .GetProperties()
@@ -32,7 +37,77 @@ namespace RecipesAPI.Services
             
         }
 
-        public GetFullRecipeDTO[] GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy)
+        public async Task<Guid> CreateRecipe(AddRecipeDTO recipeDTO)
+        {
+            // this may be unused as recipes can be done differently
+            if (_recipes.Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
+            {
+                throw new DuplicateRecipeException($"Recipe with name {recipeDTO.Name} already exists.");
+            }
+
+            var recipe = new Recipe
+            {
+                Name = recipeDTO.Name,
+                Description = recipeDTO.Description
+            };
+
+            await _recipes.AddAsync(recipe);
+            await _dbContext.SaveChangesAsync();
+
+            return recipe.Id;
+        }
+
+        public Task<Guid> CreateRecipeWithIngredientsByNames(AddRecipeWithIngredientNamesDTO recipeDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Guid> CreateRecipeWithIngredientsByIds(AddRecipeWithIngredientIdsDTO recipeDTO)
+        {
+            // this may be unused as recipes can be done differently and posted by a different user
+            if (_recipes.Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
+            {
+                throw new DuplicateRecipeException($"Recipe with name {recipeDTO.Name} already exists.");
+            }
+
+            var distinctIngredientIds = recipeDTO.IngredientIds.Distinct();
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            // get only those present in the database
+            var presentIngredientIds = _ingredients.Where(x => distinctIngredientIds.Contains(x.Id)).Select(x => x.Id);
+            try
+            {
+                var recipe = new Recipe
+                {
+                    Name = recipeDTO.Name,
+                    Description = recipeDTO.Description,
+                };
+
+                await _recipes.AddAsync(recipe);
+                await _dbContext.SaveChangesAsync();
+
+                foreach (var ingredientId in presentIngredientIds)
+                {
+                    await _recipeIngredients.AddAsync(new RecipeIngredient
+                    {
+                        RecipeId = recipe.Id,
+                        IngredientId = ingredientId,
+                    });
+                }
+                await transaction.CommitAsync();
+
+                return recipe.Id;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}.\nException: {ex}.");
+                throw;
+            }
+        }
+
+        public IEnumerable<GetFullRecipeDTO> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy)
         {
             IOrderedQueryable<Recipe> res;
 
@@ -64,7 +139,7 @@ namespace RecipesAPI.Services
             return result;
         }
 
-        public GetRecipeDTO[] GetAllRecipes(int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetRecipeDTO> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy)
         {
             IOrderedQueryable<Recipe> res;
 
@@ -114,7 +189,7 @@ namespace RecipesAPI.Services
                     .ToArray());
         }
 
-        public GetFullRecipeDTO[] GetFullRecipesByIds(Guid[] recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
             var result = _recipes
                 .Where(recipe => recipeIds.Contains(recipe.Id))
@@ -136,7 +211,7 @@ namespace RecipesAPI.Services
             return result;
         }
 
-        public GetFullRecipeDTO[] GetFullRecipesByIngredientIds(Guid[] ingredientIds, int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
         {
             IOrderedQueryable<Recipe> res;
 
@@ -178,28 +253,28 @@ namespace RecipesAPI.Services
             return new GetRecipeDTO(recipeId, recipe.Name, recipe.Description);
         }
 
-        public GetRecipeDTO[] GetRecipesByIds(Guid[] recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
-            var res = _recipes.Where(x => recipeIds.Contains(x.Id));
+            var result = _recipes.Where(x => recipeIds.Contains(x.Id));
 
             if (_recipeProps.Contains(sortBy))
             {
-                res = orderByAsc ? res.OrderBy(x => sortBy) : res.OrderByDescending(x => sortBy);
+                result = orderByAsc ? result.OrderBy(x => sortBy) : result.OrderByDescending(x => sortBy);
             }
             else
             {
                 // by name by default
-                res = orderByAsc ? res.OrderBy(x => x.Name) : res.OrderByDescending(x => x.Name);
+                result = orderByAsc ? result.OrderBy(x => x.Name) : result.OrderByDescending(x => x.Name);
             }
 
-            return res
+            return result
                 .Skip(page * count)
                 .Take(count)
                 .Select(recipe => new GetRecipeDTO(recipe.Id, recipe.Name, recipe.Description))
                 .ToArray();
         }
 
-        public GetRecipeWithIngredientIdsDTO[] GetRecipesWithIngredientIdsByIds(Guid[] recipeIds, bool orderByAsc, string sortBy)
+        public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, bool orderByAsc, string sortBy)
         {
             throw new NotImplementedException();
         }
