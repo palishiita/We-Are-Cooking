@@ -16,6 +16,7 @@ namespace RecipesAPI.Entities.Recipes
 
         [Key]
         [Column("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [MaxLength(100)]
