@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Database;
 using RecipesAPI.Entities.Ingredients;
-using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Exceptions;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
-using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Services
@@ -163,7 +161,7 @@ namespace RecipesAPI.Services
                     .ToArray());
         }
 
-        public IEnumerable<GetIngredientCategoryDTO> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetIngredientCategoryDTO> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Ingredient> result;
 
@@ -178,6 +176,7 @@ namespace RecipesAPI.Services
             }
 
             return result
+                .Where(ingredient => ingredient.Name.Contains(query))
                 .Skip(page * count)
                 .Take(count)
                 .Select(ingredient => new GetIngredientCategoryDTO(
@@ -187,7 +186,7 @@ namespace RecipesAPI.Services
                 .ToArray();
         }
 
-        public IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientWithCategories(int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Ingredient> result;
 
@@ -202,6 +201,7 @@ namespace RecipesAPI.Services
             }
 
             return result
+                .Where(ingredient => ingredient.Name.Contains(query))
                 .Skip(page * count)
                 .Take(count)
                 .Include(ingredient => ingredient.Connections)
@@ -216,7 +216,7 @@ namespace RecipesAPI.Services
                 .ToArray();
         }
 
-        public IEnumerable<GetIngredientDTO> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetIngredientDTO> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Ingredient> result;
 
@@ -231,6 +231,7 @@ namespace RecipesAPI.Services
             }
 
             return result
+                .Where(ingredient => ingredient.Name.Contains(query))
                 .Skip(page * count)
                 .Take(count)
                 .Include(ingredient => ingredient.Connections)

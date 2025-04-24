@@ -107,7 +107,7 @@ namespace RecipesAPI.Services
             }
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetFullRecipeDTO> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Recipe> res;
 
@@ -139,7 +139,7 @@ namespace RecipesAPI.Services
             return result;
         }
 
-        public IEnumerable<GetRecipeDTO> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetRecipeDTO> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Recipe> res;
 
@@ -189,7 +189,7 @@ namespace RecipesAPI.Services
                     .ToArray());
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, string query)
         {
             var result = _recipes
                 .Where(recipe => recipeIds.Contains(recipe.Id))
@@ -211,7 +211,7 @@ namespace RecipesAPI.Services
             return result;
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Recipe> res;
 
@@ -253,7 +253,7 @@ namespace RecipesAPI.Services
             return new GetRecipeDTO(recipeId, recipe.Name, recipe.Description);
         }
 
-        public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, string query)
         {
             var result = _recipes.Where(x => recipeIds.Contains(x.Id));
 
@@ -274,7 +274,7 @@ namespace RecipesAPI.Services
                 .ToArray();
         }
 
-        public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, bool orderByAsc, string sortBy)
+        public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, bool orderByAsc, string sortBy, string query)
         {
             throw new NotImplementedException();
         }
