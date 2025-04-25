@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Database;
 using RecipesAPI.Entities.Ingredients;
-using RecipesAPI.Exceptions;
+using RecipesAPI.Exceptions.Duplicates;
+using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Services.Interfaces;

@@ -2,7 +2,8 @@
 using RecipesAPI.Database;
 using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
-using RecipesAPI.Exceptions;
+using RecipesAPI.Exceptions.Duplicates;
+using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;

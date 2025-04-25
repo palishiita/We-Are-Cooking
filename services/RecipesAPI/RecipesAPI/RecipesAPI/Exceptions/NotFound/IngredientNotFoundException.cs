@@ -1,8 +1,6 @@
-﻿using System.Runtime.Serialization;
-
-namespace RecipesAPI.Exceptions
+﻿namespace RecipesAPI.Exceptions.NotFound
 {
-    internal class IngredientNotFoundException : Exception
+    internal class IngredientNotFoundException : ElementNotFoundException
     {
         public IngredientNotFoundException()
         {

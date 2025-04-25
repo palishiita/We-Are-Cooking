@@ -1,6 +1,6 @@
-﻿namespace RecipesAPI.Exceptions
+﻿namespace RecipesAPI.Exceptions.Duplicates
 {
-    public class DuplicateRecipeException : Exception
+    public class DuplicateRecipeException : DuplicateElementException
     {
         public DuplicateRecipeException()
         {
