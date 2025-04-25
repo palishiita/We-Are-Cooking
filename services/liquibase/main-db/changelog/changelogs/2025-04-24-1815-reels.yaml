@@ -1,0 +1,83 @@
+databaseChangeLog:
+  - changeSet:
+      id: reels
+      author: wojciakjakub
+      changes:
+
+        # videos
+        - createTable:
+            tableName: videos
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: posting_user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: video_length_seconds
+                  type: integer
+              - column:
+                  name: video_url
+                  type: varchar(512)
+
+        # reels
+        - createTable:
+            tableName: reels
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: video_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: posting_user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: creation_timestamp
+                  type: datetime
+
+        # recipe_videos
+        - createTable:
+            tableName: recipe_videos
+            columns:
+              - column:
+                  name: recipe_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: video_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+            tableConstraints:
+              - primaryKey:
+                  columnNames: recipe_id, video_id
