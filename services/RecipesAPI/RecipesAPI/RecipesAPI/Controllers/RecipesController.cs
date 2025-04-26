@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Database;
-using RecipesAPI.Exceptions;
+using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -37,13 +36,20 @@ namespace RecipesAPI.Controllers
         // should add page count in the response
         [Route("recipes/full")]
         [HttpGet]
-        public IActionResult GetAllRecipesFull([FromQuery] int count, [FromQuery] int page, [FromQuery] bool orderByAsc, [FromQuery] string sortBy)
+        public IActionResult GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
+            count ??= 10;
+            page ??= 0;
+            orderByAsc ??= true;
+
+            sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
+            query = string.IsNullOrEmpty(query) ? string.Empty : query;
+
             try
             {
-                var recipes = _recipeService.GetAllFullRecipes(count, page, orderByAsc, sortBy);
+                var recipes = _recipeService.GetAllFullRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (recipes.Length < 1)
+                if (recipes.Count() < 1)
                 {
                     return NotFound("No recipe present in the database.");
                 }
@@ -59,13 +65,20 @@ namespace RecipesAPI.Controllers
         // should add page count in the response
         [Route("recipes")]
         [HttpGet]
-        public IActionResult GetAllRecipes([FromQuery] int count, [FromQuery] int page, [FromQuery] bool orderByAsc, [FromQuery] string sortBy)
+        public IActionResult GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
+            count ??= 10;
+            page ??= 0;
+            orderByAsc ??= true;
+
+            sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
+            query = string.IsNullOrEmpty(query) ? string.Empty : query;
+
             try
             {
-                var recipes = _recipeService.GetAllRecipes(count, page, orderByAsc, sortBy);
+                var recipes = _recipeService.GetAllRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (recipes.Length < 1)
+                if (recipes.Count() < 1)
                 {
                     return NotFound("No recipe present in the database.");
                 }
