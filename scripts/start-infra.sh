@@ -1,13 +1,15 @@
 
-home="$(pwd)"/"$(dirname "$0")"..
+home="$(dirname "$0")"/..
 
 docker build -f "$home"/services/gateway/Dockerfile . -t wrc-gateway:latest
 
+docker compose -f "$home"/infrastructure/compose.dev.infra.yaml down --remove-orphans
+
 docker compose \
--f "$home"/infrastructure/keycloak/compose.dev.yaml \
+-f "$home"/infrastructure/compose.dev.infra.yaml \
 --env-file "$home"/infrastructure/.env \
-up -d
+up --force-recreate -d
 
 
-sudo chown -R "$USER":"$USER" "$home"/../infrastructure/keycloak/authentication-DB-data
-sudo chmod -R 777 "$home"/../infrastructure/keycloak/authentication-DB-data
+#sudo chown -R "$USER":"$USER" "$home"/infrastructure/db-volumes/auth
+#sudo chmod -R 777 "$home"/infrastructure/db-volumes/auth

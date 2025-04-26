@@ -1,6 +1,6 @@
 #!/bin/bash
 
-home="$(pwd)"/"$(dirname "$0")"..
+home="$(dirname "$0")"/..
 
 # Initialize flags
 full=false
@@ -19,10 +19,10 @@ build() {
 run() {
   if $full; then sh "$home"/scripts/start-infra.sh; fi
   if $rebuild; then build; fi
-  docker compose -f "$home"/infrastructure/compose.dev.db.yaml up
-  sudo chown -R "$USER":"$USER" "$home"/infrastructure/wrc-db-data
-  sudo chmod -R 777 "$home"/infrastructure/wrc-db-data
-  docker compose -f "$home"/infrastructure/compose.dev.services.yaml up
+  docker compose -f "$home"/infrastructure/compose.dev.db.yaml up --force-recreate -d
+#  sudo chown -R "$USER":"$USER" "$home"/infrastructure/db-volumes/wrc
+#  sudo chmod -R 777 "$home"/infrastructure/db-volumes/wrc
+  docker compose -f "$home"/infrastructure/compose.dev.services.yaml up --force-recreate -d
 }
 
 # Parse command-line arguments
@@ -33,6 +33,7 @@ while [[ "$#" -gt 0 ]]; do
 		    --quiet) quiet=true ;;
         *) echo "Unknown option: $1" ;;
     esac
+    shift
 done
 
 run

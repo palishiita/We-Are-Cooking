@@ -4,32 +4,31 @@ services:
     container_name: "wrc-gateway"
     image: wrc-gateway:latest
     depends_on:
-      keycloak:
+      auth-keycloak:
         condition: service_healthy
     ports:
       - "$GATEWAY_PORT:8000"
     networks:
-      - authenticationNetwork
+      - authNetwork
       - wrcNetwork
 
-  authorization-keycloak:
-    container_name: "authorization-keycloak"
-    image: quay.io/keycloak/keycloak:26.0.7
+  auth-keycloak:
+    container_name: "auth-keycloak"
+    image: quay.io/keycloak/keycloak:26.1
     ports:
       - "$KEYCLOAK_PORT:8080"
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
       - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://authorization-db:5432/keycloak
+      - KC_DB_URL=jdbc:postgresql://auth-db:5432/keycloak
       - KC_HEALTH_ENABLED=true
       - KC_DB_USERNAME=admin
       - KC_DB_PASSWORD=admin
-      - KC_FILE=/opt/keycloak/conf/WeAreCookingRealms.json
     volumes:
-      - ./realms:/opt/keycloak/conf
+      - ./keycloak/realms:/opt/keycloak/conf
     depends_on:
-      - authorization-db
+      - auth-db
     healthcheck:
       test:
         [
@@ -41,10 +40,10 @@ services:
       retries: 5
     command: "start-dev --health-enabled=true --metrics-enabled=true"
     networks:
-      - authenticationNetwork
+      - authNetwork
 
-  authorization-db:
-    container_name: "authorization-db"
+  auth-db:
+    container_name: "auth-db"
     image: postgres:17
     ports:
       - "$KEYClOAK_DB:5432"
@@ -53,20 +52,20 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     volumes:
-      - ./authentication-DB-data:/var/lib/postgresql/data
+      - ./db-volumes/auth:/var/lib/postgresql/data
     networks:
-      - authenticationNetwork
+      - authNetwork
 
-  keycloak-config-cli:
-    container_name: "authorization-keycloak-config-cli"
+  auth-keycloak-config-cli:
+    container_name: "auth-keycloak-config-cli"
     image: adorsys/keycloak-config-cli:latest
     depends_on:
-      authorization-keycloak:
+      auth-keycloak:
         condition: service_healthy
     volumes:
-      - ./realms:/config
+      - ./keycloak/realms:/config
     environment:
-      - KEYCLOAK_URL=http://authorization-keycloak:8080
+      - KEYCLOAK_URL=http://auth-keycloak:8080
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - KEYCLOAK_AVAILABILITYCHECK_ENABLED
@@ -74,11 +73,11 @@ services:
       - DEBUG=true
       - IMPORT_FILES_LOCATIONS=/config/*
     networks:
-      - authenticationNetwork
+      - authNetwork
 
 
 networks:
-  authenticationNetwork:
+  authNetwork:
     name: authenticationNetwork
     driver: bridge
     ipam:
