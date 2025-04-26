@@ -1,1 +1,4 @@
 .idea
+.vscode
+.env
+infrastructure/wrc-db-data
