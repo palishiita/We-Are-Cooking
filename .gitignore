@@ -592,3 +592,7 @@ obj/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudio,dotnetcore
+.idea
+.vscode
+.env
+infrastructure/wrc-db-data
