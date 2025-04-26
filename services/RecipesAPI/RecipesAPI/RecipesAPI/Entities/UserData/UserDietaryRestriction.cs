@@ -10,15 +10,16 @@ namespace RecipesAPI.Entities.UserData
     [Table("user_dietary_restrictions")]
     public class UserDietaryRestriction
     {
-        [Key]
         [Column("ingredient_category_id")]
         public Guid IngredientCategoryId { get; set; }
 
-        [Key]
         [Column("user_id")]
         public Guid UserId { get; set; }
 
-        [ForeignKey(nameof(IngredientCategoryId))]
+        //[ForeignKey(nameof(IngredientCategoryId))]
         public virtual IngredientCategory IngredientCategory { get; set; }
+
+        //[ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
     }
 }

@@ -10,21 +10,20 @@ namespace RecipesAPI.Entities.Recipes
     [Table("recipe_ingredients")]
     public class RecipeIngredient
     {
-        [Key]
         [Column("recipe_id")]
         [Required]
         public Guid RecipeId { get; set; }
 
-        [Key]
         [Column("ingredient_id")]
         [Required]
         public Guid IngredientId { get; set; }
 
+        // add quantity!!
 
-        [ForeignKey(nameof(RecipeId))]
+        //[ForeignKey(nameof(RecipeId))]
         public virtual Recipe Recipe { get; set; }
 
-        [ForeignKey(nameof(IngredientId))]
+        //[ForeignKey(nameof(IngredientId))]
         public virtual Ingredient Ingredient { get; set; }
     }
 }

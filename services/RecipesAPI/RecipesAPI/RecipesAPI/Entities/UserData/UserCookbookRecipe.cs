@@ -8,13 +8,11 @@ namespace RecipesAPI.Entities.UserData
     /// Saved recipes are added to the user cookbook.
     /// </summary>
     [Table("user_cookbook_recipes")]
-    public class UserCookbookRecipes
+    public class UserCookbookRecipe
     {
-        [Key]
         [Column("recipe_id")]
         public Guid RecipeId { get; set; }
 
-        [Key]
         [Column("user_id")]
         public Guid UserId { get; set; }
 
@@ -22,7 +20,10 @@ namespace RecipesAPI.Entities.UserData
         public bool IsFavorite { get; set; }
 
 
-        [ForeignKey(nameof(RecipeId))]
+        //[ForeignKey(nameof(RecipeId))]
         public virtual Recipe Recipe { get; set; }
+
+        //[ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
     }
 }

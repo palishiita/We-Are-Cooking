@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RecipesAPI.Entities.Recipes;
+using RecipesAPI.Entities.UserData;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Entities.Ingredients
@@ -29,5 +31,7 @@ namespace RecipesAPI.Entities.Ingredients
         public string Description { get; set; }
 
         public virtual ICollection<IngredientCategoryConnection> Connections { get; set; }
+        public virtual ICollection<RecipeIngredient> Recipes { get; set; }
+        public virtual ICollection<UserFridgeIngredient> UserFridges { get; set; }
     }
 }

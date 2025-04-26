@@ -8,17 +8,20 @@ namespace RecipesAPI.Entities.UserData
     /// A representation of an ingredient in the fridge of a user.
     /// </summary>
     [Table("user_fridge_ingredients")]
-    public class UserFridgeIngredients
+    public class UserFridgeIngredient
     {
-        [Key]
         [Column("ingredient_id")]
         public Guid IngredientId { get; set; }
 
-        [Key]
         [Column("user_id")]
         public Guid UserId { get; set; }
 
-        [ForeignKey(nameof(IngredientId))]
+        // add quantity!!
+
+        //[ForeignKey(nameof(IngredientId))]
         public virtual Ingredient Ingredient { get; set; }
+
+        //[ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
     }
 }
