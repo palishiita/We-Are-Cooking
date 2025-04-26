@@ -142,19 +142,22 @@ namespace RecipesAPI.Services
 
         public IEnumerable<GetRecipeDTO> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IOrderedQueryable<Recipe> res;
+            // search query
+            var recipes = string.IsNullOrEmpty(query)
+                ? _recipes
+                : _recipes.Where(recipe => recipe.Name.Contains(query));
 
-            if (_recipeProps.Contains(sortBy))
-            {
-                res = orderByAsc ? _recipes.OrderBy(x => sortBy) : _recipes.OrderByDescending(x => sortBy);
-            }
-            else
-            {
-                // by name by default
-                res = orderByAsc ? _recipes.OrderBy(x => x.Name) : _recipes.OrderByDescending(x => x.Name);
-            }
+            // sorting
+            recipes = _recipeProps.Contains(sortBy)
+                ? (orderByAsc
+                    ? recipes.OrderBy(x => sortBy)
+                    : recipes.OrderByDescending(x => sortBy))
+                : (orderByAsc
+                    ? recipes.OrderBy(x => x.Name)
+                    : recipes.OrderByDescending(x => x.Name));
 
-            var result = res
+            // pagination
+            var result = recipes
                 .Skip(page * count)
                 .Take(count)
                 .Include(recipe => recipe.Ingredients)
@@ -190,9 +193,19 @@ namespace RecipesAPI.Services
                     .ToArray());
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, string query)
+        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
-            var result = _recipes
+            IQueryable<Recipe> recipes = _recipes.Where(recipe => recipeIds.Contains(recipe.Id));
+
+            recipes = _recipeProps.Contains(sortBy)
+                ? (orderByAsc
+                    ? recipes.OrderBy(x => sortBy)
+                    : recipes.OrderByDescending(x => sortBy))
+                : (orderByAsc
+                    ? recipes.OrderBy(x => x.Name)
+                    : recipes.OrderByDescending(x => x.Name));
+
+            var result = recipes
                 .Where(recipe => recipeIds.Contains(recipe.Id))
                 .OrderBy(recipe => recipe.Name)
                 .Include(recipe => recipe.Ingredients)
@@ -212,21 +225,17 @@ namespace RecipesAPI.Services
             return result;
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, string query)
-        {
-            IOrderedQueryable<Recipe> res;
+        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
+        {           
+            var recipes = _recipeProps.Contains(sortBy)
+                ? (orderByAsc
+                    ? _recipes.OrderBy(x => sortBy)
+                    : _recipes.OrderByDescending(x => sortBy))
+                : (orderByAsc
+                    ? _recipes.OrderBy(x => x.Name)
+                    : _recipes.OrderByDescending(x => x.Name));
 
-            if (_recipeProps.Contains(sortBy))
-            {
-                res = orderByAsc ? _recipes.OrderBy(x => sortBy) : _recipes.OrderByDescending(x => sortBy);
-            }
-            else
-            {
-                // by name by default
-                res = orderByAsc ? _recipes.OrderBy(x => x.Name) : _recipes.OrderByDescending(x => x.Name);
-            }
-
-            return res
+            return recipes
                 .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
                 .ThenInclude(recipe => recipe.Ingredient)
                 .Skip(page * count)
@@ -254,7 +263,7 @@ namespace RecipesAPI.Services
             return new GetRecipeDTO(recipeId, recipe.Name, recipe.Description);
         }
 
-        public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, string query)
+        public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
             var result = _recipes.Where(x => recipeIds.Contains(x.Id));
 
@@ -275,14 +284,13 @@ namespace RecipesAPI.Services
                 .ToArray();
         }
 
-        public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, bool orderByAsc, string sortBy, string query)
-        {
-            throw new NotImplementedException();
-        }
-
         public GetRecipeWithIngredientIdsDTO GetRecipeWithIngredientIds(Guid recipeId)
         {
-            throw new NotImplementedException();
+            var recipe = _recipes
+                .Include(r => r.Ingredients)
+                .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+
+            return new GetRecipeWithIngredientIdsDTO(recipe.Id, recipe.Name, recipe.Description, recipe.Ingredients.Select(x => x.IngredientId));
         }
 
         public GetRecipeWithIngredientsAndCategoriesDTO GetRecipeWithIngredientsAndCategories(Guid recipeId)
@@ -311,6 +319,28 @@ namespace RecipesAPI.Services
                         .ToArray()
                         ))
                     .ToArray());
+        }
+
+        public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        {
+            var result = _recipes.Where(r => recipeIds.Contains(r.Id));
+
+            if (_recipeProps.Contains(sortBy))
+            {
+                result = orderByAsc ? result.OrderBy(r => sortBy) : result.OrderByDescending(r => sortBy);
+            }
+            else
+            {
+                // by name by default
+                result = orderByAsc ? result.OrderBy(r => r.Name) : result.OrderByDescending(r => r.Name);
+            }
+
+            return result
+                .Include(x => x.Ingredients)
+                .Skip(page * count)
+                .Take(count)
+                .Select(recipe => new GetRecipeWithIngredientIdsDTO(recipe.Id, recipe.Name, recipe.Description, recipe.Ingredients.Select(r => r.IngredientId)))
+                .ToArray();
         }
     }
 }
