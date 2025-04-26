@@ -1,2 +1,5 @@
 .idea
 infrastructure/db-volumes/*
+infrastructure/wrc-db-data
+.vscode
+.env
