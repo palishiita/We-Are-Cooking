@@ -17,5 +17,7 @@ namespace RecipesAPI.Services.Interfaces
         Task<Guid> AddIngredient(AddIngredientDTO ingredientDTO);
         Task<Guid> AddIngredientWithCategoriesByNames(AddIngredientWithCategoryNamesDTO ingredientDTO);
         Task<Guid> AddIngredientWithCategoriesByIds(AddIngredientWithCategoryIdsDTO ingredientDTO);
+
+        Task<Guid> AddIngredientCategory(AddIngredientCategoryDTO ingredientDTO);
     }
 }

@@ -251,5 +251,37 @@ namespace RecipesAPI.Services
 
             return new GetIngredientDTO(ingredientId, ingredient.Name, ingredient.Description);
         }
+
+        public async Task<Guid> AddIngredientCategory(AddIngredientCategoryDTO ingredientDTO)
+        {
+            if (_categories.Any(x => x.Name == ingredientDTO.Name))
+            {
+                throw new DuplicateIngredientCategoryException($"Ingredient with name {ingredientDTO.Name} already exists.");
+            }
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                var ingredientCategory = new IngredientCategory()
+                {
+                    Name = ingredientDTO.Name,
+                    Description = ingredientDTO.Description
+                };
+
+                await _categories.AddAsync(ingredientCategory);
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return ingredientCategory.Id;
+            }
+            catch (Exception ex) 
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+        }
     }
 }

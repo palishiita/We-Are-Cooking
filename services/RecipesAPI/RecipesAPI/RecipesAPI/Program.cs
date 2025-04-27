@@ -22,6 +22,7 @@ builder.Services.AddDbContext<RecipeDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("RecipesDb")));
 
 builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IIngredientService, IngredientService>();
 
 var app = builder.Build();
 
