@@ -5,7 +5,7 @@ using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
 {
-    [Route("recipesapi/[controller]")]
+    [Route("recipesapi/recipes")]
     [ApiController]
     public class RecipesController : ControllerBase
     {
@@ -49,9 +49,9 @@ namespace RecipesAPI.Controllers
             {
                 var recipes = _recipeService.GetAllFullRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (recipes.Count() < 1)
+                if (!recipes.Any())
                 {
-                    return NotFound("No recipe present in the database.");
+                    return NotFound("No recipes matching the given query.");
                 }
                 return Ok(recipes);
             }
@@ -78,9 +78,9 @@ namespace RecipesAPI.Controllers
             {
                 var recipes = _recipeService.GetAllRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (recipes.Count() < 1)
+                if (!recipes.Any())
                 {
-                    return NotFound("No recipe present in the database.");
+                    return NotFound("No recipes matching the given query.");
                 }
                 return Ok(recipes);
             }
@@ -98,16 +98,11 @@ namespace RecipesAPI.Controllers
             try
             {
                 var recipe = _recipeService.GetRecipeById(recipeId);
-
-                if (recipe == null)
-                {
-                    return NotFound();
-                }
                 return Ok(recipe);
             }
             catch (RecipeNotFoundException ex)
             {
-                _logger.LogInformation(ex, $"Exception: {ex.Message}.");
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
@@ -126,15 +121,11 @@ namespace RecipesAPI.Controllers
             {
                 var recipe = _recipeService.GetFullRecipeById(recipeId);
 
-                if (recipe == null)
-                {
-                    return NotFound();
-                }
                 return Ok(recipe);
             }
             catch (RecipeNotFoundException ex)
             {
-                _logger.LogInformation(ex, $"Exception: {ex.Message}.");
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
@@ -161,7 +152,7 @@ namespace RecipesAPI.Controllers
             }
             catch (RecipeNotFoundException ex)
             {
-                _logger.LogInformation(ex, $"Exception: {ex.Message}.");
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
