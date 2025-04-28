@@ -9,11 +9,11 @@ spring:
   security.oauth2:
     client:
       provider.techstructure-keycloak:
-        issuer-uri: "http://authorization-keycloak:8080/realms/Techstructure"
+        issuer-uri: "http://auth-keycloak:8080/realms/Techstructure"
       registration.techstructure-keycloak:
         redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         client-id: wearecooking-gateway
-        client-secret: CDh0LN1ZDRziVB66ZApYZJOq20ETNJw7
+        client-secret: V29yXZ58bLpC3cDQmmDdHSlvzsYlRvBk
         provider: techstructure-keycloak
         authorization-grant-type: authorization_code
         scope: openid,profile,email
@@ -21,13 +21,13 @@ spring:
     gateway:
       routes:
         - id: test
-          uri: "http://localhost:8030"
+          uri: "http://wrc-test:8030"
           predicates:
             - Path=/test/**
         #          filters:
         #            - AuthFilter
         - id: userinfo
-          uri: "http://localhost:8031"
+          uri: "http://wrc-userinfo:8031"
           predicates:
             - Path=/api/userinfo/**
 #        - id: <name>
