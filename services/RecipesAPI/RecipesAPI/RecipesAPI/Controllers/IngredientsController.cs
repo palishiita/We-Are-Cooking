@@ -66,6 +66,31 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpGet]
+        [Route("ingredients/categories")]
+        [ProducesResponseType(typeof(IEnumerable<GetFullIngredientDataDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public IActionResult GetAllIngredientsWithCategories([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        {
+            count ??= 10;
+            page ??= 0;
+            orderByAsc ??= true;
+
+            sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
+            query = string.IsNullOrEmpty(query) ? string.Empty : query;
+
+            try
+            {
+                var ingredient = _ingredientService.GetAllIngredientsWithCategories(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+                return Ok(ingredient);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("ingredient/{ingredientId:guid}/categories")]
         [ProducesResponseType(typeof(GetIngredientWithCategoriesDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]

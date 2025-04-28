@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Database;
 using RecipesAPI.Exceptions.NotFound;
+using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -54,6 +55,22 @@ namespace RecipesAPI.Controllers
                     return NotFound("No recipes matching the given query.");
                 }
                 return Ok(recipes);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("recipe")]
+        [HttpPost]
+        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromBody] AddRecipeWithIngredientIdsDTO recipeDTO)
+        {
+            try
+            {
+                var id = await _recipeService.CreateRecipeWithIngredientsByIds(recipeDTO);
+                return Ok(id);
             }
             catch (Exception ex)
             {

@@ -22,5 +22,8 @@ namespace RecipesAPI.Services.Interfaces
         Task<Guid> CreateRecipe(AddRecipeDTO recipeDTO);
         Task<Guid> CreateRecipeWithIngredientsByNames(AddRecipeWithIngredientNamesDTO recipeDTO);
         Task<Guid> CreateRecipeWithIngredientsByIds(AddRecipeWithIngredientIdsDTO recipeDTO);
+
+        Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO ingredientDTO);
+        Task AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO ingredientDTO);
     }
 }

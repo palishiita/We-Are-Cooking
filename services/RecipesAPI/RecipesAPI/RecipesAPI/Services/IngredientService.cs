@@ -187,7 +187,7 @@ namespace RecipesAPI.Services
                 .ToArray();
         }
 
-        public IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
+        public IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IOrderedQueryable<Ingredient> result;
 
@@ -276,12 +276,13 @@ namespace RecipesAPI.Services
 
                 return ingredientCategory.Id;
             }
-            catch (Exception ex) 
+            catch  
             {
                 await transaction.RollbackAsync();
                 throw;
             }
-
         }
+
+        
     }
 }

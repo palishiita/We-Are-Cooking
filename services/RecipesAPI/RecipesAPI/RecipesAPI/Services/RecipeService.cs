@@ -96,6 +96,8 @@ namespace RecipesAPI.Services
                         IngredientId = ingredientId,
                     });
                 }
+
+                await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return recipe.Id;
@@ -319,6 +321,81 @@ namespace RecipesAPI.Services
                         .ToArray()
                         ))
                     .ToArray());
+        }
+
+        public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO ingredientDTO)
+        {
+            if (!_recipes.Any(r => r.Id == recipeId))
+            {
+                throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+            }
+
+            if (!_ingredients.Any(i => i.Id == ingredientDTO.IngredientId))
+            {
+                throw new IngredientNotFoundException($"Recipe with id {recipeId} not found.");
+            }
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                await _recipeIngredients.AddAsync(new RecipeIngredient()
+                {
+                    RecipeId = recipeId,
+                    IngredientId = ingredientDTO.IngredientId
+                });
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}.\nException: {ex}.");
+                throw;
+            }
+        }
+
+        public async Task AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO ingredientDTO)
+        {
+            if (!_recipes.Any(r => r.Id == recipeId))
+            {
+                throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+            }
+
+            // only the ingredients that exist, take recipes of the ingredient that are not this recipe so the ingredients are ok
+            var existingIngredientIds = _ingredients
+                .Where(x => ingredientDTO.IngredientIds.Contains(x.Id))
+                .Include(x => x.Recipes)
+                .Where(x => !x.Recipes.Any(y => y.RecipeId == recipeId))
+                .Select(x => x.Id)
+                .ToArray();
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                var recipeIngredients = new List<RecipeIngredient>(existingIngredientIds.Length);
+
+                foreach (var ingredientId in existingIngredientIds)
+                {
+                    var recipeIngredient = new RecipeIngredient()
+                    {
+                        IngredientId = ingredientId,
+                        RecipeId = recipeId,
+                    };
+                    recipeIngredients.Add(recipeIngredient);
+                }
+
+                await _recipeIngredients.AddRangeAsync(recipeIngredients);
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}.\nException: {ex}.");
+                throw;
+            }
         }
 
         public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
