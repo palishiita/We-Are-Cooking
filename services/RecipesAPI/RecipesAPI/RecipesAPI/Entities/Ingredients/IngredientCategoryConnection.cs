@@ -6,7 +6,7 @@ namespace RecipesAPI.Entities.Ingredients
     /// <summary>
     /// A connection between ingredient and its tag.
     /// </summary>
-    [Table("ingredient_categories_connections")]
+    [Table("ingredients_categories_connections")]
     public class IngredientCategoryConnection
     {
         [Required]

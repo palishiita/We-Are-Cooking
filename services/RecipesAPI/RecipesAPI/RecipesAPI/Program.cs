@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using RecipesAPI.Database;
 using RecipesAPI.Services;
 using RecipesAPI.Services.Interfaces;
@@ -41,4 +42,19 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+await SeedDataAsync(app.Services);
 app.Run();
+
+
+async Task SeedDataAsync(IServiceProvider serviceProvider)
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+
+        var seeder = new RecipeDatabaseSeeder(
+            scope.ServiceProvider.GetRequiredService(typeof(ILogger<RecipeDatabaseSeeder>)) as ILogger<RecipeDatabaseSeeder>,
+            scope.ServiceProvider.GetRequiredService(typeof(RecipeDbContext)) as RecipeDbContext);
+        await seeder.Seed();
+    }
+
+}
