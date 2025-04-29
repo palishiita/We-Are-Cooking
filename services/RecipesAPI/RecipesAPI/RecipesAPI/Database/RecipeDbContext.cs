@@ -19,6 +19,11 @@ namespace RecipesAPI.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            // recipes
+            modelBuilder.Entity<Recipe>()
+                .HasOne(r => r.PostingUser)
+                .WithMany(r => r.UserRecipes)
+                .HasForeignKey(r => r.PostingUserId);
 
             // ingredient category connections
             modelBuilder.Entity<IngredientCategoryConnection>()

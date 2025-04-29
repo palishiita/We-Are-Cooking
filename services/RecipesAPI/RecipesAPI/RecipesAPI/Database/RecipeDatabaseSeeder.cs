@@ -1,4 +1,5 @@
 ﻿using RecipesAPI.Entities.Ingredients;
+using RecipesAPI.Entities.UserData;
 
 namespace RecipesAPI.Database
 {
@@ -34,6 +35,16 @@ namespace RecipesAPI.Database
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
             var basepath = string.Format("{0}\\{1}", Environment.CurrentDirectory, "Database\\");
 
+            var testUser = new User()
+            {
+                FistName = "Testing",
+                LastName = "Stilltesting",
+                EmailAddress = "just@test.com",
+                PasswordHash = "nohash:3"
+            };
+
+            await _dbContext.Set<User>().AddAsync(testUser);
+
             try
             {
                 // read ingredients
@@ -64,10 +75,6 @@ namespace RecipesAPI.Database
                     }
                 }
 
-                //foreach (var ingredient in ingredients)
-                //{
-                //    await _dbContext.Set<Ingredient>().AddAsync(ingredient);
-                //}
                 await _dbContext.Set<Ingredient>().AddRangeAsync(ingredients);
 
                 // read categories
@@ -97,11 +104,6 @@ namespace RecipesAPI.Database
                         }
                     }
                 }
-
-                //foreach (var category in categories)
-                //{
-                //    await _dbContext.Set<IngredientCategory>().AddAsync(category);
-                //}
 
                 await _dbContext.Set<IngredientCategory>().AddRangeAsync(categories);
                 await _dbContext.SaveChangesAsync();

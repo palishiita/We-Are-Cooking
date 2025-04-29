@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: user-recipe-addition
+      author: czechjan
+      changes:
+      
+        - addColumn:
+            baseTableName: recipes
+            columns:
+              - column:
+                  name: posting_user_id
+                  type: uuid        
+      
+        - addForeignKeyConstraint:
+            baseTableName: recipes
+            baseColumnNames: posting_user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_recipe_user

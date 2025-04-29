@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RecipesAPI.Entities.Recipes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesAPI.Entities.UserData
@@ -13,6 +14,9 @@ namespace RecipesAPI.Entities.UserData
         [Column("first_name")]
         public string FistName { get; set; }
 
+        [Column("second_name")]
+        public string SecondName { get; set; }
+
         [Column("last_name")]
         public string LastName { get; set; }
 
@@ -21,6 +25,8 @@ namespace RecipesAPI.Entities.UserData
 
         [Column("password_hash")]
         public string PasswordHash { get; set; }
+
+        public virtual ICollection<Recipe> UserRecipes { get; set; }
 
         public virtual ICollection<UserCookbookRecipe> CookbookRecipes { get; set; }
         public virtual ICollection<UserDietaryRestriction> DietaryRestrictions { get; set; }
