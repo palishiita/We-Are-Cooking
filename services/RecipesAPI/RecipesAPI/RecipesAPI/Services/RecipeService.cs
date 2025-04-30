@@ -117,7 +117,7 @@ namespace RecipesAPI.Services
             }
             catch
             {
-                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(CreateRecipeWithIngredientsByIds)}. Rollback.");
                 await transaction.RollbackAsync();
                 throw;
             }
@@ -349,7 +349,7 @@ namespace RecipesAPI.Services
                     .ToArray());
         }
 
-        public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO ingredientDTO)
+        public async Task AddIngredientToRecipeById(Guid recipeId, Guid ingredientId)
         {
             // these exceptions will be thrown by database as this is a primary key
             //if (!_recipes.Any(r => r.Id == recipeId))
@@ -369,20 +369,20 @@ namespace RecipesAPI.Services
                 await _recipeIngredients.AddAsync(new RecipeIngredient()
                 {
                     RecipeId = recipeId,
-                    IngredientId = ingredientDTO.IngredientId
+                    IngredientId = ingredientId
                 });
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
             catch
             {
-                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(AddIngredientToRecipeById)}. Rollback.");
                 await transaction.RollbackAsync();
                 throw;
             }
         }
 
-        public async Task AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO ingredientDTO)
+        public async Task AddIngredientsToRecipeById(Guid recipeId, IEnumerable<Guid> ingredientIds)
         {
             if (!_recipes.Any(r => r.Id == recipeId))
             {
@@ -391,7 +391,7 @@ namespace RecipesAPI.Services
 
             // only the ingredients that exist, take recipes of the ingredient that are not this recipe so the ingredients are ok
             var existingIngredientIds = _ingredients
-                .Where(x => ingredientDTO.IngredientIds.Contains(x.Id))
+                .Where(x => ingredientIds.Contains(x.Id))
                 .Include(x => x.Recipes)
                 .Where(x => !x.Recipes.Any(y => y.RecipeId == recipeId))
                 .Select(x => x.Id)
@@ -419,7 +419,7 @@ namespace RecipesAPI.Services
             }
             catch
             {
-                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(AddIngredientsToRecipeById)}. Rollback.");
                 await transaction.RollbackAsync();
                 throw;
             }
@@ -446,6 +446,81 @@ namespace RecipesAPI.Services
                 .Take(count)
                 .Select(recipe => new GetRecipeWithIngredientIdsDTO(recipe.Id, recipe.Name, recipe.Description, recipe.Ingredients.Select(r => r.IngredientId)))
                 .ToArray();
+        }
+
+        public async Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId)
+        {
+            var recipeIngredient = _recipeIngredients
+                .Where(x => x.RecipeId == recipeId)
+                .Where(x => x.IngredientId == ingredientId)
+                .FirstOrDefault() ?? throw new ElementNotFoundException($"Ingredient with id {ingredientId} is not connected to recipe with id {ingredientId}.");
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                _recipeIngredients.Remove(recipeIngredient);
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveIngredientFromRecipe)}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task RemoveIngredientsFromRecipe(Guid recipeId, IEnumerable<Guid> ingredientIds)
+        {
+            var recipeIngredients = _recipeIngredients
+                .Where(x => x.RecipeId == recipeId)
+                .Where(x => ingredientIds.Contains(x.IngredientId));
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                _recipeIngredients.RemoveRange(recipeIngredients);
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveIngredientFromRecipe)}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task RemoveRecipeById(Guid recipeId)
+        {
+            var recipe = _recipes
+                .Where(x => x.Id == recipeId)
+                .Include(x => x.Ingredients)
+                .FirstOrDefault() ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+
+            var recipeIngredients = _recipeIngredients.Where(x => x.RecipeId == recipeId);
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                _recipes.Remove(recipe);
+                if (recipeIngredients.Any())
+                {
+                    _recipeIngredients.RemoveRange(recipeIngredients);
+                }
+
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveRecipeById)}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }

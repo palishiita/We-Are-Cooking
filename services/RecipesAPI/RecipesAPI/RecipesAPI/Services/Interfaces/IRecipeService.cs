@@ -23,7 +23,12 @@ namespace RecipesAPI.Services.Interfaces
         Task<Guid> CreateRecipeWithIngredientsByNames(Guid userId, AddRecipeWithIngredientNamesDTO recipeDTO);
         Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientIdsDTO recipeDTO);
 
-        Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO ingredientDTO);
-        Task AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO ingredientDTO);
+        Task AddIngredientToRecipeById(Guid recipeId, Guid ingredientId);
+        Task AddIngredientsToRecipeById(Guid recipeId, IEnumerable<Guid> ingredientIds);
+
+        Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId);
+        Task RemoveIngredientsFromRecipe(Guid recipeId, IEnumerable<Guid> ingredientId);
+
+        Task RemoveRecipeById(Guid recipeId);
     }
 }
