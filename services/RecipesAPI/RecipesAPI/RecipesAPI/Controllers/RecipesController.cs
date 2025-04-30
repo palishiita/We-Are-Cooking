@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Database;
+using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
@@ -24,6 +25,8 @@ namespace RecipesAPI.Controllers
             _logger = logger;
         }
 
+
+#if DEBUG
         [Route("test")]
         [HttpGet]
         public IActionResult Test()
@@ -34,6 +37,7 @@ namespace RecipesAPI.Controllers
             }
             return NotFound("Not working.... :----(");
         }
+#endif
 
         // should add page count in the response
         [Route("recipes/full")]
@@ -197,5 +201,77 @@ namespace RecipesAPI.Controllers
             }
         }
 
+        [Route("recipe/{recipeId:guid}")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteRecipeById([FromRoute] Guid recipeId)
+        {
+            try
+            {
+                await _recipeService.RemoveRecipeById(recipeId);
+                return NoContent();
+            }
+            catch (ElementNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("recipe/{recipeId:guid}/ingredient")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteIngredientFromRecipeById([FromRoute] Guid recipeId, [FromBody] Guid ingredientId)
+        {
+            try
+            {
+                await _recipeService.RemoveIngredientFromRecipe(recipeId, ingredientId);
+                return NoContent();
+            }
+            catch (ElementNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [Route("recipe/{recipeId:guid}/ingredients")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteIngredientsFromRecipeById([FromRoute] Guid recipeId, [FromBody] IEnumerable<Guid> ingredientIds)
+        {
+            try
+            {
+                await _recipeService.RemoveIngredientsFromRecipe(recipeId, ingredientIds);
+                return NoContent();
+            }
+            catch (ElementNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
