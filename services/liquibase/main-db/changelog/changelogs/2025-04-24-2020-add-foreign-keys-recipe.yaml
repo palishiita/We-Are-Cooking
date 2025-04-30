@@ -1,0 +1,13 @@
+databaseChangeLog:
+- changeSet:
+    id: add-column-userid-recipes
+    author: czechjan
+    changes:
+      - addColumn:
+          tableName: recipes
+          columns:
+            - column:
+                name: posting_user_id
+                type: uuid
+                constraints:
+                    nullable: false

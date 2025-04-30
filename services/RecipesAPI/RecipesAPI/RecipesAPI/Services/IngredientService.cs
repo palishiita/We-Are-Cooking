@@ -6,6 +6,7 @@ using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Services.Interfaces;
+using RecipesAPI.Extensions;
 
 namespace RecipesAPI.Services
 {
@@ -164,11 +165,11 @@ namespace RecipesAPI.Services
 
         public IEnumerable<GetIngredientCategoryDTO> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IOrderedQueryable<Ingredient> result;
+            IQueryable<Ingredient> result;
 
             if (_ingredientProps.Contains(sortBy))
             {
-                result = orderByAsc ? _ingredients.OrderBy(x => sortBy) : _ingredients.OrderByDescending(x => sortBy);
+                result = _ingredients.OrderBy(sortBy, orderByAsc);
             }
             else
             {
@@ -189,11 +190,11 @@ namespace RecipesAPI.Services
 
         public IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IOrderedQueryable<Ingredient> result;
+            IQueryable<Ingredient> result;
 
             if (_ingredientProps.Contains(sortBy))
             {
-                result = orderByAsc ? _ingredients.OrderBy(x => sortBy) : _ingredients.OrderByDescending(x => sortBy);
+                result = _ingredients.OrderBy(sortBy, orderByAsc);
             }
             else
             {
@@ -219,11 +220,11 @@ namespace RecipesAPI.Services
 
         public IEnumerable<GetIngredientDTO> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IOrderedQueryable<Ingredient> result;
+            IQueryable<Ingredient> result;
 
             if (_ingredientProps.Contains(sortBy))
             {
-                result = orderByAsc ? _ingredients.OrderBy(x => sortBy) : _ingredients.OrderByDescending(x => sortBy);
+                result = _ingredients.OrderBy(sortBy, orderByAsc);
             }
             else
             {

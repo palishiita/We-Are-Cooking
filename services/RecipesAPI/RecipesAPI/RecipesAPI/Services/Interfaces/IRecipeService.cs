@@ -19,9 +19,9 @@ namespace RecipesAPI.Services.Interfaces
 
         IEnumerable<GetFullRecipeDTO> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query);
 
-        Task<Guid> CreateRecipe(AddRecipeDTO recipeDTO);
-        Task<Guid> CreateRecipeWithIngredientsByNames(AddRecipeWithIngredientNamesDTO recipeDTO);
-        Task<Guid> CreateRecipeWithIngredientsByIds(AddRecipeWithIngredientIdsDTO recipeDTO);
+        Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO);
+        Task<Guid> CreateRecipeWithIngredientsByNames(Guid userId, AddRecipeWithIngredientNamesDTO recipeDTO);
+        Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientIdsDTO recipeDTO);
 
         Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO ingredientDTO);
         Task AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO ingredientDTO);

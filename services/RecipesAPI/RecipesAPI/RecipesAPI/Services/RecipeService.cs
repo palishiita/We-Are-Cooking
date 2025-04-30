@@ -8,6 +8,7 @@ using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
+using RecipesAPI.Extensions;
 
 namespace RecipesAPI.Services
 {
@@ -38,32 +39,44 @@ namespace RecipesAPI.Services
             
         }
 
-        public async Task<Guid> CreateRecipe(AddRecipeDTO recipeDTO)
+        public async Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO)
         {
-            // this may be unused as recipes can be done differently
-            if (_recipes.Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
+
+            if (_recipes.Where(x => x.PostingUserId == userId).Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
             {
                 throw new DuplicateRecipeException($"Recipe with name {recipeDTO.Name} already exists.");
             }
 
-            var recipe = new Recipe
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
             {
-                Name = recipeDTO.Name,
-                Description = recipeDTO.Description
-            };
+                var recipe = new Recipe
+                {
+                    Name = recipeDTO.Name,
+                    Description = recipeDTO.Description
+                };
 
-            await _recipes.AddAsync(recipe);
-            await _dbContext.SaveChangesAsync();
+                await _recipes.AddAsync(recipe);
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
 
-            return recipe.Id;
+                return recipe.Id;
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
-        public Task<Guid> CreateRecipeWithIngredientsByNames(AddRecipeWithIngredientNamesDTO recipeDTO)
+        public Task<Guid> CreateRecipeWithIngredientsByNames(Guid userId, AddRecipeWithIngredientNamesDTO recipeDTO)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Guid> CreateRecipeWithIngredientsByIds(AddRecipeWithIngredientIdsDTO recipeDTO)
+        public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientIdsDTO recipeDTO)
         {
             // this may be unused as recipes can be done differently and posted by a different user
             if (_recipes.Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
@@ -102,29 +115,33 @@ namespace RecipesAPI.Services
 
                 return recipe.Id;
             }
-            catch (Exception ex)
+            catch
             {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
                 await transaction.RollbackAsync();
-                _logger.LogError($"Issue with transaction {transaction.TransactionId}.\nException: {ex}.");
                 throw;
             }
         }
 
         public IEnumerable<GetFullRecipeDTO> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IOrderedQueryable<Recipe> res;
+            // search query
+            var recipes = string.IsNullOrEmpty(query)
+                ? _recipes
+                : _recipes.Where(recipe => recipe.Name.Contains(query));
+
 
             if (_recipeProps.Contains(sortBy))
             {
-                res = orderByAsc ? _recipes.OrderBy(x => sortBy) : _recipes.OrderByDescending(x => sortBy);
+                var prop = typeof(Recipe).GetProperty(sortBy);
+                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
             }
             else
             {
-                // by name by default
-                res = orderByAsc ? _recipes.OrderBy(x => x.Name) : _recipes.OrderByDescending(x => x.Name);
+                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
 
-            var result = res
+            var result = recipes
                 .Skip(page * count)
                 .Take(count)
                 .Include(recipe => recipe.Ingredients)
@@ -150,13 +167,15 @@ namespace RecipesAPI.Services
                 : _recipes.Where(recipe => recipe.Name.Contains(query));
 
             // sorting
-            recipes = _recipeProps.Contains(sortBy)
-                ? (orderByAsc
-                    ? recipes.OrderBy(x => sortBy)
-                    : recipes.OrderByDescending(x => sortBy))
-                : (orderByAsc
-                    ? recipes.OrderBy(x => x.Name)
-                    : recipes.OrderByDescending(x => x.Name));
+            if (_recipeProps.Contains(sortBy))
+            {
+                var prop = typeof(Recipe).GetProperty(sortBy);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
+            }
+            else
+            {
+                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
+            }
 
             // pagination
             var result = recipes
@@ -197,15 +216,17 @@ namespace RecipesAPI.Services
 
         public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
-            IQueryable<Recipe> recipes = _recipes.Where(recipe => recipeIds.Contains(recipe.Id));
+            IQueryable<Recipe> recipes = _recipes;
 
-            recipes = _recipeProps.Contains(sortBy)
-                ? (orderByAsc
-                    ? recipes.OrderBy(x => sortBy)
-                    : recipes.OrderByDescending(x => sortBy))
-                : (orderByAsc
-                    ? recipes.OrderBy(x => x.Name)
-                    : recipes.OrderByDescending(x => x.Name));
+            if (_recipeProps.Contains(sortBy))
+            {
+                var prop = typeof(Recipe).GetProperty(sortBy);
+                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+            }
+            else
+            {
+                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
+            }
 
             var result = recipes
                 .Where(recipe => recipeIds.Contains(recipe.Id))
@@ -228,14 +249,18 @@ namespace RecipesAPI.Services
         }
 
         public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
-        {           
-            var recipes = _recipeProps.Contains(sortBy)
-                ? (orderByAsc
-                    ? _recipes.OrderBy(x => sortBy)
-                    : _recipes.OrderByDescending(x => sortBy))
-                : (orderByAsc
-                    ? _recipes.OrderBy(x => x.Name)
-                    : _recipes.OrderByDescending(x => x.Name));
+        {
+            IQueryable<Recipe> recipes = _recipes;
+
+            if (_recipeProps.Contains(sortBy))
+            {
+                var prop = typeof(Recipe).GetProperty(sortBy);
+                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+            }
+            else
+            {
+                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
+            }
 
             return recipes
                 .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
@@ -271,7 +296,8 @@ namespace RecipesAPI.Services
 
             if (_recipeProps.Contains(sortBy))
             {
-                result = orderByAsc ? result.OrderBy(x => sortBy) : result.OrderByDescending(x => sortBy);
+                var prop = typeof(Recipe).GetProperty(sortBy);
+                result = orderByAsc ? result.OrderBy(r => prop) : result.OrderByDescending(r => prop);
             }
             else
             {
@@ -325,15 +351,16 @@ namespace RecipesAPI.Services
 
         public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO ingredientDTO)
         {
-            if (!_recipes.Any(r => r.Id == recipeId))
-            {
-                throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
-            }
+            // these exceptions will be thrown by database as this is a primary key
+            //if (!_recipes.Any(r => r.Id == recipeId))
+            //{
+            //    throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+            //}
 
-            if (!_ingredients.Any(i => i.Id == ingredientDTO.IngredientId))
-            {
-                throw new IngredientNotFoundException($"Recipe with id {recipeId} not found.");
-            }
+            //if (!_ingredients.Any(i => i.Id == ingredientDTO.IngredientId))
+            //{
+            //    throw new IngredientNotFoundException($"Recipe with id {recipeId} not found.");
+            //}
 
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
@@ -347,10 +374,10 @@ namespace RecipesAPI.Services
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
-            catch (Exception ex)
+            catch
             {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
                 await transaction.RollbackAsync();
-                _logger.LogError($"Issue with transaction {transaction.TransactionId}.\nException: {ex}.");
                 throw;
             }
         }
@@ -390,10 +417,10 @@ namespace RecipesAPI.Services
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
-            catch (Exception ex)
+            catch
             {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
                 await transaction.RollbackAsync();
-                _logger.LogError($"Issue with transaction {transaction.TransactionId}.\nException: {ex}.");
                 throw;
             }
         }
@@ -404,7 +431,8 @@ namespace RecipesAPI.Services
 
             if (_recipeProps.Contains(sortBy))
             {
-                result = orderByAsc ? result.OrderBy(r => sortBy) : result.OrderByDescending(r => sortBy);
+                var prop = typeof(Recipe).GetProperty(sortBy);
+                result = orderByAsc ? result.OrderBy(r => prop) : result.OrderByDescending(r => prop);
             }
             else
             {

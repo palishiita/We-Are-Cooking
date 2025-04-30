@@ -65,11 +65,11 @@ namespace RecipesAPI.Controllers
 
         [Route("recipe")]
         [HttpPost]
-        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromBody] AddRecipeWithIngredientIdsDTO recipeDTO)
+        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader] Guid userId, [FromBody] AddRecipeWithIngredientIdsDTO recipeDTO)
         {
             try
             {
-                var id = await _recipeService.CreateRecipeWithIngredientsByIds(recipeDTO);
+                var id = await _recipeService.CreateRecipeWithIngredientsByIds(userId, recipeDTO);
                 return Ok(id);
             }
             catch (Exception ex)
