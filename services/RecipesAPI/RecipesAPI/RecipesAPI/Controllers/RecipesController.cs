@@ -2,6 +2,7 @@
 using RecipesAPI.Database;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Recipes.Add;
+using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -36,6 +37,9 @@ namespace RecipesAPI.Controllers
 
         // should add page count in the response
         [Route("recipes/full")]
+        [ProducesResponseType(typeof(IEnumerable<GetFullRecipeDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
@@ -64,6 +68,8 @@ namespace RecipesAPI.Controllers
         }
 
         [Route("recipe")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader] Guid userId, [FromBody] AddRecipeWithIngredientIdsDTO recipeDTO)
         {
@@ -81,6 +87,9 @@ namespace RecipesAPI.Controllers
 
         // should add page count in the response
         [Route("recipes")]
+        [ProducesResponseType(typeof(IEnumerable<GetRecipeDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
@@ -109,6 +118,9 @@ namespace RecipesAPI.Controllers
         }
 
         [Route("recipe/{recipeId:guid}")]
+        [ProducesResponseType(typeof(GetRecipeDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetRecipeById(Guid recipeId)
         {
@@ -131,6 +143,9 @@ namespace RecipesAPI.Controllers
         }
 
         [Route("recipe/{recipeId:guid}/full")]
+        [ProducesResponseType(typeof(GetFullRecipeDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetFullRecipeById(Guid recipeId)
         {
@@ -154,6 +169,9 @@ namespace RecipesAPI.Controllers
         }
 
         [Route("recipe/{recipeId:guid}/ingredient_categories")]
+        [ProducesResponseType(typeof(GetRecipeWithIngredientsAndCategoriesDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetRecipeWithIngredientCategoriesById([FromRoute] Guid recipeId)
         {
