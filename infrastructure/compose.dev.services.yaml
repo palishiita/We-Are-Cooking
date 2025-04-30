@@ -8,6 +8,15 @@ services:
     networks:
       - wrcNetwork
 
+  redis:
+    container_name: "wrc-redis"
+    build:
+      context: ../services/redis
+    ports:
+      - "6379:6379"
+    networks:
+      - wrcNetwork
+
 networks:
   wrcNetwork:
     name: wrcNetwork
