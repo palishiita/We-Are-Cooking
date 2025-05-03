@@ -3,6 +3,7 @@ using RecipesAPI.Database;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
+using RecipesAPI.Model.Recipes.Update;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -223,6 +224,30 @@ namespace RecipesAPI.Controllers
             }
         }
 
+        [Route("recipe/{recipeId:guid}")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateRecipeById([FromRoute] Guid recipeId, [FromBody] UpdateRecipeDTO recipeDTO)
+        {
+            try
+            {
+                await _recipeService.UpdateRecipeNameById(recipeId, recipeDTO);
+                return Ok();
+            }
+            catch (RecipeNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Route("recipe/{recipeId:guid}/ingredients")]
         [ProducesResponseType(typeof(IEnumerable<Guid>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -235,7 +260,7 @@ namespace RecipesAPI.Controllers
                 var addedIngredients = await _recipeService.AddIngredientsToRecipeById(recipeId, ingredientIds);
                 return CreatedAtAction(nameof(AddIngredientsToRecipeById), addedIngredients);
             }
-            catch (ElementNotFoundException ex)
+            catch (RecipeNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
                 return NotFound(ex.Message);

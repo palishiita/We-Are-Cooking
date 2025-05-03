@@ -1,5 +1,6 @@
 ﻿using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
+using RecipesAPI.Model.Recipes.Update;
 
 namespace RecipesAPI.Services.Interfaces
 {
@@ -22,6 +23,8 @@ namespace RecipesAPI.Services.Interfaces
         Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO);
         Task<Guid> CreateRecipeWithIngredientsByNames(Guid userId, AddRecipeWithIngredientNamesDTO recipeDTO);
         Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientIdsDTO recipeDTO);
+
+        Task UpdateRecipeNameById(Guid recipeId, UpdateRecipeDTO recipeDTO);
 
         Task AddIngredientToRecipeById(Guid recipeId, Guid ingredientId);
         Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, IEnumerable<Guid> ingredientIds);

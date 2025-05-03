@@ -10,6 +10,7 @@ using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
+using RecipesAPI.Model.Recipes.Update;
 
 namespace RecipesAPI.Services
 {
@@ -550,7 +551,7 @@ namespace RecipesAPI.Services
             }
             catch
             {
-                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveIngredientFromRecipe)}. Rollback.");
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveIngredientsFromRecipe)}. Rollback.");
                 await transaction.RollbackAsync();
                 throw;
             }
@@ -581,6 +582,33 @@ namespace RecipesAPI.Services
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveRecipeById)}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task UpdateRecipeNameById(Guid recipeId, UpdateRecipeDTO recipeDTO)
+        {
+            var recipe = _recipes
+                .FirstOrDefault(x => x.Id == recipeId) 
+                ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+
+            // add validation in different layer
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                recipe.Name = recipeDTO.Name;
+                recipe.Description = recipeDTO.Description;
+
+                _recipes.Update(recipe);
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(UpdateRecipeNameById)}. Rollback.");
                 await transaction.RollbackAsync();
                 throw;
             }
