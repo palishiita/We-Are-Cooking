@@ -28,7 +28,7 @@ namespace RecipesAPI.Entities.Ingredients
 
         [MaxLength(1000)]
         [Column("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public virtual ICollection<IngredientCategoryConnection> Connections { get; set; }
         public virtual ICollection<RecipeIngredient> Recipes { get; set; }

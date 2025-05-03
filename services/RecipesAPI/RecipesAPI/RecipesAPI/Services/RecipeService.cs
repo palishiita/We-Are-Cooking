@@ -190,12 +190,18 @@ namespace RecipesAPI.Services
 
             // pagination
             var result = recipes
+                .Include(recipe => recipe.PostingUser)
                 .Skip(page * count)
                 .Take(count)
                 .Select(recipe => new GetRecipeDTO(
                     recipe.Id,
                     recipe.Name,
-                    recipe.Description ?? ""))
+                    recipe.Description,
+                    new CommonUserDataDTO(
+                        recipe.PostingUser.Id,
+                        recipe.PostingUser.FistName,
+                        recipe.PostingUser.SecondName ?? "",
+                        recipe.PostingUser.LastName)))
                 .ToArray();
 
             return result;
@@ -221,9 +227,9 @@ namespace RecipesAPI.Services
                     .ToArray(),
                 new CommonUserDataDTO(
                     recipe.PostingUser.Id,
-                    recipe.PostingUser.FistName ?? "",
+                    recipe.PostingUser.FistName,
                     recipe.PostingUser.SecondName ?? "",
-                    recipe.PostingUser.LastName ?? "")
+                    recipe.PostingUser.LastName)
                 );
         }
 
@@ -259,9 +265,9 @@ namespace RecipesAPI.Services
                         .ToArray(),
                     new CommonUserDataDTO(
                         recipe.PostingUser.Id,
-                        recipe.PostingUser.FistName ?? "",
+                        recipe.PostingUser.FistName,
                         recipe.PostingUser.SecondName ?? "",
-                        recipe.PostingUser.LastName ?? "")))
+                        recipe.PostingUser.LastName)))
                 .ToArray();
 
             return result;
@@ -299,20 +305,27 @@ namespace RecipesAPI.Services
                         .ToArray(),
                     new CommonUserDataDTO(
                         recipe.PostingUser.Id, 
-                        recipe.PostingUser.FistName ?? "", 
+                        recipe.PostingUser.FistName, 
                         recipe.PostingUser.SecondName ?? "", 
-                        recipe.PostingUser.LastName ?? "")))
+                        recipe.PostingUser.LastName)))
                 .ToArray(); 
         }
 
         public GetRecipeDTO GetRecipeById(Guid recipeId)
         {
             var recipe = _recipes
-                .Include(r => r.Ingredients)
-                .ThenInclude(r => r.Ingredient)
+                .Include(recipe => recipe.PostingUser)
                 .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
-            return new GetRecipeDTO(recipeId, recipe.Name, recipe.Description);
+            return new GetRecipeDTO(
+                recipeId, 
+                recipe.Name, 
+                recipe.Description, 
+                new CommonUserDataDTO(
+                    recipe.PostingUser.Id,
+                    recipe.PostingUser.FistName,
+                    recipe.PostingUser.SecondName ?? "",
+                    recipe.PostingUser.LastName));
         }
 
         public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
@@ -333,7 +346,17 @@ namespace RecipesAPI.Services
             return result
                 .Skip(page * count)
                 .Take(count)
-                .Select(recipe => new GetRecipeDTO(recipe.Id, recipe.Name, recipe.Description))
+                .Include(recipe => recipe.PostingUser)
+                .Select(recipe => 
+                    new GetRecipeDTO(
+                        recipe.Id, 
+                        recipe.Name, 
+                        recipe.Description,
+                        new CommonUserDataDTO(
+                            recipe.PostingUser.Id,
+                            recipe.PostingUser.FistName,
+                            recipe.PostingUser.SecondName ?? "",
+                            recipe.PostingUser.LastName)))
                 .ToArray();
         }
 
@@ -341,9 +364,19 @@ namespace RecipesAPI.Services
         {
             var recipe = _recipes
                 .Include(r => r.Ingredients)
+                .Include(r => r.PostingUser)
                 .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
-            return new GetRecipeWithIngredientIdsDTO(recipe.Id, recipe.Name, recipe.Description, recipe.Ingredients.Select(x => x.IngredientId));
+            return new GetRecipeWithIngredientIdsDTO(
+                recipe.Id, 
+                recipe.Name, 
+                recipe.Description,
+                    new CommonUserDataDTO(
+                        recipe.PostingUser.Id,
+                        recipe.PostingUser.FistName,
+                        recipe.PostingUser.SecondName ?? "",
+                        recipe.PostingUser.LastName),
+                recipe.Ingredients.Select(x => x.IngredientId));
         }
 
         public GetRecipeWithIngredientsAndCategoriesDTO GetRecipeWithIngredientsAndCategories(Guid recipeId)
@@ -363,7 +396,7 @@ namespace RecipesAPI.Services
                     .Select(ingredient => new GetFullIngredientDataDTO(
                         ingredient.Ingredient.Id,
                         ingredient.Ingredient.Name,
-                        ingredient.Ingredient.Description,
+                        ingredient.Ingredient.Description ?? "",
                         ingredient.Ingredient.Connections
                         .Select(category => new GetIngredientCategoryDTO(
                             category.IngredientCategory.Id,
@@ -371,22 +404,16 @@ namespace RecipesAPI.Services
                             category.IngredientCategory.Description))
                         .ToArray()
                         ))
-                    .ToArray());
+                    .ToArray(),
+                new CommonUserDataDTO(
+                    recipe.PostingUser.Id,
+                    recipe.PostingUser.FistName,
+                    recipe.PostingUser.SecondName ?? "",
+                    recipe.PostingUser.LastName));
         }
 
         public async Task AddIngredientToRecipeById(Guid recipeId, Guid ingredientId)
         {
-            // these exceptions will be thrown by database as this is a primary key
-            //if (!_recipes.Any(r => r.Id == recipeId))
-            //{
-            //    throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
-            //}
-
-            //if (!_ingredients.Any(i => i.Id == ingredientDTO.IngredientId))
-            //{
-            //    throw new IngredientNotFoundException($"Recipe with id {recipeId} not found.");
-            //}
-
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             try
@@ -472,7 +499,12 @@ namespace RecipesAPI.Services
                 .Select(recipe => new GetRecipeWithIngredientIdsDTO(
                     recipe.Id, 
                     recipe.Name,
-                    recipe.Description ?? "", 
+                    recipe.Description ?? "",
+                    new CommonUserDataDTO(
+                        recipe.PostingUser.Id,
+                        recipe.PostingUser.FistName,
+                        recipe.PostingUser.SecondName ?? "",
+                        recipe.PostingUser.LastName),
                     recipe.Ingredients.Select(r => r.IngredientId)))
                 .ToArray();
         }
