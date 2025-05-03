@@ -434,7 +434,7 @@ namespace RecipesAPI.Services
             }
         }
 
-        public async Task AddIngredientsToRecipeById(Guid recipeId, IEnumerable<Guid> ingredientIds)
+        public async Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, IEnumerable<Guid> ingredientIds)
         {
             if (!_recipes.Any(r => r.Id == recipeId))
             {
@@ -468,6 +468,8 @@ namespace RecipesAPI.Services
                 await _recipeIngredients.AddRangeAsync(recipeIngredients);
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
+
+                return existingIngredientIds;
             }
             catch
             {
