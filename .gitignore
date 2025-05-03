@@ -593,6 +593,7 @@ obj/
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudio,dotnetcore
 .idea
+infrastructure/db-volumes/*
+infrastructure/wrc-db-data
 .vscode
 .env
-infrastructure/wrc-db-data
