@@ -15,7 +15,7 @@ namespace RecipesAPI.Entities.UserData
         public string FistName { get; set; }
 
         [Column("second_name")]
-        public string SecondName { get; set; }
+        public string? SecondName { get; set; }
 
         [Column("last_name")]
         public string LastName { get; set; }
@@ -24,7 +24,7 @@ namespace RecipesAPI.Entities.UserData
         public string EmailAddress { get; set; }
 
         [Column("password_hash")]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         public virtual ICollection<Recipe> UserRecipes { get; set; }
 

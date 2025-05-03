@@ -9,6 +9,7 @@ using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Extensions;
+using RecipesAPI.Model.Common;
 
 namespace RecipesAPI.Services
 {
@@ -54,7 +55,8 @@ namespace RecipesAPI.Services
                 var recipe = new Recipe
                 {
                     Name = recipeDTO.Name,
-                    Description = recipeDTO.Description
+                    Description = recipeDTO.Description,
+                    PostingUserId = userId
                 };
 
                 await _recipes.AddAsync(recipe);
@@ -96,6 +98,7 @@ namespace RecipesAPI.Services
                 {
                     Name = recipeDTO.Name,
                     Description = recipeDTO.Description,
+                    PostingUserId = userId
                 };
 
                 await _recipes.AddAsync(recipe);
@@ -144,17 +147,25 @@ namespace RecipesAPI.Services
             var result = recipes
                 .Skip(page * count)
                 .Take(count)
+                .Include(recipe => recipe.PostingUser)
                 .Include(recipe => recipe.Ingredients)
+                .ThenInclude(ing => ing.Ingredient)
                 .Select(recipe => new GetFullRecipeDTO(
                     recipe.Id,
                     recipe.Name,
                     recipe.Description,
                     recipe.Ingredients
-                        .Join(_ingredients, x => x.IngredientId, y => y.Id, (x, y) => y)
                         .Select(ingredient => new GetIngredientDTO(
-                        ingredient.Id,
-                        ingredient.Name,
-                        ingredient.Description)).ToArray())).ToArray();
+                        ingredient.Ingredient.Id,
+                        ingredient.Ingredient.Name,
+                        ingredient.Ingredient.Description ?? ""))
+                        .ToArray(),
+                    new CommonUserDataDTO(
+                        recipe.PostingUser.Id,
+                        recipe.PostingUser.FistName ?? "",
+                        recipe.PostingUser.SecondName ?? "",
+                        recipe.PostingUser.LastName ?? "")))
+                .ToArray();
 
             return result;
         }
@@ -181,11 +192,10 @@ namespace RecipesAPI.Services
             var result = recipes
                 .Skip(page * count)
                 .Take(count)
-                .Include(recipe => recipe.Ingredients)
                 .Select(recipe => new GetRecipeDTO(
                     recipe.Id,
                     recipe.Name,
-                    recipe.Description))
+                    recipe.Description ?? ""))
                 .ToArray();
 
             return result;
@@ -196,6 +206,7 @@ namespace RecipesAPI.Services
             var recipe = _recipes
                 .Include(r => r.Ingredients)
                 .ThenInclude(r => r.Ingredient)
+                .Include(r => r.PostingUser)
                 .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             return new GetFullRecipeDTO(
@@ -203,15 +214,17 @@ namespace RecipesAPI.Services
                 recipe.Name,
                 recipe.Description,
                 recipe.Ingredients
-                    .Join(_ingredients,
-                        ri => ri.IngredientId,
-                        i => i.Id,
-                        (ri, i) => i)
                     .Select(i => new GetIngredientDTO(
-                        i.Id,
-                        i.Name,
-                        i.Description))
-                    .ToArray());
+                        i.Ingredient.Id,
+                        i.Ingredient.Name,
+                        i.Ingredient.Description ?? ""))
+                    .ToArray(),
+                new CommonUserDataDTO(
+                    recipe.PostingUser.Id,
+                    recipe.PostingUser.FistName ?? "",
+                    recipe.PostingUser.SecondName ?? "",
+                    recipe.PostingUser.LastName ?? "")
+                );
         }
 
         public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
@@ -233,6 +246,7 @@ namespace RecipesAPI.Services
                 .OrderBy(recipe => recipe.Name)
                 .Include(recipe => recipe.Ingredients)
                 .ThenInclude(recipe => recipe.Ingredient)
+                .Include(recipe => recipe.PostingUser)
                 .Select(recipe => new GetFullRecipeDTO(
                     recipe.Id,
                     recipe.Name,
@@ -241,8 +255,13 @@ namespace RecipesAPI.Services
                         .Select(ingredient => new GetIngredientDTO(
                         ingredient.Ingredient.Id,
                         ingredient.Ingredient.Name,
-                        ingredient.Ingredient.Description))
-                        .ToArray()))
+                        ingredient.Ingredient.Description ?? ""))
+                        .ToArray(),
+                    new CommonUserDataDTO(
+                        recipe.PostingUser.Id,
+                        recipe.PostingUser.FistName ?? "",
+                        recipe.PostingUser.SecondName ?? "",
+                        recipe.PostingUser.LastName ?? "")))
                 .ToArray();
 
             return result;
@@ -265,18 +284,24 @@ namespace RecipesAPI.Services
             return recipes
                 .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
                 .ThenInclude(recipe => recipe.Ingredient)
+                .Include(recipe => recipe.PostingUser)
                 .Skip(page * count)
                 .Take(count)
                 .Select(recipe => new GetFullRecipeDTO(
                     recipe.Id,
                     recipe.Name,
-                    recipe.Description,
+                    recipe.Description ?? "",
                     recipe.Ingredients
                         .Select(recipeIngredient => new GetIngredientDTO(
                             recipeIngredient.IngredientId,
                             recipeIngredient.Ingredient.Name,
-                            recipeIngredient.Ingredient.Description))
-                        .ToArray()))
+                            recipeIngredient.Ingredient.Description ?? ""))
+                        .ToArray(),
+                    new CommonUserDataDTO(
+                        recipe.PostingUser.Id, 
+                        recipe.PostingUser.FistName ?? "", 
+                        recipe.PostingUser.SecondName ?? "", 
+                        recipe.PostingUser.LastName ?? "")))
                 .ToArray(); 
         }
 
@@ -444,7 +469,11 @@ namespace RecipesAPI.Services
                 .Include(x => x.Ingredients)
                 .Skip(page * count)
                 .Take(count)
-                .Select(recipe => new GetRecipeWithIngredientIdsDTO(recipe.Id, recipe.Name, recipe.Description, recipe.Ingredients.Select(r => r.IngredientId)))
+                .Select(recipe => new GetRecipeWithIngredientIdsDTO(
+                    recipe.Id, 
+                    recipe.Name,
+                    recipe.Description ?? "", 
+                    recipe.Ingredients.Select(r => r.IngredientId)))
                 .ToArray();
         }
 
