@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Database;
-using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
@@ -42,7 +41,7 @@ namespace RecipesAPI.Controllers
         // should add page count in the response
         [Route("recipes/full")]
         [ProducesResponseType(typeof(IEnumerable<GetFullRecipeDTO>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
@@ -67,32 +66,32 @@ namespace RecipesAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
         [Route("recipe")]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader] Guid userId, [FromBody] AddRecipeWithIngredientIdsDTO recipeDTO)
         {
             try
             {
                 var id = await _recipeService.CreateRecipeWithIngredientsByIds(userId, recipeDTO);
-                return Ok(id);
+                return CreatedAtAction(nameof(AddNewRecipeWithIngredientsByIds), id);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
         // should add page count in the response
         [Route("recipes")]
         [ProducesResponseType(typeof(IEnumerable<GetRecipeDTO>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
@@ -117,14 +116,14 @@ namespace RecipesAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
         [Route("recipe/{recipeId:guid}")]
         [ProducesResponseType(typeof(GetRecipeDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RecipeNotFoundException), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetRecipeById(Guid recipeId)
         {
@@ -136,45 +135,44 @@ namespace RecipesAPI.Controllers
             catch (RecipeNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
+                return NotFound(ex);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
 
         }
 
         [Route("recipe/{recipeId:guid}/full")]
         [ProducesResponseType(typeof(GetFullRecipeDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RecipeNotFoundException), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetFullRecipeById(Guid recipeId)
         {
             try
             {
                 var recipe = _recipeService.GetFullRecipeById(recipeId);
-
                 return Ok(recipe);
             }
             catch (RecipeNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
+                return NotFound(ex);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
 
         }
 
         [Route("recipe/{recipeId:guid}/ingredient_categories")]
         [ProducesResponseType(typeof(GetRecipeWithIngredientsAndCategoriesDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
         public IActionResult GetRecipeWithIngredientCategoriesById([FromRoute] Guid recipeId)
@@ -192,19 +190,19 @@ namespace RecipesAPI.Controllers
             catch (RecipeNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
+                return NotFound(ex);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
         [Route("recipe/{recipeId:guid}")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ElementNotFoundException), StatusCodes.Status404NotFound)]
         [HttpDelete]
         public async Task<IActionResult> DeleteRecipeById([FromRoute] Guid recipeId)
         {
@@ -216,19 +214,19 @@ namespace RecipesAPI.Controllers
             catch (ElementNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
+                return NotFound(ex);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
         [Route("recipe/{recipeId:guid}/ingredient")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ElementNotFoundException), StatusCodes.Status404NotFound)]
         [HttpDelete]
         public async Task<IActionResult> DeleteIngredientFromRecipeById([FromRoute] Guid recipeId, [FromBody] Guid ingredientId)
         {
@@ -240,20 +238,20 @@ namespace RecipesAPI.Controllers
             catch (ElementNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
+                return NotFound(ex);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
 
         [Route("recipe/{recipeId:guid}/ingredients")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ElementNotFoundException), StatusCodes.Status404NotFound)]
         [HttpDelete]
         public async Task<IActionResult> DeleteIngredientsFromRecipeById([FromRoute] Guid recipeId, [FromBody] IEnumerable<Guid> ingredientIds)
         {
@@ -265,12 +263,12 @@ namespace RecipesAPI.Controllers
             catch (ElementNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
+                return NotFound(ex);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
     }
