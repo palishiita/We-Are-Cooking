@@ -33,7 +33,8 @@ namespace RecipesAPI.Database
             var connections = new List<IngredientCategoryConnection>(100);
 
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
-            var basepath = string.Format("{0}\\{1}", Environment.CurrentDirectory, "Database\\");
+
+            var basepath = Path.Combine(Environment.CurrentDirectory, "Database");
 
             var testUser = new User()
             {
@@ -48,7 +49,7 @@ namespace RecipesAPI.Database
             try
             {
                 // read ingredients
-                using (StreamReader sr = new StreamReader(basepath + "seeding_data_ingredients.csv"))
+                using (StreamReader sr = new StreamReader(Path.Combine(basepath, "seeding_data_ingredients.csv")))
                 {
                     bool wasStartRead = false;
                     while (!sr.EndOfStream)
@@ -78,7 +79,7 @@ namespace RecipesAPI.Database
                 await _dbContext.Set<Ingredient>().AddRangeAsync(ingredients);
 
                 // read categories
-                using (StreamReader sr = new StreamReader(basepath + "seeding_data_categories.csv"))
+                using (StreamReader sr = new StreamReader(Path.Combine(basepath, "seeding_data_categories.csv")))
                 {
                     bool wasStartRead = false;
                     while (!sr.EndOfStream)
@@ -109,7 +110,7 @@ namespace RecipesAPI.Database
                 await _dbContext.SaveChangesAsync();
 
                 // read ingredient_index -> category_index and create connections
-                using (StreamReader sr = new StreamReader(basepath + "seeding_data_connection_indexes.csv"))
+                using (StreamReader sr = new StreamReader(Path.Combine(basepath, "seeding_data_connection_indexes.csv")))
                 {
                     while (!sr.EndOfStream)
                     {

@@ -22,17 +22,19 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddDbContext<RecipeDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("RecipesDb")));
 
+Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("RecipesDb")}");
+
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 
