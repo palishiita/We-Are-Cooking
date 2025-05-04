@@ -517,7 +517,7 @@ namespace RecipesAPI.Services
             var recipeIngredient = _recipeIngredients
                 .Where(x => x.RecipeId == recipeId)
                 .Where(x => x.IngredientId == ingredientId)
-                .FirstOrDefault() ?? throw new ElementNotFoundException($"Ingredient with id {ingredientId} is not connected to recipe with id {ingredientId}.");
+                .FirstOrDefault() ?? throw new ElementNotFoundException($"Ingredient with id {ingredientId} is not connected to recipe with id {recipeId}.");
 
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
