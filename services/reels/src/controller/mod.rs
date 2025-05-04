@@ -6,6 +6,9 @@ pub use reel_controller::init as init_reel_controller;
 pub mod health_controller;
 pub use health_controller::init as init_health_controller;
 
+pub mod video_controller;
+pub use video_controller::init as init_video_controller;
+
 fn log_request(route: &'static str, connections: &Mutex<u32>) {
     println!("Logging request");
     let mut con = connections.lock().unwrap();

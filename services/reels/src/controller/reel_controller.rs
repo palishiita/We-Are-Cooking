@@ -14,7 +14,7 @@ pub fn init(cfg: &mut web::ServiceConfig) {
 
 #[get("/reel/{id}")]
 async fn get_reel(
-    reel_id: web::Path<String>,
+    reel_id: web::Path<Uuid>,
     app_state: web::Data<AppState<'_>>,
 ) -> impl Responder {
     log_request("Get: /reel", &app_state.connections);
@@ -34,10 +34,9 @@ async fn post_reel(
     log_request("Post: /reel", &app_state.connections);
  
     let mut reel = reel.into_inner();
-    //reel.id = Uuid::new_v4().to_string();
     reel.id = Uuid::new_v4();
 
-    let x = app_state.context.reels.add_reel(&reel).await;
+    let x = app_state.context.reels.post_reel(&reel).await;
 
     match x {
         Ok(_) => {

@@ -1,10 +1,11 @@
 use sqlx::postgres::PgRow;
 use sqlx::{FromRow, Row};
+use uuid::Uuid;
 
 #[derive(serde::Serialize, serde::Deserialize, Clone)]
 pub struct Video {
-    pub id: String,
-    pub posting_user_id: String,
+    pub id: Uuid,
+    pub posting_user_id: Uuid,
     pub title: String,
     pub description: String,
     pub video_length_seconds: i32,

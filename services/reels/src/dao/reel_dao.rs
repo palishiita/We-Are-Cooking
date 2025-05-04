@@ -1,4 +1,5 @@
 use sqlx::types::chrono::Utc;
+use uuid::Uuid;
 
 use crate::model::Reel;
 
@@ -13,7 +14,6 @@ impl<'c> Table<'c, Reel> {
     }
 
     pub async fn create_table(&self) -> Result<(), sqlx::Error> {
-        
         sqlx::query(
             r#"
 
@@ -24,7 +24,7 @@ impl<'c> Table<'c, Reel> {
             .map(|_|())
     }
 
-    pub async fn get_reel_by_id(&self, reel_id: &str) -> Result<Reel, sqlx::Error> {
+    pub async fn get_reel_by_id(&self, reel_id: &Uuid) -> Result<Reel, sqlx::Error> {
         sqlx::query_as(
             r#"
                 SELECT *
@@ -37,7 +37,7 @@ impl<'c> Table<'c, Reel> {
         .await
     }
 
-    pub async fn add_reel(&self, reel: &Reel) -> Result<u64, sqlx::Error> {
+    pub async fn post_reel(&self, reel: &Reel) -> Result<u64, sqlx::Error> {
         let _ = self.create_table().await;
         sqlx::query(
             r#"

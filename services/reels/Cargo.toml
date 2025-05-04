@@ -21,3 +21,5 @@ sqlx = { version = "0.8", default-features = false, features = [
     "migrate"
 ] }
 env_logger = "0.11.8"
+actix-multipart = "0.7.2"
+futures-util = "0.3.31"
