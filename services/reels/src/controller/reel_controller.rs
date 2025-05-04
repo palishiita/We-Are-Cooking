@@ -10,9 +10,8 @@ pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(get_reel);
     cfg.service(get_reels_paginated);
     cfg.service(post_reel);
-    
-    //cfg.service(delete_reel);
-    //cfg.service(update_reel);
+    // cfg.service(delete_reel);
+    // cfg.service(update_reel);
 }
 
 #[get("/reel/{id}")]
@@ -59,8 +58,11 @@ async fn post_reel(reel: web::Json<Reel>, app_state: web::Data<AppState<'_>>) ->
     }
 }
 
+// async fn delete_reel(
+//     reel_id: web::Path<Uuid>,
+//     app_state: web::Data<AppState<'_>>
+// ) -> impl Responder {
 
+// }
 
-async fn delete_reel() {}
-
-async fn update_reel() {}
+// async fn update_reel() {}

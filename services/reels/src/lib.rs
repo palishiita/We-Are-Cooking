@@ -4,10 +4,11 @@ use dao::database_context::Database;
 
 pub mod config;
 pub mod controller;
+pub mod service;
 pub mod dao;
 pub mod model;
-pub mod startup;
 pub mod openapi;
+
 
 pub struct AppState<'a> {
     pub connections: Mutex<u32>,

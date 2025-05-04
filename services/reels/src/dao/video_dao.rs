@@ -1,6 +1,6 @@
 use uuid::Uuid;
 
-use crate::model::Video;
+use crate::model::{PostVideo, Video};
 
 use super::database_context::Table;
 
@@ -62,13 +62,11 @@ impl<'c> Table<'c, Video> {
                 INSERT INTO videos (id, posting_user_id, title, description, video_length_seconds, video_url)
                 VALUES($1, $2, $3, $4, $5, $6)
             "#
-        )
-            .bind(video.id)               
+        )   
             .bind(video.posting_user_id)
             .bind(&video.title)
             .bind(&video.description)
             .bind(video.video_length_seconds)
-            .bind(&video.video_url)
             .execute(&*self.pool) 
             .await
             .map(|x| x.rows_affected())

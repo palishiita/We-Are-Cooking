@@ -1,26 +1,7 @@
-//use std::net::TcpListener;
-//use sqlx::{Connection, PgConnection};
-//
-//use reels_microservice::config::get_configuration;
-//use reels_microservice::startup::run;
-//
-//
-//#[actix_web::main]
-//async fn main() -> std::io::Result<()> {
-//    env_logger::init();
-//    let configuration = get_configuration().expect("Failed to load configuration.");
-//    let connection = PgConnection::connect(&configuration.database.connection_string())
-//        .await
-//        .expect("Failed to connect to Postgres.");
-//
-//    let adress = format!("{}:{}", configuration.app.url, configuration.app.port);
-//    let listener = TcpListener::bind(adress)?;
-//    run(listener, connection)?.await
-//}
-
 use actix_web::{App, HttpServer, web};
 use reels_microservice::dao::database_context::Database;
 use reels_microservice::openapi::ApiDoc;
+use reels_microservice::service::reel_service::ReelService;
 use reels_microservice::{AppState, controller};
 use utoipa_swagger_ui::SwaggerUi;
 use std::sync::{Arc, Mutex};
@@ -42,10 +23,10 @@ async fn main() -> std::io::Result<()> {
 
     let app = HttpServer::new(move || {
         App::new()
-        .service(
-            SwaggerUi::new("/swagger-ui/{_:.*}")
-                .url("/api-docs/openapi.json", ApiDoc::openapi()),
-        )
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}")
+                    .url("/api-docs/openapi.json", ApiDoc::openapi()),
+            )
             .app_data(app_state.clone())
             .configure(controller::init_health_controller)
             .configure(controller::init_reel_controller)
