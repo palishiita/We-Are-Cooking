@@ -1,7 +1,7 @@
 use sqlx::postgres::PgRow;
 use sqlx::{FromRow, PgPool};
-use std::sync::Arc;
 use std::marker::PhantomData;
+use std::sync::Arc;
 
 use crate::model::{Reel, Video};
 
@@ -20,11 +20,11 @@ impl<'a> Database<'a> {
             reels: Arc::from(Table::new(pool.clone())),
             videos: Arc::from(Table::new(pool.clone())),
         }
-    } 
+    }
 }
 
 pub struct Table<'c, T>
-where 
+where
     T: FromRow<'c, PgRow>,
 {
     pub pool: Arc<PgPool>,

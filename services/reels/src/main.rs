@@ -18,20 +18,17 @@
 //    run(listener, connection)?.await
 //}
 
-
-
-use std::sync::{Arc, Mutex};
-use actix_web::{web, App, HttpServer};
-use reels_microservice::{controller, AppState};
+use actix_web::{App, HttpServer, web};
 use reels_microservice::dao::database_context::Database;
+use reels_microservice::{AppState, controller};
+use std::sync::{Arc, Mutex};
 
 use reels_microservice::config::get_configuration;
-
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
-    
+
     let configuration = get_configuration().expect("Failed to load configuration.");
     let db_context = Database::new(&configuration.database.connection_string()).await;
     let adress = format!("{}:{}", configuration.app.url, configuration.app.port);
@@ -49,8 +46,6 @@ async fn main() -> std::io::Result<()> {
             .configure(controller::init_video_controller)
     })
     .bind(adress)?;
-    
+
     app.run().await
 }
-
-
