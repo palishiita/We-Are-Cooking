@@ -1,5 +1,4 @@
-use std::{fmt::format, fs, path::PathBuf};
-
+use std::path::PathBuf;
 use actix_multipart::form::{MultipartForm, json::Json as MpJson, tempfile::TempFile};
 use actix_web::{HttpResponse, Responder, get, post, put, web};
 use uuid::Uuid;
@@ -38,7 +37,7 @@ async fn post_video(
     log_request("Get: /reel", &app_state.connections);
 
     let mut video: Video = form.json.0;
-    let mut temp_file: TempFile = form.file;
+    let temp_file: TempFile = form.file;
 
     let filename = temp_file
         .file_name

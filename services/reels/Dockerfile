@@ -3,13 +3,12 @@ FROM ubuntu:25.04 AS base
 RUN apt update && apt install -y libssl-dev ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-EXPOSE 8000
+EXPOSE 7000
 
-FROM rust:1.86.0 AS build
+FROM rust:1.86.0-slim AS build
 RUN apt update && apt install -y lld clang pkg-config libssl-dev
 
 WORKDIR /src
-
 COPY . .
 
 RUN cargo build --release
