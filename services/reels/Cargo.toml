@@ -24,5 +24,5 @@ env_logger = "0.11.8"
 actix-multipart = "0.7.2"
 futures-util = "0.3.31"
 log = "0.4.27"
-utoipa = "5.3.1"
-utoipa-swagger-ui = "9.0.1"
+utoipa = "5"
+utoipa-swagger-ui = { version = "9", features = ["actix-web"] }

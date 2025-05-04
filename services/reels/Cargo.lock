@@ -2923,6 +2923,7 @@ version = "9.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d29519b3c485df6b13f4478ac909a491387e9ef70204487c3b64b53749aec0be"
 dependencies = [
+ "actix-web",
  "base64 0.22.1",
  "mime_guess",
  "regex",

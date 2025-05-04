@@ -7,6 +7,7 @@ pub mod controller;
 pub mod dao;
 pub mod model;
 pub mod startup;
+pub mod openapi;
 
 pub struct AppState<'a> {
     pub connections: Mutex<u32>,
