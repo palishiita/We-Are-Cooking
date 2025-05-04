@@ -10,7 +10,7 @@ impl<'c> Table<'c, Reel> {
         sqlx::query("DROP TABLE IF EXISTS reels;")
             .execute(&*self.pool)
             .await
-            .map(|_|())
+            .map(|_| ())
     }
 
     pub async fn create_table(&self) -> Result<(), sqlx::Error> {
@@ -19,9 +19,9 @@ impl<'c> Table<'c, Reel> {
 
             "#,
         )
-            .execute(&*self.pool)
-            .await
-            .map(|_|())
+        .execute(&*self.pool)
+        .await
+        .map(|_| ())
     }
 
     pub async fn get_reel_by_id(&self, reel_id: &Uuid) -> Result<Reel, sqlx::Error> {
@@ -34,6 +34,24 @@ impl<'c> Table<'c, Reel> {
         )
         .bind(reel_id)
         .fetch_one(&*self.pool)
+        .await
+    }
+
+    pub async fn get_reels_paginated(&self, page: u32, limit: u32) -> Result<Vec<Reel>, sqlx::Error> {
+        let offset = (page.saturating_sub(1) * limit) as i64;
+        let limit = limit as i64;
+
+        sqlx::query_as(
+            r#"
+                SELECT * 
+                FROM reels
+                ORDER BY created_at DESC
+                LIMIT ? OFFSET ?
+            "#,
+        )
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(&*self.pool)
         .await
     }
 

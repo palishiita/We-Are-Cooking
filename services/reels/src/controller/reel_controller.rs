@@ -1,55 +1,66 @@
-use actix_web::{get, post, web, HttpResponse, Responder};
+use std::collections::HashMap;
+
+use crate::{AppState, model::Reel};
+use actix_web::{HttpResponse, Responder, get, post, web};
 use uuid::Uuid;
-use crate::{model::Reel, AppState};
 
 use super::log_request;
 
 pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(get_reel);
+    cfg.service(get_reels_paginated);
     cfg.service(post_reel);
-    //cfg.service(get_reels);
+    
     //cfg.service(delete_reel);
     //cfg.service(update_reel);
 }
 
 #[get("/reel/{id}")]
-async fn get_reel(
-    reel_id: web::Path<Uuid>,
-    app_state: web::Data<AppState<'_>>,
-) -> impl Responder {
-    log_request("Get: /reel", &app_state.connections);
+async fn get_reel(reel_id: web::Path<Uuid>, app_state: web::Data<AppState<'_>>) -> impl Responder {
+    log_request("Get: /reel/id", &app_state.connections);
     let reel = app_state.context.reels.get_reel_by_id(&reel_id).await;
 
     match reel {
         Err(_) => HttpResponse::NotFound().finish(),
-        Ok(reel) => HttpResponse::Ok().json(reel)
+        Ok(reel) => HttpResponse::Ok().json(reel),
+    }
+}
+
+#[get("/reel")]
+async fn get_reels_paginated(
+    web::Query(params): web::Query<HashMap<String, String>>,
+    app_state: web::Data<AppState<'_>>
+) -> impl Responder {
+    log_request("Get: /reel", &app_state.connections);
+    let page = params.get("page").and_then(|s| s.parse::<u32>().ok())
+    .unwrap_or(1);
+
+    let limit = params.get("limit").and_then(|s| s.parse::<u32>().ok())
+    .unwrap_or(10);
+
+    match app_state.context.reels.get_reels_paginated(page, limit).await {
+        Ok(reels) => HttpResponse::Ok().json(reels),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
 
 #[post("/reel/post")]
-async fn post_reel(
-    reel: web::Json<Reel>,
-    app_state: web::Data<AppState<'_>>
-) -> impl Responder {
+async fn post_reel(reel: web::Json<Reel>, app_state: web::Data<AppState<'_>>) -> impl Responder {
     log_request("Post: /reel", &app_state.connections);
- 
+
     let mut reel = reel.into_inner();
     reel.id = Uuid::new_v4();
 
     let x = app_state.context.reels.post_reel(&reel).await;
 
     match x {
-        Ok(_) => {
-            HttpResponse::Created().body(reel.id.to_string())
-        }
-        Err(_) => HttpResponse::InternalServerError().finish()
+        Ok(_) => HttpResponse::Created().body(reel.id.to_string()),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
 
-async fn get_reels() {}
+
 
 async fn delete_reel() {}
 
 async fn update_reel() {}
-
-

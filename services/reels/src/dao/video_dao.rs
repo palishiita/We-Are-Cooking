@@ -9,7 +9,7 @@ impl<'c> Table<'c, Video> {
         sqlx::query("DROP TABLE IF EXISTS vidoes;")
             .execute(&*self.pool)
             .await
-            .map(|_|())
+            .map(|_| ())
     }
 
     pub async fn create_table(&self) -> Result<(), sqlx::Error> {
@@ -18,9 +18,9 @@ impl<'c> Table<'c, Video> {
 
             "#,
         )
-            .execute(&*self.pool)
-            .await
-            .map(|_|())
+        .execute(&*self.pool)
+        .await
+        .map(|_| ())
     }
 
     pub async fn get_video_by_id(&self, reel_id: &Uuid) -> Result<Video, sqlx::Error> {
@@ -55,9 +55,7 @@ impl<'c> Table<'c, Video> {
             .map(|x| x.rows_affected())
     }
 
-
     pub async fn put_video_by_id(&self, video: &Video) -> Result<u64, sqlx::Error> {
-        let video_url = "...";
         let _ = self.create_table().await;
         sqlx::query(
             r#"
@@ -67,10 +65,10 @@ impl<'c> Table<'c, Video> {
         )
             .bind(video.id)               
             .bind(video.posting_user_id)
-            .bind(video.title.clone())
-            .bind(video.description.clone())
+            .bind(&video.title)
+            .bind(&video.description)
             .bind(video.video_length_seconds)
-            .bind(video_url)
+            .bind(&video.video_url)
             .execute(&*self.pool) 
             .await
             .map(|x| x.rows_affected())
