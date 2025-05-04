@@ -11,6 +11,7 @@ using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Recipes.Update;
+using FluentValidation;
 
 namespace RecipesAPI.Services
 {

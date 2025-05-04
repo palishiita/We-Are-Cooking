@@ -1,6 +1,8 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RecipesAPI.Database;
+using RecipesAPI.Model.Recipes.Validators;
 using RecipesAPI.Services;
 using RecipesAPI.Services.Interfaces;
 using Serilog;
@@ -59,4 +61,12 @@ async Task SeedDataAsync(IServiceProvider serviceProvider)
         await seeder.Seed();
     }
 
+}
+
+void AddValidators(IServiceCollection services)
+{
+    services.AddValidatorsFromAssemblyContaining<AddRecipeValidator>();
+    services.AddValidatorsFromAssemblyContaining<AddRecipeWithIngredientIdsValidator>();
+    services.AddValidatorsFromAssemblyContaining<AddIngredientRangeToRecipeValidator>();
+    services.AddValidatorsFromAssemblyContaining<UpdateRecipeValidator>();
 }
