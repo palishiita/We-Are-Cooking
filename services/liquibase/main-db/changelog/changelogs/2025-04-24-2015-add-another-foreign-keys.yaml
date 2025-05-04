@@ -128,6 +128,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: ingredients_categories_connections
             baseColumnNames: category_id
-            referencedTableName: categories
+            referencedTableName: ingredients_categories
             referencedColumnNames: id
             constraintName: fk_ingredients_categories_connections_category
