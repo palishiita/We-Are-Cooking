@@ -51,5 +51,39 @@ namespace RecipesAPI.Extensions
 
             return source.Provider.CreateQuery<TEntity>(resultExpression);
         }
+
+        public static IQueryable<TEntity> OrderByNested<TEntity>(this IQueryable<TEntity> source, string fullPropPath, bool asc)
+        {
+            string command = asc ? "OrderBy" : "OrderByDescending";
+            Type type = typeof(TEntity);
+
+            var parameter = Expression.Parameter(type, "p");
+
+            string[] parts = fullPropPath.Split('.');
+            Expression propertyAccess = parameter;
+            Type currentType = type;
+
+            foreach (var part in parts)
+            {
+                var property = currentType.GetProperty(part, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                if (property == null)
+                    throw new ArgumentException($"Property '{part}' not found on type '{currentType.Name}'");
+
+                propertyAccess = Expression.Property(propertyAccess, property);
+                currentType = property.PropertyType;
+            }
+
+            var orderByExpression = Expression.Lambda(propertyAccess, parameter);
+
+            var resultExpression = Expression.Call(
+                typeof(Queryable),
+                command,
+                new Type[] { type, currentType },
+                source.Expression,
+                Expression.Quote(orderByExpression)
+            );
+
+            return source.Provider.CreateQuery<TEntity>(resultExpression);
+        }
     }
 }
