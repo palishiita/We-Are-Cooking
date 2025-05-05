@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Database;
 using RecipesAPI.Exceptions.NotFound;
+using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Model.Recipes.Update;
@@ -41,11 +42,11 @@ namespace RecipesAPI.Controllers
 
         // should add page count in the response
         [Route("recipes/full")]
-        [ProducesResponseType(typeof(IEnumerable<GetFullRecipeDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public IActionResult GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        public async Task<IActionResult> GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
             count ??= 10;
             page ??= 0;
@@ -56,9 +57,9 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var recipes = _recipeService.GetAllFullRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+                var recipes = await _recipeService.GetAllFullRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (!recipes.Any())
+                if (!recipes.Data.Any())
                 {
                     return NotFound("No recipes matching the given query.");
                 }
@@ -91,11 +92,11 @@ namespace RecipesAPI.Controllers
 
         // should add page count in the response
         [Route("recipes")]
-        [ProducesResponseType(typeof(IEnumerable<GetRecipeDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public IActionResult GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        public async Task<IActionResult> GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
             count ??= 10;
             page ??= 0;
@@ -106,9 +107,9 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var recipes = _recipeService.GetAllRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+                var recipes = await _recipeService.GetAllRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (!recipes.Any())
+                if (!recipes.Data.Any())
                 {
                     return NotFound("No recipes matching the given query.");
                 }
