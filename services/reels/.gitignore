@@ -1,0 +1,8 @@
+.env.*
+.env
+.DS_STORE
+
+
+/target
+**/*.rs.bk
+

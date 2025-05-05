@@ -7,6 +7,22 @@ services:
       - "$BACKEND_TEST_PORT:8080"
     networks:
       - wrcNetwork
+  reels_api:
+    container_name: "wrc-reels-api"
+    build:
+      context: ../services/reels
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7000"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "https://localhost:8000/health"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - wrcNetwork
+      
 
   recipesapi:
     container_name: "wrc-recipesapi"
