@@ -3,5 +3,5 @@ using RecipesAPI.Model.Ingredients.Get;
 
 namespace RecipesAPI.Model.UserData.Cookbook.Get
 {
-    public record GetFullRecipeForCookbookDTO(string Name, string Description, IEnumerable<GetIngredientDTO> Ingredients, bool IsFavorite, CommonUserDataDTO UserData);
+    public record GetFullRecipeForCookbookDTO(Guid RecipeId, string Name, string Description, IEnumerable<GetIngredientDTO> Ingredients, bool IsFavorite, CommonUserDataDTO UserData);
 }

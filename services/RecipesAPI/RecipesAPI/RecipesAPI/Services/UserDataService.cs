@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Database;
+using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Entities.UserData;
 using RecipesAPI.Exceptions.NotFound;
+using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.UserData.Cookbook.Add;
@@ -18,12 +20,19 @@ namespace RecipesAPI.Services
         private readonly RecipeDbContext _dbContext;
         private readonly DbSet<UserCookbookRecipe> _cookbookRecipes;
 
+        private readonly HashSet<string> _recipeProps;
+
         public UserDataService(ILogger<UserDataService> logger, RecipeDbContext dbContext)
         {
             _logger = logger;
 
             _dbContext = dbContext;
             _cookbookRecipes = _dbContext.Set<UserCookbookRecipe>();
+
+            _recipeProps = typeof(Recipe)
+                .GetProperties()
+                .Select(x => x.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
 
         public async Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO)
@@ -77,16 +86,28 @@ namespace RecipesAPI.Services
 
         public IEnumerable<GetFullRecipeForCookbookDTO> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites)
         {
+            var recipes = showOnlyFavorites ? _cookbookRecipes.Where(cr => cr.IsFavorite) : _cookbookRecipes;
+
+
             // search query
-            var recipes = string.IsNullOrEmpty(query)
-            ? _cookbookRecipes
-            : _cookbookRecipes
+            recipes = string.IsNullOrEmpty(query) ? recipes : recipes
                 .Include(cr => cr.Recipe)
                 .Where(cr => cr.Recipe.Name.Contains(query));
 
-            recipes = orderByAsc ? recipes.OrderBy(r => r.Recipe.Name) : recipes.OrderByDescending(r => r.Recipe.Name);
+            if (_recipeProps.Contains(sortBy))
+            {
+                recipes = recipes.OrderByChildProperties("Recipe", sortBy, orderByAsc);
+            }
+            else if (sortBy.Equals("IsFavorite", StringComparison.InvariantCultureIgnoreCase))
+            {
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
+            }
+            else
+            {
+                recipes = orderByAsc ? recipes.OrderBy(r => r.Recipe.Name) : recipes.OrderByDescending(r => r.Recipe.Name);
+            }
 
-            var recipesFromCookbook = _cookbookRecipes
+            var recipesFromCookbook = recipes
                 .Where(cr => cr.UserId == userId)
                 .Include(cr => cr.Recipe)
                     .ThenInclude(r => r.Ingredients)
@@ -94,6 +115,7 @@ namespace RecipesAPI.Services
                 .Include(cr => cr.Recipe)
                     .ThenInclude(r => r.PostingUser)
                 .Select(cr => new GetFullRecipeForCookbookDTO(
+                    cr.RecipeId,
                     cr.Recipe.Name,
                     cr.Recipe.Description,
                     cr.Recipe.Ingredients.Select(i => new GetIngredientDTO(
@@ -106,7 +128,7 @@ namespace RecipesAPI.Services
                         cr.User.FistName,
                         cr.User.SecondName ?? "",
                         cr.User.LastName)
-                    ));
+                    )).ToArray();
 
             return recipesFromCookbook;
         }

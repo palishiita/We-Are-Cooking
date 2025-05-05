@@ -33,7 +33,7 @@ namespace RecipesAPI.Services
             _recipeProps = typeof(Recipe)
                 .GetProperties()
                 .Select(x => x.Name)
-                .ToHashSet();
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             _recipes = dbContext.Set<Recipe>();
             _ingredients = dbContext.Set<Ingredient>();
