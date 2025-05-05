@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Exceptions.Duplicates;
+using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Services.Interfaces;
@@ -42,9 +43,9 @@ namespace RecipesAPI.Controllers
 
         [HttpGet]
         [Route("ingredients")]
-        [ProducesResponseType(typeof(IEnumerable<GetIngredientDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public IActionResult GetAllIngredients([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        public IActionResult GetAllFullIngredients([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
             count ??= 10;
             page ??= 0;
@@ -67,7 +68,7 @@ namespace RecipesAPI.Controllers
 
         [HttpGet]
         [Route("ingredients/categories")]
-        [ProducesResponseType(typeof(IEnumerable<GetFullIngredientDataDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public IActionResult GetAllIngredientsWithCategories([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
@@ -181,7 +182,10 @@ namespace RecipesAPI.Controllers
 
         [HttpGet]
         [Route("ingredient_category")]
-        public IActionResult GetAllIngredientCategories([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllIngredientCategories([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
             count ??= 10;
             page ??= 0;
@@ -190,12 +194,11 @@ namespace RecipesAPI.Controllers
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
             query = string.IsNullOrEmpty(query) ? string.Empty : query;
 
-
             try
             {
-                var categories = _ingredientService.GetAllIngredientCategories(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+                var categories = await _ingredientService.GetAllIngredientCategories(count.Value, page.Value, orderByAsc.Value, sortBy, query);
 
-                if (!categories.Any())
+                if (!categories.Data.Any())
                 {
                     return NotFound("No ingredient categories matching the given query.");
                 }

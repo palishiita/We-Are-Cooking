@@ -7,6 +7,7 @@ using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Extensions;
+using RecipesAPI.Model.Common;
 
 namespace RecipesAPI.Services
 {
@@ -157,13 +158,13 @@ namespace RecipesAPI.Services
             return new GetIngredientWithCategoriesDTO(
                 ingredientId, 
                 ingredient.Name, 
-                ingredient.Description,
+                ingredient.Description ?? "",
                 ingredient.Connections
                     .Select(x => x.Ingredient.Name)
                     .ToArray());
         }
 
-        public IEnumerable<GetIngredientCategoryDTO> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IQueryable<Ingredient> result;
 
@@ -177,18 +178,34 @@ namespace RecipesAPI.Services
                 result = orderByAsc ? _ingredients.OrderBy(x => x.Name) : _ingredients.OrderByDescending(x => x.Name);
             }
 
-            return result
+            // query
+            result = result.Where(ingredient => ingredient.Name.Contains(query));
+
+            // count
+            int totalCount = await result.CountAsync();
+
+            // project
+            var data = await result
                 .Where(ingredient => ingredient.Name.Contains(query))
                 .Skip(page * count)
                 .Take(count)
                 .Select(ingredient => new GetIngredientCategoryDTO(
-                    ingredient.Id, 
-                    ingredient.Name, 
-                    ingredient.Description))
-                .ToArray();
+                    ingredient.Id,
+                    ingredient.Name,
+                    ingredient.Description ?? ""))
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
-        public IEnumerable<GetIngredientWithCategoriesDTO> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IQueryable<Ingredient> result;
 
@@ -202,8 +219,14 @@ namespace RecipesAPI.Services
                 result = orderByAsc ? _ingredients.OrderBy(x => x.Name) : _ingredients.OrderByDescending(x => x.Name);
             }
 
-            return result
-                .Where(ingredient => ingredient.Name.Contains(query))
+            // query
+            result = result.Where(ingredient => ingredient.Name.Contains(query));
+
+            // count the data 
+            var totalCount = await result.CountAsync();
+
+            // project
+            var data = await result
                 .Skip(page * count)
                 .Take(count)
                 .Include(ingredient => ingredient.Connections)
@@ -211,14 +234,23 @@ namespace RecipesAPI.Services
                 .Select(ingredient => new GetIngredientWithCategoriesDTO(
                     ingredient.Id,
                     ingredient.Name,
-                    ingredient.Description,
+                    ingredient.Description ?? "",
                     ingredient.Connections
                         .Select(connection => connection.IngredientCategory.Name)
                         .ToArray()))
-                .ToArray();
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
-        public IEnumerable<GetIngredientDTO> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query)
         {
             IQueryable<Ingredient> result;
 
@@ -232,8 +264,14 @@ namespace RecipesAPI.Services
                 result = orderByAsc ? _ingredients.OrderBy(x => x.Name) : _ingredients.OrderByDescending(x => x.Name);
             }
 
-            return result
-                .Where(ingredient => ingredient.Name.Contains(query))
+            // queried
+            result = result.Where(ingredient => ingredient.Name.Contains(query));
+
+            // count the data
+            var totalCount = await result.CountAsync();
+
+            // project
+            var data = await result
                 .Skip(page * count)
                 .Take(count)
                 .Include(ingredient => ingredient.Connections)
@@ -241,8 +279,17 @@ namespace RecipesAPI.Services
                 .Select(ingredient => new GetIngredientDTO(
                     ingredient.Id,
                     ingredient.Name,
-                    ingredient.Description))
-                .ToArray();
+                    ingredient.Description ?? ""))
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetIngredientDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         public GetIngredientDTO GetIngredientById(Guid ingredientId)
@@ -250,7 +297,7 @@ namespace RecipesAPI.Services
             var ingredient = _ingredients
                 .FirstOrDefault(r => r.Id == ingredientId) ?? throw new RecipeNotFoundException($"Recipe with id {ingredientId} not found.");
 
-            return new GetIngredientDTO(ingredientId, ingredient.Name, ingredient.Description);
+            return new GetIngredientDTO(ingredientId, ingredient.Name, ingredient.Description ?? "");
         }
 
         public async Task<Guid> AddIngredientCategory(AddIngredientCategoryDTO ingredientDTO)

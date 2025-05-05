@@ -11,6 +11,7 @@ using RecipesAPI.Services.Interfaces;
 using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Recipes.Update;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RecipesAPI.Services
 {
@@ -127,14 +128,14 @@ namespace RecipesAPI.Services
             }
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            // search query
+            // query
             var recipes = string.IsNullOrEmpty(query)
                 ? _recipes
                 : _recipes.Where(recipe => recipe.Name.Contains(query));
 
-
+            // order
             if (_recipeProps.Contains(sortBy))
             {
                 var prop = typeof(Recipe).GetProperty(sortBy);
@@ -145,7 +146,11 @@ namespace RecipesAPI.Services
                 recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
 
-            var result = recipes
+            // count
+            var totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
                 .Skip(page * count)
                 .Take(count)
                 .Include(recipe => recipe.PostingUser)
@@ -163,17 +168,24 @@ namespace RecipesAPI.Services
                         .ToArray(),
                     new CommonUserDataDTO(
                         recipe.PostingUser.Id,
-                        recipe.PostingUser.FistName ?? "",
+                        recipe.PostingUser.FistName,
                         recipe.PostingUser.SecondName ?? "",
-                        recipe.PostingUser.LastName ?? "")))
-                .ToArray();
+                        recipe.PostingUser.LastName)))
+                .ToListAsync();
 
-            return result;
+            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>> 
+            { 
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
-        public IEnumerable<GetRecipeDTO> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            // search query
+            // query
             var recipes = string.IsNullOrEmpty(query)
                 ? _recipes
                 : _recipes.Where(recipe => recipe.Name.Contains(query));
@@ -189,8 +201,11 @@ namespace RecipesAPI.Services
                 recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
 
-            // pagination
-            var result = recipes
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
                 .Include(recipe => recipe.PostingUser)
                 .Skip(page * count)
                 .Take(count)
@@ -203,9 +218,16 @@ namespace RecipesAPI.Services
                         recipe.PostingUser.FistName,
                         recipe.PostingUser.SecondName ?? "",
                         recipe.PostingUser.LastName)))
-                .ToArray();
+                .ToListAsync();
 
-            return result;
+            return new PaginatedResult<IEnumerable<GetRecipeDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         public GetFullRecipeDTO GetFullRecipeById(Guid recipeId)
@@ -234,7 +256,7 @@ namespace RecipesAPI.Services
                 );
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
             IQueryable<Recipe> recipes = _recipes;
 
@@ -248,9 +270,14 @@ namespace RecipesAPI.Services
                 recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
 
-            var result = recipes
-                .Where(recipe => recipeIds.Contains(recipe.Id))
-                .OrderBy(recipe => recipe.Name)
+            // query
+            recipes = recipes.Where(recipe => recipeIds.Contains(recipe.Id));
+
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
                 .Include(recipe => recipe.Ingredients)
                 .ThenInclude(recipe => recipe.Ingredient)
                 .Include(recipe => recipe.PostingUser)
@@ -262,19 +289,25 @@ namespace RecipesAPI.Services
                         .Select(ingredient => new GetIngredientDTO(
                         ingredient.Ingredient.Id,
                         ingredient.Ingredient.Name,
-                        ingredient.Ingredient.Description ?? ""))
-                        .ToArray(),
+                        ingredient.Ingredient.Description ?? "")),
                     new CommonUserDataDTO(
                         recipe.PostingUser.Id,
                         recipe.PostingUser.FistName,
                         recipe.PostingUser.SecondName ?? "",
                         recipe.PostingUser.LastName)))
-                .ToArray();
+                .ToListAsync();
 
-            return result;
+            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
-        public IEnumerable<GetFullRecipeDTO> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
         {
             IQueryable<Recipe> recipes = _recipes;
 
@@ -288,7 +321,11 @@ namespace RecipesAPI.Services
                 recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
 
-            return recipes
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
                 .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
                 .ThenInclude(recipe => recipe.Ingredient)
                 .Include(recipe => recipe.PostingUser)
@@ -302,14 +339,22 @@ namespace RecipesAPI.Services
                         .Select(recipeIngredient => new GetIngredientDTO(
                             recipeIngredient.IngredientId,
                             recipeIngredient.Ingredient.Name,
-                            recipeIngredient.Ingredient.Description ?? ""))
-                        .ToArray(),
+                            recipeIngredient.Ingredient.Description ?? "")),
                     new CommonUserDataDTO(
-                        recipe.PostingUser.Id, 
-                        recipe.PostingUser.FistName, 
-                        recipe.PostingUser.SecondName ?? "", 
+                        recipe.PostingUser.Id,
+                        recipe.PostingUser.FistName,
+                        recipe.PostingUser.SecondName ?? "",
                         recipe.PostingUser.LastName)))
-                .ToArray(); 
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         public GetRecipeDTO GetRecipeById(Guid recipeId)
@@ -329,36 +374,50 @@ namespace RecipesAPI.Services
                     recipe.PostingUser.LastName));
         }
 
-        public IEnumerable<GetRecipeDTO> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
-            var result = _recipes.Where(x => recipeIds.Contains(x.Id));
+            // query
+            var recipes = _recipes.Where(x => recipeIds.Contains(x.Id));
 
             if (_recipeProps.Contains(sortBy))
             {
                 var prop = typeof(Recipe).GetProperty(sortBy);
-                result = orderByAsc ? result.OrderBy(r => prop) : result.OrderByDescending(r => prop);
+                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
             }
             else
             {
                 // by name by default
-                result = orderByAsc ? result.OrderBy(x => x.Name) : result.OrderByDescending(x => x.Name);
+                recipes = orderByAsc ? recipes.OrderBy(x => x.Name) : recipes.OrderByDescending(x => x.Name);
             }
 
-            return result
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
                 .Skip(page * count)
                 .Take(count)
                 .Include(recipe => recipe.PostingUser)
-                .Select(recipe => 
+                .Select(recipe =>
                     new GetRecipeDTO(
-                        recipe.Id, 
-                        recipe.Name, 
+                        recipe.Id,
+                        recipe.Name,
                         recipe.Description,
                         new CommonUserDataDTO(
                             recipe.PostingUser.Id,
                             recipe.PostingUser.FistName,
                             recipe.PostingUser.SecondName ?? "",
                             recipe.PostingUser.LastName)))
-                .ToArray();
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetRecipeDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         public GetRecipeWithIngredientIdsDTO GetRecipeWithIngredientIds(Guid recipeId)
@@ -480,27 +539,32 @@ namespace RecipesAPI.Services
             }
         }
 
-        public IEnumerable<GetRecipeWithIngredientIdsDTO> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
         {
-            var result = _recipes.Where(r => recipeIds.Contains(r.Id));
+            // query
+            var recipes = _recipes.Where(r => recipeIds.Contains(r.Id));
 
             if (_recipeProps.Contains(sortBy))
             {
                 var prop = typeof(Recipe).GetProperty(sortBy);
-                result = orderByAsc ? result.OrderBy(r => prop) : result.OrderByDescending(r => prop);
+                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
             }
             else
             {
                 // by name by default
-                result = orderByAsc ? result.OrderBy(r => r.Name) : result.OrderByDescending(r => r.Name);
+                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
 
-            return result
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
                 .Include(x => x.Ingredients)
                 .Skip(page * count)
                 .Take(count)
                 .Select(recipe => new GetRecipeWithIngredientIdsDTO(
-                    recipe.Id, 
+                    recipe.Id,
                     recipe.Name,
                     recipe.Description ?? "",
                     new CommonUserDataDTO(
@@ -509,7 +573,16 @@ namespace RecipesAPI.Services
                         recipe.PostingUser.SecondName ?? "",
                         recipe.PostingUser.LastName),
                     recipe.Ingredients.Select(r => r.IngredientId)))
-                .ToArray();
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         public async Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId)
