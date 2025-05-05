@@ -45,7 +45,7 @@ namespace RecipesAPI.Controllers
         [Route("ingredients")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public IActionResult GetAllFullIngredients([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        public async Task<IActionResult> GetAllFullIngredients([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
             count ??= 10;
             page ??= 0;
@@ -56,7 +56,7 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var ingredient = _ingredientService.GetAllIngredients(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+                var ingredient = await _ingredientService.GetAllIngredients(count.Value, page.Value, orderByAsc.Value, sortBy, query);
                 return Ok(ingredient);
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace RecipesAPI.Controllers
         [Route("ingredients/categories")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public IActionResult GetAllIngredientsWithCategories([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        public async Task<IActionResult> GetAllIngredientsWithCategoriesAsync([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
             count ??= 10;
             page ??= 0;
@@ -81,7 +81,7 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var ingredient = _ingredientService.GetAllIngredientsWithCategories(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+                var ingredient = await _ingredientService.GetAllIngredientsWithCategories(count.Value, page.Value, orderByAsc.Value, sortBy, query);
                 return Ok(ingredient);
             }
             catch (Exception ex)

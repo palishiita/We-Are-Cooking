@@ -166,33 +166,33 @@ namespace RecipesAPI.Services
 
         public async Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IQueryable<Ingredient> result;
+            IQueryable<IngredientCategory> result;
 
             if (_ingredientProps.Contains(sortBy))
             {
-                result = _ingredients.OrderBy(sortBy, orderByAsc);
+                result = _categories.OrderBy(sortBy, orderByAsc);
             }
             else
             {
                 // by name by default
-                result = orderByAsc ? _ingredients.OrderBy(x => x.Name) : _ingredients.OrderByDescending(x => x.Name);
+                result = orderByAsc ? _categories.OrderBy(x => x.Name) : _categories.OrderByDescending(x => x.Name);
             }
 
             // query
-            result = result.Where(ingredient => ingredient.Name.Contains(query));
+            result = result.Where(category => category.Name.Contains(query));
 
             // count
             int totalCount = await result.CountAsync();
 
             // project
             var data = await result
-                .Where(ingredient => ingredient.Name.Contains(query))
+                .Where(category => category.Name.Contains(query))
                 .Skip(page * count)
                 .Take(count)
-                .Select(ingredient => new GetIngredientCategoryDTO(
-                    ingredient.Id,
-                    ingredient.Name,
-                    ingredient.Description ?? ""))
+                .Select(category => new GetIngredientCategoryDTO(
+                    category.Id,
+                    category.Name,
+                    category.Description ?? ""))
                 .ToListAsync();
 
             return new PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>
