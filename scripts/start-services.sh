@@ -11,7 +11,6 @@ quiet=false
 set -ex
 
 build() {
-  docker build -f "$home"/services/liquibase/main-db/Dockerfile . -t wrc-liquibase-db-main:latest
   docker build -f "$home"/services/test/Dockerfile . -t wrc-rest-test:latest
   docker build -f "$home"/services/userinfo/Dockerfile . -t wrc-userinfo:latest
 }

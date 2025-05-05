@@ -1,0 +1,133 @@
+databaseChangeLog:
+  - changeSet:
+      id: another-foreign-keys
+      author: wojciakjakub
+      changes:
+
+        # reels
+        - addForeignKeyConstraint:
+            baseTableName: reels
+            baseColumnNames: video_id
+            referencedTableName: videos
+            referencedColumnNames: id
+            constraintName: fk_reels_video
+        - addForeignKeyConstraint:
+            baseTableName: reels
+            baseColumnNames: posting_user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_reels_user
+
+        # videos
+        - addForeignKeyConstraint:
+            baseTableName: videos
+            baseColumnNames: posting_user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_videos_user
+
+        # recipe_videos
+        - addForeignKeyConstraint:
+            baseTableName: recipe_videos
+            baseColumnNames: recipe_id
+            referencedTableName: recipes
+            referencedColumnNames: id
+            constraintName: fk_recipe_videos_recipe
+        - addForeignKeyConstraint:
+            baseTableName: recipe_videos
+            baseColumnNames: video_id
+            referencedTableName: videos
+            referencedColumnNames: id
+            constraintName: fk_recipe_videos_video
+
+        # user_profiles
+        - addForeignKeyConstraint:
+            baseTableName: user_profiles
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_profiles_user
+        - addForeignKeyConstraint:
+            baseTableName: user_profiles
+            baseColumnNames: photo_url_id
+            referencedTableName: photo_urls
+            referencedColumnNames: id
+            constraintName: fk_user_profiles_photo
+
+        # happenings
+        - addForeignKeyConstraint:
+            baseTableName: happenings
+            baseColumnNames: photo_id
+            referencedTableName: photo_urls
+            referencedColumnNames: id
+            constraintName: fk_happenings_photo
+        - addForeignKeyConstraint:
+            baseTableName: happenings
+            baseColumnNames: organizer_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_happenings_organizer
+
+        # invitations
+        - addForeignKeyConstraint:
+            baseTableName: invitations
+            baseColumnNames: happening_id
+            referencedTableName: happenings
+            referencedColumnNames: id
+            constraintName: fk_invitations_happening
+        - addForeignKeyConstraint:
+            baseTableName: invitations
+            baseColumnNames: invitee_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_invitations_invitee
+        - addForeignKeyConstraint:
+            baseTableName: invitations
+            baseColumnNames: inviter_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_invitations_inviter
+
+        # responses
+        - addForeignKeyConstraint:
+            baseTableName: responses
+            baseColumnNames: invitation_id
+            referencedTableName: invitations
+            referencedColumnNames: id
+            constraintName: fk_responses_invitation
+
+        # happening_participants
+        - addForeignKeyConstraint:
+            baseTableName: happening_participants
+            baseColumnNames: happening_id
+            referencedTableName: happenings
+            referencedColumnNames: id
+            constraintName: fk_participants_happening
+        - addForeignKeyConstraint:
+            baseTableName: happening_participants
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_participants_user
+
+        # review_photos
+        - addForeignKeyConstraint:
+            baseTableName: review_photos
+            baseColumnNames: photo_id
+            referencedTableName: photo_urls
+            referencedColumnNames: id
+            constraintName: fk_review_photos_photo
+        
+        # ingredients_categories_connections
+        - addForeignKeyConstraint:
+            baseTableName: ingredients_categories_connections
+            baseColumnNames: ingredient_id
+            referencedTableName: ingredients
+            referencedColumnNames: id
+            constraintName: fk_ingredients_categories_connections_ingredient
+        - addForeignKeyConstraint:
+            baseTableName: ingredients_categories_connections
+            baseColumnNames: category_id
+            referencedTableName: ingredients_categories
+            referencedColumnNames: id
+            constraintName: fk_ingredients_categories_connections_category

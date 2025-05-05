@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-update
+      author: wojciakjakub
+      changes:
+        # happening_participants
+        - dropColumn:
+            tableName: happening_participants
+            columnName: id
+        - addPrimaryKey:
+            tableName: happening_participants
+            columnNames: happening_id, user_id
+
+        # ingredients
+        - addColumn:
+            tableName: ingredients
+            columns:
+              - column:
+                  name: description
+                  type: varchar(1000)
+
+        # ingredients_categories_connections
+        -  renameTable:
+            newTableName:  ingredients_categories_connections
+            oldTableName:  ingredients_categories_connection
+
+        # reviews
+        - renameTable:
+            newTableName:  reviews
+            oldTableName:  review
+        - modifyDataType:
+            tableName: reviews
+            columnName: rating
+            newDataType: float(2)
+
+        # review_photos
+        - dropColumn:
+            tableName: review_photos
+            columnName: id
+        - addPrimaryKey:
+            tableName: review_photos
+            columnNames: review_id, photo_id
+
+        # user_cookbook_recipes
+        - dropColumn:
+            tableName: user_cookbook_recipes
+            columnName: id
+        - addPrimaryKey:
+            tableName: user_cookbook_recipes
+            columnNames: user_id, recipe_id
+
+        # user_dietary_restrictions
+        - dropColumn:
+            tableName: user_dietary_restrictions
+            columnName: id
+        - addPrimaryKey:
+            tableName: user_dietary_restrictions
+            columnNames: user_id, ingredient_category_id
