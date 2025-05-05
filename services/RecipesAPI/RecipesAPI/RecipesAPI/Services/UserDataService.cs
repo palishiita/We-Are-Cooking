@@ -84,15 +84,18 @@ namespace RecipesAPI.Services
             }
         }
 
-        public IEnumerable<GetFullRecipeForCookbookDTO> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites)
         {
             var recipes = showOnlyFavorites ? _cookbookRecipes.Where(cr => cr.IsFavorite) : _cookbookRecipes;
 
 
-            // search query
-            recipes = string.IsNullOrEmpty(query) ? recipes : recipes
-                .Include(cr => cr.Recipe)
-                .Where(cr => cr.Recipe.Name.Contains(query));
+            // query
+            recipes = string.IsNullOrEmpty(query)
+                ? recipes.Where(cr => cr.UserId == userId)
+                : recipes
+                    .Where(cr => cr.UserId == userId)
+                    .Include(cr => cr.Recipe)
+                    .Where(cr => cr.Recipe.Name.Contains(query));
 
             if (_recipeProps.Contains(sortBy))
             {
@@ -107,8 +110,11 @@ namespace RecipesAPI.Services
                 recipes = orderByAsc ? recipes.OrderBy(r => r.Recipe.Name) : recipes.OrderByDescending(r => r.Recipe.Name);
             }
 
-            var recipesFromCookbook = recipes
-                .Where(cr => cr.UserId == userId)
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var recipesFromCookbook = await recipes
                 .Include(cr => cr.Recipe)
                     .ThenInclude(r => r.Ingredients)
                         .ThenInclude(ri => ri.Ingredient)
@@ -127,10 +133,17 @@ namespace RecipesAPI.Services
                         cr.UserId,
                         cr.User.FistName,
                         cr.User.SecondName ?? "",
-                        cr.User.LastName)
-                    )).ToArray();
+                        cr.User.LastName)))
+                .ToListAsync();
 
-            return recipesFromCookbook;
+            return new PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>
+            {
+                Data = recipesFromCookbook,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         public async Task RemoveRecipesFromCookbook(Guid userId, IEnumerable<Guid> recipeIds)
