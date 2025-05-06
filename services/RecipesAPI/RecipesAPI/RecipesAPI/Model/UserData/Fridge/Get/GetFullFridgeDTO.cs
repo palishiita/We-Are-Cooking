@@ -1,7 +1,6 @@
-﻿using RecipesAPI.Model.Ingredients.Get;
-using RecipesAPI.Model.Recipes.Get;
+﻿using RecipesAPI.Model.Common;
 
 namespace RecipesAPI.Model.UserData.Fridge.Get
 {
-    public record GetFullFridgeDTO(Guid Id, Guid UserId, IEnumerable<GetIngredientDTO> Ingredients, IEnumerable<GetRecipeDTO> PossibleRecipes);
+    public record GetFullFridgeDTO(Guid UserId, PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>> Ingredients);
 }

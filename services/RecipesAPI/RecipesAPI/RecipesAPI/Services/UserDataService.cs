@@ -1,14 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Database;
+using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Entities.UserData;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Get;
+using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Model.UserData.Cookbook.Add;
 using RecipesAPI.Model.UserData.Cookbook.Get;
 using RecipesAPI.Model.UserData.Cookbook.Update;
+using RecipesAPI.Model.UserData.Fridge.Add;
+using RecipesAPI.Model.UserData.Fridge.Delete;
+using RecipesAPI.Model.UserData.Fridge.Get;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Services
@@ -19,8 +24,12 @@ namespace RecipesAPI.Services
 
         private readonly RecipeDbContext _dbContext;
         private readonly DbSet<UserCookbookRecipe> _cookbookRecipes;
+        private readonly DbSet<UserFridgeIngredient> _fridgeIngredients;
+        private readonly DbSet<Ingredient> _ingredients;
+        private readonly DbSet<Unit> _units;
 
         private readonly HashSet<string> _recipeProps;
+        private readonly HashSet<string> _ingredientProps;
 
         public UserDataService(ILogger<UserDataService> logger, RecipeDbContext dbContext)
         {
@@ -28,13 +37,22 @@ namespace RecipesAPI.Services
 
             _dbContext = dbContext;
             _cookbookRecipes = _dbContext.Set<UserCookbookRecipe>();
+            _fridgeIngredients = _dbContext.Set<UserFridgeIngredient>();
+            _ingredients = _dbContext.Set<Ingredient>();
+            _units = _dbContext.Set<Unit>();
 
             _recipeProps = typeof(Recipe)
                 .GetProperties()
                 .Select(x => x.Name)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            _ingredientProps = typeof(Ingredient)
+                .GetProperties()
+                .Select(x => x.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
 
+        #region Cookbook
         public async Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO)
         {
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
@@ -167,5 +185,36 @@ namespace RecipesAPI.Services
                 throw;
             }
         }
+
+        #endregion Cookbook
+
+        #region Fridge
+
+        public Task UpdateFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveIngredientsFromFridge(Guid userId, IEnumerable<RemoveIngredientQuantityDTO> ingredientsData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PaginatedResult<GetFridgeIngredientDataDTO>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PaginatedResult<GetFullRecipeDTO>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Fridge
     }
 }
