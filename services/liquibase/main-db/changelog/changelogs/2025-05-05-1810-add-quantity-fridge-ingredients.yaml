@@ -1,0 +1,33 @@
+databaseChangeLog:
+- changeSet:
+    id: add-quantity-fridge-ingredients
+    author: czechjan
+    changes:
+    
+      - createTable:
+          tableName: units
+          columns:
+            - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+            - column: { name: name, type: varchar(100) }
+    
+      - addColumn:
+        tableName: user_fridge_ingredients
+        columns:
+          - column:
+              name: quantity
+              type: double
+              constraints:
+                  nullable: false
+          - column:
+                name: unit_id
+                type: uuid
+                constraints:
+                    nullable: false
+                    
+       
+       - addForeignKeyConstraint:
+           constraintName: fk_fridge_ingredient_unit
+           baseTableName: user_fridge_ingredients
+           baseColumnNames: unit_id
+           referencedTableName: units
+           referencedColumnNames: id

@@ -95,6 +95,12 @@ namespace RecipesAPI.Database
                 .WithMany(ufi => ufi.FridgeIngredients)
                 .HasForeignKey(ufi => ufi.UserId);
 
+            // units do not have to have access to the ingredients
+            modelBuilder.Entity<UserFridgeIngredient>()
+                .HasOne(ufi => ufi.Unit)
+                .WithMany()
+                .HasForeignKey(ufi => ufi.UnitId);
+
         }
 
         // recipes & ingredients
@@ -103,6 +109,7 @@ namespace RecipesAPI.Database
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<IngredientCategoryConnection> IngredientCategoryConnections { get; set; }
         public DbSet<IngredientCategory> IngredientCategories { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
         // user data
         public DbSet<User> Users { get; set; }

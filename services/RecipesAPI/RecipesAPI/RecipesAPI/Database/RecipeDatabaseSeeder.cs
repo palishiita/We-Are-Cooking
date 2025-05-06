@@ -28,9 +28,10 @@ namespace RecipesAPI.Database
                 return;
             }
 
-            var ingredients = new List<Ingredient>(100);
-            var categories = new List<IngredientCategory>(100);
-            var connections = new List<IngredientCategoryConnection>(100);
+            var ingredients = new List<Ingredient>(300);
+            var categories = new List<IngredientCategory>(300);
+            var connections = new List<IngredientCategoryConnection>(300);
+            var units = new List<Unit>(50);
 
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
@@ -129,6 +130,27 @@ namespace RecipesAPI.Database
                 }
 
                 await _dbContext.Set<IngredientCategoryConnection>().AddRangeAsync(connections);
+                await _dbContext.SaveChangesAsync();
+
+                using (StreamReader sr = new StreamReader(Path.Combine(basepath, "seeding_data_ingredient_units.csv")))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        var split = line!.Split(";");
+
+                        foreach (var item in split)
+                        {
+                            var unit = new Unit()
+                            {
+                                Name = item,
+                            };
+                            units.Add(unit);
+                        }
+                    }
+                }
+
+                await _dbContext.Set<Unit>().AddRangeAsync(units);
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
