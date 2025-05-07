@@ -12,7 +12,6 @@ using RecipesAPI.Model.UserData.Cookbook.Add;
 using RecipesAPI.Model.UserData.Cookbook.Get;
 using RecipesAPI.Model.UserData.Cookbook.Update;
 using RecipesAPI.Model.UserData.Fridge.Add;
-using RecipesAPI.Model.UserData.Fridge.Delete;
 using RecipesAPI.Model.UserData.Fridge.Get;
 using RecipesAPI.Services.Interfaces;
 
@@ -24,8 +23,10 @@ namespace RecipesAPI.Services
 
         private readonly RecipeDbContext _dbContext;
         private readonly DbSet<UserCookbookRecipe> _cookbookRecipes;
+        private readonly DbSet<Recipe> _recipes;
         private readonly DbSet<UserFridgeIngredient> _fridgeIngredients;
         private readonly DbSet<Ingredient> _ingredients;
+        private readonly DbSet<RecipeIngredient> _recipeIngredients;
         private readonly DbSet<Unit> _units;
 
         private readonly HashSet<string> _recipeProps;
@@ -37,8 +38,10 @@ namespace RecipesAPI.Services
 
             _dbContext = dbContext;
             _cookbookRecipes = _dbContext.Set<UserCookbookRecipe>();
+            _recipes = _dbContext.Set<Recipe>();
             _fridgeIngredients = _dbContext.Set<UserFridgeIngredient>();
             _ingredients = _dbContext.Set<Ingredient>();
+            _recipeIngredients = _dbContext.Set<RecipeIngredient>();
             _units = _dbContext.Set<Unit>();
 
             _recipeProps = typeof(Recipe)
@@ -284,9 +287,61 @@ namespace RecipesAPI.Services
             };
         }
 
-        public Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            throw new NotImplementedException();
+            var fridgeIngredientIds = _fridgeIngredients
+                .Where(x => x.UserId == userId)
+                .Select(x => x.UserId);
+
+            // query
+            var recipes = _recipeIngredients
+                .Include(x => x.Recipe)
+                .ThenInclude(x => x.Ingredients)
+                .Include(x => x.Recipe)
+                .ThenInclude(x => x.PostingUser)
+                .Where(x => x.Recipe.Ingredients.All(x => fridgeIngredientIds.Contains(x.IngredientId)))
+                .Where(x => x.Recipe.Name.Contains(query));
+
+            // order
+            if (_recipeProps.Contains(sortBy))
+            {
+                recipes = recipes.OrderByChildProperties("Recipe", sortBy, orderByAsc);
+            }
+            else
+            {
+                recipes = orderByAsc ? recipes.OrderBy(x => x.Recipe.Name) : recipes.OrderByDescending(x => x.Recipe.Name);
+            }
+
+            // count
+            int totalCount = await recipes.CountAsync();
+
+            // project
+            var data = await recipes
+                .Select(recipeIngredient => new GetFullRecipeDTO(
+                    recipeIngredient.RecipeId, 
+                    recipeIngredient.Recipe.Name, 
+                    recipeIngredient.Recipe.Name, 
+                    recipeIngredient.Recipe.Ingredients.Select(y => new GetIngredientDTO(
+                        y.IngredientId,
+                        y.Ingredient.Name,
+                        y.Ingredient.Description ?? "")),
+                    new CommonUserDataDTO(
+                        userId,
+                        recipeIngredient.Recipe.PostingUser.FistName,
+                        recipeIngredient.Recipe.PostingUser.SecondName ?? "",
+                        recipeIngredient.Recipe.PostingUser.LastName
+                        )))
+                .ToListAsync();
+
+
+            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
         #endregion Fridge
