@@ -1,0 +1,170 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-full-schema
+      author: wojciakjakub
+      changes:
+      
+        # recipes
+        - createTable:
+            tableName: recipes
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: name, type: varchar(100) }
+              - column: { name: description, type: varchar(2000) }
+
+        # ingredients
+        - createTable:
+            tableName: ingredients
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: name, type: varchar(100) }
+
+        # ingredients_categories
+        - createTable:
+            tableName: ingredients_categories
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: name, type: varchar(100) }
+              - column: { name: description, type: varchar(1000) }
+
+        # ingredients_categories_connection
+        - createTable:
+            tableName: ingredients_categories_connection
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: ingredient_id, type: uuid }
+              - column: { name: tag_id, type: uuid }
+
+        # recipe_ingredients
+        - createTable:
+            tableName: recipe_ingredients
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: recipe_id, type: uuid }
+              - column: { name: ingredient_id, type: uuid }
+
+        # users
+        - createTable:
+            tableName: users
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: first_name, type: varchar(200) }
+              - column: { name: second_name, type: varchar(200) }
+              - column: { name: last_name, type: varchar(200) }
+              - column: { name: email_address, type: varchar(200) }
+              - column: { name: password_hash, type: varchar(512) }
+
+        # user_fridge_ingredients
+        - createTable:
+            tableName: user_fridge_ingredients
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: user_id, type: uuid }
+              - column: { name: ingredient_id, type: uuid }
+
+        # administrators
+        - createTable:
+            tableName: administrators
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+
+        # review
+        - createTable:
+            tableName: review
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: recipe_id, type: uuid }
+              - column: { name: user_id, type: uuid }
+              - column: { name: rating, type: float(2) }
+              - column: { name: description, type: varchar(2000) }
+              - column: { name: has_photos, type: boolean }
+
+        # photo_urls
+        - createTable:
+            tableName: photo_urls
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: photo_url, type: varchar(512) }
+
+        # user_dietary_restrictions
+        - createTable:
+            tableName: user_dietary_restrictions
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: ingredient_tags_id, type: uuid }
+              - column: { name: user_id, type: uuid }
+
+        # user_profiles
+        - createTable:
+            tableName: user_profiles
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: user_id, type: uuid }
+              - column: { name: photo_url_id, type: uuid }
+              - column: { name: description, type: varchar(2000) }
+
+        # user_cookbook_recipes
+        - createTable:
+            tableName: user_cookbook_recipes
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: recipe_id, type: uuid }
+              - column: { name: user_id, type: uuid }
+              - column: { name: is_favorite, type: boolean }
+
+        # review_photos
+        - createTable:
+            tableName: review_photos
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: review_id, type: uuid }
+              - column: { name: photo_id, type: uuid }
+
+        # notifications
+        - createTable:
+            tableName: notifications
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: user_id, type: uuid }
+              - column: { name: message, type: varchar(2000) }
+              - column: { name: type, type: varchar(200) }
+              - column: { name: creation_timestamp, type: datetime }
+              - column: { name: was_seen, type: boolean }
+
+        # happenings
+        - createTable:
+            tableName: happenings
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: name, type: varchar(200) }
+              - column: { name: description, type: varchar(2000) }
+              - column: { name: photo_id, type: uuid }
+              - column: { name: organizer_id, type: uuid }
+              - column: { name: start_date, type: datetime }
+              - column: { name: end_date, type: datetime }
+
+        # invitations
+        - createTable:
+            tableName: invitations
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: happening_id, type: uuid }
+              - column: { name: invitee_id, type: uuid }
+              - column: { name: inviter_id, type: uuid }
+              - column: { name: creation_timestamp, type: datetime }
+
+        # responses
+        - createTable:
+            tableName: responses
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: invitation_id, type: uuid }
+              - column: { name: status, type: varchar(100) }
+
+        # happening_participants
+        - createTable:
+            tableName: happening_participants
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false }, defaultValueComputed: gen_random_uuid() }
+              - column: { name: happening_id, type: uuid }
+              - column: { name: user_id, type: uuid }

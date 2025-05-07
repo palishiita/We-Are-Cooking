@@ -7,11 +7,10 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y build-essential libglib2.0-0 libsm6 libxext6 libxrender-dev
 
-COPY requirements.txt .
+COPY . .
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-
-COPY . .
 
 EXPOSE 8000
 

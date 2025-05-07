@@ -1,0 +1,1001 @@
+id,recipe_id,user_id,rating,description,has_photos
+e7f94a53-ea8a-475a-9680-477b5115bc29,e37edf57-08ba-42fc-bc81-1e21fec201ab,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,4.7,"Family loved it, great flavors.",TRUE
+2a8f5db9-33d9-4283-ad6e-41b6eeac8e99,7c101f53-790a-4537-b66b-8ac9097c70cc,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4.3,"A bit bland, added extra spices.",TRUE
+f38e4f79-6e53-4262-a26f-bbf0f56dfaa0,42827e1d-da01-477b-8537-53074e16ca40,f49f31a4-a7b0-4936-85bd-db90dc9443a9,2.7,"Good, but needs more seasoning.",FALSE
+90a94f26-e6b7-48d5-8515-861fa93f7d7c,76ef05e5-46e1-434f-b5b0-3de39d5bb249,b431e1fd-5549-401d-9976-931d3a3d9501,4.9,"Nice presentation, tasted great.",FALSE
+d747ac20-4619-49cb-9fc6-2241323586ad,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,a929494c-86aa-4582-a468-56aad030aab2,2.9,Would recommend to friends.,TRUE
+9f6d5c6d-463e-40e0-8cba-8177aca3b8f8,42827e1d-da01-477b-8537-53074e16ca40,4a1ccc3b-f5c0-4953-8284-459a4db4874d,3.2,Will definitely cook this again.,FALSE
+5114bfc7-264b-4aba-8b43-95ec59ac7cdd,2264191d-1707-46d0-9cef-d72b0a05cb57,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4.4,Simple and satisfying.,FALSE
+97e20773-9b64-40cc-a35f-19f15f4e172f,6838126d-0e83-4378-8c28-ae8249ecec6f,cd153e2d-2e85-4fb5-a1d6-5e32a2a55175,3.2,Easy to make and very tasty.,TRUE
+0180dfd0-db86-4ae7-be88-2564074a9e6d,3a0fd3f0-63b3-4f00-8cc7-383f8c922784,d8034e6a-0e29-4105-a9b7-60be28d8471c,2.8,"Delicious, will make again!",FALSE
+dd55ab30-ac43-4b7e-b43b-3bb85d0697ab,bfb1a350-e49f-4b55-981b-08fab2fd9d07,1e0447f6-2e6c-4573-a904-5c4325df9408,3,Will definitely cook this again.,TRUE
+05210716-5bb5-4625-85e3-afeabe9d254f,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,22ca4376-ad88-41e9-bc20-f44f270765f8,4.9,Simple and satisfying.,TRUE
+6439825d-a9ab-4031-b48b-1bf4b32effe2,387cabec-3b60-455a-9e31-e13874280a59,df6d8804-120f-4645-8251-ea67c4706fc3,4.3,"Good, but needs more seasoning.",FALSE
+c0d668b0-d274-447b-a9c9-da289d600572,565f29db-8f4b-4345-a330-2bcf9df6139f,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.9,"Delicious, will make again!",FALSE
+fe3d6859-c280-468b-814b-a8eaf986e092,fa638a11-b94b-4c11-a032-63c2314ab0c1,b431e1fd-5549-401d-9976-931d3a3d9501,3.4,"Family loved it, great flavors.",TRUE
+382bc2fe-abec-4203-81a8-66a3075071ec,35e54486-8e65-46f5-9e7d-c48ad7c97193,3a5239be-a771-4678-b252-462fa7562479,4.6,"Nice presentation, tasted great.",TRUE
+6db53976-b205-4d2f-80d8-4cc23117d617,d709f605-b230-4497-ab86-c93f1a22e4ed,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.1,Too salty for my taste.,TRUE
+4c26d4f1-91d0-4203-9c5e-64ee404cf4f4,9434de83-4f06-443b-a159-307851837913,22ca4376-ad88-41e9-bc20-f44f270765f8,2.6,"Nice presentation, tasted great.",FALSE
+a7f1d78f-2b0c-441e-acdd-94ab6dfa78f1,17c8b7db-486f-46e9-b140-0c002c1280bf,f80684cf-5e0e-4e54-a5c3-252aac7dab99,3.9,Would recommend to friends.,FALSE
+5dc709d1-9e94-474d-a356-dc10d36599ee,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,0f993b81-020b-4762-a772-623ddb4f16ca,4.6,"Delicious, will make again!",FALSE
+69c649df-106a-4a4b-8b25-b955d8ac0f28,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,480779f0-5692-4c60-918f-b1ec322a67dd,4.3,The texture was a little off.,TRUE
+99100384-2492-439e-804c-82e24271ac76,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,7e7a94ab-f344-45ce-999e-7b3f4f188183,3.9,Could use more vegetables.,TRUE
+b1a602bf-e5dc-4b8d-9cb3-cb5d56470b45,795a767e-ee3d-4a61-ab18-66cd406fdcd7,dce5364e-b3e3-446d-81ce-cfa537871a04,5,"Family loved it, great flavors.",FALSE
+5db1286a-87ec-4594-bd63-dcfd31310a56,4d202907-97b4-4c71-a081-6ffeca051e0c,3a5239be-a771-4678-b252-462fa7562479,3.4,"Delicious, will make again!",FALSE
+658d9a4b-351e-462f-b4bb-e728c85af934,dd60017d-ae3e-42a0-aca2-a26caa0665e8,2106fdc5-09b6-45e0-9193-627563a2a0ae,2.7,"A bit bland, added extra spices.",TRUE
+e48e8fac-f332-43d3-9f59-22a0ec45bcaf,2cb699a0-8278-40a8-8659-bf68fbb00d2b,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.5,"Not my favorite, but okay.",FALSE
+0f941f65-0ed7-4a8e-941b-de7746c651af,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,0f993b81-020b-4762-a772-623ddb4f16ca,3.7,"Nice presentation, tasted great.",FALSE
+b778e3a9-64a1-4a6d-a5d3-1539be0da211,8b85df92-0f67-46b5-b438-d5afdb0e721b,21688c8c-c55e-4693-a02a-6177e855c447,4.9,Great balance of flavors.,FALSE
+80ca6524-5917-4f2a-ab09-1919a23bd4e8,f0372169-f982-4448-907f-741894d5b5bf,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,4,"Delicious, will make again!",TRUE
+bf49b404-22d4-4502-9930-e4c1f6aa4060,4928b3b5-5b2c-43be-adfa-093b2841bce5,df6d8804-120f-4645-8251-ea67c4706fc3,2.7,Absolutely amazing!,TRUE
+dd358581-a9b6-46a6-b081-52986dcdc6b5,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,85b5474a-57d4-4362-baef-8bf4b493de8f,3.4,Would recommend to friends.,TRUE
+1b9d7674-4c59-4105-91bd-c5e963f261b7,ffa0bcfc-3669-45da-b766-678c4ba68bcb,a929494c-86aa-4582-a468-56aad030aab2,2.8,The texture was a little off.,FALSE
+9ba5bf94-0e54-4cb2-8f64-6fc489c2a7c6,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.1,"Good, but needs more seasoning.",FALSE
+56acbc06-a5b4-45b2-92d2-d2ff880df21f,ad3003b5-3e11-4579-aa3a-9f8c881c0073,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.4,My kids loved it!,TRUE
+270a4309-23c2-47bd-a202-16914063fb53,d2434745-68e1-436f-b086-fe4057d85d98,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3,Too salty for my taste.,FALSE
+c7bedb7b-b95f-4a83-951c-8612035e86f4,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,5dc572d1-0cf6-49bc-82db-cca1cec41bdc,4,Simple and satisfying.,FALSE
+1cdd3e15-bf8a-41a8-8c30-16b83af453d4,091c8a5d-7327-48ad-ae9d-6ab2f2b1228f,fd061d74-30ef-4827-8ca7-0591587b6121,4.4,My kids loved it!,TRUE
+b0f7f3fb-a512-4333-ae8b-18a872584563,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.6,Great balance of flavors.,TRUE
+6e0b3f52-e6dd-4a93-8656-1308a3debcb2,795a767e-ee3d-4a61-ab18-66cd406fdcd7,0635c0f9-a180-476d-b81a-d65da19c78f3,3.9,Great balance of flavors.,TRUE
+f9ab3b14-2d45-479f-a86f-18ba331bf790,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.8,"Nice presentation, tasted great.",TRUE
+07971278-0b2b-496a-a95e-e789b3364b71,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,3.8,Will definitely cook this again.,TRUE
+4f7aa35e-05f7-4556-b126-0686b59459d4,c6131461-403e-46f3-a89e-cd0051e0a7b4,e4d8c7fb-aa64-4add-baad-53edc016a012,3.1,Would recommend to friends.,FALSE
+bd51ab3c-f456-4ac9-8574-9c0de7bbc56a,f0372169-f982-4448-907f-741894d5b5bf,85b5474a-57d4-4362-baef-8bf4b493de8f,2.6,Perfect for a quick dinner.,TRUE
+bf646f31-c5d7-4a3a-bba6-f488f0e4cb55,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,24e6327b-5650-473d-9ec7-3ec0316cda54,4.8,Easy to make and very tasty.,TRUE
+36f7c9c3-8c0c-4184-8e26-6105cf682a36,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.8,"Good, but needs more seasoning.",FALSE
+e2c8f57f-8516-42f4-9b91-e12287042dd8,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,dce5364e-b3e3-446d-81ce-cfa537871a04,4.8,"Nice presentation, tasted great.",TRUE
+1aba08ea-2755-47b8-88ac-c76a1d1f817c,9434de83-4f06-443b-a159-307851837913,a929494c-86aa-4582-a468-56aad030aab2,3.8,"Nice presentation, tasted great.",FALSE
+ffc80fcd-a717-41f0-bd49-bab3f1e82b2d,b5993aad-685b-44e3-81da-6b78579de076,1e0447f6-2e6c-4573-a904-5c4325df9408,4.1,My kids loved it!,TRUE
+31cf2db2-9194-43ac-b4ad-7a16baeff4d6,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4.4,Would recommend to friends.,FALSE
+849f9401-98ee-49b9-8023-78eda9dc99c5,03ed6792-a6e5-4bcc-a251-2502babe234b,5bca54c5-d852-4f6f-94f4-8579c81735c2,4.7,A bit too spicy for me.,TRUE
+d5232d58-049c-457a-943a-4e373b922094,9434de83-4f06-443b-a159-307851837913,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.9,"Nice presentation, tasted great.",TRUE
+dc29048d-2717-4fed-a584-58e39aaa015b,d9cd13c6-77bd-4930-9a08-ba933ee627de,cdcbddb3-3152-495b-acd1-1c31697152eb,4.6,Turned out perfect!,TRUE
+40a043b0-8bfe-4d53-8946-3256e971b6fe,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,0635c0f9-a180-476d-b81a-d65da19c78f3,2.9,Will definitely cook this again.,TRUE
+6527cb73-753f-4133-a022-ad9478fd43b5,c6131461-403e-46f3-a89e-cd0051e0a7b4,21688c8c-c55e-4693-a02a-6177e855c447,3.4,I was impressed with the result.,FALSE
+7a6b7ae6-27d5-4eca-84b0-934bb9458f2f,17c8b7db-486f-46e9-b140-0c002c1280bf,9f564c7e-a66a-4d60-93ff-566634c0d9eb,4.9,Will definitely cook this again.,FALSE
+65a9817e-6021-4bbe-975a-b45c530c0c38,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,2.8,The texture was a little off.,FALSE
+0e2bc614-5586-4044-8d43-bc4138f8c086,813383a0-7fc6-4a65-80a3-2378be9dd5b9,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,4.2,Perfect for a quick dinner.,TRUE
+fb525dcd-6b04-4c17-891d-84991df1fe2f,89e19559-78d9-497c-a128-dc257dfe3353,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3.7,Absolutely amazing!,TRUE
+db7a91ae-4e61-49b1-bace-cd4cc1f5af0e,88f93761-84ce-4b03-bed5-daf0158a872e,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,3.4,Would recommend to friends.,TRUE
+994492b4-d726-45a0-9a20-8b28129f39e6,ffa0bcfc-3669-45da-b766-678c4ba68bcb,1005f846-b91d-42bf-9504-5dbfb0035785,4,I was impressed with the result.,FALSE
+0dfc31c8-5639-489a-a250-4b3e77a15937,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,21688c8c-c55e-4693-a02a-6177e855c447,4.2,Would recommend to friends.,FALSE
+a085eef6-b257-4fef-ad89-dd86e60efa37,48822468-ac84-4d29-9f1e-ff641ff31876,1005f846-b91d-42bf-9504-5dbfb0035785,4.2,"Family loved it, great flavors.",FALSE
+ab936f0d-3827-4f09-be5d-3ef13fee9bc4,444e42c2-f419-47ba-aa3b-debea39b5305,22ca4376-ad88-41e9-bc20-f44f270765f8,4.4,Absolutely amazing!,FALSE
+3ca82baf-1846-4d40-bd2c-5f5f8c150bbe,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,4.6,Absolutely amazing!,TRUE
+7586f13b-e7db-4140-bb71-b4b48bac9c66,98e1f173-1b0c-4a7f-b929-bd453c536bf8,f80684cf-5e0e-4e54-a5c3-252aac7dab99,3.7,"A bit bland, added extra spices.",TRUE
+86cd24d7-a668-4cea-bb63-e8c6d51764e3,9434de83-4f06-443b-a159-307851837913,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,4.9,"Not my favorite, but okay.",TRUE
+dc477bf3-578d-4553-8388-d6093c33e90a,0d7ef19a-5067-4eea-b407-cb487a617a70,29661fa1-a7dc-432a-b01d-370a9bac4d61,3.7,A bit too spicy for me.,FALSE
+c4ca292f-5ee9-44f9-bcc3-1d8ff9dfd221,188781a6-b04b-4ae5-8689-18be9ed39099,0cf9dac4-f665-45d3-b38e-5103562eef4f,2.6,"Family loved it, great flavors.",TRUE
+de710e8d-e565-4a3c-b8ad-01d74a6efb23,a1dacd6d-cba4-4482-9048-f05754bec294,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4.2,Would recommend to friends.,FALSE
+22fef808-93c1-46a1-afbd-0330d6d036d7,6cb1750d-abbe-4654-8456-19d55361684e,cdcbddb3-3152-495b-acd1-1c31697152eb,4,"A bit bland, added extra spices.",TRUE
+6e62eca6-4b3a-402a-9d7c-c89a32ad04b9,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,cdcbddb3-3152-495b-acd1-1c31697152eb,3.3,"Delicious, will make again!",TRUE
+129a35bc-13ee-4456-8399-06d2db05da2a,f9380c62-bad6-4b21-9873-615c4138c9f0,cdf85e4e-d8ea-48f4-9d69-91457c8ab733,2.7,Turned out perfect!,FALSE
+b34b4fc0-472e-45e4-b716-0d85cde31e42,70ba18d3-0818-4192-b019-561c8ac60542,3a5239be-a771-4678-b252-462fa7562479,2.8,A bit too spicy for me.,TRUE
+fc087174-944b-4b57-b714-08398fe38260,7be66667-34bf-4fc4-a1f4-a03b37a1b9aa,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.1,"Nice presentation, tasted great.",TRUE
+157611d6-20fb-4b41-8067-d7c2a8b6406f,9d3979cd-6e10-43a8-835e-006003a1cb4b,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.2,"Nice presentation, tasted great.",FALSE
+7d178582-0731-4774-89b9-345c94a454b5,e2cc8403-16cb-4fbc-8d3f-dbc06d1986d4,7c52c46f-4e4e-4031-a23e-525d371d17a5,4.1,My kids loved it!,FALSE
+8d7e7c4e-f203-4ebe-bbfc-2c9bd079901b,091c8a5d-7327-48ad-ae9d-6ab2f2b1228f,c882a0e7-d465-45cc-89ce-d50fb90429e1,4.9,Will definitely cook this again.,TRUE
+3148cda2-3bc2-4a0c-b0c2-9ea423347518,318db0bf-eff3-4176-9e56-3af7398610c6,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.4,Turned out perfect!,FALSE
+baede582-7068-4c86-8f4b-dd03a0d0ee77,ad3003b5-3e11-4579-aa3a-9f8c881c0073,ca436e6f-f767-4f62-8bce-157daaf0c63f,3.6,Simple and satisfying.,FALSE
+1a98eecb-24a2-4ef3-87c2-bf566a9e2478,795a767e-ee3d-4a61-ab18-66cd406fdcd7,13482ffd-b21f-4251-ad36-7c64dece7822,3,A bit too spicy for me.,FALSE
+0e839b2a-08c3-4a5d-9f01-e2f13509d353,a1dacd6d-cba4-4482-9048-f05754bec294,5bca54c5-d852-4f6f-94f4-8579c81735c2,4.3,"A bit bland, added extra spices.",FALSE
+00e03410-e836-4d3d-abea-7957a9bc34ed,9434de83-4f06-443b-a159-307851837913,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.6,The texture was a little off.,FALSE
+88c11c44-10d0-481d-ab8a-7adcf10d39ba,ca73d2bb-0870-423d-8228-2247c1a83802,b431e1fd-5549-401d-9976-931d3a3d9501,3,Great balance of flavors.,TRUE
+1e5d3999-60a8-482d-8500-290a486e1883,387cabec-3b60-455a-9e31-e13874280a59,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,3.5,"Family loved it, great flavors.",TRUE
+84c006be-1e09-436a-8e4f-c124f734dd42,95986ff4-f224-434d-aecf-5b6895fa021d,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,5,"Nice presentation, tasted great.",FALSE
+780c1d55-073f-4c79-a15a-c2831c8121da,d9cd13c6-77bd-4930-9a08-ba933ee627de,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,4.9,My kids loved it!,FALSE
+44567ab2-9cae-4493-9bfc-920542043163,e7708296-e74a-4bf1-9383-c33547cf2283,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.7,Absolutely amazing!,FALSE
+66cf6e88-2833-48e4-b696-5cb18883081a,542dd424-3fc8-44b9-9a6e-9240d7d77634,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,3.6,"Nice presentation, tasted great.",TRUE
+dd278046-5f2d-4cf5-869c-07b89479c367,ad3003b5-3e11-4579-aa3a-9f8c881c0073,c882a0e7-d465-45cc-89ce-d50fb90429e1,3.7,Absolutely amazing!,FALSE
+4e09cca7-ccf3-4a0e-a93c-3bf08d1b17a6,ffa0bcfc-3669-45da-b766-678c4ba68bcb,6dea04ef-eec2-44aa-a595-919f9af3e6fb,4.1,"Delicious, will make again!",FALSE
+6a101df6-49b6-44e9-9c2c-6984b7d322b4,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,c882a0e7-d465-45cc-89ce-d50fb90429e1,3.4,Will definitely cook this again.,FALSE
+e3f7962c-4a93-462d-88b5-a8931c18c096,ffa0bcfc-3669-45da-b766-678c4ba68bcb,cdcbddb3-3152-495b-acd1-1c31697152eb,3.9,Great balance of flavors.,TRUE
+49c7e306-efd7-474f-86cf-970f199e0281,e41c83a6-9043-4d5f-8e1d-fc903418929c,24e6327b-5650-473d-9ec7-3ec0316cda54,3.2,"Good, but needs more seasoning.",TRUE
+2e6062c1-4db2-4a9f-892e-2da2608ee223,98e1f173-1b0c-4a7f-b929-bd453c536bf8,71479385-155b-4dee-bda2-926cc11fa1be,3.5,Too salty for my taste.,TRUE
+9c8715da-fbf8-4ffb-8bef-a03d105e3033,3c0152ab-a2c4-414f-99da-7006f85a7d9d,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,5,A bit too spicy for me.,TRUE
+ae395117-d8c0-44c7-94f7-764d3be6e7fe,542dd424-3fc8-44b9-9a6e-9240d7d77634,3a5239be-a771-4678-b252-462fa7562479,2.8,My kids loved it!,TRUE
+162f511c-f0e9-4361-b755-7b8f40737d83,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,47e7f8ca-6f18-4b03-a171-042483bea171,2.6,"Delicious, will make again!",TRUE
+c140facb-a5e5-44da-85c2-e26df98c2c08,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,e92bddb8-9b20-40bf-8fc3-811659707d7b,3.1,"Nice presentation, tasted great.",TRUE
+f146a23c-f211-45bb-a0bf-bf45bf5f2752,f9380c62-bad6-4b21-9873-615c4138c9f0,3ad232c9-a67a-4570-98e1-2e3665befda7,3.7,"Not my favorite, but okay.",TRUE
+c6736504-c7bb-41f0-8b5d-880c7bd4f717,68ead65d-3799-4089-9eac-9e443938b42c,12aedfe3-f88d-424b-ae0c-4182ef52d984,4,I was impressed with the result.,FALSE
+a3ed3579-6dee-464f-ac49-8bd41d8fb693,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,71479385-155b-4dee-bda2-926cc11fa1be,4,"Nice presentation, tasted great.",TRUE
+0eb28c1b-a619-4dff-8b89-8b76ffdfe92f,e0d1c537-6096-46cc-9ad7-c4219d768378,d8034e6a-0e29-4105-a9b7-60be28d8471c,4.5,Will definitely cook this again.,FALSE
+09015372-8cb5-4cc1-8eb1-58b4c50e3e7a,dc5b7fab-f2c5-4c74-94f0-fede30341a00,3ad232c9-a67a-4570-98e1-2e3665befda7,3.9,Will definitely cook this again.,TRUE
+5a3162da-6b89-4d4d-9e94-9962dd9c022c,9014a456-74b2-4653-a977-ed090f0496f5,d33f718d-97b6-4d42-adc1-856b31ded5b4,2.7,Easy to make and very tasty.,TRUE
+70e502ec-287c-4a77-a61e-ed829e6b121e,5788f738-cebe-42d3-9c40-035b3389834d,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,2.8,Could use more vegetables.,TRUE
+b8bbc5a1-78e3-4fae-861b-14037dff61c8,f9380c62-bad6-4b21-9873-615c4138c9f0,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,2.8,Simple and satisfying.,TRUE
+5177b269-bbfc-4d76-a8ef-c3092bb329e3,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,4.3,My kids loved it!,TRUE
+4210baf0-8b2a-43cf-9fcd-f3a8301812c2,02a9af0a-3fe8-4987-a939-744de97d97f9,7e7a94ab-f344-45ce-999e-7b3f4f188183,4.5,The texture was a little off.,FALSE
+41565d19-0ea1-4cb1-b602-efc59f4e4750,2264191d-1707-46d0-9cef-d72b0a05cb57,4b23caee-72df-4f8d-8829-10bba0de426a,3.5,Absolutely amazing!,FALSE
+4f77da17-e95e-4eb0-ba41-4ce409e44210,2cb699a0-8278-40a8-8659-bf68fbb00d2b,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.7,Absolutely amazing!,FALSE
+299cae92-5c7e-4986-924d-bebe5abe70e5,b5993aad-685b-44e3-81da-6b78579de076,6dea04ef-eec2-44aa-a595-919f9af3e6fb,4.8,"Family loved it, great flavors.",FALSE
+a95913ce-1589-4a9c-a3c5-b86ad978afb7,2e24f8bb-3803-41a5-b835-4ac289233f6d,5bca54c5-d852-4f6f-94f4-8579c81735c2,3.1,"Nice presentation, tasted great.",TRUE
+fa947c70-e8cb-49f8-94af-93bb6608421e,f54fb83f-7f8c-4f25-a2f6-05f014268f37,c21f382f-106a-49f3-ba38-0a19fdf92f2d,2.8,"Not my favorite, but okay.",TRUE
+631d8252-7ae8-4eb1-9346-25eb6d853594,70ba18d3-0818-4192-b019-561c8ac60542,e5937b13-956c-4aff-9d64-73e180a77f99,2.5,Simple and satisfying.,TRUE
+3a698b6e-43a7-4a0a-a367-0bfbda5b59ae,70ba18d3-0818-4192-b019-561c8ac60542,1a3217ba-b9e3-454b-8b49-c92b25792adc,3,Easy to make and very tasty.,FALSE
+47dea9bc-5233-4080-bbdf-bbae4a123c75,fac47c76-be3d-4b7f-954b-f5d488399c58,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.3,Could use more vegetables.,TRUE
+42ee85ce-af9b-48a8-a8d5-69a6a349d2d6,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,d391a684-4796-4354-9909-9ed06e3f13dc,2.6,"Family loved it, great flavors.",TRUE
+50d5801c-c4e6-4873-a05d-e5235e2094cc,565f29db-8f4b-4345-a330-2bcf9df6139f,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,3.6,I was impressed with the result.,TRUE
+57c8645e-eda1-4a48-befa-e2bbaf7077d4,33764feb-6eeb-44f7-a3c7-8a629ae77185,47e7f8ca-6f18-4b03-a171-042483bea171,4.2,Simple and satisfying.,FALSE
+23732df4-3973-4fb2-b283-03515c128d45,9014a456-74b2-4653-a977-ed090f0496f5,1005f846-b91d-42bf-9504-5dbfb0035785,3.8,My kids loved it!,FALSE
+2619f335-1510-4f66-a322-c02b0880d6c6,a1dacd6d-cba4-4482-9048-f05754bec294,47e7f8ca-6f18-4b03-a171-042483bea171,3,Simple and satisfying.,TRUE
+b061a2f7-f8ee-4518-a736-fbd2557582a6,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,12aedfe3-f88d-424b-ae0c-4182ef52d984,3.7,Would recommend to friends.,TRUE
+a088e916-1c95-4716-b7c3-c24ec509d8bf,68ead65d-3799-4089-9eac-9e443938b42c,0635c0f9-a180-476d-b81a-d65da19c78f3,4.2,Will definitely cook this again.,TRUE
+400cc3b3-335c-4aa2-ad53-b0767a298073,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,fd061d74-30ef-4827-8ca7-0591587b6121,4.4,Perfect for a quick dinner.,FALSE
+87048b27-5e59-42ad-83d2-4697cf3df5c1,f0372169-f982-4448-907f-741894d5b5bf,2274677d-4daf-45b6-a023-73aebd916b51,4.5,"A bit bland, added extra spices.",FALSE
+36dbe3f7-6988-49b6-9e9a-3780034a5cf6,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,3.3,A bit too spicy for me.,TRUE
+e8d18662-20f6-4099-a128-40196f439996,c6a9d671-867c-4aa8-8b96-14bce876b3b5,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,2.6,A bit too spicy for me.,TRUE
+cfa60d7a-0a3e-4f4f-add6-958a008d5a23,57a2ffa8-9b41-4e46-9091-127ce5563a92,27857371-def4-4998-aef0-d423dbc10dbf,3.6,Easy to make and very tasty.,TRUE
+2bbbea21-9049-44ad-8821-3555e80ec314,4928b3b5-5b2c-43be-adfa-093b2841bce5,c21f382f-106a-49f3-ba38-0a19fdf92f2d,4.9,Would recommend to friends.,TRUE
+6490e3e4-2af2-4d5c-a189-285b7e1f1ae0,e7708296-e74a-4bf1-9383-c33547cf2283,6ab98b24-33c9-46b7-84d1-7e53730592bf,2.6,Would recommend to friends.,TRUE
+a3611703-0fd5-4072-9692-7f8b29b06a8a,795a767e-ee3d-4a61-ab18-66cd406fdcd7,4981a66c-c44d-4697-a0ab-2b57db9d4e96,3.2,Absolutely amazing!,FALSE
+852d6c65-d165-4522-8c4e-7ceefc99811e,dc95222f-7679-4ecb-b00e-33d1f9bf8108,29661fa1-a7dc-432a-b01d-370a9bac4d61,3.3,"Delicious, will make again!",FALSE
+eb85239c-c370-44d6-b4c2-0aea75b48e68,a1dacd6d-cba4-4482-9048-f05754bec294,1a3217ba-b9e3-454b-8b49-c92b25792adc,4.3,"Good, but needs more seasoning.",TRUE
+1a8fc385-15e5-4f50-baa6-bed300621bce,2e24f8bb-3803-41a5-b835-4ac289233f6d,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,4,Simple and satisfying.,FALSE
+bdd5ffa0-9d80-4c9e-81c2-a4898e1af461,387cabec-3b60-455a-9e31-e13874280a59,df6d8804-120f-4645-8251-ea67c4706fc3,4.1,"Not my favorite, but okay.",TRUE
+fa182934-aa51-4cf1-9268-a50831b1d1f3,d5fc6914-1b45-4db3-8d7b-93662e994dfc,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,2.7,Would recommend to friends.,FALSE
+bbb6ba07-cd1f-4f90-9a3b-4f55c4b51697,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,5,"Delicious, will make again!",TRUE
+a80d0737-b51a-4c31-a1a7-ebe6cb72af10,ffa0bcfc-3669-45da-b766-678c4ba68bcb,87832d28-254a-4a0b-8370-c6214e199fb5,4.9,Could use more vegetables.,FALSE
+eb896096-1a1c-47f4-883e-0d42495b47e4,bfb1a350-e49f-4b55-981b-08fab2fd9d07,151b8761-0606-42e5-8fbb-80e2196143fe,4.3,Easy to make and very tasty.,TRUE
+dd4063f9-13b1-47f0-a4af-cf103a149777,48e7d279-61be-4162-8674-0660e748fa63,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.3,Could use more vegetables.,FALSE
+87fbaf2b-9024-40fa-bd96-5bac8a355aca,565f29db-8f4b-4345-a330-2bcf9df6139f,7df670c3-6ee0-4856-959b-434b096543a7,4.8,A bit too spicy for me.,FALSE
+e7a59317-c485-41ed-8eca-cd63799b092f,b5993aad-685b-44e3-81da-6b78579de076,4c5f4b54-14f4-475e-97f9-505ac05c1047,4.5,"Not my favorite, but okay.",FALSE
+1715e757-1e09-419d-a38a-70d7e34ef021,542dd424-3fc8-44b9-9a6e-9240d7d77634,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.7,I was impressed with the result.,FALSE
+31d744c6-7df6-445c-ab28-3e1f09050af4,e2cc8403-16cb-4fbc-8d3f-dbc06d1986d4,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,3,My kids loved it!,TRUE
+a8011d8c-7205-4db6-a4fa-47b8b1f6113c,4450377c-0503-445f-882b-e167fc05a084,87832d28-254a-4a0b-8370-c6214e199fb5,4.4,Would recommend to friends.,FALSE
+21cc87a5-a88e-4eb7-a54f-f9bee1b8bf5e,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,21688c8c-c55e-4693-a02a-6177e855c447,3.2,"A bit bland, added extra spices.",TRUE
+7ffcadcd-62aa-4ad8-ab29-188913f1760a,2cb699a0-8278-40a8-8659-bf68fbb00d2b,15f78e6d-8c1b-4759-98bd-4626a52785ea,3.3,"Family loved it, great flavors.",TRUE
+7a7a07a9-6ac3-4b51-906f-17acb55f6e41,98e1f173-1b0c-4a7f-b929-bd453c536bf8,d33f718d-97b6-4d42-adc1-856b31ded5b4,3.7,Perfect for a quick dinner.,FALSE
+214598d7-deaf-4a5d-8987-7b4d35254c5c,5fc07310-b4ca-42b3-a810-df66d510d03d,2face309-fffa-44c1-965f-1b5b53f3568e,3.9,Will definitely cook this again.,TRUE
+ca56e98f-ff4b-4297-b80c-f4f9200a424e,1424c412-731c-4ddb-b69f-8ae4348b46fc,7df670c3-6ee0-4856-959b-434b096543a7,2.7,"Not my favorite, but okay.",FALSE
+1f176adb-f71a-4468-99bb-392e6968bf2d,337f94fe-cc55-4202-a2cf-4e8305c49262,480779f0-5692-4c60-918f-b1ec322a67dd,3.5,Too salty for my taste.,TRUE
+0c7e64b6-116e-4c4f-a174-78d0d4c58ce7,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.9,"Nice presentation, tasted great.",FALSE
+4fa7288a-ebde-45bd-a3a3-287dcb71e3f5,3d35e662-e957-4eaa-b80f-420524f5f072,5bca54c5-d852-4f6f-94f4-8579c81735c2,3.2,"Family loved it, great flavors.",TRUE
+9c2e5af1-d2be-4113-a21e-2efef2cda342,98e1f173-1b0c-4a7f-b929-bd453c536bf8,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,4,"Nice presentation, tasted great.",FALSE
+47695401-cd00-4c59-840f-bdc6a8a5c90e,fa638a11-b94b-4c11-a032-63c2314ab0c1,27857371-def4-4998-aef0-d423dbc10dbf,3.3,Could use more vegetables.,TRUE
+80647368-d235-4235-b6df-15291f9b694d,e0d1c537-6096-46cc-9ad7-c4219d768378,1a3217ba-b9e3-454b-8b49-c92b25792adc,4.5,Absolutely amazing!,TRUE
+b60e9398-f62a-4de9-9915-d33b527de160,2264191d-1707-46d0-9cef-d72b0a05cb57,24e6327b-5650-473d-9ec7-3ec0316cda54,3.9,"A bit bland, added extra spices.",TRUE
+03f15c7a-0009-45c0-925b-ee751f452389,9014a456-74b2-4653-a977-ed090f0496f5,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,2.9,"Family loved it, great flavors.",FALSE
+e2032e0f-1702-4d86-a515-6deb68c0898b,9d3979cd-6e10-43a8-835e-006003a1cb4b,94b3ed98-d68e-4371-b116-16868fe263dc,3.4,My kids loved it!,TRUE
+f1c916e4-5ef8-4b4f-b57d-cd90d5bfef2a,68ead65d-3799-4089-9eac-9e443938b42c,d7ee95ab-4646-4831-8e16-3318ac475fa1,2.8,Turned out perfect!,FALSE
+d39005d4-e611-442c-98e4-bb18a8f4575b,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,accbab95-20f1-4c0a-8565-c6c7bf51f209,3.5,Could use more vegetables.,TRUE
+c0463a89-dae0-4217-9a73-9a728b47d51b,fada94dc-e0fe-4ce7-8daa-0f80fb7d5f39,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4.8,The texture was a little off.,FALSE
+bc9cdcce-ad8d-4a31-9c98-f6b106107f28,4450377c-0503-445f-882b-e167fc05a084,accbab95-20f1-4c0a-8565-c6c7bf51f209,3.7,"Good, but needs more seasoning.",FALSE
+c3237dae-73fa-490a-aae1-e26e853e3a65,d709f605-b230-4497-ab86-c93f1a22e4ed,15f78e6d-8c1b-4759-98bd-4626a52785ea,3.1,"Not my favorite, but okay.",TRUE
+dd5abc86-8aca-46ae-914f-23c17dc088b9,813383a0-7fc6-4a65-80a3-2378be9dd5b9,22ca4376-ad88-41e9-bc20-f44f270765f8,4.1,The texture was a little off.,FALSE
+bbddd088-7a2e-4305-b8ef-843e1452d840,88f93761-84ce-4b03-bed5-daf0158a872e,b431e1fd-5549-401d-9976-931d3a3d9501,4.1,Turned out perfect!,TRUE
+3c4a1fdb-a12e-4246-b910-56ffdee28e7b,d2434745-68e1-436f-b086-fe4057d85d98,12aedfe3-f88d-424b-ae0c-4182ef52d984,3.8,My kids loved it!,FALSE
+fd4292f3-3724-4e4d-bc36-3c1c391342cb,8ed331c1-c540-4a45-a5db-f450ee745cc9,d7ee95ab-4646-4831-8e16-3318ac475fa1,3.2,A bit too spicy for me.,FALSE
+56e1ec5d-06b5-4d09-be54-9893dbbe1203,68ead65d-3799-4089-9eac-9e443938b42c,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4,Simple and satisfying.,TRUE
+f736f123-8ee6-4207-bdad-2e183e92009a,2721571f-c2de-4ef9-a435-bafc3974fd56,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,4.3,My kids loved it!,FALSE
+f9eceb0c-ff2e-43ee-868a-1d08fb2b74b5,e41c83a6-9043-4d5f-8e1d-fc903418929c,dce5364e-b3e3-446d-81ce-cfa537871a04,3.6,"Not my favorite, but okay.",FALSE
+bae0f650-9b74-4a4b-8fab-02d7da48440f,565f29db-8f4b-4345-a330-2bcf9df6139f,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,3.7,Would recommend to friends.,FALSE
+0ea7cc85-6bbf-4bd1-bdc5-2965c5e87fe1,3d35e662-e957-4eaa-b80f-420524f5f072,861313ba-292d-45ba-bc1d-841a0c40b46b,4,"Delicious, will make again!",FALSE
+a820e23f-56cd-46d3-aca2-60991f27dc82,b15190c0-3f8c-4085-8538-4ceddb11db9a,21688c8c-c55e-4693-a02a-6177e855c447,4.5,Perfect for a quick dinner.,TRUE
+d6950bca-df33-4e88-a91e-b02ced43469a,d9cd13c6-77bd-4930-9a08-ba933ee627de,b84905ed-d855-4a2c-aab8-f2e76018d9ac,3.6,"Not my favorite, but okay.",FALSE
+2c25f978-758c-4b5a-a7e7-8446170ce0de,5bcd15b5-50af-46b6-82be-48b80362d49e,87832d28-254a-4a0b-8370-c6214e199fb5,4.1,My kids loved it!,FALSE
+60d88840-82e7-4392-9579-846b6c199fed,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,95a1c6f4-2819-4df5-9762-a79288a860d3,2.7,Would recommend to friends.,TRUE
+3dddb382-3c2c-4756-802d-6bf93adb016c,b73c61fa-be19-4500-9548-0e28e625a086,ca436e6f-f767-4f62-8bce-157daaf0c63f,2.8,Absolutely amazing!,FALSE
+bf97fcc5-93ab-4b58-af96-e129b5d73c9b,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,12aedfe3-f88d-424b-ae0c-4182ef52d984,3.5,"A bit bland, added extra spices.",FALSE
+9cebe7d6-33c4-4a7e-b801-c4dfb0ed7bcb,e37edf57-08ba-42fc-bc81-1e21fec201ab,22ca4376-ad88-41e9-bc20-f44f270765f8,2.8,Perfect for a quick dinner.,TRUE
+234f2241-a361-424f-a86a-0957e325a992,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,4.2,Great balance of flavors.,FALSE
+c4a1a8f7-e1c7-4f74-8e56-38bddf57a5f6,19e09466-aaaa-4637-a9b3-b7d203ec8d29,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,3.2,My kids loved it!,FALSE
+a9c6b167-bc13-4562-8f1f-8afbaf34400c,f0372169-f982-4448-907f-741894d5b5bf,c21f382f-106a-49f3-ba38-0a19fdf92f2d,4,Will definitely cook this again.,FALSE
+8cf66014-d82c-4743-9a19-88f9d98867d4,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,1a3217ba-b9e3-454b-8b49-c92b25792adc,3.3,Great balance of flavors.,FALSE
+59f42c5a-39b1-4cf4-9ce8-a10c8a5510ac,7c101f53-790a-4537-b66b-8ac9097c70cc,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.5,My kids loved it!,FALSE
+9a291002-7491-46c2-82ea-99834caf218e,b15190c0-3f8c-4085-8538-4ceddb11db9a,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.5,The texture was a little off.,FALSE
+26f3dbff-59f9-46e7-ac22-a24c1809c9e0,06b2ba00-66a2-4c95-a3a0-c0f820e2e531,8e8731cb-7373-49cd-a102-33f8ee18abd1,3.4,A bit too spicy for me.,FALSE
+2eddcefc-4aa9-486d-847a-7bc7237707d1,188781a6-b04b-4ae5-8689-18be9ed39099,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,2.6,"A bit bland, added extra spices.",TRUE
+6049c04f-9051-4db1-8ec8-e2f63101d4a2,19e09466-aaaa-4637-a9b3-b7d203ec8d29,4a1ccc3b-f5c0-4953-8284-459a4db4874d,4.5,"Family loved it, great flavors.",TRUE
+6853066a-c087-43db-8571-33e499f56fe8,2721571f-c2de-4ef9-a435-bafc3974fd56,a45879da-d564-4ec6-b4cf-3c4ab5393c74,2.8,I was impressed with the result.,FALSE
+4a710447-1dae-4ff2-9d4d-b82e2ffecc57,b15190c0-3f8c-4085-8538-4ceddb11db9a,703aea7e-df98-4291-a1ef-fa6411711a60,4.7,Could use more vegetables.,FALSE
+16ed47ea-1ea9-4d97-b9f9-cec2bac76941,48822468-ac84-4d29-9f1e-ff641ff31876,8e8731cb-7373-49cd-a102-33f8ee18abd1,3.5,"Nice presentation, tasted great.",FALSE
+89531afc-beec-4f01-b00b-bb6f29e5863d,72298cc4-89d8-4447-858f-ba7f6c2e7096,ba9ffade-87a7-4c05-8af7-99015913bd31,4.9,Will definitely cook this again.,TRUE
+1d8222a5-4353-4b17-a48e-559a89727efc,6838126d-0e83-4378-8c28-ae8249ecec6f,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,3,Absolutely amazing!,FALSE
+f5c312b2-1166-4022-915e-1371c49b7b4a,95986ff4-f224-434d-aecf-5b6895fa021d,e92bddb8-9b20-40bf-8fc3-811659707d7b,3.9,Would recommend to friends.,TRUE
+f809a8ca-8735-4453-881e-ab26919f064a,42827e1d-da01-477b-8537-53074e16ca40,29661fa1-a7dc-432a-b01d-370a9bac4d61,4.9,I was impressed with the result.,FALSE
+5232335c-0a65-40a5-92e9-f5c5f349b516,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,1e0447f6-2e6c-4573-a904-5c4325df9408,3.7,"A bit bland, added extra spices.",TRUE
+ec87c884-bc6d-464e-94f9-4300b808b25b,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,5bca54c5-d852-4f6f-94f4-8579c81735c2,4.4,"A bit bland, added extra spices.",FALSE
+5e5ae161-5960-4cc3-b0b2-e9bea3c59184,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,8032fc62-eee9-4631-94b3-6537756011d1,4.1,"Family loved it, great flavors.",FALSE
+ca5d3691-6984-4111-8225-c9af7a3917a6,2e24f8bb-3803-41a5-b835-4ac289233f6d,ca436e6f-f767-4f62-8bce-157daaf0c63f,2.7,I was impressed with the result.,TRUE
+275ca3ea-9e8e-42b2-95fc-2f4b2ab0906a,4fccc964-946d-46d1-947d-fcc71c15eafc,ca436e6f-f767-4f62-8bce-157daaf0c63f,3.2,Great balance of flavors.,TRUE
+ee4496b6-d345-40ee-9707-0c94761b37af,3a0fd3f0-63b3-4f00-8cc7-383f8c922784,f80684cf-5e0e-4e54-a5c3-252aac7dab99,2.6,Absolutely amazing!,FALSE
+a133e9f5-590d-4d2d-a4b8-daac0f005a5f,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,7c52c46f-4e4e-4031-a23e-525d371d17a5,2.7,"Good, but needs more seasoning.",TRUE
+7bd26412-4369-4d32-af59-f01861f1efd0,9014a456-74b2-4653-a977-ed090f0496f5,703aea7e-df98-4291-a1ef-fa6411711a60,4.2,"Not my favorite, but okay.",TRUE
+894df58d-9624-409e-8119-d3f5eb2a3029,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,94b3ed98-d68e-4371-b116-16868fe263dc,3.3,Will definitely cook this again.,TRUE
+3c19200e-c77d-4d39-9f15-2d827ab8d376,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,0cf9dac4-f665-45d3-b38e-5103562eef4f,4,Would recommend to friends.,TRUE
+8528c8b2-2778-48a0-9f78-3d891fa0e299,c6131461-403e-46f3-a89e-cd0051e0a7b4,d391a684-4796-4354-9909-9ed06e3f13dc,4.6,Too salty for my taste.,TRUE
+272f3d54-a6d6-43e8-93f2-3dad7321db7b,f0372169-f982-4448-907f-741894d5b5bf,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,2.9,Perfect for a quick dinner.,TRUE
+a3660dce-211a-43bf-bb73-84df7cb045b2,b15190c0-3f8c-4085-8538-4ceddb11db9a,21688c8c-c55e-4693-a02a-6177e855c447,3.2,Will definitely cook this again.,FALSE
+240c4372-4384-4d73-b23e-9acd32274dab,ad3003b5-3e11-4579-aa3a-9f8c881c0073,7c52c46f-4e4e-4031-a23e-525d371d17a5,3.8,Will definitely cook this again.,TRUE
+d46d5d19-940e-4ba5-b162-bf25867e0c81,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,ca436e6f-f767-4f62-8bce-157daaf0c63f,2.9,Would recommend to friends.,FALSE
+3f8f6fa8-fa8f-48be-a526-3958db307fdc,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,b431e1fd-5549-401d-9976-931d3a3d9501,4.7,Will definitely cook this again.,TRUE
+d5183cfb-b627-4289-86cb-93077c2c19b2,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,1e0447f6-2e6c-4573-a904-5c4325df9408,3.8,Absolutely amazing!,FALSE
+77548a9c-6173-4a5a-ab79-3a6b93d29072,9014a456-74b2-4653-a977-ed090f0496f5,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,4,Will definitely cook this again.,FALSE
+6c1c80f7-ea06-4422-b7a6-c0e01f2cff4f,70ba18d3-0818-4192-b019-561c8ac60542,b84905ed-d855-4a2c-aab8-f2e76018d9ac,3.9,I was impressed with the result.,FALSE
+e7b2bae1-8ad7-4db8-ae25-065adae36f8d,68ead65d-3799-4089-9eac-9e443938b42c,7df670c3-6ee0-4856-959b-434b096543a7,3.6,I was impressed with the result.,TRUE
+5487c25e-357c-4697-80bf-e31ebe22854f,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,c882a0e7-d465-45cc-89ce-d50fb90429e1,3.9,"Good, but needs more seasoning.",FALSE
+7c2a823a-9733-4a50-8f26-4877607f04ad,e2cc8403-16cb-4fbc-8d3f-dbc06d1986d4,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,3.9,Too salty for my taste.,TRUE
+35e775cb-109d-4761-9a93-005b22421a15,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,a34ab40e-8c11-441d-be43-d846385d5a41,2.6,Could use more vegetables.,TRUE
+40e326f1-6d23-4b90-9061-13340dcb4606,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,f208fe65-10ee-4624-92fa-abf85ed5813a,2.8,"Family loved it, great flavors.",TRUE
+47e16377-3459-4bcf-bf87-3afbcb5b3a57,ad3003b5-3e11-4579-aa3a-9f8c881c0073,df6d8804-120f-4645-8251-ea67c4706fc3,4.4,"Nice presentation, tasted great.",TRUE
+bf9471e4-4e20-4e2e-bf89-b7f073b91a4b,4d202907-97b4-4c71-a081-6ffeca051e0c,22ca4376-ad88-41e9-bc20-f44f270765f8,3.1,"Good, but needs more seasoning.",FALSE
+5424e351-a30b-4b1f-880c-fa6565efc5fc,42827e1d-da01-477b-8537-53074e16ca40,b84905ed-d855-4a2c-aab8-f2e76018d9ac,2.7,"Delicious, will make again!",TRUE
+76cd42be-8000-4ffa-a8dd-5499834a3a65,d9cd13c6-77bd-4930-9a08-ba933ee627de,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,4.5,"Not my favorite, but okay.",FALSE
+3f789bbc-19e6-4e52-8150-d96fb736f113,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,64d1fa26-affe-4674-a3f2-1b764311280f,2.9,My kids loved it!,TRUE
+e57b1524-5fe5-48ef-bae4-1ba83a90d021,2e24f8bb-3803-41a5-b835-4ac289233f6d,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3,Too salty for my taste.,TRUE
+fee55800-2e3e-45a3-8a8f-acef7d6b9ef8,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,8e8731cb-7373-49cd-a102-33f8ee18abd1,3.9,"Family loved it, great flavors.",TRUE
+8ec188d1-5111-4d8a-8ad0-9d47b2ac73bc,42827e1d-da01-477b-8537-53074e16ca40,fd061d74-30ef-4827-8ca7-0591587b6121,3.4,Would recommend to friends.,TRUE
+4642fb6c-7fec-41fd-ae88-91ed87b66e98,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,a929494c-86aa-4582-a468-56aad030aab2,3.5,"Family loved it, great flavors.",FALSE
+c68a087e-f170-4da0-8bfc-f31f1895b7b0,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.2,"Family loved it, great flavors.",FALSE
+8f4e0e87-8016-4359-b495-4b351555e9ee,2cb699a0-8278-40a8-8659-bf68fbb00d2b,861313ba-292d-45ba-bc1d-841a0c40b46b,4.2,"Family loved it, great flavors.",FALSE
+a80ad54e-2176-48eb-9f6f-6453fb1d84a7,4fccc964-946d-46d1-947d-fcc71c15eafc,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,4.1,Would recommend to friends.,FALSE
+beae4c41-d73f-4a2a-901f-f22554753d7a,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,4.9,Turned out perfect!,FALSE
+56efe9b7-7c64-42a4-9f64-e8b0295748e2,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,308a0528-eae0-4450-b8ea-cd77a428a371,3.2,Could use more vegetables.,FALSE
+289d22a9-085c-4fff-8f17-f28f7437966c,c6a9d671-867c-4aa8-8b96-14bce876b3b5,22ca4376-ad88-41e9-bc20-f44f270765f8,2.7,"Not my favorite, but okay.",FALSE
+d6fe7467-ba45-4bdd-96d4-8f837ad58c48,2721571f-c2de-4ef9-a435-bafc3974fd56,1a3217ba-b9e3-454b-8b49-c92b25792adc,4.7,Absolutely amazing!,FALSE
+5740437d-e768-42eb-892e-2533bd65b5e2,9014a456-74b2-4653-a977-ed090f0496f5,f80684cf-5e0e-4e54-a5c3-252aac7dab99,2.5,Perfect for a quick dinner.,FALSE
+db1424c4-0f2a-4af0-b7ef-465d2613d7be,e0d1c537-6096-46cc-9ad7-c4219d768378,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,5,Would recommend to friends.,TRUE
+c2a94a43-4c03-45b2-938e-bb26b2aae8d6,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,a929494c-86aa-4582-a468-56aad030aab2,3.8,A bit too spicy for me.,TRUE
+7c077f07-503e-4344-a6c8-fd071c14e256,88f93761-84ce-4b03-bed5-daf0158a872e,23a139f0-289c-4567-a7a6-024134aa3f1a,4.6,Absolutely amazing!,FALSE
+4b08196a-40f9-43cf-88ec-7f24c03443ff,57a2ffa8-9b41-4e46-9091-127ce5563a92,861313ba-292d-45ba-bc1d-841a0c40b46b,3.4,The texture was a little off.,TRUE
+69d06172-4ef5-4482-9061-a38edfd7b12f,76ef05e5-46e1-434f-b5b0-3de39d5bb249,29661fa1-a7dc-432a-b01d-370a9bac4d61,3,Absolutely amazing!,TRUE
+9f5bdf56-9190-44fa-aed0-6f46c2825a64,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,6dea04ef-eec2-44aa-a595-919f9af3e6fb,4.1,"Family loved it, great flavors.",FALSE
+69023ec9-4867-4511-80b3-04709bbe187a,813383a0-7fc6-4a65-80a3-2378be9dd5b9,7e7a94ab-f344-45ce-999e-7b3f4f188183,4.7,Turned out perfect!,FALSE
+589b6921-f787-4b26-957d-21af68600bd8,4450377c-0503-445f-882b-e167fc05a084,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,3.3,"Good, but needs more seasoning.",TRUE
+f6cddc55-c2c6-453e-b82a-09740f4ca1e9,35e54486-8e65-46f5-9e7d-c48ad7c97193,703aea7e-df98-4291-a1ef-fa6411711a60,4.1,Could use more vegetables.,TRUE
+b4e2b1ce-0aad-400e-af11-07301f92fa6d,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,4981a66c-c44d-4697-a0ab-2b57db9d4e96,3.8,Turned out perfect!,TRUE
+43c43f4a-6587-4f4f-8e83-c9ef0dbe3a3e,fa638a11-b94b-4c11-a032-63c2314ab0c1,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.2,"A bit bland, added extra spices.",FALSE
+22fafc82-7a5b-474a-9739-6b52527fce02,06b2ba00-66a2-4c95-a3a0-c0f820e2e531,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,3,Too salty for my taste.,FALSE
+95c5952b-3b1b-46df-9934-40515b4f3e66,fac47c76-be3d-4b7f-954b-f5d488399c58,9a1f8635-0d88-4fa8-aba3-a4c0ff0d2d6c,3.2,I was impressed with the result.,FALSE
+efa4fcef-7743-45b8-834f-d8edbd19ae53,7be66667-34bf-4fc4-a1f4-a03b37a1b9aa,480779f0-5692-4c60-918f-b1ec322a67dd,4,Easy to make and very tasty.,TRUE
+03aafe03-621e-4447-838b-6df265b9a48d,7d7b0dbb-a8cf-479b-a38b-8c88a7343cd9,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4,Easy to make and very tasty.,TRUE
+9e67bd7d-9a1c-4557-8920-55edf3ed2f4b,387cabec-3b60-455a-9e31-e13874280a59,a34ab40e-8c11-441d-be43-d846385d5a41,3.3,Too salty for my taste.,FALSE
+f4f6279a-39d1-4427-b195-b6cf69b6c1a7,17c8b7db-486f-46e9-b140-0c002c1280bf,8032fc62-eee9-4631-94b3-6537756011d1,4.3,Easy to make and very tasty.,FALSE
+9d5b571a-b77e-4651-bd53-fabc2dc4dc41,dc5b7fab-f2c5-4c74-94f0-fede30341a00,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,3.7,Turned out perfect!,FALSE
+6577d2d6-df27-47bb-88f8-cab483b0e247,188781a6-b04b-4ae5-8689-18be9ed39099,4981a66c-c44d-4697-a0ab-2b57db9d4e96,2.6,Turned out perfect!,FALSE
+e21cc8a9-951f-4cef-a120-ffd9cf69d81b,318db0bf-eff3-4176-9e56-3af7398610c6,87832d28-254a-4a0b-8370-c6214e199fb5,4.6,"A bit bland, added extra spices.",FALSE
+d97dc949-efbf-4218-98b9-d68981930d52,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,7e7a94ab-f344-45ce-999e-7b3f4f188183,4.7,"Family loved it, great flavors.",TRUE
+5a388260-22e9-4153-9ff7-9ac04e14cc5e,e41c83a6-9043-4d5f-8e1d-fc903418929c,4981a66c-c44d-4697-a0ab-2b57db9d4e96,3.9,Absolutely amazing!,TRUE
+57c33c44-b279-4125-8504-7a4399400c11,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,0f993b81-020b-4762-a772-623ddb4f16ca,3.3,Turned out perfect!,FALSE
+de4232da-176c-47de-87e8-ea1db85d2f80,70ba18d3-0818-4192-b019-561c8ac60542,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,4.4,Too salty for my taste.,FALSE
+d5ef074b-119e-407a-9a35-f944b1f1e89c,fa638a11-b94b-4c11-a032-63c2314ab0c1,accbab95-20f1-4c0a-8565-c6c7bf51f209,2.6,My kids loved it!,TRUE
+1e7ac5c1-d903-421e-b926-f563017a7a6d,e7708296-e74a-4bf1-9383-c33547cf2283,14cf6b16-a816-4d9a-86a7-92d03f8db22e,3.4,"Family loved it, great flavors.",FALSE
+f5bf8bbb-d536-4c63-a845-33805362b23d,88f93761-84ce-4b03-bed5-daf0158a872e,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,5,Too salty for my taste.,FALSE
+38cfc8af-ab11-44d9-a1d3-6df494f42a29,f4beb065-aa68-4031-a429-d7c03ce6fdb7,13482ffd-b21f-4251-ad36-7c64dece7822,2.6,Will definitely cook this again.,FALSE
+242b6c9c-25fd-404c-91ba-50074ad60113,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,d7ee95ab-4646-4831-8e16-3318ac475fa1,4.1,Would recommend to friends.,FALSE
+14ea4776-19d5-49c5-b7fb-2f0006390472,88f93761-84ce-4b03-bed5-daf0158a872e,480779f0-5692-4c60-918f-b1ec322a67dd,3.8,"Family loved it, great flavors.",TRUE
+f786e4ab-c117-4884-ab63-412eba529e59,7c101f53-790a-4537-b66b-8ac9097c70cc,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.1,The texture was a little off.,FALSE
+9470cd72-1ef3-40b6-959b-45c0748ff14e,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,27857371-def4-4998-aef0-d423dbc10dbf,4,Too salty for my taste.,FALSE
+98e002cd-ed72-4f69-ad9e-1fb542e9f733,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,3419d770-e0d4-4590-b02c-4531e3c70110,4.5,"Good, but needs more seasoning.",FALSE
+58a69409-0797-4af6-a5a6-19af99643dca,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,c21f382f-106a-49f3-ba38-0a19fdf92f2d,2.9,Turned out perfect!,TRUE
+5b6ba035-9cd7-443e-a1b5-1b7fe317782b,8b85df92-0f67-46b5-b438-d5afdb0e721b,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.5,A bit too spicy for me.,TRUE
+61bbf8b7-6144-4939-b538-bf3e831800f5,f4beb065-aa68-4031-a429-d7c03ce6fdb7,d7ee95ab-4646-4831-8e16-3318ac475fa1,4.2,I was impressed with the result.,FALSE
+70286fab-8020-4e08-a0ea-a796df056f5f,f4beb065-aa68-4031-a429-d7c03ce6fdb7,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.5,"Good, but needs more seasoning.",FALSE
+079f9975-93ef-410e-83d8-066f92caac44,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.5,The texture was a little off.,FALSE
+1799a447-f8a5-4e7d-b412-3ef71125a248,dc95222f-7679-4ecb-b00e-33d1f9bf8108,308a0528-eae0-4450-b8ea-cd77a428a371,3.7,Too salty for my taste.,TRUE
+160a97dd-69ef-4e9b-a613-c640f81da04a,b164f9c2-ca4a-48e5-baf9-773aa02a8970,2106fdc5-09b6-45e0-9193-627563a2a0ae,2.7,"Nice presentation, tasted great.",FALSE
+42a94a62-388b-4536-8d53-ab18353b787f,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,24e6327b-5650-473d-9ec7-3ec0316cda54,4,Will definitely cook this again.,FALSE
+8e9277bb-47a8-493f-a259-53247f917c68,fa638a11-b94b-4c11-a032-63c2314ab0c1,14cf6b16-a816-4d9a-86a7-92d03f8db22e,2.7,Simple and satisfying.,TRUE
+104cd093-5cbf-4be8-a02b-20a405bd69dd,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,3,"A bit bland, added extra spices.",TRUE
+39b8fe28-691c-418f-b719-a8a472bac238,03ed6792-a6e5-4bcc-a251-2502babe234b,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,4.8,"Good, but needs more seasoning.",FALSE
+87e4775e-dc37-4335-ab8b-88b2af201c83,4d202907-97b4-4c71-a081-6ffeca051e0c,21688c8c-c55e-4693-a02a-6177e855c447,4.5,Great balance of flavors.,TRUE
+9b275de4-6214-46e4-9f22-4d58d1efbbe2,6e271d62-0049-4bd7-aa45-e76d1d3bcac8,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,3.6,Great balance of flavors.,FALSE
+7c18b22c-960d-4adc-a9bf-d00497c8b8e5,e7708296-e74a-4bf1-9383-c33547cf2283,3419d770-e0d4-4590-b02c-4531e3c70110,3.5,Could use more vegetables.,FALSE
+be202171-14a6-4575-b230-95ff37c22a2b,ffa0bcfc-3669-45da-b766-678c4ba68bcb,4a1ccc3b-f5c0-4953-8284-459a4db4874d,3.7,Too salty for my taste.,TRUE
+6f02bc0d-aae6-4019-8567-f6a3dd1b7970,6cb1750d-abbe-4654-8456-19d55361684e,71479385-155b-4dee-bda2-926cc11fa1be,4.7,"Family loved it, great flavors.",TRUE
+1d91b8b7-7bac-4081-94a0-15632fc2791f,cd294a49-7cbd-4082-bb88-1260b7e030c4,3ad232c9-a67a-4570-98e1-2e3665befda7,4.7,Will definitely cook this again.,FALSE
+489edb43-e7b8-4aaa-b07d-f97c8fc57f7f,95986ff4-f224-434d-aecf-5b6895fa021d,e5937b13-956c-4aff-9d64-73e180a77f99,4.9,The texture was a little off.,TRUE
+3db6c5b0-a391-41fc-b321-2e747a14e84b,4a032fa3-69ad-44f3-b0aa-808fb39770af,fd061d74-30ef-4827-8ca7-0591587b6121,2.6,My kids loved it!,FALSE
+7f1149ff-ec69-49ee-ab3b-e25c57e84810,5fc07310-b4ca-42b3-a810-df66d510d03d,ed2d7709-9d51-40b7-ba24-1516f3a863f1,4.3,Absolutely amazing!,TRUE
+90b6830d-8d94-4829-b977-e4eeb1c3f9fe,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,13482ffd-b21f-4251-ad36-7c64dece7822,3.3,Will definitely cook this again.,TRUE
+48241eef-ed85-4ab1-86d3-45d2cf9a4c8a,cd294a49-7cbd-4082-bb88-1260b7e030c4,1005f846-b91d-42bf-9504-5dbfb0035785,4.2,Simple and satisfying.,FALSE
+9ddc86e3-c4f4-47da-9698-65952aa8301c,98e1f173-1b0c-4a7f-b929-bd453c536bf8,cdf85e4e-d8ea-48f4-9d69-91457c8ab733,3.8,Perfect for a quick dinner.,TRUE
+dc24355f-c804-49c4-bd3b-03e7abe97ea5,03ed6792-a6e5-4bcc-a251-2502babe234b,95a1c6f4-2819-4df5-9762-a79288a860d3,3.9,My kids loved it!,TRUE
+0b7f7973-3bc4-412b-89e1-7db1986a736c,03ed6792-a6e5-4bcc-a251-2502babe234b,480779f0-5692-4c60-918f-b1ec322a67dd,4,Easy to make and very tasty.,TRUE
+30f39dcc-3488-4c48-ad94-357f71e83065,b73c61fa-be19-4500-9548-0e28e625a086,480779f0-5692-4c60-918f-b1ec322a67dd,3.7,Will definitely cook this again.,TRUE
+7eb6d7b4-e009-40e8-afbc-8e4de40e2207,2cb699a0-8278-40a8-8659-bf68fbb00d2b,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,3.1,Great balance of flavors.,TRUE
+92923e45-c752-4a77-b8bd-b3dfa8bfb0b6,542dd424-3fc8-44b9-9a6e-9240d7d77634,47e7f8ca-6f18-4b03-a171-042483bea171,2.7,"Family loved it, great flavors.",TRUE
+120e89c5-6b66-4983-b496-302dac26ddc5,795a767e-ee3d-4a61-ab18-66cd406fdcd7,59a4179c-895b-4b1f-a90f-fc9f78b93986,3.8,Absolutely amazing!,FALSE
+c5ea63bc-5e0d-4ee7-81fd-c81ca7f5e863,188781a6-b04b-4ae5-8689-18be9ed39099,861313ba-292d-45ba-bc1d-841a0c40b46b,3.3,"Not my favorite, but okay.",FALSE
+fb187151-fefb-4ef1-b392-745154332ffa,72298cc4-89d8-4447-858f-ba7f6c2e7096,cdcbddb3-3152-495b-acd1-1c31697152eb,3.1,"Family loved it, great flavors.",TRUE
+5edd557e-8e8f-41a2-859d-d55eca675707,e37edf57-08ba-42fc-bc81-1e21fec201ab,9f564c7e-a66a-4d60-93ff-566634c0d9eb,4.2,Could use more vegetables.,TRUE
+cf265cb8-f434-4db0-b2f6-a6ecd4753eeb,a1dacd6d-cba4-4482-9048-f05754bec294,13482ffd-b21f-4251-ad36-7c64dece7822,3.1,"Good, but needs more seasoning.",FALSE
+82327faa-b0e7-4a0d-83f4-eced1840b953,dc5b7fab-f2c5-4c74-94f0-fede30341a00,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,3.5,Perfect for a quick dinner.,TRUE
+2817d5f3-8829-4027-9ab3-34edf0e657d3,88f93761-84ce-4b03-bed5-daf0158a872e,2106fdc5-09b6-45e0-9193-627563a2a0ae,4.1,Great balance of flavors.,FALSE
+717c53b9-92d5-411c-8c04-0de090d4c221,72298cc4-89d8-4447-858f-ba7f6c2e7096,5dc572d1-0cf6-49bc-82db-cca1cec41bdc,2.8,A bit too spicy for me.,FALSE
+da645106-84ea-4a02-b7ef-6ec42dda1f08,70ba18d3-0818-4192-b019-561c8ac60542,d7ee95ab-4646-4831-8e16-3318ac475fa1,3.9,Could use more vegetables.,TRUE
+2ce803dc-5cfa-4ecc-9887-0195316cb34c,fa638a11-b94b-4c11-a032-63c2314ab0c1,5bca54c5-d852-4f6f-94f4-8579c81735c2,4.7,Great balance of flavors.,TRUE
+1eedec22-2f32-461a-a3a5-a8986eff857f,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,2face309-fffa-44c1-965f-1b5b53f3568e,3.6,Easy to make and very tasty.,FALSE
+85c9772d-40fb-421b-ac5a-ba59ac8bd5ee,5fc07310-b4ca-42b3-a810-df66d510d03d,e5937b13-956c-4aff-9d64-73e180a77f99,3.2,"Good, but needs more seasoning.",FALSE
+4e939a8a-e2ac-49e2-8e4a-85a4f8150d79,318db0bf-eff3-4176-9e56-3af7398610c6,3419d770-e0d4-4590-b02c-4531e3c70110,4.3,A bit too spicy for me.,TRUE
+794594ab-acb3-4be0-bd7e-ae0471c27582,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,df6d8804-120f-4645-8251-ea67c4706fc3,3.7,"Family loved it, great flavors.",TRUE
+1ca7b0ec-b510-47ec-a8b4-0740253a6690,5788f738-cebe-42d3-9c40-035b3389834d,85b5474a-57d4-4362-baef-8bf4b493de8f,4.3,"A bit bland, added extra spices.",FALSE
+ce2a06f4-a649-4ed5-911f-2cd09fc60039,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,ed2d7709-9d51-40b7-ba24-1516f3a863f1,4.1,"A bit bland, added extra spices.",TRUE
+d53aeb2b-6b0d-44e5-8ba6-feb3f86b441f,33764feb-6eeb-44f7-a3c7-8a629ae77185,accbab95-20f1-4c0a-8565-c6c7bf51f209,2.5,I was impressed with the result.,FALSE
+8f34ae3d-8c7d-4f01-ac91-1cff1c5e4cbc,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,71479385-155b-4dee-bda2-926cc11fa1be,4.1,Turned out perfect!,TRUE
+d0b3ae0a-daba-4af5-ac78-843fab6a4df4,19e09466-aaaa-4637-a9b3-b7d203ec8d29,4c5f4b54-14f4-475e-97f9-505ac05c1047,3.5,Great balance of flavors.,FALSE
+e0131dd1-18d6-4acb-967e-d10b1ac5e400,bfb1a350-e49f-4b55-981b-08fab2fd9d07,f80684cf-5e0e-4e54-a5c3-252aac7dab99,3.2,A bit too spicy for me.,TRUE
+fee9e202-612f-4fa6-908f-26decda531ab,b164f9c2-ca4a-48e5-baf9-773aa02a8970,e7214fd1-4e49-4a46-a09a-93a074d44de6,2.9,Will definitely cook this again.,FALSE
+482104bf-8920-4f9e-a532-85e3e0e3a50a,7c101f53-790a-4537-b66b-8ac9097c70cc,13482ffd-b21f-4251-ad36-7c64dece7822,2.9,"Delicious, will make again!",TRUE
+57f13e3c-ff25-4ebf-9d2a-7ba8881fdfff,7c101f53-790a-4537-b66b-8ac9097c70cc,308a0528-eae0-4450-b8ea-cd77a428a371,2.9,Absolutely amazing!,TRUE
+372be046-47d6-4d7d-9320-ed6dcaa4ec0b,fac47c76-be3d-4b7f-954b-f5d488399c58,21688c8c-c55e-4693-a02a-6177e855c447,3,Perfect for a quick dinner.,FALSE
+3e7d5a75-4888-463f-83e1-a60ffe849b41,70ba18d3-0818-4192-b019-561c8ac60542,9a1f8635-0d88-4fa8-aba3-a4c0ff0d2d6c,3,A bit too spicy for me.,FALSE
+9996c3de-9d8a-4a30-a0e7-1d09d8673283,9014a456-74b2-4653-a977-ed090f0496f5,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,4.1,A bit too spicy for me.,FALSE
+6502a676-d0d5-4b94-92e0-221f1a606b5b,2e24f8bb-3803-41a5-b835-4ac289233f6d,4c5f4b54-14f4-475e-97f9-505ac05c1047,3.7,"Delicious, will make again!",TRUE
+4206a169-64a5-4673-8c52-e6e4b4bef8b8,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.4,Perfect for a quick dinner.,TRUE
+99b2db84-2aa9-42dc-87ca-3dabb28471af,d9cd13c6-77bd-4930-9a08-ba933ee627de,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,3.5,Too salty for my taste.,TRUE
+064c1705-be70-4091-9469-e9908dc97f88,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.3,The texture was a little off.,FALSE
+073e6474-dfa4-4342-ad35-132434bb4c5f,a1dacd6d-cba4-4482-9048-f05754bec294,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,4.4,Simple and satisfying.,FALSE
+e189cbb7-8e8e-4654-858b-2886d95a184c,6838126d-0e83-4378-8c28-ae8249ecec6f,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,2.5,My kids loved it!,TRUE
+219f5676-1b81-4421-b0bb-0ee9cb5a0e77,319ff1d8-6ca9-4572-a2bd-4aa6306a5a37,85b5474a-57d4-4362-baef-8bf4b493de8f,3.7,The texture was a little off.,TRUE
+322014e5-3631-4c91-b362-9fd020a76290,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,aab5ff0a-2ec3-4d60-843d-4f88c32bbc8c,2.6,My kids loved it!,FALSE
+a17a2fda-cf95-4f14-aac8-1233689ae174,35e54486-8e65-46f5-9e7d-c48ad7c97193,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4.7,Great balance of flavors.,TRUE
+7237be06-d1bd-48c5-acb9-7fc5884ad1c2,6cb1750d-abbe-4654-8456-19d55361684e,0635c0f9-a180-476d-b81a-d65da19c78f3,4.2,Would recommend to friends.,TRUE
+03a98077-ab05-421f-bc54-b8457bb8d653,76ef05e5-46e1-434f-b5b0-3de39d5bb249,13482ffd-b21f-4251-ad36-7c64dece7822,2.6,My kids loved it!,TRUE
+75c5691e-1239-4993-9717-8181aaf5c738,bfb1a350-e49f-4b55-981b-08fab2fd9d07,480779f0-5692-4c60-918f-b1ec322a67dd,4.3,"Nice presentation, tasted great.",TRUE
+87e290a7-f289-46d4-ab24-b2880c3f8a4b,76ef05e5-46e1-434f-b5b0-3de39d5bb249,ba9ffade-87a7-4c05-8af7-99015913bd31,4.4,"Good, but needs more seasoning.",TRUE
+fe5adee1-65c1-4b8d-a4e4-24e2968dec84,dc5b7fab-f2c5-4c74-94f0-fede30341a00,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,3.8,My kids loved it!,TRUE
+5c8c4bcf-dffc-4b87-9f81-c990e76aaeeb,1988cfb0-6486-421d-bad6-0526f3124d44,e4d8c7fb-aa64-4add-baad-53edc016a012,2.8,Perfect for a quick dinner.,FALSE
+f2959b9b-5181-4c98-bdd2-8dd7b4352b86,4928b3b5-5b2c-43be-adfa-093b2841bce5,64d1fa26-affe-4674-a3f2-1b764311280f,4.9,Too salty for my taste.,FALSE
+36b1231c-5373-4295-a765-296ede802928,e41c83a6-9043-4d5f-8e1d-fc903418929c,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3.6,I was impressed with the result.,TRUE
+03803fa3-f529-4f60-96de-6c7e07562088,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,4.7,Great balance of flavors.,TRUE
+6f601ca8-0291-4240-87d6-912f466a3ab0,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.9,My kids loved it!,FALSE
+8710a3c6-420a-4e0d-b6a9-af280506641f,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,29661fa1-a7dc-432a-b01d-370a9bac4d61,4.1,"A bit bland, added extra spices.",FALSE
+2ab00479-22c2-47eb-99ca-54c47dfd0a84,02a9af0a-3fe8-4987-a939-744de97d97f9,8032fc62-eee9-4631-94b3-6537756011d1,2.6,I was impressed with the result.,FALSE
+2add8bee-b927-4656-8bf6-c0e84a107657,2721571f-c2de-4ef9-a435-bafc3974fd56,6763c93a-b438-48e5-be1d-c838658edbb8,4.4,A bit too spicy for me.,FALSE
+8ac9ba04-3e4e-490e-b505-d7bcab9c3269,444e42c2-f419-47ba-aa3b-debea39b5305,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,4,"Good, but needs more seasoning.",TRUE
+de37eaa4-e42a-4450-8559-8919282725bd,795a767e-ee3d-4a61-ab18-66cd406fdcd7,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.8,A bit too spicy for me.,FALSE
+56301be8-74b6-4514-a24c-35c36f3004fd,387cabec-3b60-455a-9e31-e13874280a59,4b23caee-72df-4f8d-8829-10bba0de426a,3.3,Could use more vegetables.,TRUE
+b8a684b7-dbb0-48b1-8f2d-ba32475d5b38,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,4.5,Would recommend to friends.,FALSE
+6e92de4f-6e06-46d4-9307-ae17748ab800,98e1f173-1b0c-4a7f-b929-bd453c536bf8,87832d28-254a-4a0b-8370-c6214e199fb5,3.5,Great balance of flavors.,FALSE
+a83999e4-ffb3-4b00-bce2-25b54475bb3d,4a032fa3-69ad-44f3-b0aa-808fb39770af,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,2.8,Too salty for my taste.,FALSE
+14626d61-50fb-450d-950d-92d270f7a8be,03ed6792-a6e5-4bcc-a251-2502babe234b,d7ee95ab-4646-4831-8e16-3318ac475fa1,2.8,Will definitely cook this again.,TRUE
+e5e6f869-024d-4e0a-8a67-0cfc2fd821d5,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,2.9,Easy to make and very tasty.,TRUE
+56722aa7-28c9-4af1-b47d-e49044491e94,2cb699a0-8278-40a8-8659-bf68fbb00d2b,accbab95-20f1-4c0a-8565-c6c7bf51f209,4.4,"Family loved it, great flavors.",TRUE
+0d0837a1-43a7-45b4-bbfe-c49ee39c73f5,89e19559-78d9-497c-a128-dc257dfe3353,7df670c3-6ee0-4856-959b-434b096543a7,4.8,"Family loved it, great flavors.",TRUE
+19380b8c-697d-489a-ba03-2ecc54b9a3a8,444e42c2-f419-47ba-aa3b-debea39b5305,308a0528-eae0-4450-b8ea-cd77a428a371,4.5,Great balance of flavors.,FALSE
+aaafb432-003f-4350-a628-9927b4fc13b2,d9cd13c6-77bd-4930-9a08-ba933ee627de,5bca54c5-d852-4f6f-94f4-8579c81735c2,4.1,Simple and satisfying.,TRUE
+4f4e9e4c-2f07-4014-ba4b-f372a2340657,7d7b0dbb-a8cf-479b-a38b-8c88a7343cd9,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4.2,"Delicious, will make again!",TRUE
+2e31a2f9-80c6-43b0-8114-81ce33ee8527,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,accbab95-20f1-4c0a-8565-c6c7bf51f209,4.6,"Family loved it, great flavors.",TRUE
+b2aa8f00-3889-4df0-a4ea-4653db4f86a5,02a9af0a-3fe8-4987-a939-744de97d97f9,d391a684-4796-4354-9909-9ed06e3f13dc,4.6,I was impressed with the result.,FALSE
+36d0ec9b-81a4-4525-988b-261b4bf8afac,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,2.6,"Family loved it, great flavors.",FALSE
+8c79f805-60e4-42a9-9c6f-07bf095cd6ec,d709f605-b230-4497-ab86-c93f1a22e4ed,9f564c7e-a66a-4d60-93ff-566634c0d9eb,4.7,Perfect for a quick dinner.,TRUE
+9a66d15d-eabe-4e7e-9c65-b93cf58f0d77,19e09466-aaaa-4637-a9b3-b7d203ec8d29,2274677d-4daf-45b6-a023-73aebd916b51,3.1,The texture was a little off.,TRUE
+9fbe56f7-ee29-4092-80e8-6f9080594ece,76ef05e5-46e1-434f-b5b0-3de39d5bb249,accbab95-20f1-4c0a-8565-c6c7bf51f209,5,Great balance of flavors.,TRUE
+e37f8a28-0ffd-45eb-b871-bfbb3728aafc,0d7ef19a-5067-4eea-b407-cb487a617a70,3419d770-e0d4-4590-b02c-4531e3c70110,3.5,"Not my favorite, but okay.",FALSE
+7cf1955f-7f85-4dc1-863f-24b02a81dc60,57a2ffa8-9b41-4e46-9091-127ce5563a92,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.7,"Delicious, will make again!",FALSE
+c2f0ea31-7b82-4744-8e66-5c318c71dd23,b73c61fa-be19-4500-9548-0e28e625a086,308a0528-eae0-4450-b8ea-cd77a428a371,4.3,"Nice presentation, tasted great.",FALSE
+8aaee33c-d9f1-4bb1-b95e-81a5c5e01274,f0372169-f982-4448-907f-741894d5b5bf,21688c8c-c55e-4693-a02a-6177e855c447,3.9,Will definitely cook this again.,TRUE
+8c13e83e-f548-451d-bfcb-fd0ef4c7bd94,06b2ba00-66a2-4c95-a3a0-c0f820e2e531,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4,Easy to make and very tasty.,TRUE
+47e94f15-dd1c-4d0c-a619-3206c605f58b,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,fd061d74-30ef-4827-8ca7-0591587b6121,2.7,Great balance of flavors.,FALSE
+0a826b2d-78b8-485a-8f39-2837c8ae8380,ca73d2bb-0870-423d-8228-2247c1a83802,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,3.5,I was impressed with the result.,FALSE
+b0b23370-c9ad-4fda-9460-7d6852d13e36,d709f605-b230-4497-ab86-c93f1a22e4ed,2106fdc5-09b6-45e0-9193-627563a2a0ae,2.7,Simple and satisfying.,FALSE
+593355c9-f1ea-4550-a14b-68c995957001,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,94b3ed98-d68e-4371-b116-16868fe263dc,3.5,"Family loved it, great flavors.",FALSE
+e46d650d-21a8-43b4-b776-dd62f8c7f2be,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,f80684cf-5e0e-4e54-a5c3-252aac7dab99,4.6,Turned out perfect!,TRUE
+1c8ebe48-a70d-43cc-811c-18c2ccbdde83,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,4a1ccc3b-f5c0-4953-8284-459a4db4874d,4.6,Could use more vegetables.,TRUE
+8dd9e899-179c-42d5-870a-9b62a3b3fb6c,6e271d62-0049-4bd7-aa45-e76d1d3bcac8,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,3,Turned out perfect!,TRUE
+58f734dc-6164-4851-ab11-6940d9bd5aaf,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,e5937b13-956c-4aff-9d64-73e180a77f99,3.9,Simple and satisfying.,FALSE
+91a7a2d0-aa07-4fdd-92ec-ae66e73a280f,9014a456-74b2-4653-a977-ed090f0496f5,71479385-155b-4dee-bda2-926cc11fa1be,4.9,I was impressed with the result.,FALSE
+91758672-caa6-497d-acb6-0537c72dd618,35e54486-8e65-46f5-9e7d-c48ad7c97193,c21f382f-106a-49f3-ba38-0a19fdf92f2d,3.4,Too salty for my taste.,FALSE
+5b721bee-59f4-407e-bd0e-3401dcd13154,b5993aad-685b-44e3-81da-6b78579de076,c21f382f-106a-49f3-ba38-0a19fdf92f2d,4.7,"Family loved it, great flavors.",TRUE
+d8d29cd8-1c9d-45be-89a7-d09327901578,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,3a5239be-a771-4678-b252-462fa7562479,4.2,"Delicious, will make again!",TRUE
+698c17f6-d0a7-4254-ad3e-e15201c6b5b3,b164f9c2-ca4a-48e5-baf9-773aa02a8970,2106fdc5-09b6-45e0-9193-627563a2a0ae,4.8,Great balance of flavors.,FALSE
+be259fe8-1a30-43ac-b851-0b692bce89ed,48822468-ac84-4d29-9f1e-ff641ff31876,f49f31a4-a7b0-4936-85bd-db90dc9443a9,2.6,"Not my favorite, but okay.",FALSE
+128c38fa-a37e-4d50-a112-9979b83ffd41,4d202907-97b4-4c71-a081-6ffeca051e0c,c882a0e7-d465-45cc-89ce-d50fb90429e1,2.5,Easy to make and very tasty.,TRUE
+6f1f84d1-2bba-49da-b5a6-781734de3f7a,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,a0cf0f43-62ab-4c26-8265-dbbbd4720457,4.9,Easy to make and very tasty.,TRUE
+3d71d58e-6d3d-4206-b9fb-712d6c6c383c,4450377c-0503-445f-882b-e167fc05a084,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,4.1,"Nice presentation, tasted great.",TRUE
+dd372d33-8cb0-4cf0-bdd6-abd4f89f3f43,d2434745-68e1-436f-b086-fe4057d85d98,85b5474a-57d4-4362-baef-8bf4b493de8f,3.2,My kids loved it!,FALSE
+6aaf586a-7c80-4794-8254-1a3405de6cd8,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,df6d8804-120f-4645-8251-ea67c4706fc3,5,"Delicious, will make again!",FALSE
+c49e9a9d-e958-4d85-8c77-66b6544a93e9,2721571f-c2de-4ef9-a435-bafc3974fd56,e1850e4b-e020-4b6c-a7e4-722c7433166f,3.3,Easy to make and very tasty.,TRUE
+108d1ac0-7e0d-432d-b91c-bd8a44911710,d709f605-b230-4497-ab86-c93f1a22e4ed,21688c8c-c55e-4693-a02a-6177e855c447,4.9,I was impressed with the result.,TRUE
+a6b684ed-fa69-4fff-b707-50f55b9ace26,70ba18d3-0818-4192-b019-561c8ac60542,151b8761-0606-42e5-8fbb-80e2196143fe,3.8,"Nice presentation, tasted great.",FALSE
+e8591b77-6a43-4ce9-a32a-02b424096ac9,5fc07310-b4ca-42b3-a810-df66d510d03d,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4.1,A bit too spicy for me.,FALSE
+6b290d41-5ada-4f98-b660-023dfb0359b5,fa638a11-b94b-4c11-a032-63c2314ab0c1,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,4.8,"Good, but needs more seasoning.",TRUE
+4c416b17-0c00-452a-a9cc-e96ab4158fd7,f4beb065-aa68-4031-a429-d7c03ce6fdb7,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4.7,Could use more vegetables.,TRUE
+6eab5501-e3c0-48ec-8088-da3e1a35c433,3c0152ab-a2c4-414f-99da-7006f85a7d9d,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,2.6,Will definitely cook this again.,TRUE
+92fd840a-719c-47a6-8c19-c7bddd403c34,35e54486-8e65-46f5-9e7d-c48ad7c97193,a45879da-d564-4ec6-b4cf-3c4ab5393c74,2.6,I was impressed with the result.,FALSE
+1d4e4f9f-beca-4989-a8a6-7b139266d83c,361b4d13-8598-475d-ab9a-b5b25d01df0c,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.1,Would recommend to friends.,FALSE
+372e4fe9-6644-43f8-aad8-30591fdb2ece,4fccc964-946d-46d1-947d-fcc71c15eafc,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4.6,"Family loved it, great flavors.",TRUE
+efa0e9bf-c95f-41f1-9abc-266260205afb,6cb1750d-abbe-4654-8456-19d55361684e,480779f0-5692-4c60-918f-b1ec322a67dd,4.3,Would recommend to friends.,TRUE
+4fb306d4-60b0-45e7-a11e-b07b70947b5e,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,e5937b13-956c-4aff-9d64-73e180a77f99,4.9,"Delicious, will make again!",FALSE
+cce8d031-c11c-4697-866e-f1d1188453fe,35e54486-8e65-46f5-9e7d-c48ad7c97193,47e7f8ca-6f18-4b03-a171-042483bea171,3.6,"Family loved it, great flavors.",FALSE
+b0fc4b10-a033-458d-aa81-2359b07c1423,d2434745-68e1-436f-b086-fe4057d85d98,861313ba-292d-45ba-bc1d-841a0c40b46b,4.8,A bit too spicy for me.,FALSE
+8ebad7e6-0089-4f3b-b078-ca87db7c3a18,091c8a5d-7327-48ad-ae9d-6ab2f2b1228f,7e7a94ab-f344-45ce-999e-7b3f4f188183,3.5,Perfect for a quick dinner.,FALSE
+8d33e8c4-c502-4e19-b32e-d4224a73fbea,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,4.8,Great balance of flavors.,FALSE
+764ca97f-02af-4327-a73b-0bc4a2750c9f,cd294a49-7cbd-4082-bb88-1260b7e030c4,e1850e4b-e020-4b6c-a7e4-722c7433166f,2.7,Turned out perfect!,TRUE
+0098c78f-2bde-4a64-87b0-8453dbab949b,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,95a1c6f4-2819-4df5-9762-a79288a860d3,2.8,I was impressed with the result.,TRUE
+7219f830-70b1-4bdc-b04c-e3bc883d3577,42827e1d-da01-477b-8537-53074e16ca40,480779f0-5692-4c60-918f-b1ec322a67dd,4.6,Perfect for a quick dinner.,TRUE
+ac3f5d82-8274-49ef-9d23-f5187bc92863,76ef05e5-46e1-434f-b5b0-3de39d5bb249,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,3.2,Turned out perfect!,TRUE
+563ad9d8-1a13-4a71-a2e9-986267343457,4928b3b5-5b2c-43be-adfa-093b2841bce5,27857371-def4-4998-aef0-d423dbc10dbf,4.3,Easy to make and very tasty.,FALSE
+e3ca83c9-f269-480a-b55a-2871dea44c06,542dd424-3fc8-44b9-9a6e-9240d7d77634,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,3.3,"Delicious, will make again!",TRUE
+d598871a-9193-4854-beda-3bf657d30139,8ed331c1-c540-4a45-a5db-f450ee745cc9,0cf9dac4-f665-45d3-b38e-5103562eef4f,3.1,"A bit bland, added extra spices.",FALSE
+cf1bd8a4-5ad8-4248-88a4-0e18db0f4eaa,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,7c52c46f-4e4e-4031-a23e-525d371d17a5,4.1,"Nice presentation, tasted great.",TRUE
+7b15b838-94c8-470e-bb13-5ecfc5344edc,d2434745-68e1-436f-b086-fe4057d85d98,e4d8c7fb-aa64-4add-baad-53edc016a012,4.4,Perfect for a quick dinner.,FALSE
+2563daea-d59a-4706-ae72-f5f0316c9985,4928b3b5-5b2c-43be-adfa-093b2841bce5,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4.5,Simple and satisfying.,FALSE
+25b262de-d3ae-4800-9d1c-6366ba260215,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,6dea04ef-eec2-44aa-a595-919f9af3e6fb,2.9,A bit too spicy for me.,FALSE
+40244ffd-43b9-4017-885a-913ff112912c,17c8b7db-486f-46e9-b140-0c002c1280bf,151b8761-0606-42e5-8fbb-80e2196143fe,4.6,I was impressed with the result.,TRUE
+095eed6c-f3af-4151-b983-10d72b29d0dc,4928b3b5-5b2c-43be-adfa-093b2841bce5,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.6,Too salty for my taste.,FALSE
+fae2a6bd-6ebe-4f68-98cc-450b71684c2f,5fc07310-b4ca-42b3-a810-df66d510d03d,d33f718d-97b6-4d42-adc1-856b31ded5b4,4.3,Great balance of flavors.,FALSE
+d43ac404-a263-47cc-98ef-4225148f6ee2,98e1f173-1b0c-4a7f-b929-bd453c536bf8,e7214fd1-4e49-4a46-a09a-93a074d44de6,4.4,Easy to make and very tasty.,TRUE
+b3037d5b-d321-4e6d-bcd1-778e520fd225,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,151b8761-0606-42e5-8fbb-80e2196143fe,4.1,Easy to make and very tasty.,TRUE
+2e115e0e-d843-44bf-846c-1888bb3730bd,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,480779f0-5692-4c60-918f-b1ec322a67dd,4.7,Absolutely amazing!,TRUE
+f840796d-0f38-4b1c-b12c-af55851c3e96,35e54486-8e65-46f5-9e7d-c48ad7c97193,aab5ff0a-2ec3-4d60-843d-4f88c32bbc8c,3,Would recommend to friends.,FALSE
+a5308d4e-99b3-40e9-9482-173ee79f4833,11f1d9b5-d024-49b3-a15c-e1195fc583de,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,4.6,Simple and satisfying.,TRUE
+553d11c6-c530-4938-9ad4-e87a258edc80,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,1a3217ba-b9e3-454b-8b49-c92b25792adc,3.4,Easy to make and very tasty.,FALSE
+8ce95414-4061-48f0-9fc0-c09b71083d5d,188781a6-b04b-4ae5-8689-18be9ed39099,12aedfe3-f88d-424b-ae0c-4182ef52d984,2.5,"A bit bland, added extra spices.",FALSE
+0867c41f-ac24-4719-a879-c936d58446dd,e7708296-e74a-4bf1-9383-c33547cf2283,d391a684-4796-4354-9909-9ed06e3f13dc,2.8,Great balance of flavors.,TRUE
+d67174ea-cc29-4150-8acf-8ba5d7ea47fa,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4.2,"Nice presentation, tasted great.",TRUE
+e28e93c4-523b-4ca6-bf11-13fadd90dcb7,d9cd13c6-77bd-4930-9a08-ba933ee627de,c882a0e7-d465-45cc-89ce-d50fb90429e1,4.9,"Family loved it, great flavors.",TRUE
+47393215-9cad-433a-b523-a619a4880ee9,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,59a4179c-895b-4b1f-a90f-fc9f78b93986,3.9,Could use more vegetables.,FALSE
+cd97d699-69bc-4d0f-a759-4da082f5496c,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,0f993b81-020b-4762-a772-623ddb4f16ca,2.7,"Not my favorite, but okay.",TRUE
+7c4d432e-0709-4312-a134-02dbd37d0e2d,41f8724e-3734-4ca1-8369-4680dcc3150f,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.5,Perfect for a quick dinner.,FALSE
+cbabe418-91f0-492e-a7ad-36a549000ee2,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.8,Simple and satisfying.,TRUE
+3593c1fa-32e3-4f82-a6be-44733ef5db58,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,d391a684-4796-4354-9909-9ed06e3f13dc,4.2,The texture was a little off.,TRUE
+9e46fbb7-fd7b-4a5d-984a-feffd2cf33fa,1424c412-731c-4ddb-b69f-8ae4348b46fc,f80684cf-5e0e-4e54-a5c3-252aac7dab99,3,Could use more vegetables.,FALSE
+81a4568f-1556-4899-874e-bc2aa46b2719,8b85df92-0f67-46b5-b438-d5afdb0e721b,2274677d-4daf-45b6-a023-73aebd916b51,4.7,I was impressed with the result.,TRUE
+a7ad425b-5451-4d6c-9f5c-c67d02ec913f,ffa0bcfc-3669-45da-b766-678c4ba68bcb,3419d770-e0d4-4590-b02c-4531e3c70110,2.6,I was impressed with the result.,TRUE
+4433ac74-6450-4b43-8a45-a7f04f75a051,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,7e7a94ab-f344-45ce-999e-7b3f4f188183,4.6,I was impressed with the result.,TRUE
+b22411aa-87e8-42f8-82b6-75515e9c78c6,98e1f173-1b0c-4a7f-b929-bd453c536bf8,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,4.1,"Delicious, will make again!",FALSE
+30d697cd-14d2-4686-975d-d1f8b506a1a7,565f29db-8f4b-4345-a330-2bcf9df6139f,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,3.7,My kids loved it!,TRUE
+ad9ef239-1bc2-4e79-8b92-6f665f49d1ce,98e1f173-1b0c-4a7f-b929-bd453c536bf8,cdcbddb3-3152-495b-acd1-1c31697152eb,4.9,"Not my favorite, but okay.",FALSE
+341be320-93a0-46d4-8604-f2b4edfdc67a,d2434745-68e1-436f-b086-fe4057d85d98,ba9ffade-87a7-4c05-8af7-99015913bd31,2.6,Would recommend to friends.,FALSE
+cf43361f-4f3b-45dd-a518-247020524aa3,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,7df670c3-6ee0-4856-959b-434b096543a7,2.7,Too salty for my taste.,FALSE
+6383d646-67e0-40d0-9977-0546053b7f6f,9d3979cd-6e10-43a8-835e-006003a1cb4b,dce5364e-b3e3-446d-81ce-cfa537871a04,3.4,"Delicious, will make again!",FALSE
+ad304e7a-f349-4cdc-928f-7f5c292d7fa8,5fc07310-b4ca-42b3-a810-df66d510d03d,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4.6,Great balance of flavors.,TRUE
+4529ce8b-8cf2-4749-99b6-0c80a1b8fdca,318db0bf-eff3-4176-9e56-3af7398610c6,a929494c-86aa-4582-a468-56aad030aab2,3.1,"Delicious, will make again!",TRUE
+e58cfc96-a93f-4869-9eb7-68aa22ff4b1c,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,87832d28-254a-4a0b-8370-c6214e199fb5,2.6,Simple and satisfying.,TRUE
+8c1a3fbe-930a-42ef-9b78-14ae5fb91be9,361b4d13-8598-475d-ab9a-b5b25d01df0c,8e8731cb-7373-49cd-a102-33f8ee18abd1,2.8,Absolutely amazing!,TRUE
+dffaf1ce-3678-406e-9217-3177cc626694,7c101f53-790a-4537-b66b-8ac9097c70cc,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.2,I was impressed with the result.,TRUE
+9a39de6a-b0fb-470e-9773-fb3d657cc28a,2e24f8bb-3803-41a5-b835-4ac289233f6d,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,4,Easy to make and very tasty.,TRUE
+03a62e6d-5edf-4989-9fc1-6f60431cc82a,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,ca436e6f-f767-4f62-8bce-157daaf0c63f,4,The texture was a little off.,TRUE
+bf3ede2f-7c2e-486d-98ac-0cfc43ecc2c3,89e19559-78d9-497c-a128-dc257dfe3353,85b5474a-57d4-4362-baef-8bf4b493de8f,3.5,Great balance of flavors.,FALSE
+09297251-e67d-4f3c-a1b2-8cf2ce4a5ac5,188781a6-b04b-4ae5-8689-18be9ed39099,c882a0e7-d465-45cc-89ce-d50fb90429e1,4.8,Will definitely cook this again.,FALSE
+1ee254e4-33d6-4f49-8017-ddf7dc00ed29,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.8,Too salty for my taste.,FALSE
+4eea232d-7913-49d0-b9fa-8980b114f0f0,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,3.4,Perfect for a quick dinner.,FALSE
+23630af2-ccb6-4225-ad6a-cb2a8261d139,337f94fe-cc55-4202-a2cf-4e8305c49262,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,3.9,Would recommend to friends.,TRUE
+37ee3913-bd60-46eb-9246-67e3431f9eec,2264191d-1707-46d0-9cef-d72b0a05cb57,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.1,Great balance of flavors.,TRUE
+e7d81e68-bcd5-437c-a164-7730800d04bf,02a9af0a-3fe8-4987-a939-744de97d97f9,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.3,My kids loved it!,TRUE
+e1fadfc9-2a8b-4758-8b9a-30558de697dd,b73c61fa-be19-4500-9548-0e28e625a086,94b3ed98-d68e-4371-b116-16868fe263dc,4.8,"Not my favorite, but okay.",FALSE
+4c6f631b-fba1-49eb-a7c1-c8bd16f3cbcd,795a767e-ee3d-4a61-ab18-66cd406fdcd7,480779f0-5692-4c60-918f-b1ec322a67dd,4.7,Easy to make and very tasty.,TRUE
+a8e76b62-e18c-49df-a8bf-c3afd0a39842,0d7ef19a-5067-4eea-b407-cb487a617a70,4c5f4b54-14f4-475e-97f9-505ac05c1047,4.4,Simple and satisfying.,TRUE
+4c61079a-6dee-4efa-a76f-b4895c1ee49b,9434de83-4f06-443b-a159-307851837913,21688c8c-c55e-4693-a02a-6177e855c447,3.2,Simple and satisfying.,TRUE
+9cb930f0-cf0c-4b7f-b503-8d72af74b0ed,d709f605-b230-4497-ab86-c93f1a22e4ed,19bd7164-52a7-42d5-94ff-6431dd51e32d,5,"Delicious, will make again!",TRUE
+7433c431-9c05-4a96-8847-ed9650bdff93,19e09466-aaaa-4637-a9b3-b7d203ec8d29,accbab95-20f1-4c0a-8565-c6c7bf51f209,4.7,"Not my favorite, but okay.",FALSE
+3b88e7c0-92ca-45c6-bf0f-8700bda6fb10,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,7e7a94ab-f344-45ce-999e-7b3f4f188183,3.9,"Good, but needs more seasoning.",TRUE
+5eee05ba-5639-4812-a54f-34b5e2a4505d,4928b3b5-5b2c-43be-adfa-093b2841bce5,c882a0e7-d465-45cc-89ce-d50fb90429e1,4.3,Easy to make and very tasty.,TRUE
+6a40761d-d927-4422-a8bc-e80938eff0a9,f4beb065-aa68-4031-a429-d7c03ce6fdb7,cdf85e4e-d8ea-48f4-9d69-91457c8ab733,3.5,A bit too spicy for me.,TRUE
+aac7f111-a1dc-4f07-b621-22a1104590f1,88f93761-84ce-4b03-bed5-daf0158a872e,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.1,"Family loved it, great flavors.",FALSE
+22a58f7f-f732-44f9-a20f-9d96d8b2705a,89e19559-78d9-497c-a128-dc257dfe3353,e1850e4b-e020-4b6c-a7e4-722c7433166f,5,"Delicious, will make again!",FALSE
+b61f7e7a-f0ce-4331-83df-2232506adf1c,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,1a3217ba-b9e3-454b-8b49-c92b25792adc,4,"Good, but needs more seasoning.",FALSE
+a1530add-7143-42e2-9089-c12b71dd66ff,b15190c0-3f8c-4085-8538-4ceddb11db9a,0cf9dac4-f665-45d3-b38e-5103562eef4f,2.6,My kids loved it!,TRUE
+77afadd9-57b2-4d90-8c52-2bca0ec8b1d9,2264191d-1707-46d0-9cef-d72b0a05cb57,fd061d74-30ef-4827-8ca7-0591587b6121,3.6,Will definitely cook this again.,TRUE
+a979819a-1efe-4177-866c-11aee2571100,b5993aad-685b-44e3-81da-6b78579de076,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.1,"Good, but needs more seasoning.",TRUE
+1cbe4b59-2889-4f39-8cdc-21fc8d2ad2ff,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,22ca4376-ad88-41e9-bc20-f44f270765f8,2.7,A bit too spicy for me.,FALSE
+aeb42ebf-c31b-4be9-8bc2-fc8d1faebf51,41f8724e-3734-4ca1-8369-4680dcc3150f,87832d28-254a-4a0b-8370-c6214e199fb5,3.1,Perfect for a quick dinner.,FALSE
+5c8c46fa-d1ed-4b25-aac9-00dcb1aeabc9,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,703aea7e-df98-4291-a1ef-fa6411711a60,4.1,Could use more vegetables.,TRUE
+f828b04c-5c54-45a9-8565-cb1cf42393a5,76ef05e5-46e1-434f-b5b0-3de39d5bb249,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,2.7,My kids loved it!,FALSE
+fe3079c4-1a5b-49d0-ad71-0921e02e750b,795a767e-ee3d-4a61-ab18-66cd406fdcd7,aab5ff0a-2ec3-4d60-843d-4f88c32bbc8c,4.7,The texture was a little off.,TRUE
+b878e67f-45ff-4995-9510-d8565907cd1d,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,15f78e6d-8c1b-4759-98bd-4626a52785ea,3.4,Could use more vegetables.,FALSE
+ac9fc96f-eca4-4587-9d99-81e8571fc289,f9e24e28-02ab-4cf3-8fe0-647b2336c8ab,a34ab40e-8c11-441d-be43-d846385d5a41,3.1,"Family loved it, great flavors.",TRUE
+179ec3f8-38b2-408a-b04f-b15c12604f3b,3c0152ab-a2c4-414f-99da-7006f85a7d9d,a34ab40e-8c11-441d-be43-d846385d5a41,4.3,I was impressed with the result.,FALSE
+21356912-c77d-4aef-9536-b6690f57be97,387cabec-3b60-455a-9e31-e13874280a59,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,4.2,Great balance of flavors.,TRUE
+3c2a4b47-993f-403e-bee5-eb38876b3009,795a767e-ee3d-4a61-ab18-66cd406fdcd7,0635c0f9-a180-476d-b81a-d65da19c78f3,5,Too salty for my taste.,FALSE
+e6a7cd60-7401-4b01-b919-918d51c23bad,361b4d13-8598-475d-ab9a-b5b25d01df0c,dce5364e-b3e3-446d-81ce-cfa537871a04,4.5,Would recommend to friends.,TRUE
+74a3e5f3-706d-4014-9722-1acbd6711bae,42827e1d-da01-477b-8537-53074e16ca40,0f993b81-020b-4762-a772-623ddb4f16ca,4.9,A bit too spicy for me.,FALSE
+8152e792-2ba1-4750-b21c-91417a272bca,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,4a1ccc3b-f5c0-4953-8284-459a4db4874d,4.7,"Good, but needs more seasoning.",TRUE
+3c2d4114-2a06-46f5-97b6-2c9154a5b76d,361b4d13-8598-475d-ab9a-b5b25d01df0c,8032fc62-eee9-4631-94b3-6537756011d1,2.6,A bit too spicy for me.,FALSE
+e9634d7b-a3ac-4aad-befb-c5af203f3a2b,ad3003b5-3e11-4579-aa3a-9f8c881c0073,5bca54c5-d852-4f6f-94f4-8579c81735c2,3.5,I was impressed with the result.,FALSE
+8621f105-d59f-4537-a450-af4788a36bd9,72298cc4-89d8-4447-858f-ba7f6c2e7096,64d1fa26-affe-4674-a3f2-1b764311280f,2.8,Turned out perfect!,TRUE
+afa4ef94-06d1-44ac-8527-a09a008c3718,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3.9,"Delicious, will make again!",TRUE
+3d8c8119-d24e-47be-8292-eed2240076be,fac47c76-be3d-4b7f-954b-f5d488399c58,2face309-fffa-44c1-965f-1b5b53f3568e,4.9,Great balance of flavors.,TRUE
+7f9abdd9-9b5c-47ae-99d6-ba31239698be,c6131461-403e-46f3-a89e-cd0051e0a7b4,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3,"Nice presentation, tasted great.",FALSE
+8db60569-0adb-44cc-b309-4092f50b37cc,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,4981a66c-c44d-4697-a0ab-2b57db9d4e96,4,My kids loved it!,TRUE
+ddcfb5b0-ade9-422b-ab0e-026df2d8d740,9d3979cd-6e10-43a8-835e-006003a1cb4b,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,4.6,My kids loved it!,FALSE
+8dd12d8f-aa6b-4017-9045-b90167860ae6,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4.2,"Delicious, will make again!",TRUE
+995fb811-21d3-4532-b9f2-da5608097e68,6838126d-0e83-4378-8c28-ae8249ecec6f,0635c0f9-a180-476d-b81a-d65da19c78f3,3,Could use more vegetables.,TRUE
+0e7fe05a-48ed-4e60-84dc-cc588ff0658d,f0372169-f982-4448-907f-741894d5b5bf,0cf9dac4-f665-45d3-b38e-5103562eef4f,4.6,Great balance of flavors.,FALSE
+4f0247ff-cb91-4f40-8848-fef537aa4560,e41c83a6-9043-4d5f-8e1d-fc903418929c,4981a66c-c44d-4697-a0ab-2b57db9d4e96,3,"Nice presentation, tasted great.",TRUE
+48093232-91df-462c-91f8-d3817ebed26d,95986ff4-f224-434d-aecf-5b6895fa021d,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.3,"Family loved it, great flavors.",TRUE
+7ec71cec-ec86-4a6d-a942-06269f8559f4,9434de83-4f06-443b-a159-307851837913,85b5474a-57d4-4362-baef-8bf4b493de8f,3.3,Too salty for my taste.,TRUE
+7d71db40-3650-459b-9ea0-f9db46b194b0,17c8b7db-486f-46e9-b140-0c002c1280bf,23a139f0-289c-4567-a7a6-024134aa3f1a,3,"Not my favorite, but okay.",TRUE
+1d195a00-3d93-4688-b0f4-3f1b64c92f3d,19e09466-aaaa-4637-a9b3-b7d203ec8d29,b431e1fd-5549-401d-9976-931d3a3d9501,4.1,Could use more vegetables.,FALSE
+daed229c-cfc5-47dc-b461-33aa5d232f5e,2e24f8bb-3803-41a5-b835-4ac289233f6d,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4.6,Will definitely cook this again.,TRUE
+6a5e1312-2a9e-4a06-8d21-dd14eb89a3ff,03ed6792-a6e5-4bcc-a251-2502babe234b,3ad232c9-a67a-4570-98e1-2e3665befda7,3.2,Could use more vegetables.,TRUE
+1f3fdb1a-d60e-4d58-acc1-38cbf1624eea,f54fb83f-7f8c-4f25-a2f6-05f014268f37,b84905ed-d855-4a2c-aab8-f2e76018d9ac,3.9,Too salty for my taste.,FALSE
+e0a0e6f4-37b2-4a57-b4dc-9e467778b8be,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,3.9,Could use more vegetables.,TRUE
+bf1fee95-6346-49c3-9f6f-c4d63f2473f7,76ef05e5-46e1-434f-b5b0-3de39d5bb249,703aea7e-df98-4291-a1ef-fa6411711a60,2.6,Simple and satisfying.,FALSE
+73900b75-b09d-4d27-975a-570f508adaf1,cd294a49-7cbd-4082-bb88-1260b7e030c4,15f78e6d-8c1b-4759-98bd-4626a52785ea,3.2,Absolutely amazing!,FALSE
+bca9b0b2-2752-4746-ad9e-9e0da674cbde,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,71479385-155b-4dee-bda2-926cc11fa1be,4.1,"Not my favorite, but okay.",FALSE
+20a4902f-ae56-4a50-91f0-0fb88035f133,5fc07310-b4ca-42b3-a810-df66d510d03d,71479385-155b-4dee-bda2-926cc11fa1be,3.5,"A bit bland, added extra spices.",FALSE
+070f2955-5f7e-4a2f-adb5-65a9c41ff545,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,2.7,Could use more vegetables.,TRUE
+8b47e685-5850-4cec-bedd-30f863355c1b,2264191d-1707-46d0-9cef-d72b0a05cb57,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.3,"Family loved it, great flavors.",TRUE
+73e1bb16-6548-45ee-8cf2-c3327bd73385,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,8032fc62-eee9-4631-94b3-6537756011d1,3.7,"Not my favorite, but okay.",TRUE
+ecc0f140-ff7e-4d49-a30f-d6940aba24b2,6cb1750d-abbe-4654-8456-19d55361684e,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,2.7,"Good, but needs more seasoning.",TRUE
+54c986b5-a9f5-4357-bf2d-ea22511988a6,4928b3b5-5b2c-43be-adfa-093b2841bce5,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3,Will definitely cook this again.,FALSE
+1749ce29-2ab2-4c3d-8be6-d5c1cfdc6ef0,318db0bf-eff3-4176-9e56-3af7398610c6,e1850e4b-e020-4b6c-a7e4-722c7433166f,3.9,"Not my favorite, but okay.",FALSE
+20ab478e-b646-4be7-b9e4-05fd8c25302f,ad3003b5-3e11-4579-aa3a-9f8c881c0073,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,4.9,"Family loved it, great flavors.",TRUE
+bb48d3f2-8b46-4fb5-ad19-c358f565a1fd,fac47c76-be3d-4b7f-954b-f5d488399c58,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,4.7,My kids loved it!,TRUE
+5fcab178-ec59-4b7e-a4bd-335419e4771a,7d7b0dbb-a8cf-479b-a38b-8c88a7343cd9,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.3,Will definitely cook this again.,TRUE
+a6d4d251-6489-4736-9020-27f59bf92a1e,3c0152ab-a2c4-414f-99da-7006f85a7d9d,cdcbddb3-3152-495b-acd1-1c31697152eb,4.1,Simple and satisfying.,TRUE
+64df7f01-6ccb-4ae8-9f23-eccc6a24c23d,b15190c0-3f8c-4085-8538-4ceddb11db9a,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.3,Easy to make and very tasty.,FALSE
+6fa54217-b05b-452b-a734-340c98f91b5c,76ef05e5-46e1-434f-b5b0-3de39d5bb249,13482ffd-b21f-4251-ad36-7c64dece7822,4.8,The texture was a little off.,FALSE
+ce80f032-4244-4e6e-936b-7b8bc9c78db5,f9380c62-bad6-4b21-9873-615c4138c9f0,5dc572d1-0cf6-49bc-82db-cca1cec41bdc,2.8,A bit too spicy for me.,FALSE
+2db2a9fb-e3da-46ce-9d3f-2ae3e5aaadfa,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,2.9,Too salty for my taste.,FALSE
+514ef305-2ee2-4a04-ae04-cb80f2ac8dbd,4fccc964-946d-46d1-947d-fcc71c15eafc,23a139f0-289c-4567-a7a6-024134aa3f1a,3.1,Great balance of flavors.,FALSE
+b4f53c8d-76f3-4f21-83da-b6502cfe8ae0,6cb1750d-abbe-4654-8456-19d55361684e,cd153e2d-2e85-4fb5-a1d6-5e32a2a55175,4.1,"Nice presentation, tasted great.",FALSE
+89793624-7a16-4011-900e-28734edece11,03ed6792-a6e5-4bcc-a251-2502babe234b,a0cf0f43-62ab-4c26-8265-dbbbd4720457,4.2,I was impressed with the result.,TRUE
+013fd89c-f13b-48cb-9d58-491afc284844,c6131461-403e-46f3-a89e-cd0051e0a7b4,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.2,I was impressed with the result.,TRUE
+8dba0301-6b48-402f-858a-09849cddea27,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,59a4179c-895b-4b1f-a90f-fc9f78b93986,4.2,My kids loved it!,TRUE
+37210125-9ee9-4c7f-b567-dc0a75076b8d,319ff1d8-6ca9-4572-a2bd-4aa6306a5a37,1a3217ba-b9e3-454b-8b49-c92b25792adc,3.3,Will definitely cook this again.,FALSE
+c6e3f042-6c23-427f-b831-81f23646a79c,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.5,Perfect for a quick dinner.,TRUE
+538e2b3b-b28d-40c9-846a-ce7968e3551b,188781a6-b04b-4ae5-8689-18be9ed39099,e4d8c7fb-aa64-4add-baad-53edc016a012,3.1,"Nice presentation, tasted great.",FALSE
+ca87fd2f-76af-4c8d-bf5f-26eec8926e97,444e42c2-f419-47ba-aa3b-debea39b5305,4a1ccc3b-f5c0-4953-8284-459a4db4874d,5,Simple and satisfying.,TRUE
+db02c369-fcef-482b-ac74-b995d0f4e813,d5fc6914-1b45-4db3-8d7b-93662e994dfc,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,5,My kids loved it!,TRUE
+4b77633d-1a6c-4cfd-b5f1-ea084ea83506,dc95222f-7679-4ecb-b00e-33d1f9bf8108,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.1,Simple and satisfying.,TRUE
+a81c67df-2838-4e86-933a-ff91d10bb287,41f8724e-3734-4ca1-8369-4680dcc3150f,0cf9dac4-f665-45d3-b38e-5103562eef4f,3.6,Could use more vegetables.,FALSE
+ff87d1d2-fb59-45e8-a70f-912be97fbe9d,35e54486-8e65-46f5-9e7d-c48ad7c97193,f208fe65-10ee-4624-92fa-abf85ed5813a,3.2,Great balance of flavors.,TRUE
+62df4811-86af-4c8d-9de3-a7d198c5fc75,1988cfb0-6486-421d-bad6-0526f3124d44,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,3.3,"Family loved it, great flavors.",TRUE
+85d1710c-54ed-4f1e-ba1f-bff71feed888,02a9af0a-3fe8-4987-a939-744de97d97f9,e7214fd1-4e49-4a46-a09a-93a074d44de6,3.6,"Not my favorite, but okay.",TRUE
+1577f637-2567-4d8f-919b-cf736125eb45,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,4c5f4b54-14f4-475e-97f9-505ac05c1047,4.7,"Not my favorite, but okay.",FALSE
+7e69fdb3-4338-4a55-91d1-05b41b48193d,5bcd15b5-50af-46b6-82be-48b80362d49e,480779f0-5692-4c60-918f-b1ec322a67dd,4.9,Too salty for my taste.,FALSE
+91064282-5fb5-4fd0-9da6-71132030dba2,6838126d-0e83-4378-8c28-ae8249ecec6f,0cf9dac4-f665-45d3-b38e-5103562eef4f,3.8,Absolutely amazing!,FALSE
+b662d638-f8a0-463e-a83a-c6a55eebfb73,444e42c2-f419-47ba-aa3b-debea39b5305,27857371-def4-4998-aef0-d423dbc10dbf,4.7,"A bit bland, added extra spices.",TRUE
+5680b629-1eb6-49c6-afb2-e8cbd26805e7,337f94fe-cc55-4202-a2cf-4e8305c49262,d391a684-4796-4354-9909-9ed06e3f13dc,4.6,"Good, but needs more seasoning.",TRUE
+a92dbd31-4f7f-443b-a7b9-2c363cfc4353,f54fb83f-7f8c-4f25-a2f6-05f014268f37,2106fdc5-09b6-45e0-9193-627563a2a0ae,3.4,Easy to make and very tasty.,FALSE
+bbe3f800-09d9-45e2-ad16-a79f2890f9e7,e7708296-e74a-4bf1-9383-c33547cf2283,7df670c3-6ee0-4856-959b-434b096543a7,2.9,Could use more vegetables.,FALSE
+6c7905fd-1ed9-45c4-b235-9bde89cd8a31,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.4,Could use more vegetables.,FALSE
+3f1c4951-7f5b-4bf9-b1af-07abc2b417c8,cd294a49-7cbd-4082-bb88-1260b7e030c4,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,4.3,"Nice presentation, tasted great.",TRUE
+4de6b017-dc22-4b5f-99dd-89b9aa558c19,17c8b7db-486f-46e9-b140-0c002c1280bf,94b3ed98-d68e-4371-b116-16868fe263dc,5,My kids loved it!,FALSE
+292c1a63-252a-44da-80d8-b17290f03d0f,3d35e662-e957-4eaa-b80f-420524f5f072,e5937b13-956c-4aff-9d64-73e180a77f99,4.5,I was impressed with the result.,FALSE
+ac7ded46-7c74-43dc-a72b-f039682eb647,f4beb065-aa68-4031-a429-d7c03ce6fdb7,a34ab40e-8c11-441d-be43-d846385d5a41,3.4,"Good, but needs more seasoning.",TRUE
+bdf32595-f593-4f0b-927c-ce218e3dece0,17c8b7db-486f-46e9-b140-0c002c1280bf,b431e1fd-5549-401d-9976-931d3a3d9501,3,A bit too spicy for me.,FALSE
+17bd6d71-9f87-4502-893f-7b4db4f0de78,83af4e7f-f9c5-4f84-8772-8db65c848671,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,4.4,Too salty for my taste.,FALSE
+02cc52dd-fbf2-4b22-9864-ed911357b3b5,68ead65d-3799-4089-9eac-9e443938b42c,24e6327b-5650-473d-9ec7-3ec0316cda54,4.3,Turned out perfect!,FALSE
+1f163770-dc51-4401-9b68-d800a71809b7,7d7b0dbb-a8cf-479b-a38b-8c88a7343cd9,5bca54c5-d852-4f6f-94f4-8579c81735c2,3.7,"Good, but needs more seasoning.",FALSE
+229c2a48-04ae-4ee9-977a-947d8fd1f4da,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,85b5474a-57d4-4362-baef-8bf4b493de8f,4.2,Easy to make and very tasty.,TRUE
+9691ad85-6164-4006-a805-362c748b7304,6cb1750d-abbe-4654-8456-19d55361684e,8032fc62-eee9-4631-94b3-6537756011d1,3.3,"Family loved it, great flavors.",TRUE
+82d4b4f2-a4fa-4cf3-ac92-af1e22491719,361b4d13-8598-475d-ab9a-b5b25d01df0c,f80684cf-5e0e-4e54-a5c3-252aac7dab99,3.1,A bit too spicy for me.,FALSE
+91489b47-48d9-4469-a514-fcf7d7d7b470,a1dacd6d-cba4-4482-9048-f05754bec294,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,3.7,My kids loved it!,TRUE
+2466a68a-c1fc-4efa-bbde-4d9acba41e50,b15190c0-3f8c-4085-8538-4ceddb11db9a,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.1,"A bit bland, added extra spices.",FALSE
+78c9549a-7263-43eb-a6ad-bee185a7ff63,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,2106fdc5-09b6-45e0-9193-627563a2a0ae,4.6,"Nice presentation, tasted great.",TRUE
+f9d721a6-f973-4577-9212-373d5e291c27,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,85b5474a-57d4-4362-baef-8bf4b493de8f,4.4,Turned out perfect!,TRUE
+36e88a7c-71a5-4f3a-ae6a-1d22f59ca667,9014a456-74b2-4653-a977-ed090f0496f5,b84905ed-d855-4a2c-aab8-f2e76018d9ac,2.7,"Not my favorite, but okay.",TRUE
+3e9bc324-0a35-4656-8b07-210c1277e344,ca73d2bb-0870-423d-8228-2247c1a83802,ba9ffade-87a7-4c05-8af7-99015913bd31,3.1,Would recommend to friends.,TRUE
+8a9584e4-93e4-4bad-9ec9-b24a68e6320a,1988cfb0-6486-421d-bad6-0526f3124d44,0f993b81-020b-4762-a772-623ddb4f16ca,3.1,Turned out perfect!,TRUE
+11e5b0df-6ec7-4dfb-b53a-c8f0ef5ccf20,7c101f53-790a-4537-b66b-8ac9097c70cc,9f564c7e-a66a-4d60-93ff-566634c0d9eb,4.5,"Not my favorite, but okay.",FALSE
+347148bc-ab72-43a6-8eb3-402a552becb2,795a767e-ee3d-4a61-ab18-66cd406fdcd7,accbab95-20f1-4c0a-8565-c6c7bf51f209,4.3,The texture was a little off.,FALSE
+2f3b3f21-32e0-4f92-b3f3-176fa0f4ed98,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,4.9,A bit too spicy for me.,FALSE
+775495e6-27ea-4cab-96c5-f2f389dff67c,fa638a11-b94b-4c11-a032-63c2314ab0c1,6763c93a-b438-48e5-be1d-c838658edbb8,4.9,Perfect for a quick dinner.,TRUE
+e7966551-428c-473f-a828-2190f6735d9c,70ba18d3-0818-4192-b019-561c8ac60542,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,4.4,Simple and satisfying.,FALSE
+c89803c3-04a7-4bf5-94d3-885f97dfdde6,f4beb065-aa68-4031-a429-d7c03ce6fdb7,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4.3,Absolutely amazing!,FALSE
+d10bfb94-46d5-4a77-a681-038f1cea1aa6,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,a34ab40e-8c11-441d-be43-d846385d5a41,4.1,"Not my favorite, but okay.",TRUE
+2a58414e-0c7c-48a3-ba53-465727c05257,7d7b0dbb-a8cf-479b-a38b-8c88a7343cd9,fd061d74-30ef-4827-8ca7-0591587b6121,4.8,Perfect for a quick dinner.,TRUE
+3fbb08f4-ad3b-446f-ba34-0e9ff3fc9f61,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,e4d8c7fb-aa64-4add-baad-53edc016a012,4.9,"Nice presentation, tasted great.",TRUE
+7437f2e8-3e84-401a-94a4-4f44abe4e10a,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,3.5,Would recommend to friends.,FALSE
+4ccecfe7-1f02-43c4-b52d-9580661f0ffa,2cb699a0-8278-40a8-8659-bf68fbb00d2b,a4cd57c2-81a3-46b2-b810-24da3c624c5e,3.7,A bit too spicy for me.,TRUE
+159b242d-bff5-4a4b-bf9c-efe1c38fe228,9014a456-74b2-4653-a977-ed090f0496f5,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,3.2,Absolutely amazing!,FALSE
+7528d12f-3531-437b-a2e8-7b9be6b8081b,0d7ef19a-5067-4eea-b407-cb487a617a70,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.2,The texture was a little off.,FALSE
+1afa4260-0cb8-474a-97af-8e2b67f00f88,bfb1a350-e49f-4b55-981b-08fab2fd9d07,d8034e6a-0e29-4105-a9b7-60be28d8471c,3.4,Absolutely amazing!,TRUE
+c471aa11-4451-4ce2-a12e-cf745802f3dc,1424c412-731c-4ddb-b69f-8ae4348b46fc,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,4.7,"Family loved it, great flavors.",FALSE
+cd1e21b1-a60d-483c-a9c4-63b457f4aaab,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,480779f0-5692-4c60-918f-b1ec322a67dd,2.8,Too salty for my taste.,TRUE
+16ccf765-ec9d-414f-a13e-2423d225f634,1988cfb0-6486-421d-bad6-0526f3124d44,3a5239be-a771-4678-b252-462fa7562479,4.8,Will definitely cook this again.,FALSE
+fd06eb83-7601-4168-a64c-2c44b819039b,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,e92bddb8-9b20-40bf-8fc3-811659707d7b,3.6,I was impressed with the result.,FALSE
+b31990ee-3c84-4583-ba84-bd0946590737,9014a456-74b2-4653-a977-ed090f0496f5,27857371-def4-4998-aef0-d423dbc10dbf,2.6,Easy to make and very tasty.,FALSE
+ede8163e-7918-4367-9e39-bd2efcbc5f8b,1424c412-731c-4ddb-b69f-8ae4348b46fc,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,2.9,Simple and satisfying.,FALSE
+9cb8b0dd-50f1-4ec3-ba49-4dd0f35b4041,f0372169-f982-4448-907f-741894d5b5bf,e5937b13-956c-4aff-9d64-73e180a77f99,3.5,Would recommend to friends.,FALSE
+c1e0e5ef-1ce4-482d-b6f8-ef3a2fbbe393,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.1,"A bit bland, added extra spices.",TRUE
+3354f56f-e8e6-4cc2-9b4e-868d81e8c56c,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,87832d28-254a-4a0b-8370-c6214e199fb5,3.5,Will definitely cook this again.,TRUE
+02c27d96-c045-4387-9809-359c223729f1,1424c412-731c-4ddb-b69f-8ae4348b46fc,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,3.2,"Nice presentation, tasted great.",FALSE
+18684926-8ad2-4e64-bc48-11af13e504c0,6838126d-0e83-4378-8c28-ae8249ecec6f,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.2,Would recommend to friends.,FALSE
+4afcd1bf-848f-4eba-a1dc-3e8957cd0378,02a9af0a-3fe8-4987-a939-744de97d97f9,e7214fd1-4e49-4a46-a09a-93a074d44de6,4.5,Easy to make and very tasty.,FALSE
+f948b8fe-18fb-45de-a9e7-782a95afe9bb,03ed6792-a6e5-4bcc-a251-2502babe234b,59a4179c-895b-4b1f-a90f-fc9f78b93986,2.5,Too salty for my taste.,TRUE
+2130ad6b-f053-4dcd-ac76-4623cda81ac4,4450377c-0503-445f-882b-e167fc05a084,d7ee95ab-4646-4831-8e16-3318ac475fa1,2.9,Simple and satisfying.,TRUE
+30348a1e-2ff2-4f75-9d5c-abdd166f4d8c,d9cd13c6-77bd-4930-9a08-ba933ee627de,fd061d74-30ef-4827-8ca7-0591587b6121,4,Perfect for a quick dinner.,TRUE
+b4162422-574f-4363-b1f0-213d6a6b2c21,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.9,A bit too spicy for me.,TRUE
+f5d6bae4-afd5-48a5-afc7-c070c528d807,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,4.7,"Good, but needs more seasoning.",TRUE
+b7fe45eb-e390-47e5-ae68-d0f807a3881e,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,a45879da-d564-4ec6-b4cf-3c4ab5393c74,2.6,Will definitely cook this again.,TRUE
+3cb5893c-a573-427e-b44b-2cebff1ee907,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3.8,Would recommend to friends.,TRUE
+cdfb9230-a3e9-467b-97f4-72f98afc5de3,bfb1a350-e49f-4b55-981b-08fab2fd9d07,0cf9dac4-f665-45d3-b38e-5103562eef4f,3.2,Turned out perfect!,TRUE
+870efb4f-8f39-446c-9601-c13853c0c4bc,d709f605-b230-4497-ab86-c93f1a22e4ed,71479385-155b-4dee-bda2-926cc11fa1be,4.7,"Not my favorite, but okay.",FALSE
+d1773fc8-410b-4494-8277-57fec05c2d0b,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,f208fe65-10ee-4624-92fa-abf85ed5813a,2.9,"Not my favorite, but okay.",TRUE
+f92eaa76-3e18-4aa2-8d75-fbd1d19d446e,9434de83-4f06-443b-a159-307851837913,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4.2,"Delicious, will make again!",FALSE
+782a1d91-abb7-4647-8677-1944ab83e1fc,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,7c52c46f-4e4e-4031-a23e-525d371d17a5,2.9,"Family loved it, great flavors.",TRUE
+93f6871f-175e-4209-a56d-7761784ce4c3,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,4c5f4b54-14f4-475e-97f9-505ac05c1047,4.8,Absolutely amazing!,FALSE
+b47dc4d7-a249-4493-ad18-71c37d40ac6d,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,21688c8c-c55e-4693-a02a-6177e855c447,4.3,A bit too spicy for me.,TRUE
+d66e1912-001d-44f5-b25d-dc8e763218cc,5bcd15b5-50af-46b6-82be-48b80362d49e,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,3.3,Simple and satisfying.,FALSE
+9ae3a367-ef04-4ce0-b107-ed4ff5f21959,5bcd15b5-50af-46b6-82be-48b80362d49e,ca436e6f-f767-4f62-8bce-157daaf0c63f,3.2,"Good, but needs more seasoning.",TRUE
+e50d00cb-98e8-4faf-803b-6b569d3bc911,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,703aea7e-df98-4291-a1ef-fa6411711a60,2.9,"Family loved it, great flavors.",TRUE
+517bd266-f7b6-49f7-b11e-6dfa559960ee,95986ff4-f224-434d-aecf-5b6895fa021d,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,4.7,"A bit bland, added extra spices.",TRUE
+43c10de9-5ee4-4cb2-b073-be36a1482743,387cabec-3b60-455a-9e31-e13874280a59,a45879da-d564-4ec6-b4cf-3c4ab5393c74,3.1,Would recommend to friends.,TRUE
+0af94c8b-a530-4443-8b84-5ab659aaa0e7,ca73d2bb-0870-423d-8228-2247c1a83802,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.2,"Good, but needs more seasoning.",FALSE
+e030bcaf-3878-4b55-9852-c9c507d303b6,ca73d2bb-0870-423d-8228-2247c1a83802,df6d8804-120f-4645-8251-ea67c4706fc3,4.7,A bit too spicy for me.,TRUE
+68331a2f-516d-4f16-bb8d-9df4c2718c1a,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,4.6,I was impressed with the result.,TRUE
+a46541f7-3414-4070-ac6b-f2359d68aec3,2264191d-1707-46d0-9cef-d72b0a05cb57,0f993b81-020b-4762-a772-623ddb4f16ca,2.8,"Nice presentation, tasted great.",FALSE
+f65c07a6-8c28-47da-a898-008f6ce32375,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.1,A bit too spicy for me.,FALSE
+87a7c124-1d89-4e12-a54b-7b5712c3613e,2264191d-1707-46d0-9cef-d72b0a05cb57,15f78e6d-8c1b-4759-98bd-4626a52785ea,4.5,Great balance of flavors.,FALSE
+62871363-a73a-40e3-987a-30c7112b73e4,48e7d279-61be-4162-8674-0660e748fa63,e92bddb8-9b20-40bf-8fc3-811659707d7b,3.3,"A bit bland, added extra spices.",TRUE
+5b505c00-d3c0-4618-9830-099755df4e1b,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,2.6,Too salty for my taste.,TRUE
+e660c6ad-d108-4d5e-96dd-1cbab9696ec6,9d3979cd-6e10-43a8-835e-006003a1cb4b,a929494c-86aa-4582-a468-56aad030aab2,3.8,"Not my favorite, but okay.",FALSE
+f21d5dea-3029-4711-a93e-65045b5065d6,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,4.8,"Nice presentation, tasted great.",TRUE
+2eabcb23-b7ae-4144-b6c8-d7271c4ae9d6,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,a0cf0f43-62ab-4c26-8265-dbbbd4720457,4.5,Perfect for a quick dinner.,FALSE
+c5168acf-3306-411b-8ba3-9f54f4e31c79,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.2,Easy to make and very tasty.,TRUE
+c81d18a9-6c5f-416c-aeab-3e123d976899,17c8b7db-486f-46e9-b140-0c002c1280bf,13482ffd-b21f-4251-ad36-7c64dece7822,4.6,"A bit bland, added extra spices.",FALSE
+445c3281-2f38-4aa0-93dc-5c7d550369e2,b164f9c2-ca4a-48e5-baf9-773aa02a8970,3ad232c9-a67a-4570-98e1-2e3665befda7,4.9,"Delicious, will make again!",TRUE
+a58af18b-4582-4bc2-a5d2-ca9f94db7eca,b164f9c2-ca4a-48e5-baf9-773aa02a8970,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.7,Great balance of flavors.,TRUE
+2ed53afe-5364-48b4-a7a7-74f8156d85c4,c931a9fb-0805-43e7-a919-acf3a7fa6edb,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,3.3,Simple and satisfying.,FALSE
+8717d366-ea35-49fd-8bca-ff4a4664e3c9,6838126d-0e83-4378-8c28-ae8249ecec6f,c21f382f-106a-49f3-ba38-0a19fdf92f2d,2.7,Absolutely amazing!,FALSE
+609e228e-3c7e-4813-a7dd-51fd4ca60f20,68ead65d-3799-4089-9eac-9e443938b42c,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,3.8,Perfect for a quick dinner.,FALSE
+e0cc30c6-47be-4442-b4f7-e6f9efada29b,2721571f-c2de-4ef9-a435-bafc3974fd56,85b5474a-57d4-4362-baef-8bf4b493de8f,3.4,"Not my favorite, but okay.",FALSE
+1807d377-458d-42d7-8614-8dc8817d24c1,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,480779f0-5692-4c60-918f-b1ec322a67dd,2.6,My kids loved it!,FALSE
+5fdf092c-c2f3-406e-9dbf-7f71bc333afc,19e09466-aaaa-4637-a9b3-b7d203ec8d29,5bca54c5-d852-4f6f-94f4-8579c81735c2,4,Would recommend to friends.,TRUE
+d711364a-5bcf-4239-a762-35753a0465eb,444e42c2-f419-47ba-aa3b-debea39b5305,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4.1,"A bit bland, added extra spices.",TRUE
+d22db222-1de7-4a68-9a1c-1f328542ea7e,98e1f173-1b0c-4a7f-b929-bd453c536bf8,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,4.8,Will definitely cook this again.,FALSE
+a79568df-fcf8-4862-a27d-9f7a37b06b76,c6a9d671-867c-4aa8-8b96-14bce876b3b5,23a139f0-289c-4567-a7a6-024134aa3f1a,2.9,"Good, but needs more seasoning.",FALSE
+296dd0a8-237c-4b71-a05a-681cda5dddb5,7be66667-34bf-4fc4-a1f4-a03b37a1b9aa,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,3.5,Great balance of flavors.,TRUE
+5532bf5f-1cd1-4b24-b2b1-2680621efcfc,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,4.8,Turned out perfect!,FALSE
+29cca6d6-8289-41d2-a1b0-2544470b6d40,35e54486-8e65-46f5-9e7d-c48ad7c97193,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.4,"Delicious, will make again!",FALSE
+060feeb2-07f8-4cf2-9047-4c33cbd257cc,72298cc4-89d8-4447-858f-ba7f6c2e7096,15f78e6d-8c1b-4759-98bd-4626a52785ea,4.7,Could use more vegetables.,FALSE
+3029f078-0a27-4acf-98d7-b4957596bc21,ffa0bcfc-3669-45da-b766-678c4ba68bcb,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.3,"Family loved it, great flavors.",TRUE
+305e51cf-3c0e-4812-9868-ce237dcf8e9f,a1dacd6d-cba4-4482-9048-f05754bec294,e7214fd1-4e49-4a46-a09a-93a074d44de6,3.7,Absolutely amazing!,FALSE
+a5bcdf0b-a1c7-4336-8413-d4d9663dfcdb,f9380c62-bad6-4b21-9873-615c4138c9f0,95a1c6f4-2819-4df5-9762-a79288a860d3,3.4,My kids loved it!,TRUE
+c5e27816-4b65-437e-9bfe-8b6852ce85d8,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,59a4179c-895b-4b1f-a90f-fc9f78b93986,4,"Family loved it, great flavors.",FALSE
+ad89e3f1-5fca-424b-bda1-a4c07db54cb7,f54fb83f-7f8c-4f25-a2f6-05f014268f37,d33f718d-97b6-4d42-adc1-856b31ded5b4,4.5,Simple and satisfying.,FALSE
+f28ccd2b-ea54-4bb7-bc46-bcd5ff2d0888,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,64d1fa26-affe-4674-a3f2-1b764311280f,3.6,Perfect for a quick dinner.,TRUE
+f720c1c3-4d0c-4a3a-b754-42f918e20910,1988cfb0-6486-421d-bad6-0526f3124d44,0635c0f9-a180-476d-b81a-d65da19c78f3,3.6,Easy to make and very tasty.,TRUE
+d422b485-2e7e-47bf-a9d6-fefedb7962be,76ef05e5-46e1-434f-b5b0-3de39d5bb249,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,3.5,Will definitely cook this again.,TRUE
+b698ec15-f3cd-4f22-a684-a20ef477be3a,4fccc964-946d-46d1-947d-fcc71c15eafc,85b5474a-57d4-4362-baef-8bf4b493de8f,2.9,"Not my favorite, but okay.",FALSE
+a2451f02-f763-4a3b-8540-ef5606992f70,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,f208fe65-10ee-4624-92fa-abf85ed5813a,3.4,Would recommend to friends.,FALSE
+5c705207-a7e5-45ad-979a-683ae49cbc88,444e42c2-f419-47ba-aa3b-debea39b5305,3419d770-e0d4-4590-b02c-4531e3c70110,3.8,Will definitely cook this again.,FALSE
+f1a37f6c-9603-4805-8d29-89f82e3bc0af,dd60017d-ae3e-42a0-aca2-a26caa0665e8,4c5f4b54-14f4-475e-97f9-505ac05c1047,3.3,"A bit bland, added extra spices.",FALSE
+9bb20503-2f1b-4e25-9a2a-800314abbab9,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,a4cd57c2-81a3-46b2-b810-24da3c624c5e,4.5,"Family loved it, great flavors.",FALSE
+48ea78a4-b4ee-4c3d-8a07-27885ae31cbb,02a9af0a-3fe8-4987-a939-744de97d97f9,24e6327b-5650-473d-9ec7-3ec0316cda54,3.7,"Nice presentation, tasted great.",TRUE
+a8ef2e53-4167-4e05-8dab-607cfbbee66c,200bda18-6681-455d-9a1a-33f30b6cd1c9,27857371-def4-4998-aef0-d423dbc10dbf,4.3,Will definitely cook this again.,TRUE
+e49883e5-72c2-4bd8-8b87-d8ddfecb3ae6,fac47c76-be3d-4b7f-954b-f5d488399c58,71479385-155b-4dee-bda2-926cc11fa1be,2.8,Would recommend to friends.,FALSE
+cdc709cc-92bc-4cba-9f69-78052a2cf820,6e271d62-0049-4bd7-aa45-e76d1d3bcac8,ba9ffade-87a7-4c05-8af7-99015913bd31,2.7,"Good, but needs more seasoning.",TRUE
+ee1b2407-9fdf-4ecf-9806-ed1474367332,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,accbab95-20f1-4c0a-8565-c6c7bf51f209,3.2,Could use more vegetables.,TRUE
+20e5cfb9-a39e-4c7f-8fd7-18806620403f,6e271d62-0049-4bd7-aa45-e76d1d3bcac8,7e7a94ab-f344-45ce-999e-7b3f4f188183,3.2,My kids loved it!,FALSE
+c1305128-9522-4905-b915-37c0c3e6cdaf,5bcd15b5-50af-46b6-82be-48b80362d49e,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.9,"Good, but needs more seasoning.",TRUE
+7073bcc5-a6d3-44dc-af78-19e981937418,48822468-ac84-4d29-9f1e-ff641ff31876,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,3.9,Would recommend to friends.,FALSE
+ab6558f8-b591-490d-b9fc-120ccfe08aab,ffa0bcfc-3669-45da-b766-678c4ba68bcb,27857371-def4-4998-aef0-d423dbc10dbf,5,The texture was a little off.,TRUE
+fdc7e5b9-183b-4b42-ba69-47d4d6e1ba30,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,dce5364e-b3e3-446d-81ce-cfa537871a04,5,Could use more vegetables.,FALSE
+c8c88c95-f55f-41c9-97b2-c64436951118,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,703aea7e-df98-4291-a1ef-fa6411711a60,3,My kids loved it!,TRUE
+151b0337-3454-4940-9601-763ce246967f,2721571f-c2de-4ef9-a435-bafc3974fd56,59a4179c-895b-4b1f-a90f-fc9f78b93986,4,Would recommend to friends.,TRUE
+f96ccc93-df5c-4929-8de9-23d91c0acf7c,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,3,"A bit bland, added extra spices.",FALSE
+5134824f-ab51-46b6-89c4-00d7dc5284ad,11f1d9b5-d024-49b3-a15c-e1195fc583de,4a1ccc3b-f5c0-4953-8284-459a4db4874d,4.5,Will definitely cook this again.,TRUE
+0d20082b-ecc1-4924-8298-609670492a88,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,8032fc62-eee9-4631-94b3-6537756011d1,4.3,Absolutely amazing!,TRUE
+59d1ec5e-2fa7-4fd4-aa44-c94ddd2a0a6b,444e42c2-f419-47ba-aa3b-debea39b5305,dce5364e-b3e3-446d-81ce-cfa537871a04,2.9,My kids loved it!,TRUE
+7385b661-94f2-4c27-b1a8-b018da2067df,e7708296-e74a-4bf1-9383-c33547cf2283,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.5,Perfect for a quick dinner.,TRUE
+2494f6f9-b743-4fd3-ba86-1cfc04a00c6f,bfb1a350-e49f-4b55-981b-08fab2fd9d07,9a1f8635-0d88-4fa8-aba3-a4c0ff0d2d6c,4.8,Will definitely cook this again.,TRUE
+059419e8-c918-43cc-8423-cf45fdded91b,bfb1a350-e49f-4b55-981b-08fab2fd9d07,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,2.6,"Family loved it, great flavors.",TRUE
+37716684-d98b-4240-a42a-72d48b080d66,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,f80684cf-5e0e-4e54-a5c3-252aac7dab99,4.8,"A bit bland, added extra spices.",TRUE
+07460f45-c075-4d2e-9f36-91e7a7c21aee,0d7ef19a-5067-4eea-b407-cb487a617a70,14cf6b16-a816-4d9a-86a7-92d03f8db22e,3.8,Great balance of flavors.,TRUE
+06648ef7-f48c-4ff6-8e30-a311ecaecfef,4d202907-97b4-4c71-a081-6ffeca051e0c,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.1,I was impressed with the result.,FALSE
+3f786e89-f5c0-4442-bab3-ff63d1c58685,a1dacd6d-cba4-4482-9048-f05754bec294,2face309-fffa-44c1-965f-1b5b53f3568e,3.9,I was impressed with the result.,FALSE
+95cf1d1b-3980-4b0f-8c89-3eba1b69dd2e,dc5b7fab-f2c5-4c74-94f0-fede30341a00,21688c8c-c55e-4693-a02a-6177e855c447,4.2,Absolutely amazing!,TRUE
+c54efa14-b016-4c04-b240-f62cbea05144,b164f9c2-ca4a-48e5-baf9-773aa02a8970,5dc572d1-0cf6-49bc-82db-cca1cec41bdc,2.9,Too salty for my taste.,TRUE
+532edabf-0f30-412e-a71d-ef2657b39763,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.5,Will definitely cook this again.,TRUE
+e03c3d63-15ce-44db-b972-fd1b913e4222,4d202907-97b4-4c71-a081-6ffeca051e0c,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,3.5,Will definitely cook this again.,TRUE
+f46d6105-6255-4fc1-81b4-f8eaa6510b57,11f1d9b5-d024-49b3-a15c-e1195fc583de,6763c93a-b438-48e5-be1d-c838658edbb8,3.6,Turned out perfect!,TRUE
+96515767-4c2e-45a2-8593-efe0ef7d062a,b73c61fa-be19-4500-9548-0e28e625a086,0cf9dac4-f665-45d3-b38e-5103562eef4f,3.8,A bit too spicy for me.,TRUE
+1c132baa-8f59-4d6f-8e7d-bbbc8965226b,6838126d-0e83-4378-8c28-ae8249ecec6f,accbab95-20f1-4c0a-8565-c6c7bf51f209,4,"Good, but needs more seasoning.",TRUE
+f5a93c29-06df-4c3b-ae36-b4f4d185694f,cd294a49-7cbd-4082-bb88-1260b7e030c4,f208fe65-10ee-4624-92fa-abf85ed5813a,3.5,"Good, but needs more seasoning.",FALSE
+c5249c28-35ed-4e23-b48e-24896453c5f3,9a261637-fd3e-4ec7-a8de-5e5d1ffda6a4,2face309-fffa-44c1-965f-1b5b53f3568e,3.6,Could use more vegetables.,TRUE
+60b2e9f9-f684-419a-ae13-0628c8831b4b,72298cc4-89d8-4447-858f-ba7f6c2e7096,3419d770-e0d4-4590-b02c-4531e3c70110,2.9,I was impressed with the result.,FALSE
+642623c7-c697-4ff9-a24e-2d09e802c48f,19e09466-aaaa-4637-a9b3-b7d203ec8d29,6763c93a-b438-48e5-be1d-c838658edbb8,4.7,Turned out perfect!,FALSE
+a0baee28-9fe2-4de8-b54f-ed0ed573733c,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,59a4179c-895b-4b1f-a90f-fc9f78b93986,3.8,"Family loved it, great flavors.",FALSE
+d8f2e002-7f1e-40d8-bbbd-c0860a7de329,3a0fd3f0-63b3-4f00-8cc7-383f8c922784,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,3.3,Simple and satisfying.,TRUE
+f9045907-828d-4b22-9670-deec124c0a6b,e7708296-e74a-4bf1-9383-c33547cf2283,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,2.8,"Nice presentation, tasted great.",TRUE
+3b613117-8110-4ebc-aea1-36196b7ba82c,b73c61fa-be19-4500-9548-0e28e625a086,29661fa1-a7dc-432a-b01d-370a9bac4d61,3.5,Will definitely cook this again.,TRUE
+1095eefd-e91e-4b2d-a461-1d74d589fa6b,4450377c-0503-445f-882b-e167fc05a084,1005f846-b91d-42bf-9504-5dbfb0035785,2.7,Turned out perfect!,TRUE
+e0b45ca4-6517-4c57-801a-9ea8cb660ea2,5fc07310-b4ca-42b3-a810-df66d510d03d,19bd7164-52a7-42d5-94ff-6431dd51e32d,4,"Nice presentation, tasted great.",TRUE
+5c5fa565-2131-4d5b-91ad-273ce64e5fc1,88f93761-84ce-4b03-bed5-daf0158a872e,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.3,Will definitely cook this again.,TRUE
+aa1f34be-9b79-4728-9dec-516d827643eb,c6131461-403e-46f3-a89e-cd0051e0a7b4,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.5,Great balance of flavors.,TRUE
+0bfd46e5-7d2f-4411-9220-eae212217206,d709f605-b230-4497-ab86-c93f1a22e4ed,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.1,"Not my favorite, but okay.",FALSE
+d4bece69-7be4-4592-b109-e0a35f5d36e2,d2434745-68e1-436f-b086-fe4057d85d98,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,2.9,Perfect for a quick dinner.,TRUE
+9f5ce039-98a3-4e88-b6bf-b97fc301292b,1988cfb0-6486-421d-bad6-0526f3124d44,a34ab40e-8c11-441d-be43-d846385d5a41,4.4,"Good, but needs more seasoning.",TRUE
+df48ecf4-a440-4f87-ad96-65b7b2375898,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.3,Simple and satisfying.,FALSE
+c563ab58-0c44-4754-852c-e409983a4355,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,4b23caee-72df-4f8d-8829-10bba0de426a,4.7,Too salty for my taste.,FALSE
+1f8e7fc7-6ef2-44ae-8d7f-97fa28cdfad3,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,5,Perfect for a quick dinner.,FALSE
+c4962ff4-b084-46cd-803f-1be31d23ef0e,e2cc8403-16cb-4fbc-8d3f-dbc06d1986d4,85b5474a-57d4-4362-baef-8bf4b493de8f,2.9,Easy to make and very tasty.,TRUE
+cc7d9937-ceb3-49fa-93e3-2520afd153ea,9434de83-4f06-443b-a159-307851837913,0f993b81-020b-4762-a772-623ddb4f16ca,2.6,Could use more vegetables.,FALSE
+dd5f4236-3532-4636-9a29-7c0632cbb661,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,9a1f8635-0d88-4fa8-aba3-a4c0ff0d2d6c,2.5,"Good, but needs more seasoning.",FALSE
+28ebe6c5-aa96-4d3d-ac8f-357c91e4810e,2264191d-1707-46d0-9cef-d72b0a05cb57,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.5,I was impressed with the result.,TRUE
+7cf6db3d-128c-4447-b2e3-7be62540b4ad,5fc07310-b4ca-42b3-a810-df66d510d03d,3419d770-e0d4-4590-b02c-4531e3c70110,4.6,Easy to make and very tasty.,FALSE
+34f97792-8272-49b4-9290-1f4b5d0188b2,35e54486-8e65-46f5-9e7d-c48ad7c97193,8e8731cb-7373-49cd-a102-33f8ee18abd1,3.3,"Good, but needs more seasoning.",FALSE
+40840cbb-7769-40f3-819d-a48509caf362,17c8b7db-486f-46e9-b140-0c002c1280bf,0635c0f9-a180-476d-b81a-d65da19c78f3,2.9,Perfect for a quick dinner.,FALSE
+5bd0bc07-ea96-45de-ae35-3e2d78821397,48e7d279-61be-4162-8674-0660e748fa63,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.7,"Good, but needs more seasoning.",TRUE
+6c36591a-d199-40d4-a148-37cf7119c4c3,6e271d62-0049-4bd7-aa45-e76d1d3bcac8,59a4179c-895b-4b1f-a90f-fc9f78b93986,3.8,"Nice presentation, tasted great.",TRUE
+e489c230-68c3-429a-9d15-27dabc1fa8a9,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4,"Not my favorite, but okay.",FALSE
+8fff35fe-4260-4589-9720-7e2b415464cf,387cabec-3b60-455a-9e31-e13874280a59,47e7f8ca-6f18-4b03-a171-042483bea171,3.6,"Nice presentation, tasted great.",FALSE
+cff95381-07a1-464e-ac03-72046c244bb3,19e09466-aaaa-4637-a9b3-b7d203ec8d29,accbab95-20f1-4c0a-8565-c6c7bf51f209,3.7,"Good, but needs more seasoning.",TRUE
+bacba789-b5f5-4e0c-b93e-a97e8a46715c,8b85df92-0f67-46b5-b438-d5afdb0e721b,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.5,Simple and satisfying.,TRUE
+2c2e3283-a223-41fd-9e71-4bc9c62a92f1,41f8724e-3734-4ca1-8369-4680dcc3150f,b431e1fd-5549-401d-9976-931d3a3d9501,2.5,Turned out perfect!,TRUE
+454e4cf2-b121-4801-8868-35aa0b3feaaa,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,151b8761-0606-42e5-8fbb-80e2196143fe,4.4,Simple and satisfying.,FALSE
+055f2cb2-0878-40bf-84f3-5836e28b1a78,02a9af0a-3fe8-4987-a939-744de97d97f9,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,5,"Good, but needs more seasoning.",TRUE
+bc58a434-4514-4388-b8b4-273b56f7866c,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,df6d8804-120f-4645-8251-ea67c4706fc3,3.5,A bit too spicy for me.,FALSE
+eee0d72d-a9c5-400c-9379-7d9ea53edcb1,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,7e7a94ab-f344-45ce-999e-7b3f4f188183,4.3,"Good, but needs more seasoning.",TRUE
+f2da97c9-990f-433c-b4c1-8a90f1d0746b,3d35e662-e957-4eaa-b80f-420524f5f072,7c52c46f-4e4e-4031-a23e-525d371d17a5,4.1,"Not my favorite, but okay.",TRUE
+cd606fd7-2900-457b-a8be-916bd7255dab,0d7ef19a-5067-4eea-b407-cb487a617a70,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,5,Easy to make and very tasty.,TRUE
+3fdee06c-5daa-446a-93c0-49b30ff2e464,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,2face309-fffa-44c1-965f-1b5b53f3568e,3.8,"Not my favorite, but okay.",FALSE
+86a60cb6-eaea-4e50-a7cc-3b2d932c16c6,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,3.5,Would recommend to friends.,FALSE
+1f0830d0-95d1-4089-8175-3f6c1d0529f8,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,95a1c6f4-2819-4df5-9762-a79288a860d3,2.7,"Good, but needs more seasoning.",TRUE
+2e00cb5c-a00e-492a-aa76-1a82020e4568,542dd424-3fc8-44b9-9a6e-9240d7d77634,14cf6b16-a816-4d9a-86a7-92d03f8db22e,3.8,Absolutely amazing!,TRUE
+b3f9a71a-090b-4adb-88cc-51b2d2de2d3b,188781a6-b04b-4ae5-8689-18be9ed39099,cdf85e4e-d8ea-48f4-9d69-91457c8ab733,4.3,I was impressed with the result.,TRUE
+e92daf42-4ea6-4fb4-be5b-ad4569b96e75,e2cc8403-16cb-4fbc-8d3f-dbc06d1986d4,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,3.3,Turned out perfect!,TRUE
+662ef154-51cd-40cd-bc3a-ba4f1d9f252b,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,3.3,Simple and satisfying.,FALSE
+0f09bb9b-100d-49a3-bf3e-9701d46e4326,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,7c52c46f-4e4e-4031-a23e-525d371d17a5,3.2,Perfect for a quick dinner.,TRUE
+48a2247d-9b28-4a66-9b4e-33a0292dfbea,b15190c0-3f8c-4085-8538-4ceddb11db9a,27857371-def4-4998-aef0-d423dbc10dbf,4.7,Great balance of flavors.,TRUE
+5ec99850-81d4-4034-b8df-37828b5f65f3,35e54486-8e65-46f5-9e7d-c48ad7c97193,8032fc62-eee9-4631-94b3-6537756011d1,3.8,"Nice presentation, tasted great.",TRUE
+31a0ce32-8bab-4615-b4bb-13746653f040,4a032fa3-69ad-44f3-b0aa-808fb39770af,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.8,"Family loved it, great flavors.",FALSE
+214b3388-a4c0-4831-bd28-74dad8cf3264,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,95a1c6f4-2819-4df5-9762-a79288a860d3,4.5,My kids loved it!,FALSE
+df6f22b2-ebf4-4bd3-ae9d-ec9cb11d40a0,3d35e662-e957-4eaa-b80f-420524f5f072,71479385-155b-4dee-bda2-926cc11fa1be,2.5,Turned out perfect!,FALSE
+663b4820-14e8-49fd-8ccf-0e7c20b67967,fa638a11-b94b-4c11-a032-63c2314ab0c1,c21f382f-106a-49f3-ba38-0a19fdf92f2d,2.6,Would recommend to friends.,TRUE
+0aa7b5d9-ff0d-495c-b42e-14cccf3d961c,8ed331c1-c540-4a45-a5db-f450ee745cc9,29661fa1-a7dc-432a-b01d-370a9bac4d61,4.6,I was impressed with the result.,FALSE
+38e1c032-3d04-407c-87de-98e9fc63524c,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,7c52c46f-4e4e-4031-a23e-525d371d17a5,2.7,Simple and satisfying.,TRUE
+b1a821d3-f8ce-4e5b-bfc2-6fc6a8d36238,33764feb-6eeb-44f7-a3c7-8a629ae77185,9a1f8635-0d88-4fa8-aba3-a4c0ff0d2d6c,3.6,"Good, but needs more seasoning.",TRUE
+665de37d-1a3a-420e-ad76-e1b1502279d7,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,3419d770-e0d4-4590-b02c-4531e3c70110,2.5,Easy to make and very tasty.,FALSE
+44ee9b40-4258-4aff-9be4-3c1188b2d189,795a767e-ee3d-4a61-ab18-66cd406fdcd7,a929494c-86aa-4582-a468-56aad030aab2,3.9,Would recommend to friends.,TRUE
+c3e6663e-ea7c-4bf6-bf93-1183c9fa0cd0,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,6ab98b24-33c9-46b7-84d1-7e53730592bf,2.5,"Nice presentation, tasted great.",FALSE
+52d5cd01-1716-4e41-9160-185ade8b688c,3a0fd3f0-63b3-4f00-8cc7-383f8c922784,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,3.8,Absolutely amazing!,FALSE
+8452abd9-099f-4338-ade3-c42bb50fac84,ca73d2bb-0870-423d-8228-2247c1a83802,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,2.8,Could use more vegetables.,FALSE
+6f4075f4-8bb1-4fb4-89a8-c3c31a74cac3,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.8,Could use more vegetables.,TRUE
+6fbe2200-a8b3-443f-accb-8d6ff6d2d02b,ca73d2bb-0870-423d-8228-2247c1a83802,a0cf0f43-62ab-4c26-8265-dbbbd4720457,4.8,The texture was a little off.,FALSE
+008e97ca-1b32-4ffd-9781-47d63bdec86c,fa638a11-b94b-4c11-a032-63c2314ab0c1,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.2,Will definitely cook this again.,TRUE
+6d8c393f-bc0e-49b5-8272-14048245afbc,6e271d62-0049-4bd7-aa45-e76d1d3bcac8,a4cd57c2-81a3-46b2-b810-24da3c624c5e,3.3,"Not my favorite, but okay.",TRUE
+ee743626-46e9-4b12-ad95-5720edbb4a36,9434de83-4f06-443b-a159-307851837913,0f993b81-020b-4762-a772-623ddb4f16ca,3.5,Great balance of flavors.,TRUE
+c482f7e1-3186-4da3-8839-e0bd9b39355e,2264191d-1707-46d0-9cef-d72b0a05cb57,23a139f0-289c-4567-a7a6-024134aa3f1a,4.3,Could use more vegetables.,FALSE
+af51d562-5b75-4cd7-9441-de48eb399b6d,19e09466-aaaa-4637-a9b3-b7d203ec8d29,e92bddb8-9b20-40bf-8fc3-811659707d7b,4.8,"Good, but needs more seasoning.",FALSE
+ca91c944-3251-4f49-ad04-c8cdfd16a743,9014a456-74b2-4653-a977-ed090f0496f5,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,3.3,Would recommend to friends.,FALSE
+961f9634-eff0-4bb0-ab93-1124af8f5a75,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,64d1fa26-affe-4674-a3f2-1b764311280f,4.4,My kids loved it!,TRUE
+957fa2e8-59a8-431e-9a55-0f9d669d0466,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,4c5f4b54-14f4-475e-97f9-505ac05c1047,3.6,Simple and satisfying.,TRUE
+e9c1e0eb-d302-4c9b-b086-0978215d067c,4fccc964-946d-46d1-947d-fcc71c15eafc,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.4,Simple and satisfying.,TRUE
+c2809873-7d7c-4387-af91-248788d63640,3c0152ab-a2c4-414f-99da-7006f85a7d9d,480779f0-5692-4c60-918f-b1ec322a67dd,3.2,Simple and satisfying.,FALSE
+e4a0c415-b910-4636-be00-a43c19b48b87,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,cdf85e4e-d8ea-48f4-9d69-91457c8ab733,4.5,Easy to make and very tasty.,FALSE
+acde32f4-a75e-4972-b083-3ce55a3f8e69,2e24f8bb-3803-41a5-b835-4ac289233f6d,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,3.7,Easy to make and very tasty.,FALSE
+462bd764-4d88-4d51-a2e9-39970d3b7b61,95986ff4-f224-434d-aecf-5b6895fa021d,23a139f0-289c-4567-a7a6-024134aa3f1a,2.7,Could use more vegetables.,FALSE
+e7ce3e77-a442-4888-9dd8-5c4b00c4235f,3d35e662-e957-4eaa-b80f-420524f5f072,dce5364e-b3e3-446d-81ce-cfa537871a04,3.4,Would recommend to friends.,FALSE
+b951ec78-2bd0-4d5c-94b7-700ee359e816,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,71479385-155b-4dee-bda2-926cc11fa1be,2.6,Simple and satisfying.,TRUE
+3fac52ed-7747-48f4-bf70-790f2f29f04b,2cb699a0-8278-40a8-8659-bf68fbb00d2b,2106fdc5-09b6-45e0-9193-627563a2a0ae,4.9,The texture was a little off.,TRUE
+6ec1065d-8fd8-478d-90ed-961f009c716a,98e1f173-1b0c-4a7f-b929-bd453c536bf8,8032fc62-eee9-4631-94b3-6537756011d1,3.7,The texture was a little off.,TRUE
+57c54d5d-7676-464d-94b0-c0f8002aad88,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,3a5239be-a771-4678-b252-462fa7562479,2.6,"Delicious, will make again!",TRUE
+6490e657-fc64-4daa-8503-9cd3cabb29bd,e7708296-e74a-4bf1-9383-c33547cf2283,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,3.7,Would recommend to friends.,FALSE
+a279e152-61bb-4e48-b587-1a31f2a36dbe,8ed331c1-c540-4a45-a5db-f450ee745cc9,dce5364e-b3e3-446d-81ce-cfa537871a04,3.8,Perfect for a quick dinner.,TRUE
+9194ea34-3bcb-44d8-b2d9-5e09b367efc6,4d202907-97b4-4c71-a081-6ffeca051e0c,7c52c46f-4e4e-4031-a23e-525d371d17a5,4.3,Would recommend to friends.,TRUE
+d5902e13-df20-4fd8-955f-d9c9128ecb78,8b85df92-0f67-46b5-b438-d5afdb0e721b,2106fdc5-09b6-45e0-9193-627563a2a0ae,2.7,Turned out perfect!,FALSE
+c149935f-4bd6-4e15-a7e3-0039b772c514,5fc07310-b4ca-42b3-a810-df66d510d03d,d7ee95ab-4646-4831-8e16-3318ac475fa1,4.6,Would recommend to friends.,TRUE
+ac9089cd-54a4-4734-9ab3-ad4c1b5164ed,813383a0-7fc6-4a65-80a3-2378be9dd5b9,8032fc62-eee9-4631-94b3-6537756011d1,4.9,The texture was a little off.,TRUE
+32603b4e-3501-490e-8655-166a9a0e3409,dc5b7fab-f2c5-4c74-94f0-fede30341a00,87832d28-254a-4a0b-8370-c6214e199fb5,4.4,The texture was a little off.,TRUE
+af92492b-0c79-4954-9cd7-02017d1b9616,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,13482ffd-b21f-4251-ad36-7c64dece7822,4.4,I was impressed with the result.,TRUE
+50543487-2cba-4e67-adc0-ee9f76e0b3ee,35e54486-8e65-46f5-9e7d-c48ad7c97193,15f78e6d-8c1b-4759-98bd-4626a52785ea,3.4,Easy to make and very tasty.,TRUE
+fcbbaaf9-27cc-4e25-a960-7878bec85691,8b85df92-0f67-46b5-b438-d5afdb0e721b,0f993b81-020b-4762-a772-623ddb4f16ca,4.2,Could use more vegetables.,TRUE
+f0765765-38f6-4310-9fc0-4e98d0651c83,d709f605-b230-4497-ab86-c93f1a22e4ed,d7ee95ab-4646-4831-8e16-3318ac475fa1,3.3,I was impressed with the result.,TRUE
+9ce0eb88-089a-4f29-be96-6f67aeeb82f5,ad3003b5-3e11-4579-aa3a-9f8c881c0073,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,3.3,Could use more vegetables.,TRUE
+f5d635b8-ecfe-4f6f-8c5c-08ec636be128,2e24f8bb-3803-41a5-b835-4ac289233f6d,28a79883-895d-4ed7-b50b-cba8f7cc0fbb,4.9,"A bit bland, added extra spices.",FALSE
+11355acf-6020-4550-81c6-ba3460aeceb0,17c8b7db-486f-46e9-b140-0c002c1280bf,c882a0e7-d465-45cc-89ce-d50fb90429e1,3.2,Turned out perfect!,TRUE
+be8faa0a-3ef2-41a8-b3b1-9e6c355b756d,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,151b8761-0606-42e5-8fbb-80e2196143fe,2.6,I was impressed with the result.,FALSE
+d3d8e975-9851-4843-97aa-414164d7b654,361b4d13-8598-475d-ab9a-b5b25d01df0c,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,2.7,"Nice presentation, tasted great.",TRUE
+199ed437-e7fe-4742-8900-0f634c80514d,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,e4d8c7fb-aa64-4add-baad-53edc016a012,4.4,"Delicious, will make again!",FALSE
+ed1c42d2-80ff-4a16-9808-9938a6af51f1,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,a45879da-d564-4ec6-b4cf-3c4ab5393c74,3.4,Simple and satisfying.,TRUE
+53d0ad64-fb7a-4e39-ba53-92ef405f0995,0d7ef19a-5067-4eea-b407-cb487a617a70,f49f31a4-a7b0-4936-85bd-db90dc9443a9,4.7,"Delicious, will make again!",FALSE
+f313c931-98d2-4498-87b2-e8e60e685fd1,03ed6792-a6e5-4bcc-a251-2502babe234b,6ab98b24-33c9-46b7-84d1-7e53730592bf,4.5,Simple and satisfying.,TRUE
+5f515fa0-9232-4516-897c-7edeb48359d9,f9380c62-bad6-4b21-9873-615c4138c9f0,a0cf0f43-62ab-4c26-8265-dbbbd4720457,2.8,Turned out perfect!,TRUE
+f552511b-b217-4930-bb76-9f09e8064aff,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,14cf6b16-a816-4d9a-86a7-92d03f8db22e,2.6,Perfect for a quick dinner.,TRUE
+0fc9516d-6dca-4cb8-929e-db481019c96a,fa638a11-b94b-4c11-a032-63c2314ab0c1,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,2.9,A bit too spicy for me.,TRUE
+5f6e2312-3cea-4dc4-81f5-90286c7ddfea,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,e4d8c7fb-aa64-4add-baad-53edc016a012,3.4,"Not my favorite, but okay.",FALSE
+45acd5ff-db19-4154-abe9-343d55de2696,4928b3b5-5b2c-43be-adfa-093b2841bce5,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.5,Would recommend to friends.,TRUE
+945fed20-d6e0-4088-9942-308bdb77edd1,88f93761-84ce-4b03-bed5-daf0158a872e,9a1f8635-0d88-4fa8-aba3-a4c0ff0d2d6c,2.7,Absolutely amazing!,TRUE
+39394435-3547-4c23-befb-08392302b072,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,8032fc62-eee9-4631-94b3-6537756011d1,4.2,My kids loved it!,FALSE
+c7fdd0e7-3276-45fe-b498-501b0da41e6a,fa638a11-b94b-4c11-a032-63c2314ab0c1,2274677d-4daf-45b6-a023-73aebd916b51,3.4,My kids loved it!,FALSE
+c05babf3-544f-42ee-b50e-3ccd4a7ea11e,2721571f-c2de-4ef9-a435-bafc3974fd56,d7ee95ab-4646-4831-8e16-3318ac475fa1,3,I was impressed with the result.,FALSE
+f9b1e697-0e3e-44ea-bce1-73c953e46f00,3d35e662-e957-4eaa-b80f-420524f5f072,b84905ed-d855-4a2c-aab8-f2e76018d9ac,4.9,Could use more vegetables.,TRUE
+1b28ebbe-b865-4e46-91fc-08d53df00ae0,4fccc964-946d-46d1-947d-fcc71c15eafc,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,4.6,Absolutely amazing!,FALSE
+1f9c5315-f2a6-494f-b0a0-ae328b89c7e3,e4ad0a50-b67d-4aff-aaf2-815b90e575c5,47e7f8ca-6f18-4b03-a171-042483bea171,4.5,Simple and satisfying.,FALSE
+934b88bb-2e30-49ce-858c-69068a11b89a,76ef05e5-46e1-434f-b5b0-3de39d5bb249,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3.2,Too salty for my taste.,TRUE
+13c20d1d-5764-4159-887d-cc6bccac31c1,361b4d13-8598-475d-ab9a-b5b25d01df0c,4c5f4b54-14f4-475e-97f9-505ac05c1047,4,Easy to make and very tasty.,FALSE
+de79e01e-8f76-4104-9f83-1902575dbdab,ffa0bcfc-3669-45da-b766-678c4ba68bcb,480779f0-5692-4c60-918f-b1ec322a67dd,4,Too salty for my taste.,FALSE
+b329e686-cbff-464d-ab04-c55a167cd085,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,a45879da-d564-4ec6-b4cf-3c4ab5393c74,3.5,Too salty for my taste.,FALSE
+c1afbf6a-dc7c-450c-ba56-6c8eb9602e1e,68ead65d-3799-4089-9eac-9e443938b42c,13482ffd-b21f-4251-ad36-7c64dece7822,3.9,Simple and satisfying.,FALSE
+1049a859-88b7-4830-82b9-968b01e71b1a,d709f605-b230-4497-ab86-c93f1a22e4ed,ba9ffade-87a7-4c05-8af7-99015913bd31,2.9,My kids loved it!,FALSE
+e4d6fb40-39f5-470a-b7f7-af86c999d204,2721571f-c2de-4ef9-a435-bafc3974fd56,accbab95-20f1-4c0a-8565-c6c7bf51f209,2.9,A bit too spicy for me.,FALSE
+48de5eb6-8f27-4bcb-8fa5-83a07c83b840,200bda18-6681-455d-9a1a-33f30b6cd1c9,13482ffd-b21f-4251-ad36-7c64dece7822,4.7,A bit too spicy for me.,FALSE
+73133c0d-a636-48d4-8682-649a55153a97,06b2ba00-66a2-4c95-a3a0-c0f820e2e531,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,2.8,Great balance of flavors.,TRUE
+5701a0b5-0fd4-4da3-af93-9ca765cfd034,17c8b7db-486f-46e9-b140-0c002c1280bf,d8034e6a-0e29-4105-a9b7-60be28d8471c,3.7,"Not my favorite, but okay.",TRUE
+bdb96bdf-b8a5-4fa4-96e3-ef6bd361e347,e7708296-e74a-4bf1-9383-c33547cf2283,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.1,Great balance of flavors.,FALSE
+ae168e17-1cd2-49f8-a7b3-a86ff6c83116,57a2ffa8-9b41-4e46-9091-127ce5563a92,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.8,Would recommend to friends.,FALSE
+e9a4f540-e8f3-4f73-be1e-0dd5be6e4422,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,151b8761-0606-42e5-8fbb-80e2196143fe,2.7,My kids loved it!,FALSE
+b630722e-02d4-4506-a595-d299d40cb187,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,6763c93a-b438-48e5-be1d-c838658edbb8,4.8,I was impressed with the result.,FALSE
+c53925bd-965b-4fac-b8d3-15575f6d0fa6,b164f9c2-ca4a-48e5-baf9-773aa02a8970,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,2.8,Absolutely amazing!,FALSE
+903fb1c0-2185-429c-bc2d-255eac5bec18,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,a929494c-86aa-4582-a468-56aad030aab2,4.5,My kids loved it!,FALSE
+6bb45e7e-ba8f-4eeb-b66a-722dbc8e0036,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,64d1fa26-affe-4674-a3f2-1b764311280f,2.6,Absolutely amazing!,TRUE
+460e16da-7e8a-4cb0-8009-88a3df35a1a0,48e7d279-61be-4162-8674-0660e748fa63,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,2.6,Absolutely amazing!,TRUE
+3fe898b2-585d-4a1f-8736-1f3d73f06dda,f54fb83f-7f8c-4f25-a2f6-05f014268f37,85b5474a-57d4-4362-baef-8bf4b493de8f,3.7,"Family loved it, great flavors.",TRUE
+5390e63e-486b-47ea-8e4c-3ea41be2c2b2,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,e7214fd1-4e49-4a46-a09a-93a074d44de6,2.8,The texture was a little off.,TRUE
+03cf629c-9477-4396-989a-5ebcb811900e,48822468-ac84-4d29-9f1e-ff641ff31876,703aea7e-df98-4291-a1ef-fa6411711a60,2.9,"Good, but needs more seasoning.",TRUE
+7172898e-4ceb-42fa-8b5f-832744cfd3d5,e0d1c537-6096-46cc-9ad7-c4219d768378,4a1ccc3b-f5c0-4953-8284-459a4db4874d,2.6,Could use more vegetables.,TRUE
+29f4abb6-4384-4d7c-89d9-9d5c333e761d,e0d1c537-6096-46cc-9ad7-c4219d768378,87832d28-254a-4a0b-8370-c6214e199fb5,4.8,Could use more vegetables.,TRUE
+b82c5d50-cd60-4841-bede-6efff9532a40,98e1f173-1b0c-4a7f-b929-bd453c536bf8,151b8761-0606-42e5-8fbb-80e2196143fe,2.8,"Not my favorite, but okay.",FALSE
+c64a5c57-181d-4591-afef-c60e562d43e1,41f8724e-3734-4ca1-8369-4680dcc3150f,703aea7e-df98-4291-a1ef-fa6411711a60,3.7,"Not my favorite, but okay.",FALSE
+428ce37e-a1df-46aa-ad6d-02fdb7682f28,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,59a4179c-895b-4b1f-a90f-fc9f78b93986,4.1,"A bit bland, added extra spices.",TRUE
+4e0026d3-ae37-4b9b-a326-312065a0d460,fac47c76-be3d-4b7f-954b-f5d488399c58,7e7a94ab-f344-45ce-999e-7b3f4f188183,2.6,The texture was a little off.,FALSE
+79ea8bbf-4e05-4bd6-aa63-aca9391930cd,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,1005f846-b91d-42bf-9504-5dbfb0035785,4,"A bit bland, added extra spices.",TRUE
+b7aec2d7-be73-4f54-bd1f-a448f815d18d,57a2ffa8-9b41-4e46-9091-127ce5563a92,94b3ed98-d68e-4371-b116-16868fe263dc,2.6,"Not my favorite, but okay.",FALSE
+77b0363c-0ca3-423b-9e80-107bb804cea7,17c8b7db-486f-46e9-b140-0c002c1280bf,14cf6b16-a816-4d9a-86a7-92d03f8db22e,5,Too salty for my taste.,FALSE
+540b2d5c-918b-4e12-875b-9961a76b32de,444e42c2-f419-47ba-aa3b-debea39b5305,d33f718d-97b6-4d42-adc1-856b31ded5b4,3.4,Too salty for my taste.,FALSE
+84f1778c-9ca9-45f8-979a-e485ecef0850,1424c412-731c-4ddb-b69f-8ae4348b46fc,151b8761-0606-42e5-8fbb-80e2196143fe,4.5,"Not my favorite, but okay.",FALSE
+825fbcbe-ec54-4cce-9f4f-68e0bc133e31,9434de83-4f06-443b-a159-307851837913,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,2.9,Perfect for a quick dinner.,TRUE
+26566ba9-3df5-4c60-b1ac-5f7d08e091bf,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,e7214fd1-4e49-4a46-a09a-93a074d44de6,3,"Not my favorite, but okay.",FALSE
+92c3ccf7-3fd6-4e5b-b520-106ce60ceba3,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,2274677d-4daf-45b6-a023-73aebd916b51,3.3,"Delicious, will make again!",FALSE
+6d2a1440-a48e-445b-9afb-ce9c433b7e7f,3a0fd3f0-63b3-4f00-8cc7-383f8c922784,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4.3,Too salty for my taste.,TRUE
+0c29196e-631f-41f5-9c2c-cb9bc2efbda9,ffa0bcfc-3669-45da-b766-678c4ba68bcb,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,4.7,Simple and satisfying.,TRUE
+2cbf7d21-b519-41dd-a458-e2889ef2d09a,03ed6792-a6e5-4bcc-a251-2502babe234b,14cf6b16-a816-4d9a-86a7-92d03f8db22e,4.7,"A bit bland, added extra spices.",TRUE
+22f186d3-d71e-4ca7-bab0-8c6e4b5ee951,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,12aedfe3-f88d-424b-ae0c-4182ef52d984,4.6,Absolutely amazing!,TRUE
+75bfe8c0-e11e-4f08-9752-e3847eedfa7c,a1dacd6d-cba4-4482-9048-f05754bec294,3ad232c9-a67a-4570-98e1-2e3665befda7,4.5,Too salty for my taste.,FALSE
+45dc1c93-5884-4637-98b4-2f7f673bd6ed,e41c83a6-9043-4d5f-8e1d-fc903418929c,e1850e4b-e020-4b6c-a7e4-722c7433166f,3,I was impressed with the result.,FALSE
+d5383af4-2a5b-4d47-96dd-6a7a0975dfc3,ab46b1f5-a822-45b0-bdb2-11ccdcf98abf,19bd7164-52a7-42d5-94ff-6431dd51e32d,4.6,"Family loved it, great flavors.",FALSE
+e537c312-69f3-4240-be50-57f867fb77e5,f9380c62-bad6-4b21-9873-615c4138c9f0,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4.8,"A bit bland, added extra spices.",TRUE
+5452e6c0-e9e6-4093-887b-e4c7ec5d4678,88f93761-84ce-4b03-bed5-daf0158a872e,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,4.2,Could use more vegetables.,FALSE
+b030bbb9-8938-4cd0-9748-b1e027074194,48e7d279-61be-4162-8674-0660e748fa63,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,4.3,"Family loved it, great flavors.",TRUE
+b460772b-c446-42f3-a8e9-4435f45ea5ed,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,85b5474a-57d4-4362-baef-8bf4b493de8f,2.6,A bit too spicy for me.,FALSE
+9065c0ff-fb43-40ec-8647-0e0faca793cc,20bf2fa7-82b1-4df0-85fa-37c0f81be40a,6763c93a-b438-48e5-be1d-c838658edbb8,3.6,"Family loved it, great flavors.",FALSE
+096721d0-fbab-4542-8b1b-56c3e1952c5f,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,23a139f0-289c-4567-a7a6-024134aa3f1a,2.9,Perfect for a quick dinner.,TRUE
+2fbcb9d7-4465-4f9b-baf0-6ffff7bc493c,f4beb065-aa68-4031-a429-d7c03ce6fdb7,4b23caee-72df-4f8d-8829-10bba0de426a,4.2,Will definitely cook this again.,TRUE
+4c7c7539-43ce-459e-a969-85ddad96c2ba,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,24e6327b-5650-473d-9ec7-3ec0316cda54,4.6,The texture was a little off.,TRUE
+cbd34d3d-a8e2-42f2-9d92-0598837e3f51,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,4.1,"A bit bland, added extra spices.",FALSE
+6e65673d-b701-4dee-a060-b401a5767cb0,e0d1c537-6096-46cc-9ad7-c4219d768378,95a1c6f4-2819-4df5-9762-a79288a860d3,3.9,I was impressed with the result.,FALSE
+f6a2142f-a1c0-4eb0-a5a3-10a4a6e95566,d2434745-68e1-436f-b086-fe4057d85d98,64d1fa26-affe-4674-a3f2-1b764311280f,2.6,Perfect for a quick dinner.,TRUE
+97531a01-1bb0-439c-9f37-aacee4a510cd,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,71479385-155b-4dee-bda2-926cc11fa1be,2.7,A bit too spicy for me.,TRUE
+47893985-3725-4a22-b420-6f0f87a70ba0,e37edf57-08ba-42fc-bc81-1e21fec201ab,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,2.8,"Good, but needs more seasoning.",TRUE
+b0407848-81dd-4203-9c4e-189731798e0a,b73c61fa-be19-4500-9548-0e28e625a086,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.8,Easy to make and very tasty.,FALSE
+21e613e1-d7b0-436f-86f8-acb6279010ff,5788f738-cebe-42d3-9c40-035b3389834d,71479385-155b-4dee-bda2-926cc11fa1be,3.1,Will definitely cook this again.,FALSE
+bc12c860-e0f7-4668-85fb-dc89d406582e,7c101f53-790a-4537-b66b-8ac9097c70cc,fd061d74-30ef-4827-8ca7-0591587b6121,4.6,My kids loved it!,FALSE
+74d1b7fb-005f-4ce8-8ae1-ad9d5a3e0166,444e42c2-f419-47ba-aa3b-debea39b5305,1005f846-b91d-42bf-9504-5dbfb0035785,3.7,"A bit bland, added extra spices.",TRUE
+543d6765-3bd9-4c38-aca5-61475fa2f84f,98e1f173-1b0c-4a7f-b929-bd453c536bf8,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,4.5,Simple and satisfying.,FALSE
+017ce9bb-6089-4c0c-8c5d-872650a7855c,19e09466-aaaa-4637-a9b3-b7d203ec8d29,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.9,Perfect for a quick dinner.,FALSE
+cc2c82a0-8cc0-4286-bc9f-88bc348f2f1f,e37edf57-08ba-42fc-bc81-1e21fec201ab,df6d8804-120f-4645-8251-ea67c4706fc3,3.1,Turned out perfect!,FALSE
+4a7e4482-c2c2-43ab-8a01-1f09b11d7711,fada94dc-e0fe-4ce7-8daa-0f80fb7d5f39,e5937b13-956c-4aff-9d64-73e180a77f99,2.9,The texture was a little off.,FALSE
+c9d62cac-c6e8-4e4e-a3ba-63e7902028d4,ffa0bcfc-3669-45da-b766-678c4ba68bcb,19bd7164-52a7-42d5-94ff-6431dd51e32d,3.3,"Family loved it, great flavors.",TRUE
+3f5c90c6-e1be-4404-a16b-4b066cc2918c,ba359adf-9a74-4ecd-a072-6d8a10c0fbe8,23a139f0-289c-4567-a7a6-024134aa3f1a,4.6,Absolutely amazing!,TRUE
+cb7181e9-6f0d-4955-8fb2-7b88d90497c7,0d7ef19a-5067-4eea-b407-cb487a617a70,21688c8c-c55e-4693-a02a-6177e855c447,4.7,A bit too spicy for me.,FALSE
+0072dddc-7c06-4ea5-957f-179bf805ed45,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,6dea04ef-eec2-44aa-a595-919f9af3e6fb,3.6,Will definitely cook this again.,TRUE
+5eb53d0b-f6d9-420b-af82-cfc86017b2ec,1988cfb0-6486-421d-bad6-0526f3124d44,2274677d-4daf-45b6-a023-73aebd916b51,4.6,The texture was a little off.,FALSE
+bcd2e52d-4e38-4d4d-9090-922c78dafe3e,f9380c62-bad6-4b21-9873-615c4138c9f0,ed2d7709-9d51-40b7-ba24-1516f3a863f1,3.4,Too salty for my taste.,TRUE
+df036a3a-f0e1-49dc-8992-0f94d0f108c1,dc5b7fab-f2c5-4c74-94f0-fede30341a00,7cd66880-5c4e-4e4d-b966-92cb060ac2cc,4,Would recommend to friends.,FALSE
+663dfc34-807f-4beb-9ff2-d83141213548,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,95a1c6f4-2819-4df5-9762-a79288a860d3,4.5,Too salty for my taste.,TRUE
+5a393574-64e5-45cf-a281-db239e4954bb,2cb699a0-8278-40a8-8659-bf68fbb00d2b,703aea7e-df98-4291-a1ef-fa6411711a60,3.4,The texture was a little off.,FALSE
+0c860d18-eb0b-4e76-aad5-ab85d29a3316,72298cc4-89d8-4447-858f-ba7f6c2e7096,a34ab40e-8c11-441d-be43-d846385d5a41,4.2,Will definitely cook this again.,TRUE
+3e898897-79f2-4402-8d8e-be1f00da082d,72298cc4-89d8-4447-858f-ba7f6c2e7096,5bca54c5-d852-4f6f-94f4-8579c81735c2,4,"Good, but needs more seasoning.",FALSE
+463a8291-964e-40f5-acb0-7ad7b0dfb62a,9a9ebfe5-84c1-4ff6-baf4-735c54ca9614,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,2.6,Great balance of flavors.,TRUE
+1fc7d13f-ec5f-468e-83ca-b877156fea30,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,12aedfe3-f88d-424b-ae0c-4182ef52d984,4.8,Would recommend to friends.,TRUE
+94862779-91ab-46a9-bd2e-ac166f3bbb45,e41c83a6-9043-4d5f-8e1d-fc903418929c,a34ab40e-8c11-441d-be43-d846385d5a41,2.9,The texture was a little off.,FALSE
+0c248396-7fc2-4b15-8bd5-aad2ca3c2ed4,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,3ad232c9-a67a-4570-98e1-2e3665befda7,3.6,"A bit bland, added extra spices.",TRUE
+85b73834-5c5f-4335-ac90-349cbca51365,72298cc4-89d8-4447-858f-ba7f6c2e7096,8e8731cb-7373-49cd-a102-33f8ee18abd1,3.8,Too salty for my taste.,TRUE
+660400d4-d27e-40c0-aa36-4f929714042d,e41c83a6-9043-4d5f-8e1d-fc903418929c,d8034e6a-0e29-4105-a9b7-60be28d8471c,2.9,Turned out perfect!,FALSE
+1760f66e-2aa3-4df2-8faf-1173f8c31c7b,8ed331c1-c540-4a45-a5db-f450ee745cc9,480779f0-5692-4c60-918f-b1ec322a67dd,2.9,Absolutely amazing!,TRUE
+8a13338c-9a8a-41cd-a1a3-523a4fa90eff,6baad9a1-0ef6-40d1-b0f1-1028340cd0c2,861313ba-292d-45ba-bc1d-841a0c40b46b,3,"Family loved it, great flavors.",TRUE
+775cdcb0-b361-43e3-b4e0-128fd4cabc44,f4beb065-aa68-4031-a429-d7c03ce6fdb7,8e8731cb-7373-49cd-a102-33f8ee18abd1,4,A bit too spicy for me.,TRUE
+12ee4329-f370-4f5d-b8c0-4c1cb19bbcad,e7708296-e74a-4bf1-9383-c33547cf2283,71479385-155b-4dee-bda2-926cc11fa1be,4.2,A bit too spicy for me.,FALSE
+df6b5564-d353-4d57-a26f-eaf95285f643,88f93761-84ce-4b03-bed5-daf0158a872e,5dc572d1-0cf6-49bc-82db-cca1cec41bdc,2.9,Turned out perfect!,FALSE
+11b731e1-39e5-464e-af87-1a7ca9c1496d,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,4a1ccc3b-f5c0-4953-8284-459a4db4874d,3.3,Great balance of flavors.,FALSE
+74f783ec-098e-4dc7-9901-6e32d7738625,fada94dc-e0fe-4ce7-8daa-0f80fb7d5f39,b9892311-8eb8-4a7d-aa9e-dc2ee8c98140,2.8,The texture was a little off.,FALSE
+39ca474d-d7b6-429e-83de-111346b876c6,fac47c76-be3d-4b7f-954b-f5d488399c58,f208fe65-10ee-4624-92fa-abf85ed5813a,2.5,My kids loved it!,FALSE
+eb41ec8a-b5d7-4be2-b3f8-ec93a0665e0d,f9380c62-bad6-4b21-9873-615c4138c9f0,a0cf0f43-62ab-4c26-8265-dbbbd4720457,2.9,Simple and satisfying.,FALSE
+ef3c1e1b-9a90-445c-a843-f0562c340812,32d2ffd7-dbfd-4452-8f64-9ca02a33d51c,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.9,"Family loved it, great flavors.",TRUE
+c3ed3b35-96e8-4f58-b589-a11cbb18fd04,33764feb-6eeb-44f7-a3c7-8a629ae77185,24e6327b-5650-473d-9ec7-3ec0316cda54,2.8,Would recommend to friends.,TRUE
+ad6ff0f9-0c8d-47b9-bcd3-e8c67c60f92f,95986ff4-f224-434d-aecf-5b6895fa021d,87832d28-254a-4a0b-8370-c6214e199fb5,4.4,I was impressed with the result.,FALSE
+25f16b17-d048-41a4-b2e1-f688d924befb,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,85b5474a-57d4-4362-baef-8bf4b493de8f,3.5,Would recommend to friends.,TRUE
+906ce4a1-1865-47c6-ad78-5554b6d4f6ca,3c0152ab-a2c4-414f-99da-7006f85a7d9d,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,4.4,"A bit bland, added extra spices.",TRUE
+01d085b4-ba6e-4894-84d0-3a72f78e0e5f,b5993aad-685b-44e3-81da-6b78579de076,6763c93a-b438-48e5-be1d-c838658edbb8,4.5,"Family loved it, great flavors.",FALSE
+af426096-93e7-4d6a-b04d-120f8519f2ca,7c101f53-790a-4537-b66b-8ac9097c70cc,a929494c-86aa-4582-a468-56aad030aab2,3.6,The texture was a little off.,TRUE
+d4bb0c75-dfe1-4402-98f8-79c70e587a56,fa638a11-b94b-4c11-a032-63c2314ab0c1,1e0447f6-2e6c-4573-a904-5c4325df9408,4.8,"A bit bland, added extra spices.",FALSE
+161141ed-0f24-4681-9c67-67bfd727edbb,83af4e7f-f9c5-4f84-8772-8db65c848671,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,2.7,Too salty for my taste.,TRUE
+37dfa18f-7079-4d86-bd4a-a2fec1cdd2f5,c4536aa2-9ddc-4e91-b2a9-b6f08dfa94c1,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,4.2,Too salty for my taste.,FALSE
+f0464a81-270d-479d-a850-340849cb4678,29084bf8-0fbd-46c1-b03e-ee59a61bd1b3,e7214fd1-4e49-4a46-a09a-93a074d44de6,3.5,"Not my favorite, but okay.",FALSE
+914d6451-351a-44cf-bf50-12e7835c1124,795a767e-ee3d-4a61-ab18-66cd406fdcd7,3419d770-e0d4-4590-b02c-4531e3c70110,2.8,"Family loved it, great flavors.",TRUE
+53613fe5-7473-42ff-93ae-411ffb7f5d8d,78644f53-c1d0-48c8-9f52-1ba3edf3f7eb,41c10e28-d5a9-4926-ad84-c90ca1a6bc8c,4.9,A bit too spicy for me.,TRUE
+efb1b2f2-7bd1-45e0-bb50-3942c03a69c9,5bcd15b5-50af-46b6-82be-48b80362d49e,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,3.2,Great balance of flavors.,TRUE
+5fa84e3c-fbf3-4cfd-9d54-9e10e6ecb8be,7be66667-34bf-4fc4-a1f4-a03b37a1b9aa,4a1ccc3b-f5c0-4953-8284-459a4db4874d,2.7,"Not my favorite, but okay.",FALSE
+6ea52b39-dbfb-4d28-bb39-7722d4cb457e,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,8e8731cb-7373-49cd-a102-33f8ee18abd1,3,Would recommend to friends.,TRUE
+a89836ee-017f-41c0-bcc5-9e5926f08d78,2cb699a0-8278-40a8-8659-bf68fbb00d2b,3419d770-e0d4-4590-b02c-4531e3c70110,4.4,The texture was a little off.,FALSE
+82eaa6a2-d3e2-4f57-a657-59081b1a68f0,5fc07310-b4ca-42b3-a810-df66d510d03d,7c52c46f-4e4e-4031-a23e-525d371d17a5,4.5,Perfect for a quick dinner.,FALSE
+f21dd271-db7f-4b3a-8aa4-f16995000a93,337f94fe-cc55-4202-a2cf-4e8305c49262,480779f0-5692-4c60-918f-b1ec322a67dd,5,Too salty for my taste.,FALSE
+bdb3d231-1b0f-40c4-a2ae-435a7920fe2b,091c8a5d-7327-48ad-ae9d-6ab2f2b1228f,480779f0-5692-4c60-918f-b1ec322a67dd,2.6,The texture was a little off.,FALSE
+fd7403d1-45ce-470c-9fc3-5c070f70f78a,c931a9fb-0805-43e7-a919-acf3a7fa6edb,308a0528-eae0-4450-b8ea-cd77a428a371,3.5,Would recommend to friends.,TRUE
+fd9d733a-973e-44a8-9022-09875ae34a69,48e7d279-61be-4162-8674-0660e748fa63,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.6,"A bit bland, added extra spices.",TRUE
+1d703fcc-2f4f-4480-a2ce-721ac658e956,95986ff4-f224-434d-aecf-5b6895fa021d,13482ffd-b21f-4251-ad36-7c64dece7822,4.8,Absolutely amazing!,TRUE
+698e7b6a-1e8e-4d06-bc06-ea473d69e0c4,0d7ef19a-5067-4eea-b407-cb487a617a70,22ca4376-ad88-41e9-bc20-f44f270765f8,4.4,Simple and satisfying.,TRUE
+2bfd9624-fb92-4581-9b27-b1e40c1590e3,2264191d-1707-46d0-9cef-d72b0a05cb57,21688c8c-c55e-4693-a02a-6177e855c447,3.7,Would recommend to friends.,TRUE
+9f2a12a5-2ff0-44d6-92f5-3a1d8fdc5080,2c0dabe6-e629-45f1-b8bc-3b866e8c86c2,85b5474a-57d4-4362-baef-8bf4b493de8f,3.6,Perfect for a quick dinner.,FALSE
+0955f654-6dd2-4e7e-a5be-0c01a6f05e0d,4450377c-0503-445f-882b-e167fc05a084,c882a0e7-d465-45cc-89ce-d50fb90429e1,4.1,Simple and satisfying.,FALSE
+c5657a28-9a74-47b9-8dfe-0cfa8c3b9781,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,861313ba-292d-45ba-bc1d-841a0c40b46b,3.1,Simple and satisfying.,FALSE
+907f208b-51e9-48ae-b678-3c302a35adfb,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,e7214fd1-4e49-4a46-a09a-93a074d44de6,4.1,"Family loved it, great flavors.",TRUE
+dfdfa006-3cd6-4a89-a0a0-3c4fc14103d4,cd294a49-7cbd-4082-bb88-1260b7e030c4,e7214fd1-4e49-4a46-a09a-93a074d44de6,3.3,"Not my favorite, but okay.",TRUE
+f769ded4-fe3f-4736-bd86-ea06b8fd30d3,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,accbab95-20f1-4c0a-8565-c6c7bf51f209,4.6,Great balance of flavors.,FALSE
+50a3c0af-63f9-4547-a503-3a15d2b813e7,188781a6-b04b-4ae5-8689-18be9ed39099,7c52c46f-4e4e-4031-a23e-525d371d17a5,2.9,I was impressed with the result.,TRUE
+6de71cb4-c1f5-4a7c-9522-d32fb33ccf9d,d709f605-b230-4497-ab86-c93f1a22e4ed,6ab98b24-33c9-46b7-84d1-7e53730592bf,2.6,Great balance of flavors.,FALSE
+75f83e64-769d-45ad-9a3e-5b0362da0a45,b2d20cd9-e2a3-405f-a7e6-6b57d07e1d4b,f49f31a4-a7b0-4936-85bd-db90dc9443a9,3.5,The texture was a little off.,FALSE
+e71a80b0-aebb-4de3-9fcb-2e5755ff91a6,b5993aad-685b-44e3-81da-6b78579de076,c21f382f-106a-49f3-ba38-0a19fdf92f2d,4.1,Simple and satisfying.,TRUE
+b1d02beb-d6b6-4c92-86d2-72e759d814f2,ad3003b5-3e11-4579-aa3a-9f8c881c0073,0635c0f9-a180-476d-b81a-d65da19c78f3,4.8,Could use more vegetables.,TRUE
+5b15d6fe-8a42-4d05-8b23-1f701b10992c,95986ff4-f224-434d-aecf-5b6895fa021d,ca436e6f-f767-4f62-8bce-157daaf0c63f,4.2,"Delicious, will make again!",TRUE
+753a6d3a-015b-473a-a6f6-6c0fbba8ff57,42827e1d-da01-477b-8537-53074e16ca40,f208fe65-10ee-4624-92fa-abf85ed5813a,3,The texture was a little off.,FALSE
+36b9cab4-6871-442b-9b2d-e8225cb48d1c,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,85b5474a-57d4-4362-baef-8bf4b493de8f,3.9,Great balance of flavors.,FALSE
+c30d7cae-7f9b-4017-b9de-5b611ed20cbd,70ba18d3-0818-4192-b019-561c8ac60542,cd153e2d-2e85-4fb5-a1d6-5e32a2a55175,3.1,Could use more vegetables.,TRUE
+54587e9e-c502-4f48-9525-bbd0db11fe4c,4c07ffe5-6992-49c8-a8d4-cf7559c3c896,0cf9dac4-f665-45d3-b38e-5103562eef4f,4.7,Easy to make and very tasty.,FALSE
+a560abb4-ef34-4279-8923-9dc5ca823d2c,83af4e7f-f9c5-4f84-8772-8db65c848671,2274677d-4daf-45b6-a023-73aebd916b51,3.8,A bit too spicy for me.,FALSE
+8de8fff8-058d-4a7a-9bff-06cd43db83d7,9014a456-74b2-4653-a977-ed090f0496f5,d33f718d-97b6-4d42-adc1-856b31ded5b4,2.8,Easy to make and very tasty.,FALSE
+f54461eb-f78b-436d-9a38-2e465f8f24aa,091c8a5d-7327-48ad-ae9d-6ab2f2b1228f,7c52c46f-4e4e-4031-a23e-525d371d17a5,3.5,Simple and satisfying.,FALSE
+753594ee-5fe8-481d-a7d3-db1a704ff987,72298cc4-89d8-4447-858f-ba7f6c2e7096,aab5ff0a-2ec3-4d60-843d-4f88c32bbc8c,4.1,Simple and satisfying.,FALSE
+bacc2f3d-e5a9-4531-a63a-49cf3549e8ac,7be66667-34bf-4fc4-a1f4-a03b37a1b9aa,23a139f0-289c-4567-a7a6-024134aa3f1a,4.4,Too salty for my taste.,FALSE
+97a0ba45-389d-4d85-bc3f-93171d098a0a,b164f9c2-ca4a-48e5-baf9-773aa02a8970,4981a66c-c44d-4697-a0ab-2b57db9d4e96,4.6,A bit too spicy for me.,FALSE
+9d04998e-f6ed-44f2-b92b-21da0960f637,ffa0bcfc-3669-45da-b766-678c4ba68bcb,e7214fd1-4e49-4a46-a09a-93a074d44de6,2.6,My kids loved it!,TRUE
+1fe8c06f-7bb2-4a99-8daf-ad54b68f0d02,35e54486-8e65-46f5-9e7d-c48ad7c97193,1b2bd97a-ebca-4329-a35a-fd5705ad8c0b,2.8,Easy to make and very tasty.,FALSE
+c0abef8f-4e95-403a-97d8-7be0d9ebf26a,188781a6-b04b-4ae5-8689-18be9ed39099,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,3.5,"Nice presentation, tasted great.",TRUE
+ed643de0-f50f-4772-9ae9-531b75054ae2,3c0152ab-a2c4-414f-99da-7006f85a7d9d,64d1fa26-affe-4674-a3f2-1b764311280f,4.5,Simple and satisfying.,FALSE
+13c00219-a964-4ff8-8c3e-6d7b0138a507,813383a0-7fc6-4a65-80a3-2378be9dd5b9,5bca54c5-d852-4f6f-94f4-8579c81735c2,4.9,Perfect for a quick dinner.,FALSE
+91f770c1-4a6e-4e2c-a78d-4249404ea9b6,9d3979cd-6e10-43a8-835e-006003a1cb4b,59a4179c-895b-4b1f-a90f-fc9f78b93986,3.9,The texture was a little off.,TRUE
+668fa0fd-d3a9-4e20-a7b5-be60a42d14b2,d709f605-b230-4497-ab86-c93f1a22e4ed,2face309-fffa-44c1-965f-1b5b53f3568e,4.4,Will definitely cook this again.,TRUE
+3d2b837e-96e9-4ed5-aff3-79b419876dc4,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,a45879da-d564-4ec6-b4cf-3c4ab5393c74,3.7,My kids loved it!,TRUE
+f3ce172d-977f-4884-abe7-ba26fb280c86,42827e1d-da01-477b-8537-53074e16ca40,22ca4376-ad88-41e9-bc20-f44f270765f8,4.4,"Good, but needs more seasoning.",TRUE
+afbc6a5d-5f1c-4494-a51f-b5958933d869,bfb1a350-e49f-4b55-981b-08fab2fd9d07,8e8731cb-7373-49cd-a102-33f8ee18abd1,2.7,"Not my favorite, but okay.",FALSE
+2442aaf3-7895-4886-804f-a0ebfa053d0e,dc95222f-7679-4ecb-b00e-33d1f9bf8108,4ad7afe7-52e8-4ebf-a05b-ba0412b83a5c,2.9,Perfect for a quick dinner.,FALSE
+2cad7a43-77b5-4482-8177-fac81bb26d8c,8ed331c1-c540-4a45-a5db-f450ee745cc9,c21f382f-106a-49f3-ba38-0a19fdf92f2d,4.6,I was impressed with the result.,TRUE
+8f4fcc16-709f-41f5-b30d-975b1338500e,f9e24e28-02ab-4cf3-8fe0-647b2336c8ab,24e6327b-5650-473d-9ec7-3ec0316cda54,4.5,"Not my favorite, but okay.",TRUE
+9ff3b744-fe04-496b-bdbe-e91ce1994f22,e89f6463-93c7-487d-8e2f-8bfba4b60b6c,6763c93a-b438-48e5-be1d-c838658edbb8,4.9,Would recommend to friends.,TRUE
+94808454-9212-43f0-b6d6-4f30390c9425,5bcd15b5-50af-46b6-82be-48b80362d49e,3419d770-e0d4-4590-b02c-4531e3c70110,3.5,Turned out perfect!,FALSE
+5cae9638-5576-47ed-a80b-b9596d325c58,02a9af0a-3fe8-4987-a939-744de97d97f9,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,2.6,I was impressed with the result.,TRUE
+b70e3cf0-e765-4131-a7db-09fd246ef832,48e7d279-61be-4162-8674-0660e748fa63,b431e1fd-5549-401d-9976-931d3a3d9501,4.5,I was impressed with the result.,TRUE
+91d58a49-ea71-44fe-9c4a-d3a88993b6a1,2e24f8bb-3803-41a5-b835-4ac289233f6d,22ca4376-ad88-41e9-bc20-f44f270765f8,3.3,Absolutely amazing!,TRUE
+31893acc-5e2e-4ded-852c-acc11c65d78e,7c101f53-790a-4537-b66b-8ac9097c70cc,d33f718d-97b6-4d42-adc1-856b31ded5b4,2.9,Turned out perfect!,TRUE
+c3db7f4b-e4dc-43ea-b317-601d2ca71e67,9d3979cd-6e10-43a8-835e-006003a1cb4b,15f78e6d-8c1b-4759-98bd-4626a52785ea,4.9,"Not my favorite, but okay.",FALSE
+09734b66-6ae8-4551-9c0e-4c391c0761ac,8ed331c1-c540-4a45-a5db-f450ee745cc9,a0cf0f43-62ab-4c26-8265-dbbbd4720457,3.9,"Delicious, will make again!",FALSE
+0a7ea706-5a2d-4792-8d10-9b127413148d,68ead65d-3799-4089-9eac-9e443938b42c,f208fe65-10ee-4624-92fa-abf85ed5813a,2.6,I was impressed with the result.,TRUE
+a14f6806-4378-4503-bf86-b33a61fee53d,d1839ec4-e7ba-46a3-87fd-d36326ab4edf,5dc572d1-0cf6-49bc-82db-cca1cec41bdc,4.4,Easy to make and very tasty.,FALSE
+e280e36f-db35-4821-9a56-fff1e5e5b964,b73c61fa-be19-4500-9548-0e28e625a086,21688c8c-c55e-4693-a02a-6177e855c447,3.6,Simple and satisfying.,TRUE
+028b3762-4ef7-4c71-b0d1-c49b45349524,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,85b5474a-57d4-4362-baef-8bf4b493de8f,2.6,Will definitely cook this again.,FALSE
+d733ac9e-036a-4ff0-b387-cd2a3b28e7c7,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,87832d28-254a-4a0b-8370-c6214e199fb5,2.8,"Delicious, will make again!",FALSE
+b974cba5-c792-4fd5-a4e3-d0cff3147875,337f94fe-cc55-4202-a2cf-4e8305c49262,2cba46e9-a2c0-4254-97b6-b1cfb17b7fda,4.9,"Delicious, will make again!",FALSE
+13b66caf-782c-42a3-a793-5c8ad8e45df4,fada94dc-e0fe-4ce7-8daa-0f80fb7d5f39,2face309-fffa-44c1-965f-1b5b53f3568e,4.6,My kids loved it!,FALSE
+8f06df1e-28b4-4f79-a380-fcd451a42971,fac47c76-be3d-4b7f-954b-f5d488399c58,1c3716c5-cdb6-4114-852d-9c8cbbc10bc9,2.6,Will definitely cook this again.,TRUE
+1939504f-76c9-4437-8038-46737c3f170f,d2434745-68e1-436f-b086-fe4057d85d98,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,4.8,I was impressed with the result.,FALSE
+07c5e604-45df-4a7d-999b-474ae60b4bda,2a5ee383-abb4-4dd2-8efa-7f5df439f8a1,4c5f4b54-14f4-475e-97f9-505ac05c1047,3.1,Too salty for my taste.,FALSE
+76f339a1-4854-49d3-8828-f48b702b7289,e2cc8403-16cb-4fbc-8d3f-dbc06d1986d4,7df670c3-6ee0-4856-959b-434b096543a7,4.8,"Not my favorite, but okay.",TRUE
+1514c13e-79fd-4f72-9067-a64f7e6a92bd,fceaa7a3-2ede-4e36-b5d0-07cbd2098f5a,e7214fd1-4e49-4a46-a09a-93a074d44de6,3.3,I was impressed with the result.,TRUE
+c9af9a4a-3082-4402-82bf-df0dd2c312b4,1424c412-731c-4ddb-b69f-8ae4348b46fc,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.3,Great balance of flavors.,FALSE
+11357251-8069-42af-a217-0901bd8824f3,9d3979cd-6e10-43a8-835e-006003a1cb4b,437b6ae7-c53a-4398-ac00-4cacbb16c3d4,2.6,A bit too spicy for me.,TRUE
+3731f79e-d0b9-45b3-8674-af1fe91b65f5,813383a0-7fc6-4a65-80a3-2378be9dd5b9,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.7,Simple and satisfying.,TRUE
+56fe03c2-d415-4421-88cd-841829214281,7c101f53-790a-4537-b66b-8ac9097c70cc,6ab98b24-33c9-46b7-84d1-7e53730592bf,3.7,"A bit bland, added extra spices.",FALSE
+729ffa8a-224b-41cb-85c0-1276afee1615,4f42e69f-fd02-4cfb-8e0b-4671b43c88ce,0db50f0e-3cc8-4d1c-9051-6e89cd39c5a0,4.1,"Good, but needs more seasoning.",FALSE
+d2d931b0-4fb4-4d3d-881d-bf7d408349b4,3e404b2f-5e29-41a2-ac9a-4dd45a02dfdf,f04cdf5b-4d07-4cc8-ab36-7f0eb07b1a2d,4.2,Turned out perfect!,FALSE
+7370766f-6e89-4c65-930b-7fae4a8cf857,fada94dc-e0fe-4ce7-8daa-0f80fb7d5f39,7e7a94ab-f344-45ce-999e-7b3f4f188183,3.8,Would recommend to friends.,TRUE
+31da6ddc-ca52-42f9-8a7a-8906082c3f0f,e0d1c537-6096-46cc-9ad7-c4219d768378,308a0528-eae0-4450-b8ea-cd77a428a371,3.1,"Nice presentation, tasted great.",TRUE
+b1ffa5e6-6497-4c28-9049-d491b01b16be,fa638a11-b94b-4c11-a032-63c2314ab0c1,0f993b81-020b-4762-a772-623ddb4f16ca,4.1,Absolutely amazing!,TRUE
+8f027c74-5e2e-4c54-93eb-74b07c0885dd,0d7ef19a-5067-4eea-b407-cb487a617a70,a45879da-d564-4ec6-b4cf-3c4ab5393c74,4.6,My kids loved it!,FALSE
+fad9b8e7-c8a0-4f9c-b61c-a6343049fe2a,4928b3b5-5b2c-43be-adfa-093b2841bce5,58d6eb82-86c7-4ddf-832b-d82db5fe19c9,3.4,Easy to make and very tasty.,FALSE
+50d79eed-7d55-47ec-af3f-8dedacf69f82,4fccc964-946d-46d1-947d-fcc71c15eafc,ba9ffade-87a7-4c05-8af7-99015913bd31,3.4,Absolutely amazing!,TRUE
+de17fd34-17cc-4670-8bf6-1ba312f92e2a,0d7ef19a-5067-4eea-b407-cb487a617a70,a4cd57c2-81a3-46b2-b810-24da3c624c5e,4.9,"Good, but needs more seasoning.",TRUE
+228e5e63-7eb2-418a-ac24-a07d32a7a2f8,c6131461-403e-46f3-a89e-cd0051e0a7b4,2106fdc5-09b6-45e0-9193-627563a2a0ae,4.9,Turned out perfect!,TRUE
+5d6e491e-e556-4a98-bee1-933d4a655d99,41f8724e-3734-4ca1-8369-4680dcc3150f,21688c8c-c55e-4693-a02a-6177e855c447,2.7,I was impressed with the result.,FALSE
+db9bc5b9-e428-4464-a756-4a1743d7b601,ca73d2bb-0870-423d-8228-2247c1a83802,4c5f4b54-14f4-475e-97f9-505ac05c1047,2.7,Perfect for a quick dinner.,TRUE
+f6c65cd8-de67-443f-b6a6-a936b7c0daad,2e24f8bb-3803-41a5-b835-4ac289233f6d,cc087b88-c5e2-4ebb-b1fb-89dc3fc801e6,4.8,Easy to make and very tasty.,TRUE
+9880bf59-ef28-4bd9-bb91-7b02f0e02595,361b4d13-8598-475d-ab9a-b5b25d01df0c,8fb676ee-2e65-4c26-96c6-a58b3dfdd6c9,4.1,"Family loved it, great flavors.",TRUE
+a4fb0905-6611-4620-857d-0251df1d010a,17c8b7db-486f-46e9-b140-0c002c1280bf,e2e5d28e-11b6-4d84-9a17-8cffd5e10fd6,2.9,Great balance of flavors.,TRUE
+c8e5a718-991c-4c98-9139-025fe5016bf1,fada94dc-e0fe-4ce7-8daa-0f80fb7d5f39,861313ba-292d-45ba-bc1d-841a0c40b46b,3.5,"A bit bland, added extra spices.",FALSE
+8de2ee7e-c0e2-4306-87b1-4c4e5ba7a239,6838126d-0e83-4378-8c28-ae8249ecec6f,480779f0-5692-4c60-918f-b1ec322a67dd,3.7,Perfect for a quick dinner.,TRUE
+4ebc2586-c225-4106-b821-7023f83ae79f,1424c412-731c-4ddb-b69f-8ae4348b46fc,e4d8c7fb-aa64-4add-baad-53edc016a012,3.4,Would recommend to friends.,TRUE
+452e9003-e227-4ee2-a6e3-5fb61ee7db3d,a24b8f65-a674-41c6-8db4-0d3ae1fb5b0c,21688c8c-c55e-4693-a02a-6177e855c447,3,"Family loved it, great flavors.",TRUE
+3d204121-dfa8-4d97-9fcb-91e6857b7779,dc5b7fab-f2c5-4c74-94f0-fede30341a00,d7ee95ab-4646-4831-8e16-3318ac475fa1,4,Perfect for a quick dinner.,FALSE
+04bc2dd1-ca9c-49a1-83ae-af03c801a7b1,bc5332e6-8b9e-4e10-b61c-270bee4d2f33,3a5239be-a771-4678-b252-462fa7562479,4.1,Could use more vegetables.,FALSE
+ebab3e15-156e-4183-adaa-727252edab6d,f8ea64ba-e486-4d73-a1ec-ab670fbfadac,29661fa1-a7dc-432a-b01d-370a9bac4d61,4.7,"Family loved it, great flavors.",FALSE
+eb38036d-e134-48d6-ab80-3938afe39125,3d35e662-e957-4eaa-b80f-420524f5f072,d33f718d-97b6-4d42-adc1-856b31ded5b4,4.3,"A bit bland, added extra spices.",FALSE
+0376f2c5-09e1-4626-905b-dc59ab3adf48,ec1d2534-2dfd-4ddc-ab7d-1673b2bea6cd,71479385-155b-4dee-bda2-926cc11fa1be,4.9,Too salty for my taste.,FALSE
+53ca48f7-9caa-4d43-85aa-2a985d3f17c0,d5fc6914-1b45-4db3-8d7b-93662e994dfc,13482ffd-b21f-4251-ad36-7c64dece7822,4,Will definitely cook this again.,FALSE
+56645683-f1dd-4bad-9b34-954ca90b92a9,ca73d2bb-0870-423d-8228-2247c1a83802,29661fa1-a7dc-432a-b01d-370a9bac4d61,4.9,A bit too spicy for me.,FALSE
+3e66c7ca-cca3-44ae-9652-aa9c925ab5a9,2c3e65c7-ab41-4549-9c6c-fcd2ad2ee5b4,f49f31a4-a7b0-4936-85bd-db90dc9443a9,3.7,Easy to make and very tasty.,FALSE
+79e6e765-dbda-4ce4-b257-f86b79eb1252,70ba18d3-0818-4192-b019-561c8ac60542,59a4179c-895b-4b1f-a90f-fc9f78b93986,3.1,My kids loved it!,TRUE
+189acb7a-bfa0-4418-aee4-3e1dd2632a4c,aa6f5b77-fe8b-4823-92ec-a7970aefc03c,dc653cd9-2705-4a62-8fbf-ba472ac0b46c,3.5,Turned out perfect!,FALSE
+2e544e77-aa07-43df-be3c-1055ac0df3a4,bfb1a350-e49f-4b55-981b-08fab2fd9d07,4b23caee-72df-4f8d-8829-10bba0de426a,2.5,Would recommend to friends.,TRUE
+fe5d20c4-cdd0-44c4-bb13-7fbbd3bab40b,19e09466-aaaa-4637-a9b3-b7d203ec8d29,4a1ccc3b-f5c0-4953-8284-459a4db4874d,3.5,Too salty for my taste.,FALSE
+e712f3a0-5f68-4040-99b5-c9dac50a5ad8,76ef05e5-46e1-434f-b5b0-3de39d5bb249,29661fa1-a7dc-432a-b01d-370a9bac4d61,4.3,"Family loved it, great flavors.",TRUE
+abf398fc-73c8-4850-84b0-bb4086683db6,6838126d-0e83-4378-8c28-ae8249ecec6f,4b23caee-72df-4f8d-8829-10bba0de426a,3.5,Will definitely cook this again.,TRUE
+c5c7af80-c85d-412d-b56c-71d14461e713,c7e66d5a-99a8-40ed-9d5d-cc6af5d44911,f49f31a4-a7b0-4936-85bd-db90dc9443a9,3.5,Easy to make and very tasty.,TRUE
+73058802-75cf-4b74-b731-01d805a5910b,2264191d-1707-46d0-9cef-d72b0a05cb57,cdcbddb3-3152-495b-acd1-1c31697152eb,2.8,"Nice presentation, tasted great.",FALSE

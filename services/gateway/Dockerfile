@@ -5,16 +5,14 @@ WORKDIR /app
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
 COPY services/gateway/pom.xml .
-RUN mvn dependency:go-offline
-
 COPY services/gateway/src ./src
-RUN mvn clean install -Dmaven.test.skip=true -X
+
+RUN --mount=type=cache,target=/root/.m2,rw mvn clean package -DskipTests
 
 
 FROM openjdk:23-slim
 
 WORKDIR /app
 
-COPY --from=builder /app/target/*.jar /app/app.jar
-
-CMD java -jar /app/app.jar
+COPY --from=builder /app/target/*.jar app.jar
+CMD ["java", "-jar", "app.jar"]

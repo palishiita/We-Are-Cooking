@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1702-mock-data-csv-ingredients-categories-connections
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/ingredients_categories_connections.csv
+            separator: ","
+            quotchar: "\""
+            tableName: ingredients_categories_connections
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'ingredient_id'
+                  name: ingredient_id
+                  type: UUID
+              - column:
+                  header: 'category_id'
+                  name: category_id
+                  type: UUID
+
+
+

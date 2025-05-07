@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1700-mock-data-csv-ingredients
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/ingredients.csv
+            separator: ","
+            quotchar: "\""
+            tableName: ingredients
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'id'
+                  name: id
+                  type: UUID
+              - column:
+                  header: 'name'
+                  name: name
+                  type: STRING
+              - column:
+                  header: 'description'
+                  name: description
+                  type: STRING
+
+
+

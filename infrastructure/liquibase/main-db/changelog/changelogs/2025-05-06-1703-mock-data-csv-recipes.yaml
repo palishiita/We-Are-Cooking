@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1704-mock-data-csv-recipes
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/recipes.csv
+            separator: ","
+            quotchar: "\""
+            tableName: recipes
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'id'
+                  name: id
+                  type: UUID
+              - column:
+                  header: 'posting_user_id'
+                  name: posting_user_id
+                  type: UUID
+              - column:
+                    header: 'name'
+                    name: name
+                    type: STRING
+              - column:
+                    header: 'description'
+                    name: description
+                    type: STRING
+
+
+
