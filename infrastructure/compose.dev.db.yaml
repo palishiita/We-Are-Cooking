@@ -1,4 +1,5 @@
 services:
+
   wrc-db:
     container_name: "wrc-db"
     image: postgres:17
@@ -28,6 +29,15 @@ services:
       - wrc-db
     volumes:
       - ./liquibase/main-db/changelog:/liquibase/changelog
+    networks:
+      - wrcNetwork
+
+  redis:
+    container_name: "wrc-redis"
+    build:
+      context: ../services/redis
+    ports:
+      - "6379:6379"
     networks:
       - wrcNetwork
 

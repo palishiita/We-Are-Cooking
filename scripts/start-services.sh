@@ -12,7 +12,9 @@ set -ex
 
 build() {
   docker build -f "$home"/services/test/Dockerfile . -t wrc-rest-test:latest
-  docker build -f "$home"/services/userinfo/Dockerfile . -t wrc-userinfo:latest
+#  docker build -f "$home"/services/userinfo/Dockerfile . -t wrc-userinfo:latest
+#  docker build -f "$home"/services/recommender/app/Dockerfile . -t wrc-recommender:latest
+#  docker build -f "$home"/services/frontend/Dockerfile . -t wrc-frontend:latest
 }
 
 run() {
