@@ -6,7 +6,7 @@ WORKDIR /app
 EXPOSE 7001
 
 FROM rust:1.86.0-slim AS build
-RUN apt update && apt install -y lld clang pkg-config libssl-dev
+RUN apt update && apt install -y lld clang pkg-config libssl-dev curl
 
 WORKDIR /src
 COPY . .
@@ -16,6 +16,7 @@ RUN mkdir -p /app/upload/
 RUN cargo build --release
 
 FROM base AS final
+RUN mkdir -p /app/upload
 COPY config.release.yaml /app/config.yaml
 COPY --from=build /src/target/release/reels_microservice /app/app
 
