@@ -200,17 +200,58 @@ namespace RecipesAPI.Services
             throw new NotImplementedException();
         }
 
+        // this will be done later, when the Units are applied to the recipe ingredients as well
         public Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaginatedResult<GetFridgeIngredientDataDTO>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            throw new NotImplementedException();
+            // query
+            var fridgeIngredients = _fridgeIngredients
+                .Where(x => x.UserId == userId)
+                .Include(x => x.Ingredient)
+                .Where(x => x.Ingredient.Name.Contains(query));
+
+            // sort
+            if (_ingredientProps.Contains(sortBy))
+            {
+                fridgeIngredients = fridgeIngredients.OrderByChildProperties("Ingredient", sortBy, orderByAsc);
+            }
+            else
+            {
+                fridgeIngredients = fridgeIngredients.OrderBy(x => x.Ingredient.Name);
+            }
+
+            // count
+            int totalCount = await _fridgeIngredients.CountAsync();
+
+            var data = await fridgeIngredients
+                .Include(x => x.Ingredient)
+                .Include(x => x.Unit)
+                .Skip(page * count)
+                .Take(count)
+                .Select(x => new GetFridgeIngredientDataDTO(
+                    x.IngredientId, 
+                    x.Ingredient.Name, 
+                    x.Ingredient.Description ?? "", 
+                    x.IngredientQuantity, 
+                    x.UnitId, 
+                    x.Unit.Name))
+                .ToListAsync();
+
+            return new PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>()
+            {
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
         }
 
-        public Task<PaginatedResult<GetFullRecipeDTO>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
         {
             throw new NotImplementedException();
         }

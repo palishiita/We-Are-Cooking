@@ -22,14 +22,13 @@ namespace RecipesAPI.Services.Interfaces
 
         // fridge
 
+        Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
         Task UpdateFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData);
         Task RemoveIngredientsFromFridge(Guid userId, IEnumerable<RemoveIngredientQuantityDTO> ingredientsData);
 
         // this will be done later, when the Units are applied to the recipe ingredients as well
         Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId);
-
-        Task<PaginatedResult<GetFridgeIngredientDataDTO>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
-        Task<PaginatedResult<GetFullRecipeDTO>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
 
         // restrictions
     }
