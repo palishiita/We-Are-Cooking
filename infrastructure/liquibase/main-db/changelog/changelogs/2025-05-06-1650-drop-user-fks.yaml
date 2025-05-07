@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1700-mock-data-csv-ingredients
+      author: technosudo
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: happening_participants
+            constraintName: fk_participants_user
+        - dropForeignKeyConstraint:
+            baseTableName: happenings
+            constraintName: fk_happenings_organizer
+        - dropForeignKeyConstraint:
+            baseTableName: invitations
+            constraintName: fk_invitations_invitee
+        - dropForeignKeyConstraint:
+            baseTableName: invitations
+            constraintName: fk_invitations_inviter
+        - dropForeignKeyConstraint:
+            baseTableName: recipes
+            constraintName: fk_recipe_user
+        - dropForeignKeyConstraint:
+            baseTableName: reels
+            constraintName: fk_reels_user
+        - dropForeignKeyConstraint:
+            baseTableName: reviews
+            constraintName: fk_review_user
+        - dropForeignKeyConstraint:
+            baseTableName: user_fridge_ingredients
+            constraintName: fk_user_fridge_ingredients_user
+        - dropForeignKeyConstraint:
+            baseTableName: user_profiles
+            constraintName: fk_user_profiles_user
+        - dropForeignKeyConstraint:
+            baseTableName: videos
+            constraintName: fk_videos_user
+
+
+

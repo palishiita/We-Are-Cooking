@@ -8,6 +8,24 @@ services:
     networks:
       - wrcNetwork
 
+
+  reels_api:
+    container_name: "wrc-reels-api"
+    build:
+      context: ../services/reels
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7000"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "https://localhost:8000/health"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - wrcNetwork
+      
+
   recipesapi:
     container_name: "wrc-recipesapi"
     build:
@@ -15,12 +33,13 @@ services:
       dockerfile: RecipesAPI/Dockerfile
     ports:
       - "7140:8080" # external:internal
-      - "7141:8081"
+      #- "7141:8081"
     environment:
-      - ASPNETCORE_URLS=http://+:8080;https://+:8081
-      - ASPNETCORE_Kestrel__Endpoints__Https__Url=https://+:8081
-      - ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path=${CERT_PATH}
-      - ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password=${CERT_PASSWORD}
+      - ASPNETCORE_URLS=http://+:8080
+      # ;https://+:8081
+      #- ASPNETCORE_Kestrel__Endpoints__Https__Url=https://+:8081
+      #- ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path=${CERT_PATH}
+      #- ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password=${CERT_PASSWORD}
       #- ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_ENVIRONMENT=Release
     volumes:
@@ -29,14 +48,28 @@ services:
     networks:
       - wrcNetwork
 
-  redis:
-    container_name: "wrc-redis"
+
+  wrc-recommender:
+    container_name: "wrc-recommender"
     build:
-      context: ../services/redis
+      context: ../services/recommender/app
+      dockerfile: Dockerfile
     ports:
-      - "6379:6379"
+      - "8069:8000"
     networks:
       - wrcNetwork
+
+
+  wrc-frontend:
+    container_name: "wrc-frontend"
+    build:
+      context: ../services/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8020:80"
+    networks:
+      - wrcNetwork
+
       
 networks:
   wrcNetwork:

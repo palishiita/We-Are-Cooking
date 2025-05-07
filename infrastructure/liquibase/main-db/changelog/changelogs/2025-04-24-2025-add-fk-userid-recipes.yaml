@@ -1,0 +1,11 @@
+databaseChangeLog:
+- changeSet:
+    id: add-column-userid-recipes
+    author: czechjan
+    changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_recipe_user
+            baseTableName: recipes
+            baseColumnNames: posting_user_id
+            referencedTableName: users
+            referencedColumnNames: id

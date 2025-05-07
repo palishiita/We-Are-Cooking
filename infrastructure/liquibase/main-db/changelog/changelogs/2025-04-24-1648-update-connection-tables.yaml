@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-connection-tables
+      author: wojciakjakub
+      changes:
+
+        # ingredients_categories_connection
+        - dropColumn:
+            tableName: ingredients_categories_connection
+            columnName: id
+
+        - addPrimaryKey:
+            tableName: ingredients_categories_connection
+            columnNames: ingredient_id, category_id
+
+        # recipe_ingredients
+        - dropColumn:
+            tableName: recipe_ingredients
+            columnName: id
+
+        - addPrimaryKey:
+            tableName: recipe_ingredients
+            columnNames: recipe_id, ingredient_id
+
+        # user_fridge_ingredients
+        - dropColumn:
+            tableName: user_fridge_ingredients
+            columnName: id
+
+        - addPrimaryKey:
+            tableName: user_fridge_ingredients
+            columnNames: user_id, ingredient_id
