@@ -190,14 +190,47 @@ namespace RecipesAPI.Services
 
         #region Fridge
 
-        public Task UpdateFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData)
+        public async Task SetFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData)
         {
-            throw new NotImplementedException();
-        }
+            var previous = _fridgeIngredients.Where(x => x.UserId == userId);
 
-        public Task RemoveIngredientsFromFridge(Guid userId, IEnumerable<RemoveIngredientQuantityDTO> ingredientsData)
-        {
-            throw new NotImplementedException();
+            if (!_dbContext.Users.Any(x => x.Id == userId))
+            {
+                throw new UserNotFoundException($"User with id {userId}");
+            }
+
+            var next = new List<UserFridgeIngredient>();
+
+            foreach (var ing in ingredientsData)
+            {
+                var ingredient = new UserFridgeIngredient()
+                {
+                    UserId = userId,
+                    IngredientId = ing.IngredientId,
+                    UnitId = ing.UnitId,
+                    IngredientQuantity = ing.Quantity,
+                };
+                next.Add(ingredient);
+            }
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                _fridgeIngredients.RemoveRange(previous);
+                await _dbContext.SaveChangesAsync();
+
+                await _fridgeIngredients.AddRangeAsync(next);
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(SetFridgeIngredients)}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         // this will be done later, when the Units are applied to the recipe ingredients as well

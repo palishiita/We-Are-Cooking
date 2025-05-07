@@ -1,7 +1,7 @@
 ﻿
 namespace RecipesAPI.Exceptions.NotFound
 {
-    public class CookbookRecipeNotFound : ElementNotFoundException
+    public sealed class CookbookRecipeNotFound : ElementNotFoundException
     {
         public CookbookRecipeNotFound()
         {
