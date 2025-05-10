@@ -7,6 +7,7 @@ using RecipesAPI.Model.UserData.Cookbook.Update;
 using RecipesAPI.Model.UserData.Fridge.Add;
 using RecipesAPI.Model.UserData.Fridge.Delete;
 using RecipesAPI.Model.UserData.Fridge.Get;
+using RecipesAPI.Model.UserData.Restrictions.Get;
 
 namespace RecipesAPI.Services.Interfaces
 {
@@ -30,5 +31,10 @@ namespace RecipesAPI.Services.Interfaces
         Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId);
 
         // restrictions
+        Task AddUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds);
+        Task RemoveUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds);
+
+        Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetUserRestrictedCategories(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
+        Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetUserRestrictedIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
     }
 }
