@@ -150,8 +150,6 @@ namespace RecipesAPI.Services
                 .Include(cr => cr.Recipe)
                     .ThenInclude(r => r.Ingredients)
                         .ThenInclude(ri => ri.Ingredient)
-                .Include(cr => cr.Recipe)
-                    .ThenInclude(r => r.PostingUser)
                 .Select(cr => new GetFullRecipeForCookbookDTO(
                     cr.RecipeId,
                     cr.Recipe.Name,
@@ -162,10 +160,10 @@ namespace RecipesAPI.Services
                         i.Ingredient.Description ?? "")),
                     cr.IsFavorite,
                     new CommonUserDataDTO(
-                        cr.UserId,
-                        cr.User.FistName,
-                        cr.User.SecondName ?? "",
-                        cr.User.LastName)))
+                        cr.Recipe.PostingUserId,
+                        "Temporary",
+                        "Disabled",
+                        "Posting User")))
                 .ToListAsync();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>
@@ -317,8 +315,6 @@ namespace RecipesAPI.Services
                 .Include(x => x.Recipe)
                 .ThenInclude(x => x.Ingredients)
                 .ThenInclude(x => x.Ingredient.Connections)
-                .Include(x => x.Recipe)
-                .ThenInclude(x => x.PostingUser)
                 .Where(x => !x.Recipe.Ingredients
                     .All(y => restrictedCategoriesIds
                         .Any(c => y.Ingredient.Connections
@@ -357,9 +353,9 @@ namespace RecipesAPI.Services
                         y.Ingredient.Description ?? "")),
                     new CommonUserDataDTO(
                         recipeIngredient.Recipe.PostingUserId,
-                        recipeIngredient.Recipe.PostingUser.FistName,
-                        recipeIngredient.Recipe.PostingUser.SecondName ?? "",
-                        recipeIngredient.Recipe.PostingUser.LastName
+                        "Temporary",
+                        "Disabled",
+                        "Posting User"
                         )))
                 .ToListAsync();
 
