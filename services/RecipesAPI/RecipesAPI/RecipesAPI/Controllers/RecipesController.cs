@@ -45,6 +45,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipes with full ingredient data.")]
         [HttpGet]
         public async Task<IActionResult> GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
@@ -95,6 +96,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipes only with name and description.")]
         [HttpGet]
         public async Task<IActionResult> GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
         {
@@ -126,6 +128,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(GetRecipeDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipe name and description by id.")]
         [HttpGet]
         public IActionResult GetRecipeById(Guid recipeId)
         {
@@ -151,6 +154,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(GetFullRecipeDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipe with full ingredient data by id.")]
         [HttpGet]
         public IActionResult GetFullRecipeById(Guid recipeId)
         {
@@ -176,6 +180,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(GetRecipeWithIngredientsAndCategoriesDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipes with full ingredient data, each with the connected categories.")]
         [HttpGet]
         public IActionResult GetRecipeWithIngredientCategoriesById([FromRoute] Guid recipeId)
         {

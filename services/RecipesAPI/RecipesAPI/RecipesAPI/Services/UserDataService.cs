@@ -356,7 +356,7 @@ namespace RecipesAPI.Services
                         y.Ingredient.Name,
                         y.Ingredient.Description ?? "")),
                     new CommonUserDataDTO(
-                        userId,
+                        recipeIngredient.Recipe.PostingUserId,
                         recipeIngredient.Recipe.PostingUser.FistName,
                         recipeIngredient.Recipe.PostingUser.SecondName ?? "",
                         recipeIngredient.Recipe.PostingUser.LastName

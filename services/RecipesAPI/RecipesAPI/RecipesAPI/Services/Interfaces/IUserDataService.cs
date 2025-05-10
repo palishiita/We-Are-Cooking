@@ -5,9 +5,7 @@ using RecipesAPI.Model.UserData.Cookbook.Add;
 using RecipesAPI.Model.UserData.Cookbook.Get;
 using RecipesAPI.Model.UserData.Cookbook.Update;
 using RecipesAPI.Model.UserData.Fridge.Add;
-using RecipesAPI.Model.UserData.Fridge.Delete;
 using RecipesAPI.Model.UserData.Fridge.Get;
-using RecipesAPI.Model.UserData.Restrictions.Get;
 
 namespace RecipesAPI.Services.Interfaces
 {
