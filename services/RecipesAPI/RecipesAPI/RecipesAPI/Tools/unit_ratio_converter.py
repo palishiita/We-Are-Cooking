@@ -3,7 +3,7 @@ from uuid import UUID
 
 # Example data (you’d replace this with your actual UUIDs + names)
 ingredients = [
-    {"id": "f2bea0e2-73c0-4d58-89e4-2d61f59424f5", "name": "Tomato", "units": ["l", "ml", "tsp", "tbsp", "cup"]},
+    {"id": "f2bea0e2-73c0-4d58-89e4-2d61f59424f5", "name": "Tomato", "units": ["pcs", "kg", "g"]},
     {"id": "c0ac9074-6434-422f-87b6-6cb85e853cb4", "name": "Garlic", "units": ["kg", "g", "pcs", "slice"]},
     {"id": "ab70cc29-3c38-4990-aacb-da019ba11dd1", "name": "Olive Oil", "units": ["l", "ml", "tsp", "tbsp", "cup"]},
     {"id": "2aa17ede-a10e-407f-8feb-41d0cc54dc7a", "name": "Chicken Breast", "units": ["kg", "g", "pcs", "slice"]},
@@ -129,6 +129,22 @@ unit_conversion_map = {
     ("g", "pcs"): 1/200,
     ("slice", "g"): 25,
     ("g", "slice"): 1/25,
+    ("stick", "g") : 10,
+    ("g", "stick") : 0.1,
+    ("jar", "g") : 400,
+    ("g", "jar") : 0.0025,
+    ("can", "g") : 400,
+    ("g", "can") : 0.0025,
+    ("pinch", "ml") : 5/16,
+    ("ml", "pinch") : 3.2,
+    ("pinch", "tsp") : 1/16,
+    ("tsp", "pinch") : 16,
+    ("dash", "ml") : 5/8,
+    ("ml", "dash") : 1.6,
+    ("dash", "tsp") : 0.125,
+    ("tsp", "dash") : 8,
+    ("clove" : "g") : 5,
+    ("g" : "clove") : 0.2,
     # etc...
 }
 
