@@ -20,6 +20,14 @@ databaseChangeLog:
                   header: 'ingredient_id'
                   name: ingredient_id
                   type: UUID
+              - column:
+                  header: 'quantity'
+                  name: quantity
+                  type: double
+              - column:
+                  header: 'unit_id'
+                  name: unit_id
+                  type: UUID
 
 
 

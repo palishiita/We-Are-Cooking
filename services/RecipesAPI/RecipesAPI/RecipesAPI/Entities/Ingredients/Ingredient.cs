@@ -33,5 +33,7 @@ namespace RecipesAPI.Entities.Ingredients
         public virtual ICollection<IngredientCategoryConnection> Connections { get; set; }
         public virtual ICollection<RecipeIngredient> Recipes { get; set; }
         public virtual ICollection<UserFridgeIngredient> UserFridges { get; set; }
+
+        public virtual ICollection<IngredientUnitsRatio> IngredientsUnitsRatios { get; set; }
     }
 }

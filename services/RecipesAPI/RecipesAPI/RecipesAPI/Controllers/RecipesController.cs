@@ -77,7 +77,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader] Guid userId, [FromBody] AddRecipeWithIngredientIdsDTO recipeDTO)
+        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader] Guid userId, [FromBody] AddRecipeWithIngredientsDTO recipeDTO)
         {
             try
             {
@@ -259,11 +259,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpPost]
-        public async Task<IActionResult> AddIngredientsToRecipeById([FromRoute] Guid recipeId, [FromBody] IEnumerable<Guid> ingredientIds)
+        public async Task<IActionResult> AddIngredientsToRecipeById([FromRoute] Guid recipeId, [FromBody] AddIngredientRangeToRecipeDTO ingredients)
         {
             try
             {
-                var addedIngredients = await _recipeService.AddIngredientsToRecipeById(recipeId, ingredientIds);
+                var addedIngredients = await _recipeService.AddIngredientsToRecipeById(recipeId, ingredients);
                 return CreatedAtAction(nameof(AddIngredientsToRecipeById), addedIngredients);
             }
             catch (RecipeNotFoundException ex)

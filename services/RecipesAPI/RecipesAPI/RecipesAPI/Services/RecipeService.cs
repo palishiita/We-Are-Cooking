@@ -80,7 +80,7 @@ namespace RecipesAPI.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientIdsDTO recipeDTO)
+        public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO)
         {
             // this may be unused as recipes can be done differently and posted by a different user
             if (_recipes.Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
@@ -88,12 +88,20 @@ namespace RecipesAPI.Services
                 throw new DuplicateRecipeException($"Recipe with name {recipeDTO.Name} already exists.");
             }
 
-            var distinctIngredientIds = recipeDTO.IngredientIds.Distinct();
 
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             // get only those present in the database
-            var presentIngredientIds = _ingredients.Where(x => distinctIngredientIds.Contains(x.Id)).Select(x => x.Id);
+            var presentIngredientIds = _ingredients
+                .Where(x => recipeDTO.Ingredients
+                    .Select(x => x.IngredientId)
+                    .Contains(x.Id))
+                .Select(x => x.Id);
+
+            var recipeIngredients = recipeDTO.Ingredients
+                .Where(x => presentIngredientIds.Contains(x.IngredientId))
+                .Distinct();
+
             try
             {
                 var recipe = new Recipe
@@ -106,12 +114,14 @@ namespace RecipesAPI.Services
                 await _recipes.AddAsync(recipe);
                 await _dbContext.SaveChangesAsync();
 
-                foreach (var ingredientId in presentIngredientIds)
+                foreach (var recipeIngredient in recipeIngredients)
                 {
                     await _recipeIngredients.AddAsync(new RecipeIngredient
                     {
                         RecipeId = recipe.Id,
-                        IngredientId = ingredientId,
+                        IngredientId = recipeIngredient.IngredientId,
+                        Quantity = recipeIngredient.Quantity,
+                        UnitId = recipeIngredient.UnitId
                     });
                 }
 
@@ -154,16 +164,21 @@ namespace RecipesAPI.Services
                 .Skip(page * count)
                 .Take(count)
                 .Include(recipe => recipe.Ingredients)
-                .ThenInclude(ing => ing.Ingredient)
+                    .ThenInclude(ing => ing.Ingredient)
+                .Include(recipe => recipe.Ingredients)
+                    .ThenInclude(ing => ing.Unit)
                 .Select(recipe => new GetFullRecipeDTO(
                     recipe.Id,
                     recipe.Name,
                     recipe.Description,
                     recipe.Ingredients
-                        .Select(ingredient => new GetIngredientDTO(
+                        .Select(ingredient => new GetRecipeIngredientDTO(
                         ingredient.Ingredient.Id,
                         ingredient.Ingredient.Name,
-                        ingredient.Ingredient.Description ?? ""))
+                        ingredient.Ingredient.Description ?? "",
+                        ingredient.Quantity,
+                        ingredient.UnitId,
+                        ingredient.Unit.Name))
                         .ToArray(),
                     new CommonUserDataDTO( // users stored in different database
                         recipe.PostingUserId,
@@ -232,7 +247,9 @@ namespace RecipesAPI.Services
         {
             var recipe = _recipes
                 .Include(r => r.Ingredients)
-                .ThenInclude(r => r.Ingredient)
+                    .ThenInclude(r => r.Ingredient)
+                .Include(r => r.Ingredients)
+                    .ThenInclude(r => r.Unit)
                 .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             return new GetFullRecipeDTO(
@@ -240,10 +257,13 @@ namespace RecipesAPI.Services
                 recipe.Name,
                 recipe.Description,
                 recipe.Ingredients
-                    .Select(i => new GetIngredientDTO(
+                    .Select(i => new GetRecipeIngredientDTO(
                         i.Ingredient.Id,
                         i.Ingredient.Name,
-                        i.Ingredient.Description ?? ""))
+                        i.Ingredient.Description ?? "",
+                        i.Quantity,
+                        i.UnitId,
+                        i.Unit.Name))
                     .ToArray(),
                 new CommonUserDataDTO(
                     recipe.PostingUserId,
@@ -276,16 +296,21 @@ namespace RecipesAPI.Services
             // project
             var data = await recipes
                 .Include(recipe => recipe.Ingredients)
-                .ThenInclude(recipe => recipe.Ingredient)
+                    .ThenInclude(recipe => recipe.Ingredient)
+                .Include(recipe => recipe.Ingredients)
+                    .ThenInclude(recipe => recipe.Unit)
                 .Select(recipe => new GetFullRecipeDTO(
                     recipe.Id,
                     recipe.Name,
                     recipe.Description,
                     recipe.Ingredients
-                        .Select(ingredient => new GetIngredientDTO(
+                        .Select(ingredient => new GetRecipeIngredientDTO(
                         ingredient.Ingredient.Id,
                         ingredient.Ingredient.Name,
-                        ingredient.Ingredient.Description ?? "")),
+                        ingredient.Ingredient.Description ?? "",
+                        ingredient.Quantity,
+                        ingredient.UnitId,
+                        ingredient.Unit.Name)),
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         "Temporary",
@@ -323,7 +348,9 @@ namespace RecipesAPI.Services
             // project
             var data = await recipes
                 .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
-                .ThenInclude(recipe => recipe.Ingredient)
+                    .ThenInclude(recipe => recipe.Ingredient)
+                .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
+                    .ThenInclude(recipe => recipe.Unit)
                 .Skip(page * count)
                 .Take(count)
                 .Select(recipe => new GetFullRecipeDTO(
@@ -331,10 +358,13 @@ namespace RecipesAPI.Services
                     recipe.Name,
                     recipe.Description ?? "",
                     recipe.Ingredients
-                        .Select(recipeIngredient => new GetIngredientDTO(
+                        .Select(recipeIngredient => new GetRecipeIngredientDTO(
                             recipeIngredient.IngredientId,
                             recipeIngredient.Ingredient.Name,
-                            recipeIngredient.Ingredient.Description ?? "")),
+                            recipeIngredient.Ingredient.Description ?? "",
+                            recipeIngredient.Quantity,
+                            recipeIngredient.UnitId,
+                            recipeIngredient.Unit.Name)),
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         "Temporary",
@@ -431,13 +461,14 @@ namespace RecipesAPI.Services
                 recipe.Ingredients.Select(x => x.IngredientId));
         }
 
+        // there may be added quantity and unit
         public GetRecipeWithIngredientsAndCategoriesDTO GetRecipeWithIngredientsAndCategories(Guid recipeId)
         {
             var recipe = _recipes
                 .Include(r => r.Ingredients)
-                .ThenInclude(i => i.Ingredient)
-                .ThenInclude(i => i.Connections)
-                .ThenInclude(c => c.IngredientCategory)
+                    .ThenInclude(i => i.Ingredient)
+                        .ThenInclude(i => i.Connections)
+                            .ThenInclude(c => c.IngredientCategory)
                 .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             return new GetRecipeWithIngredientsAndCategoriesDTO(
@@ -464,7 +495,7 @@ namespace RecipesAPI.Services
                         "Posting User"));
         }
 
-        public async Task AddIngredientToRecipeById(Guid recipeId, Guid ingredientId)
+        public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO addIngredientDTO)
         {
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
@@ -473,7 +504,9 @@ namespace RecipesAPI.Services
                 await _recipeIngredients.AddAsync(new RecipeIngredient()
                 {
                     RecipeId = recipeId,
-                    IngredientId = ingredientId
+                    IngredientId = addIngredientDTO.IngredientId,
+                    Quantity = addIngredientDTO.Quantity,
+                    UnitId = addIngredientDTO.UnitId,
                 });
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -486,7 +519,7 @@ namespace RecipesAPI.Services
             }
         }
 
-        public async Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, IEnumerable<Guid> ingredientIds)
+        public async Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO addIngredientsDTO)
         {
             if (!_recipes.Any(r => r.Id == recipeId))
             {
@@ -494,25 +527,26 @@ namespace RecipesAPI.Services
             }
 
             // only the ingredients that exist, take recipes of the ingredient that are not this recipe so the ingredients are ok
-            var existingIngredientIds = _ingredients
-                .Where(x => ingredientIds.Contains(x.Id))
-                .Include(x => x.Recipes)
-                .Where(x => !x.Recipes.Any(y => y.RecipeId == recipeId))
-                .Select(x => x.Id)
-                .ToArray();
+            var existingIngredients = addIngredientsDTO.Ingredients.Where(x => _ingredients.Any(y => y.Id == x.IngredientId));
+            //var existingIngredients = _ingredients
+            //    .Where(x => addIngredientsDTO.Ingredients.Select(x => x.IngredientId).Contains(x.Id))
+            //    .Include(x => x.Recipes)
+            //    .Where(x => !x.Recipes.Any(y => y.RecipeId == recipeId));
 
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             try
             {
-                var recipeIngredients = new List<RecipeIngredient>(existingIngredientIds.Length);
+                var recipeIngredients = new List<RecipeIngredient>(addIngredientsDTO.Ingredients.Count());
 
-                foreach (var ingredientId in existingIngredientIds)
+                foreach (var ingredient in existingIngredients)
                 {
                     var recipeIngredient = new RecipeIngredient()
                     {
-                        IngredientId = ingredientId,
+                        IngredientId = ingredient.IngredientId,
                         RecipeId = recipeId,
+                        Quantity = ingredient.Quantity,
+                        UnitId = ingredient.UnitId,
                     };
                     recipeIngredients.Add(recipeIngredient);
                 }
@@ -521,7 +555,7 @@ namespace RecipesAPI.Services
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                return existingIngredientIds;
+                return existingIngredients.Select(x => x.IngredientId);
             }
             catch
             {

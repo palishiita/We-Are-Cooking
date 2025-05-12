@@ -313,8 +313,11 @@ namespace RecipesAPI.Services
             // query
             var recipes = _recipeIngredients
                 .Include(x => x.Recipe)
-                .ThenInclude(x => x.Ingredients)
-                .ThenInclude(x => x.Ingredient.Connections)
+                    .ThenInclude(x => x.Ingredients)
+                        .ThenInclude(x => x.Ingredient.Connections)
+                .Include(x => x.Recipe)
+                    .ThenInclude(x => x.Ingredients)
+                        .ThenInclude(x => x.Unit)
                 .Where(x => !x.Recipe.Ingredients
                     .All(y => restrictedCategoriesIds
                         .Any(c => y.Ingredient.Connections
@@ -347,10 +350,13 @@ namespace RecipesAPI.Services
                     recipeIngredient.RecipeId, 
                     recipeIngredient.Recipe.Name, 
                     recipeIngredient.Recipe.Name, 
-                    recipeIngredient.Recipe.Ingredients.Select(y => new GetIngredientDTO(
+                    recipeIngredient.Recipe.Ingredients.Select(y => new GetRecipeIngredientDTO(
                         y.IngredientId,
                         y.Ingredient.Name,
-                        y.Ingredient.Description ?? "")),
+                        y.Ingredient.Description ?? "",
+                        y.Quantity,
+                        y.UnitId,
+                        y.Unit.Name)),
                     new CommonUserDataDTO(
                         recipeIngredient.Recipe.PostingUserId,
                         "Temporary",

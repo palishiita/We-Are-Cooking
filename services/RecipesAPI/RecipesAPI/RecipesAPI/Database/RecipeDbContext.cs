@@ -53,6 +53,30 @@ namespace RecipesAPI.Database
                 .WithMany(ri => ri.Recipes)
                 .HasForeignKey(ri => ri.IngredientId);
 
+            modelBuilder.Entity<RecipeIngredient>()
+                .HasOne(ri => ri.Unit)
+                .WithMany()
+                .HasForeignKey(ri => ri.UnitId);
+
+            // units
+            modelBuilder.Entity<IngredientUnitsRatio>()
+                .HasKey(iur => new { iur.IngredientId, iur.UnitOneId, iur.UnitTwoId });
+
+            modelBuilder.Entity<IngredientUnitsRatio>()
+                .HasOne(iur => iur.Ingredient)
+                .WithMany(iur => iur.IngredientsUnitsRatios)
+                .HasForeignKey(iur => iur.IngredientId);
+
+            modelBuilder.Entity<IngredientUnitsRatio>()
+                .HasOne(iur => iur.UnitOne)
+                .WithMany()
+                .HasForeignKey(iur => iur.UnitOneId);
+
+            modelBuilder.Entity<IngredientUnitsRatio>()
+                .HasOne(iur => iur.UnitTwo)
+                .WithMany()
+                .HasForeignKey(iur => iur.UnitTwoId);
+
             // user cookbooks
             modelBuilder.Entity<UserCookbookRecipe>()
                 .HasKey(ucr => new { ucr.UserId, ucr.RecipeId });
