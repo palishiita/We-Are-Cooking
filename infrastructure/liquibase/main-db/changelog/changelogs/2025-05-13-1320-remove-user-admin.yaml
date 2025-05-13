@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-13-1320-remove-user-admin
+      author: czechjan
+      changes:
+        -  dropTable:
+            cascadeConstraints:  true
+            catalogName:  wrc
+            schemaName:  public
+            tableName:  administrators
+            
+        -  dropTable:
+            cascadeConstraints:  true
+            catalogName:  wrc
+            schemaName:  public
+            tableName:  users
+
+
+
