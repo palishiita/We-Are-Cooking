@@ -20,6 +20,6 @@ namespace RecipesAPI.Entities.UserData
         public virtual IngredientCategory IngredientCategory { get; set; }
 
         //[ForeignKey(nameof(UserId))]
-        public virtual User User { get; set; }
+        //public virtual User User { get; set; }
     }
 }

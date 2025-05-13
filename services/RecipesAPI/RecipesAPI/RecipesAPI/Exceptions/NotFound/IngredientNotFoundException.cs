@@ -1,6 +1,6 @@
 ﻿namespace RecipesAPI.Exceptions.NotFound
 {
-    internal class IngredientNotFoundException : ElementNotFoundException
+    public class IngredientNotFoundException : ElementNotFoundException
     {
         public IngredientNotFoundException()
         {
