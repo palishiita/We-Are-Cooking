@@ -1,6 +1,6 @@
 ﻿namespace RecipesAPI.Model.Reviews.Add
 {
-    public class AddReviewDTO
+    public record AddReviewDTO(float Rating, bool HasPhotos)
     {
     }
 }

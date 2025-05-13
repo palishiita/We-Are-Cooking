@@ -105,7 +105,6 @@ namespace RecipesAPI.Database
                 .HasOne(ufi => ufi.Unit)
                 .WithMany()
                 .HasForeignKey(ufi => ufi.UnitId);
-<<<<<<< HEAD
 
             // reviews
             modelBuilder.Entity<Review>()
@@ -119,9 +118,6 @@ namespace RecipesAPI.Database
             // reviewPhotos
             modelBuilder.Entity<ReviewPhoto>()
                 .HasKey(revp => new { revp.ReviewId, revp.PhotoUrlId });
-
-=======
->>>>>>> develop
         }
 
         // recipes & ingredients
