@@ -318,11 +318,7 @@ namespace RecipesAPI.Services
                 .Include(x => x.Recipe)
                     .ThenInclude(x => x.Ingredients)
                         .ThenInclude(x => x.Unit)
-                .Where(x => !x.Recipe.Ingredients
-                    .All(y => restrictedCategoriesIds
-                        .Any(c => y.Ingredient.Connections
-                            .Select(z => z.CategoryId)
-                            .Contains(c))))
+                .Where(x => !x.Recipe.Ingredients.Any(y => restrictedCategoriesIds.Contains(y.IngredientId)))
                 .Where(x => x.Recipe.Ingredients
                     .All(y => fridgeIngredientIds.Contains(y.IngredientId)));
 

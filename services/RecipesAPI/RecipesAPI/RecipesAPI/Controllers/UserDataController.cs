@@ -119,7 +119,7 @@ namespace RecipesAPI.Controllers
 
                 if (!ingredients.Data.Any())
                 {
-                    return NotFound("No recipes in cookbook matching the given query.");
+                    return NotFound("No ingredients in the fridge matching the given query.");
                 }
                 return Ok(ingredients);
             }
@@ -151,7 +151,7 @@ namespace RecipesAPI.Controllers
 
                 if (!ingredients.Data.Any())
                 {
-                    return NotFound("No recipes in cookbook matching the given query.");
+                    return NotFound("No recipes can be formed, from the ingredients in the frigde, matching the given query.");
                 }
                 return Ok(ingredients);
             }
