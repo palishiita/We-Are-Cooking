@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Common;
-using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Model.UserData.Cookbook.Add;
 using RecipesAPI.Model.UserData.Cookbook.Get;
 using RecipesAPI.Model.UserData.Fridge.Add;
 using RecipesAPI.Model.UserData.Fridge.Get;
-using RecipesAPI.Services;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
