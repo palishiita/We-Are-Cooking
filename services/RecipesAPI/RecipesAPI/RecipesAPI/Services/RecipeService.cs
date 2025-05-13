@@ -4,14 +4,13 @@ using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
 using RecipesAPI.Exceptions.Duplicates;
 using RecipesAPI.Exceptions.NotFound;
+using RecipesAPI.Extensions;
+using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
-using RecipesAPI.Services.Interfaces;
-using RecipesAPI.Extensions;
-using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Recipes.Update;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Services
 {

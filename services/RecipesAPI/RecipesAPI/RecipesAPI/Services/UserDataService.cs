@@ -206,11 +206,6 @@ namespace RecipesAPI.Services
         {
             var previous = _fridgeIngredients.Where(x => x.UserId == userId);
 
-            if (!_dbContext.Users.Any(x => x.Id == userId))
-            {
-                throw new UserNotFoundException($"User with id {userId}");
-            }
-
             var next = new List<UserFridgeIngredient>();
 
             foreach (var ing in ingredientsData)

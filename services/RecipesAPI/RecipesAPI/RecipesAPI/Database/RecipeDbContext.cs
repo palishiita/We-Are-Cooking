@@ -19,12 +19,7 @@ namespace RecipesAPI.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // recipes
-            //modelBuilder.Entity<Recipe>()
-            //    .HasOne(r => r.PostingUser)
-            //    .WithMany(r => r.UserRecipes)
-            //    .HasForeignKey(r => r.PostingUserId); // users stored in different database
-
+            
             // ingredient category connections
             modelBuilder.Entity<IngredientCategoryConnection>()
                 .HasKey(ic => new { ic.CategoryId, ic.IngredientId });
@@ -86,11 +81,6 @@ namespace RecipesAPI.Database
                 .WithMany(ucr => ucr.UserCookbooks)
                 .HasForeignKey(ucr => ucr.RecipeId);
 
-            //modelBuilder.Entity<UserCookbookRecipe>()
-            //    .HasOne(ucr => ucr.User)
-            //    .WithMany(ucr => ucr.CookbookRecipes)
-            //    .HasForeignKey(ucr => ucr.UserId); // users stored in different database
-
             // user dietary restrictions
             modelBuilder.Entity<UserDietaryRestriction>()
                 .HasKey(udr => new { udr.UserId, udr.IngredientCategoryId });
@@ -99,11 +89,6 @@ namespace RecipesAPI.Database
                 .HasOne(udr => udr.IngredientCategory)
                 .WithMany(udr => udr.UserDietaryRestrictions)
                 .HasForeignKey(udr => udr.IngredientCategoryId);
-
-            //modelBuilder.Entity<UserDietaryRestriction>()
-            //    .HasOne(udr => udr.User)
-            //    .WithMany(udr => udr.DietaryRestrictions)
-            //    .HasForeignKey(udr => udr.UserId); // users stored in different database
 
             // user fridge ingredients
             modelBuilder.Entity<UserFridgeIngredient>()
@@ -114,17 +99,11 @@ namespace RecipesAPI.Database
                 .WithMany(ufi => ufi.UserFridges)
                 .HasForeignKey(ufi => ufi.IngredientId);
 
-            //modelBuilder.Entity<UserFridgeIngredient>()
-            //    .HasOne(ufi => ufi.User)
-            //    .WithMany(ufi => ufi.FridgeIngredients)
-            //    .HasForeignKey(ufi => ufi.UserId); // users stored in different database
-
             // units do not have to have access to the ingredients
             modelBuilder.Entity<UserFridgeIngredient>()
                 .HasOne(ufi => ufi.Unit)
                 .WithMany()
                 .HasForeignKey(ufi => ufi.UnitId);
-
         }
 
         // recipes & ingredients
@@ -136,7 +115,6 @@ namespace RecipesAPI.Database
         public DbSet<Unit> Units { get; set; }
 
         // user data
-        public DbSet<User> Users { get; set; }
         public DbSet<UserCookbookRecipe> UserCookbooks { get; set; }
         public DbSet<UserDietaryRestriction> UserDietaryRestrictions { get; set; }
         public DbSet<UserFridgeIngredient> UserFridges { get; set; }
