@@ -26,6 +26,7 @@ Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionStrin
 
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
+//builder.Services.AddScoped<IReviewService, ReviewService>();
 
 var app = builder.Build();
 

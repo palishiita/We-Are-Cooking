@@ -13,11 +13,6 @@ namespace RecipesAPI.Entities.Reviews
             ReviewPhotos = new HashSet<ReviewPhoto>();
         }
 
-        [Key]
-        [Column("id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
         [Column("recipe_id")]
         public Guid RecipeId { get; set; }
 
@@ -35,9 +30,6 @@ namespace RecipesAPI.Entities.Reviews
         public bool HasPhotos { get; set; }
 
         public virtual Recipe Recipe { get; set; }
-
-        public virtual User User { get; set; }
-
         public virtual ICollection<ReviewPhoto> ReviewPhotos { get; set; } = new HashSet<ReviewPhoto>();
     }
 }
