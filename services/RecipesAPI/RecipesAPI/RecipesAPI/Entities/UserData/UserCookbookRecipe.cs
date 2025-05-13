@@ -24,6 +24,6 @@ namespace RecipesAPI.Entities.UserData
         public virtual Recipe Recipe { get; set; }
 
         //[ForeignKey(nameof(UserId))]
-        public virtual User User { get; set; }
+        //public virtual User User { get; set; }
     }
 }

@@ -18,12 +18,18 @@ namespace RecipesAPI.Entities.Recipes
         [Required]
         public Guid IngredientId { get; set; }
 
-        // add quantity!!
+        [Column("quantity")]
+        public double Quantity { get; set; }
+
+        [Column("unit_id")]
+        public Guid UnitId { get; set; }
 
         //[ForeignKey(nameof(RecipeId))]
         public virtual Recipe Recipe { get; set; }
 
         //[ForeignKey(nameof(IngredientId))]
         public virtual Ingredient Ingredient { get; set; }
+
+        public virtual Unit Unit { get; set; }
     }
 }
