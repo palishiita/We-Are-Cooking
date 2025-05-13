@@ -1,6 +1,8 @@
 ﻿using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
+using RecipesAPI.Model.Units.Get;
+using RecipesAPI.Model.Units.Request;
 
 namespace RecipesAPI.Services.Interfaces
 {
@@ -20,5 +22,10 @@ namespace RecipesAPI.Services.Interfaces
         Task<Guid> AddIngredientWithCategoriesByIds(AddIngredientWithCategoryIdsDTO ingredientDTO);
 
         Task<Guid> AddIngredientCategory(AddIngredientCategoryDTO ingredientDTO);
+
+        GetUnitDTO GetUnit(Guid unitId);
+        Task<PaginatedResult<IEnumerable<GetUnitDTO>>> GetAllUnits(int count, int page, bool orderByAsc, string sortBy, string query);
+
+        GetTranslatedUnitQuantitiesDTO GetTranslatedUnitQuantities(RequestUnitQuantityTranslationDTO dto);
     }
 }
