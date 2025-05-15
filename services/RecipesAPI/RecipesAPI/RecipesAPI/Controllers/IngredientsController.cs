@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RecipesAPI.Exceptions.Duplicates;
+﻿using Microsoft.AspNetCore.Mvc;
+using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
+using RecipesAPI.Model.Units.Get;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -207,6 +207,62 @@ namespace RecipesAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("units")]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetUnitDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllUnits([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query)
+        {
+            count ??= 10;
+            page ??= 0;
+            orderByAsc ??= true;
+
+            sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
+            query = string.IsNullOrEmpty(query) ? string.Empty : query;
+
+            var units = await _ingredientService.GetAllUnits(count.Value, page.Value, orderByAsc.Value, sortBy, query);
+
+            try
+            {
+                if (!units.Data.Any())
+                {
+                    return NotFound("No units matching the given query.");
+                }
+                return Ok(units);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("unit/{unitId:guid}")]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public IActionResult GetUnitById([FromRoute] Guid unitId)
+        {
+            try
+            {
+                var unit = _ingredientService.GetUnit(unitId);
+                return Ok(unit);
+            }
+            catch (UnitNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
                 return BadRequest(ex.Message);
             }
         }

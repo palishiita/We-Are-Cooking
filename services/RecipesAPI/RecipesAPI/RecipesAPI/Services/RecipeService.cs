@@ -81,13 +81,6 @@ namespace RecipesAPI.Services
 
         public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO)
         {
-            // this may be unused as recipes can be done differently and posted by a different user
-            if (_recipes.Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
-            {
-                throw new DuplicateRecipeException($"Recipe with name {recipeDTO.Name} already exists.");
-            }
-
-
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             // get only those present in the database

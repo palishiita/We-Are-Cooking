@@ -8,6 +8,7 @@ using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Recipes.Get;
+using RecipesAPI.Model.Units.Request;
 using RecipesAPI.Model.UserData.Cookbook.Add;
 using RecipesAPI.Model.UserData.Cookbook.Get;
 using RecipesAPI.Model.UserData.Cookbook.Update;
@@ -35,7 +36,9 @@ namespace RecipesAPI.Services
         private readonly HashSet<string> _ingredientProps;
         private readonly HashSet<string> _categoryProps;
 
-        public UserDataService(ILogger<UserDataService> logger, RecipeDbContext dbContext)
+        private readonly IIngredientService _ingredientService;
+
+        public UserDataService(ILogger<UserDataService> logger, RecipeDbContext dbContext, IIngredientService ingredientService)
         {
             _logger = logger;
 
@@ -63,6 +66,8 @@ namespace RecipesAPI.Services
                 .GetProperties()
                 .Select(x => x.Name)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            _ingredientService = ingredientService;
         }
 
         #region Cookbook
@@ -241,9 +246,73 @@ namespace RecipesAPI.Services
         }
 
         // this will be done later, when the Units are applied to the recipe ingredients as well
-        public Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId)
+        public async Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId)
         {
-            throw new NotImplementedException();
+            var recipeIngredients = _recipeIngredients
+                .Where(x => x.RecipeId == recipeId)
+                .Include(x => x.Ingredient)
+                .Include(x => x.Unit);
+
+            // does not matter if enough
+            var fridgeIngredientsForUse = await _fridgeIngredients
+                .Where(x => x.UserId == userId)
+                .Where(x => recipeIngredients.Any(y => y.IngredientId == x.IngredientId))
+                .Include(x => x.Unit)
+                .ToListAsync();
+
+            foreach (var ingredient in fridgeIngredientsForUse)
+            {
+                var recipeIngredient = recipeIngredients
+                    .Where(x => x.IngredientId == ingredient.IngredientId)
+                    .FirstOrDefault();
+
+                var quantity = 0.0;
+
+                if (recipeIngredient!.UnitId == ingredient.UnitId)
+                {
+                    quantity = ingredient.IngredientQuantity - recipeIngredient!.Quantity;
+                }
+                else
+                {
+                    try
+                    {
+                        quantity = ingredient.IngredientQuantity - _ingredientService.GetTranslatedUnitQuantities(
+                            new RequestUnitQuantityTranslationDTO(
+                                recipeIngredient.IngredientId,
+                                recipeIngredient.UnitId,
+                                ingredient.UnitId,
+                                recipeIngredient.Quantity))
+                            .TranslatedQuantity;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
+                        quantity = ingredient.IngredientQuantity;
+                    }
+                }
+
+                ingredient.IngredientQuantity = double.Max(0.0, Math.Round(quantity, 3));
+            }
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                var fridgeIngredientsToDelete = fridgeIngredientsForUse.Where(x => Math.Round(x.IngredientQuantity, 3) <= 0.0);
+                var fridgeIngredientsToUpdate = fridgeIngredientsForUse.Where(x => !fridgeIngredientsToDelete.Contains(x));
+
+                _fridgeIngredients.RemoveRange(fridgeIngredientsToDelete);
+                _fridgeIngredients.UpdateRange(fridgeIngredientsToUpdate);
+
+                await _dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveUsedIngredientsInRecipe)}. Rollback.");
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
@@ -269,7 +338,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await _fridgeIngredients.CountAsync();
+            int totalCount = await fridgeIngredients.CountAsync();
 
             var data = await fridgeIngredients
                 .Include(x => x.Ingredient)
