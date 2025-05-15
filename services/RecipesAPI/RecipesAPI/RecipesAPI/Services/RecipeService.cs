@@ -140,8 +140,7 @@ namespace RecipesAPI.Services
             // order
             if (_recipeProps.Contains(sortBy))
             {
-                var prop = typeof(Recipe).GetProperty(sortBy);
-                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
@@ -199,7 +198,6 @@ namespace RecipesAPI.Services
             // sorting
             if (_recipeProps.Contains(sortBy))
             {
-                var prop = typeof(Recipe).GetProperty(sortBy);
                 recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
@@ -271,8 +269,7 @@ namespace RecipesAPI.Services
 
             if (_recipeProps.Contains(sortBy))
             {
-                var prop = typeof(Recipe).GetProperty(sortBy);
-                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
@@ -326,8 +323,7 @@ namespace RecipesAPI.Services
 
             if (_recipeProps.Contains(sortBy))
             {
-                var prop = typeof(Recipe).GetProperty(sortBy);
-                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
@@ -397,8 +393,7 @@ namespace RecipesAPI.Services
 
             if (_recipeProps.Contains(sortBy))
             {
-                var prop = typeof(Recipe).GetProperty(sortBy);
-                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
@@ -564,8 +559,7 @@ namespace RecipesAPI.Services
 
             if (_recipeProps.Contains(sortBy))
             {
-                var prop = typeof(Recipe).GetProperty(sortBy);
-                recipes = orderByAsc ? recipes.OrderBy(r => prop) : recipes.OrderByDescending(r => prop);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
