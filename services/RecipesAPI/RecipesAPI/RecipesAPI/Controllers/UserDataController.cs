@@ -181,6 +181,25 @@ namespace RecipesAPI.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("fridge/ingredients/recipe/{recipeId:guid}")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [EndpointDescription("Set the ingredients in the fridge as given.")]
+        public async Task<IActionResult> SetFridgeIngredients([FromHeader] Guid userId, [FromRoute] Guid recipeId)
+        {
+            try
+            {
+                await _userDataService.RemoveUsedIngredientsInRecipe(userId, recipeId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception: {ex.Message}.", ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpGet]
         [Route("restrictions/categories")]

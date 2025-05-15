@@ -276,7 +276,7 @@ namespace RecipesAPI.Services
                 {
                     try
                     {
-                        quantity = _ingredientService.GetTranslatedUnitQuantities(
+                        quantity = ingredient.IngredientQuantity - _ingredientService.GetTranslatedUnitQuantities(
                             new RequestUnitQuantityTranslationDTO(
                                 recipeIngredient.IngredientId,
                                 recipeIngredient.UnitId,
