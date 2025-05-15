@@ -367,38 +367,37 @@ namespace RecipesAPI.Services
         public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
         {
             var fridgeIngredientIds = _fridgeIngredients
-                .Where(x => x.UserId == userId)
-                .Select(x => x.IngredientId);
+                .Where(fridgeIngredient => fridgeIngredient.UserId == userId)
+                .Select(fridgeIngredient => fridgeIngredient.IngredientId);
 
             var restrictedCategoriesIds = _dietaryRestrictions
-                .Where(x => x.UserId == userId)
-                .Select(x => x.IngredientCategoryId);
+                .Where(restrictedCategory => restrictedCategory.UserId == userId)
+                .Select(restrictedCategory => restrictedCategory.IngredientCategoryId);
 
             // query
-            var recipes = _recipeIngredients
-                .Include(x => x.Recipe)
-                    .ThenInclude(x => x.Ingredients)
-                        .ThenInclude(x => x.Ingredient.Connections)
-                .Include(x => x.Recipe)
-                    .ThenInclude(x => x.Ingredients)
-                        .ThenInclude(x => x.Unit)
-                .Where(x => !x.Recipe.Ingredients.Any(y => restrictedCategoriesIds.Contains(y.IngredientId)))
-                .Where(x => x.Recipe.Ingredients
-                    .All(y => fridgeIngredientIds.Contains(y.IngredientId)));
+            var recipes = _recipes
+                .Include(r => r.Ingredients)
+                    .ThenInclude(ri => ri.Ingredient)
+                        .ThenInclude(i => i.Connections)
+                .Include(r => r.Ingredients)
+                    .ThenInclude(ri => ri.Unit)
+                .Where(r => !r.Ingredients.Any(ri => restrictedCategoriesIds.Contains(ri.IngredientId)))
+                .Where(r => r.Ingredients.All(ri => fridgeIngredientIds.Contains(ri.IngredientId)));
+
 
             if (!string.IsNullOrEmpty(query))
             {
-                recipes = recipes.Where(x => x.Recipe.Name.Contains(query));
+                recipes = recipes.Where(recipe => recipe.Name.Contains(query));
             }
 
             // order
             if (_recipeProps.Contains(sortBy))
             {
-                recipes = recipes.OrderByChildProperties("Recipe", sortBy, orderByAsc);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
-                recipes = orderByAsc ? recipes.OrderBy(x => x.Recipe.Name) : recipes.OrderByDescending(x => x.Recipe.Name);
+                recipes = orderByAsc ? recipes.OrderBy(recipe => recipe.Name) : recipes.OrderByDescending(recipe => recipe.Name);
             }
 
             // count
@@ -406,25 +405,24 @@ namespace RecipesAPI.Services
 
             // project
             var data = await recipes
-                .Select(recipeIngredient => new GetFullRecipeDTO(
-                    recipeIngredient.RecipeId, 
-                    recipeIngredient.Recipe.Name, 
-                    recipeIngredient.Recipe.Name, 
-                    recipeIngredient.Recipe.Ingredients.Select(y => new GetRecipeIngredientDTO(
-                        y.IngredientId,
-                        y.Ingredient.Name,
-                        y.Ingredient.Description ?? "",
-                        y.Quantity,
-                        y.UnitId,
-                        y.Unit.Name)),
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id, 
+                    recipe.Name, 
+                    recipe.Description, 
+                    recipe.Ingredients.Select(ingredient => new GetRecipeIngredientDTO(
+                        ingredient.IngredientId,
+                        ingredient.Ingredient.Name,
+                        ingredient.Ingredient.Description ?? "",
+                        ingredient.Quantity,
+                        ingredient.UnitId,
+                        ingredient.Unit.Name)),
                     new CommonUserDataDTO(
-                        recipeIngredient.Recipe.PostingUserId,
+                        recipe.PostingUserId,
                         "Temporary",
                         "Disabled",
                         "Posting User"
                         )))
                 .ToListAsync();
-
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
