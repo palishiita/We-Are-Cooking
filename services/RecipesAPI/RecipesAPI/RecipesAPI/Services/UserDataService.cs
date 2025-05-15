@@ -338,7 +338,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await _fridgeIngredients.CountAsync();
+            int totalCount = await fridgeIngredients.CountAsync();
 
             var data = await fridgeIngredients
                 .Include(x => x.Ingredient)
