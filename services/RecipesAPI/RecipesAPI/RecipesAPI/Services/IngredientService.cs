@@ -308,7 +308,7 @@ namespace RecipesAPI.Services
         public GetIngredientDTO GetIngredientById(Guid ingredientId)
         {
             var ingredient = _ingredients
-                .FirstOrDefault(r => r.Id == ingredientId) ?? throw new RecipeNotFoundException($"Recipe with id {ingredientId} not found.");
+                .FirstOrDefault(r => r.Id == ingredientId) ?? throw new IngredientNotFoundException($"Ingredient with id {ingredientId} not found.");
 
             return new GetIngredientDTO(ingredientId, ingredient.Name, ingredient.Description ?? "");
         }
