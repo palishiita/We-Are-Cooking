@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using RecipesAPI.Entities.Recipes;
-using RecipesAPI.Entities.UserData;
 
 namespace RecipesAPI.Entities.Reviews
 {

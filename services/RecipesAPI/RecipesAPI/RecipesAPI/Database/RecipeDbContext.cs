@@ -118,6 +118,16 @@ namespace RecipesAPI.Database
             // reviewPhotos
             modelBuilder.Entity<ReviewPhoto>()
                 .HasKey(revp => new { revp.ReviewId, revp.PhotoUrlId });
+
+            modelBuilder.Entity<ReviewPhoto>()
+                .HasOne(revp => revp.Review)
+                .WithMany(rev => rev.ReviewPhotos)
+                .HasForeignKey(revp => revp.ReviewId);
+
+            modelBuilder.Entity<ReviewPhoto>()
+                .HasOne(revp => revp.Photo)
+                .WithMany()
+                .HasForeignKey(revp => revp.PhotoUrlId);
         }
 
         // recipes & ingredients
