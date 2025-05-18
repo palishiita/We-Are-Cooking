@@ -198,7 +198,7 @@ namespace RecipesAPI.Services
                 recipes = _recipes.Where(recipe => recipe.Name.ToUpper().Contains(query));
             }
 
-            // sorting
+            // order
             if (_recipeProps.Contains(sortBy))
             {
                 recipes = recipes.OrderBy(sortBy, orderByAsc);
@@ -269,6 +269,10 @@ namespace RecipesAPI.Services
         {
             IQueryable<Recipe> recipes = _recipes;
 
+            // query
+            recipes = recipes.Where(recipe => recipeIds.Contains(recipe.Id));
+
+            // order
             if (_recipeProps.Contains(sortBy))
             {
                 recipes = recipes.OrderBy(sortBy, orderByAsc);
@@ -277,9 +281,6 @@ namespace RecipesAPI.Services
             {
                 recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
             }
-
-            // query
-            recipes = recipes.Where(recipe => recipeIds.Contains(recipe.Id));
 
             // count
             int totalCount = await recipes.CountAsync(ct);
@@ -323,6 +324,7 @@ namespace RecipesAPI.Services
         {
             IQueryable<Recipe> recipes = _recipes;
 
+            // order
             if (_recipeProps.Contains(sortBy))
             {
                 recipes = recipes.OrderBy(sortBy, orderByAsc);
@@ -393,6 +395,7 @@ namespace RecipesAPI.Services
             // query
             var recipes = _recipes.Where(x => recipeIds.Contains(x.Id));
 
+            // order
             if (_recipeProps.Contains(sortBy))
             {
                 recipes = recipes.OrderBy(sortBy, orderByAsc);
@@ -531,6 +534,7 @@ namespace RecipesAPI.Services
             // query
             var recipes = _recipes.Where(r => recipeIds.Contains(r.Id));
 
+            // order
             if (_recipeProps.Contains(sortBy))
             {
                 recipes = recipes.OrderBy(sortBy, orderByAsc);

@@ -328,7 +328,7 @@ namespace RecipesAPI.Services
                 fridgeIngredients = fridgeIngredients.Where(x => x.Ingredient.Name.ToUpper().Contains(query));
             }
 
-            // sort
+            // order
             if (_ingredientProps.Contains(sortBy))
             {
                 fridgeIngredients = fridgeIngredients.OrderByChildProperties("Ingredient", sortBy, orderByAsc);

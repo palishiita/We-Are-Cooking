@@ -203,7 +203,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await categories.CountAsync();
+            int totalCount = await categories.CountAsync(ct);
 
             // project
             var data = await categories
@@ -237,7 +237,7 @@ namespace RecipesAPI.Services
                 ingredients = ingredients.Where(ingredient => ingredient.Name.ToUpper().Contains(query));
             }
 
-            // sort
+            // order
             if (_ingredientProps.Contains(sortBy))
             {
                 ingredients = ingredients.OrderBy(sortBy, orderByAsc);
@@ -249,7 +249,7 @@ namespace RecipesAPI.Services
             }
 
             // count the data 
-            var totalCount = await ingredients.CountAsync();
+            var totalCount = await ingredients.CountAsync(ct);
 
             // project
             var data = await ingredients
@@ -289,7 +289,7 @@ namespace RecipesAPI.Services
                 ingredients = ingredients.Where(ingredient => ingredient.Name.ToUpper().Contains(query));
             }
 
-            // sort
+            // order
             if (_ingredientProps.Contains(sortBy))
             {
                 ingredients = ingredients.OrderBy(sortBy, orderByAsc);
@@ -301,7 +301,7 @@ namespace RecipesAPI.Services
             }
 
             // count the data
-            var totalCount = await ingredients.CountAsync();
+            var totalCount = await ingredients.CountAsync(ct);
 
             // project
             var data = await ingredients
@@ -383,7 +383,7 @@ namespace RecipesAPI.Services
                 units = units.Where(unit => unit.Name.ToUpper().Contains(query));
             }
 
-            // sort
+            // order
             if (_unitProps.Contains(sortBy))
             {
                 units = units.OrderBy(sortBy, orderByAsc);
@@ -394,7 +394,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await units.CountAsync();
+            int totalCount = await units.CountAsync(ct);
 
             // project
             var data = await units
