@@ -13,26 +13,27 @@ namespace RecipesAPI.Services.Interfaces
     {
         // cookbook
 
-        Task<PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites, CancellationToken ct);
 
-        Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO);
-        Task ChangeRecipeFavoriteStatus(Guid userId, ChangeRecipeFavoriteStatusDTO statusDTO);
-        Task RemoveRecipesFromCookbook(Guid userId, IEnumerable<Guid> recipeIds);
+        Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO, CancellationToken ct);
+        Task ChangeRecipeFavoriteStatus(Guid userId, ChangeRecipeFavoriteStatusDTO statusDTO, CancellationToken ct);
+        Task RemoveRecipesFromCookbook(Guid userId, IEnumerable<Guid> recipeIds, CancellationToken ct);
 
         // fridge
 
-        Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
-        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
-        Task SetFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData);
+        Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
+        Task SetFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData, CancellationToken ct);
 
         // this will be done later, when the Units are applied to the recipe ingredients as well
-        Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId);
+        Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId, CancellationToken ct);
 
         // restrictions
-        Task AddUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds);
-        Task RemoveUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds);
 
-        Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetUserRestrictedCategories(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
-        Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetUserRestrictedIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query);
+        Task AddUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct);
+        Task RemoveUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct);
+
+        Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetUserRestrictedCategories(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetUserRestrictedIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
     }
 }

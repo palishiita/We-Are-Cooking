@@ -8,14 +8,14 @@ namespace RecipesAPI.Services.Interfaces
 {
     public interface IIngredientService
     {
-        GetIngredientDTO GetIngredientById(Guid ingredientId);
-        GetIngredientWithCategoriesDTO GetIngredientWithCategoriesById(Guid ingredientId);
-        Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query);
-        Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query);
+        Task<GetIngredientDTO> GetIngredientById(Guid ingredientId, CancellationToken ct);
+        Task<GetIngredientWithCategoriesDTO> GetIngredientWithCategoriesById(Guid ingredientId, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
 
-        IEnumerable<GetIngredientCategoryDTO> GetIngredientCategories(Guid ingredientId);
+        Task<IEnumerable<GetIngredientCategoryDTO>> GetIngredientCategories(Guid ingredientId, CancellationToken ct);
 
-        Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query);
+        Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
 
         Task<Guid> AddIngredient(AddIngredientDTO ingredientDTO);
         Task<Guid> AddIngredientWithCategoriesByNames(AddIngredientWithCategoryNamesDTO ingredientDTO);
@@ -23,9 +23,9 @@ namespace RecipesAPI.Services.Interfaces
 
         Task<Guid> AddIngredientCategory(AddIngredientCategoryDTO ingredientDTO);
 
-        GetUnitDTO GetUnit(Guid unitId);
-        Task<PaginatedResult<IEnumerable<GetUnitDTO>>> GetAllUnits(int count, int page, bool orderByAsc, string sortBy, string query);
+        Task<GetUnitDTO> GetUnitById(Guid unitId, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetUnitDTO>>> GetAllUnits(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
 
-        GetTranslatedUnitQuantitiesDTO GetTranslatedUnitQuantities(RequestUnitQuantityTranslationDTO dto);
+        Task<GetTranslatedUnitQuantitiesDTO> GetTranslatedUnitQuantities(RequestUnitQuantityTranslationDTO dto, CancellationToken ct);
     }
 }

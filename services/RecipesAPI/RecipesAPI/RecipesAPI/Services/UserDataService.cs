@@ -71,10 +71,8 @@ namespace RecipesAPI.Services
         }
 
         #region Cookbook
-        public async Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO)
+        public async Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO, CancellationToken ct)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
             var cookbookRecipe = new UserCookbookRecipe()
             {
                 UserId = userId,
@@ -82,45 +80,47 @@ namespace RecipesAPI.Services
                 IsFavorite = recipeDTO.SetAsFavorite
             };
 
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
+
             try
             {
                 _cookbookRecipes.Add(cookbookRecipe);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(AddRecipeToCookbook)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
 
         }
 
-        public async Task ChangeRecipeFavoriteStatus(Guid userId, ChangeRecipeFavoriteStatusDTO statusDTO)
+        public async Task ChangeRecipeFavoriteStatus(Guid userId, ChangeRecipeFavoriteStatusDTO statusDTO, CancellationToken ct)
         {
             var cookbookRecipe = _cookbookRecipes
             .Where(cr => cr.UserId == userId)
             .FirstOrDefault(x => x.RecipeId == statusDTO.RecipeId) ?? throw new CookbookRecipeNotFound($"Recipe with id {statusDTO.RecipeId} is not connected to user with id {userId}.");
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 cookbookRecipe.IsFavorite = statusDTO.IsFavorite;
                 _cookbookRecipes.Update(cookbookRecipe);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(ChangeRecipeFavoriteStatus)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites, CancellationToken ct)
         {
             var recipes = showOnlyFavorites ? _cookbookRecipes.Where(cr => cr.IsFavorite) : _cookbookRecipes;
 
@@ -131,7 +131,8 @@ namespace RecipesAPI.Services
                 
             if (!string.IsNullOrEmpty(query))
             {
-                recipes = recipes.Where(cr => cr.Recipe.Name.Contains(query));
+                query = query.ToUpper();
+                recipes = recipes.Where(cr => cr.Recipe.Name.ToUpper().Contains(query));
             }
 
             if (_recipeProps.Contains(sortBy))
@@ -148,7 +149,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var recipesFromCookbook = await recipes
@@ -169,7 +170,7 @@ namespace RecipesAPI.Services
                         "Temporary",
                         "Disabled",
                         "Posting User")))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>
             {
@@ -181,24 +182,24 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task RemoveRecipesFromCookbook(Guid userId, IEnumerable<Guid> recipeIds)
+        public async Task RemoveRecipesFromCookbook(Guid userId, IEnumerable<Guid> recipeIds, CancellationToken ct)
         {
             var cookbookRecipes = _cookbookRecipes
                 .Where(x => x.UserId == userId)
                 .Where(x => recipeIds.Contains(x.RecipeId));
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 _cookbookRecipes.RemoveRange(cookbookRecipes);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveRecipesFromCookbook)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
@@ -207,58 +208,53 @@ namespace RecipesAPI.Services
 
         #region Fridge
 
-        public async Task SetFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData)
+        public async Task SetFridgeIngredients(Guid userId, IEnumerable<SetIngredientQuantityDTO> ingredientsData, CancellationToken ct)
         {
             var previous = _fridgeIngredients.Where(x => x.UserId == userId);
 
-            var next = new List<UserFridgeIngredient>();
-
-            foreach (var ing in ingredientsData)
+            var next = ingredientsData.Select(id => new UserFridgeIngredient()
             {
-                var ingredient = new UserFridgeIngredient()
-                {
-                    UserId = userId,
-                    IngredientId = ing.IngredientId,
-                    UnitId = ing.UnitId,
-                    IngredientQuantity = ing.Quantity,
-                };
-                next.Add(ingredient);
-            }
+                UserId = userId,
+                IngredientId = id.IngredientId,
+                UnitId = id.UnitId,
+                IngredientQuantity = id.Quantity
+            }).ToList();
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 _fridgeIngredients.RemoveRange(previous);
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(ct);
 
-                await _fridgeIngredients.AddRangeAsync(next);
-                await _dbContext.SaveChangesAsync();
+                await _fridgeIngredients.AddRangeAsync(next, ct);
+                await _dbContext.SaveChangesAsync(ct);
 
-                await transaction.CommitAsync();
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(SetFridgeIngredients)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
         // this will be done later, when the Units are applied to the recipe ingredients as well
-        public async Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId)
+        public async Task RemoveUsedIngredientsInRecipe(Guid userId, Guid recipeId, CancellationToken ct)
         {
-            var recipeIngredients = _recipeIngredients
+            var recipeIngredients = await _recipeIngredients
                 .Where(x => x.RecipeId == recipeId)
                 .Include(x => x.Ingredient)
-                .Include(x => x.Unit);
+                .Include(x => x.Unit)
+                .ToListAsync(ct);
 
             // does not matter if enough
             var fridgeIngredientsForUse = await _fridgeIngredients
                 .Where(x => x.UserId == userId)
                 .Where(x => recipeIngredients.Any(y => y.IngredientId == x.IngredientId))
                 .Include(x => x.Unit)
-                .ToListAsync();
+                .ToListAsync(ct);
 
             foreach (var ingredient in fridgeIngredientsForUse)
             {
@@ -276,13 +272,17 @@ namespace RecipesAPI.Services
                 {
                     try
                     {
-                        quantity = ingredient.IngredientQuantity - _ingredientService.GetTranslatedUnitQuantities(
+                        quantity = ingredient.IngredientQuantity - (await _ingredientService.GetTranslatedUnitQuantities(
                             new RequestUnitQuantityTranslationDTO(
                                 recipeIngredient.IngredientId,
                                 recipeIngredient.UnitId,
                                 ingredient.UnitId,
-                                recipeIngredient.Quantity))
-                            .TranslatedQuantity;
+                                recipeIngredient.Quantity), ct)).TranslatedQuantity;
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        _logger.LogInformation(ex, ex.Message);
+                        throw;
                     }
                     catch (Exception ex)
                     {
@@ -294,7 +294,7 @@ namespace RecipesAPI.Services
                 ingredient.IngredientQuantity = double.Max(0.0, Math.Round(quantity, 3));
             }
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
@@ -304,18 +304,18 @@ namespace RecipesAPI.Services
                 _fridgeIngredients.RemoveRange(fridgeIngredientsToDelete);
                 _fridgeIngredients.UpdateRange(fridgeIngredientsToUpdate);
 
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveUsedIngredientsInRecipe)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>> GetFridgeIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             // query
             IQueryable<UserFridgeIngredient> fridgeIngredients = _fridgeIngredients
@@ -324,10 +324,11 @@ namespace RecipesAPI.Services
 
             if (!string.IsNullOrEmpty(query))
             {
-                fridgeIngredients = fridgeIngredients.Where(x => x.Ingredient.Name.Contains(query));
+                query = query.ToUpper();
+                fridgeIngredients = fridgeIngredients.Where(x => x.Ingredient.Name.ToUpper().Contains(query));
             }
 
-            // sort
+            // order
             if (_ingredientProps.Contains(sortBy))
             {
                 fridgeIngredients = fridgeIngredients.OrderByChildProperties("Ingredient", sortBy, orderByAsc);
@@ -338,7 +339,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await fridgeIngredients.CountAsync();
+            int totalCount = await fridgeIngredients.CountAsync(ct);
 
             var data = await fridgeIngredients
                 .Include(x => x.Ingredient)
@@ -352,7 +353,7 @@ namespace RecipesAPI.Services
                     x.IngredientQuantity, 
                     x.UnitId, 
                     x.Unit.Name))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>()
             {
@@ -364,67 +365,66 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesAvailableWithFridge(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             var fridgeIngredientIds = _fridgeIngredients
-                .Where(x => x.UserId == userId)
-                .Select(x => x.IngredientId);
+                .Where(fridgeIngredient => fridgeIngredient.UserId == userId)
+                .Select(fridgeIngredient => fridgeIngredient.IngredientId);
 
             var restrictedCategoriesIds = _dietaryRestrictions
-                .Where(x => x.UserId == userId)
-                .Select(x => x.IngredientCategoryId);
+                .Where(restrictedCategory => restrictedCategory.UserId == userId)
+                .Select(restrictedCategory => restrictedCategory.IngredientCategoryId);
 
             // query
-            var recipes = _recipeIngredients
-                .Include(x => x.Recipe)
-                    .ThenInclude(x => x.Ingredients)
-                        .ThenInclude(x => x.Ingredient.Connections)
-                .Include(x => x.Recipe)
-                    .ThenInclude(x => x.Ingredients)
-                        .ThenInclude(x => x.Unit)
-                .Where(x => !x.Recipe.Ingredients.Any(y => restrictedCategoriesIds.Contains(y.IngredientId)))
-                .Where(x => x.Recipe.Ingredients
-                    .All(y => fridgeIngredientIds.Contains(y.IngredientId)));
+            var recipes = _recipes
+                .Include(r => r.Ingredients)
+                    .ThenInclude(ri => ri.Ingredient)
+                        .ThenInclude(i => i.Connections)
+                .Include(r => r.Ingredients)
+                    .ThenInclude(ri => ri.Unit)
+                .Where(r => !r.Ingredients.Any(ri => restrictedCategoriesIds.Contains(ri.IngredientId)))
+                .Where(r => r.Ingredients.All(ri => fridgeIngredientIds.Contains(ri.IngredientId)));
+
 
             if (!string.IsNullOrEmpty(query))
             {
-                recipes = recipes.Where(x => x.Recipe.Name.Contains(query));
+                query = query.ToUpper();
+                recipes = recipes.Where(recipe => recipe.Name.ToUpper().Contains(query));
             }
 
             // order
             if (_recipeProps.Contains(sortBy))
             {
-                recipes = recipes.OrderByChildProperties("Recipe", sortBy, orderByAsc);
+                recipes = recipes.OrderBy(sortBy, orderByAsc);
             }
             else
             {
-                recipes = orderByAsc ? recipes.OrderBy(x => x.Recipe.Name) : recipes.OrderByDescending(x => x.Recipe.Name);
+                recipes = orderByAsc ? recipes.OrderBy(recipe => recipe.Name) : recipes.OrderByDescending(recipe => recipe.Name);
             }
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
-                .Select(recipeIngredient => new GetFullRecipeDTO(
-                    recipeIngredient.RecipeId, 
-                    recipeIngredient.Recipe.Name, 
-                    recipeIngredient.Recipe.Name, 
-                    recipeIngredient.Recipe.Ingredients.Select(y => new GetRecipeIngredientDTO(
-                        y.IngredientId,
-                        y.Ingredient.Name,
-                        y.Ingredient.Description ?? "",
-                        y.Quantity,
-                        y.UnitId,
-                        y.Unit.Name)),
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id, 
+                    recipe.Name, 
+                    recipe.Description, 
+                    recipe.Ingredients.Select(ingredient => new GetRecipeIngredientDTO(
+                        ingredient.IngredientId,
+                        ingredient.Ingredient.Name,
+                        ingredient.Ingredient.Description ?? "",
+                        ingredient.Quantity,
+                        ingredient.UnitId,
+                        ingredient.Unit.Name)),
                     new CommonUserDataDTO(
-                        recipeIngredient.Recipe.PostingUserId,
+                        recipe.PostingUserId,
                         "Temporary",
                         "Disabled",
                         "Posting User"
                         )))
-                .ToListAsync();
-
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
@@ -440,7 +440,7 @@ namespace RecipesAPI.Services
 
         #region Restrictions
 
-        public async Task AddUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds)
+        public async Task AddUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
             var categories = _ingredientCategories.Where(x => categoryIds.Contains(x.Id));
 
@@ -456,43 +456,43 @@ namespace RecipesAPI.Services
                 restrictions.Add(restriction);
             }
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 await _dietaryRestrictions.AddRangeAsync(restrictions);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(AddUserRestrictedCategories)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task RemoveUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds)
+        public async Task RemoveUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
             var restrictions = _dietaryRestrictions.Where(x => categoryIds.Contains(x.IngredientCategoryId));
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 _dietaryRestrictions.RemoveRange(restrictions);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(AddUserRestrictedCategories)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetUserRestrictedCategories(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetUserRestrictedCategories(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             // query
             IQueryable<UserDietaryRestriction> categories = _dietaryRestrictions
@@ -501,7 +501,8 @@ namespace RecipesAPI.Services
 
             if (!string.IsNullOrEmpty(query))
             {
-                categories = categories.Where(x => x.IngredientCategory.Name.Contains(query));
+                query = query.ToUpper();
+                categories = categories.Where(x => x.IngredientCategory.Name.ToUpper().Contains(query));
             }
 
             // order
@@ -515,7 +516,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await categories.CountAsync();
+            int totalCount = await categories.CountAsync(ct);
 
             // project
             var data = await categories
@@ -523,7 +524,7 @@ namespace RecipesAPI.Services
                     x.IngredientCategoryId,
                     x.IngredientCategory.Name,
                     x.IngredientCategory.Description))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>
             {
@@ -535,22 +536,23 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetUserRestrictedIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetUserRestrictedIngredients(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             var restrictedCategoriesIds = _dietaryRestrictions
                 .Where(x => x.UserId == userId)
                 .Include(x => x.IngredientCategory)
                 .Select(x => x.IngredientCategoryId);
 
-            // query
             var ingredients = _ingredients
                 .Include(x => x.Connections)
                 .ThenInclude(x => x.IngredientCategory)
                 .Where(x => !x.Connections.Any(y => restrictedCategoriesIds.Contains(y.IngredientCategory.Id)));
 
+            // query
             if (!string.IsNullOrEmpty(query))
             {
-                ingredients = ingredients.Where(x => x.Name.Contains(query));
+                query = query.ToUpper();
+                ingredients = ingredients.Where(x => x.Name.ToUpper().Contains(query));
             }
 
             // order
@@ -564,7 +566,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await ingredients.CountAsync();
+            int totalCount = await ingredients.CountAsync(ct);
 
             // project
             var data = await ingredients
@@ -572,7 +574,7 @@ namespace RecipesAPI.Services
                     x.Id,
                     x.Name,
                     x.Description ?? ""))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetIngredientDTO>>
             {
