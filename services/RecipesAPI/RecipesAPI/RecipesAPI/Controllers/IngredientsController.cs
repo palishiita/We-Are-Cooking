@@ -113,6 +113,7 @@ namespace RecipesAPI.Controllers
         [Route("ingredient")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [Obsolete]
         public async Task<IActionResult> AddNewIngredient([FromBody] AddIngredientDTO ingredientDTO)
         {
             try
@@ -130,6 +131,7 @@ namespace RecipesAPI.Controllers
         [Route("ingredient/categories_ids")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [Obsolete]
         public async Task<IActionResult> AddNewIngredientWithCategories([FromBody] AddIngredientWithCategoryIdsDTO ingredientDTO)
         {
             try
@@ -148,6 +150,7 @@ namespace RecipesAPI.Controllers
         [Route("ingredient/categories_names")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [Obsolete]
         public async Task<IActionResult> AddNewIngredientWithCategoriesByNames([FromBody] AddIngredientWithCategoryNamesDTO ingredientDTO)
         {
             try
@@ -166,6 +169,7 @@ namespace RecipesAPI.Controllers
         [Route("ingredient_category")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [Obsolete]
         public async Task<IActionResult> AddNewIngredientCategory([FromBody] AddIngredientCategoryDTO ingredientDTO)
         {
             try
