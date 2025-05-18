@@ -22,7 +22,7 @@ namespace RecipesAPI.Entities.UserData
         [MaxLength(2000)]
         public String Description { get; set; }
 
-        public virtual User User { get; set; }
+        //public virtual User User { get; set; }
 
         public virtual PhotoUrl PhotoUrl { get; set; }
     }
