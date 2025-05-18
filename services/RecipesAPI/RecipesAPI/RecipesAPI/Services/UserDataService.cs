@@ -131,7 +131,8 @@ namespace RecipesAPI.Services
                 
             if (!string.IsNullOrEmpty(query))
             {
-                recipes = recipes.Where(cr => cr.Recipe.Name.Contains(query));
+                query = query.ToUpper();
+                recipes = recipes.Where(cr => cr.Recipe.Name.ToUpper().Contains(query));
             }
 
             if (_recipeProps.Contains(sortBy))
@@ -324,7 +325,8 @@ namespace RecipesAPI.Services
 
             if (!string.IsNullOrEmpty(query))
             {
-                fridgeIngredients = fridgeIngredients.Where(x => x.Ingredient.Name.Contains(query));
+                query = query.ToUpper();
+                fridgeIngredients = fridgeIngredients.Where(x => x.Ingredient.Name.ToUpper().Contains(query));
             }
 
             // sort
@@ -387,7 +389,8 @@ namespace RecipesAPI.Services
 
             if (!string.IsNullOrEmpty(query))
             {
-                recipes = recipes.Where(recipe => recipe.Name.Contains(query));
+                query = query.ToUpper();
+                recipes = recipes.Where(recipe => recipe.Name.ToUpper().Contains(query));
             }
 
             // order
@@ -499,7 +502,8 @@ namespace RecipesAPI.Services
 
             if (!string.IsNullOrEmpty(query))
             {
-                categories = categories.Where(x => x.IngredientCategory.Name.Contains(query));
+                query = query.ToUpper();
+                categories = categories.Where(x => x.IngredientCategory.Name.ToUpper().Contains(query));
             }
 
             // order
@@ -548,7 +552,8 @@ namespace RecipesAPI.Services
 
             if (!string.IsNullOrEmpty(query))
             {
-                ingredients = ingredients.Where(x => x.Name.Contains(query));
+                query = query.ToUpper();
+                ingredients = ingredients.Where(x => x.Name.ToUpper().Contains(query));
             }
 
             // order

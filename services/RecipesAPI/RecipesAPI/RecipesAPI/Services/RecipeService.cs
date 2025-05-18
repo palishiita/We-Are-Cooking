@@ -81,8 +81,6 @@ namespace RecipesAPI.Services
 
         public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
             // get only those present in the database
             var presentIngredientIds = _ingredients
                 .Where(x => recipeDTO.Ingredients
@@ -93,6 +91,8 @@ namespace RecipesAPI.Services
             var recipeIngredients = recipeDTO.Ingredients
                 .Where(x => presentIngredientIds.Contains(x.IngredientId))
                 .Distinct();
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             try
             {
@@ -132,10 +132,14 @@ namespace RecipesAPI.Services
 
         public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
+            IQueryable<Recipe> recipes = _recipes;
+
             // query
-            var recipes = string.IsNullOrEmpty(query)
-                ? _recipes
-                : _recipes.Where(recipe => recipe.Name.Contains(query));
+            if (!string.IsNullOrEmpty(query))
+            {
+                query = query.ToUpper();
+                recipes = _recipes.Where(recipe => recipe.Name.ToUpper().Contains(query));
+            }
 
             // order
             if (_recipeProps.Contains(sortBy))
@@ -190,10 +194,14 @@ namespace RecipesAPI.Services
 
         public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
         {
+            IQueryable<Recipe> recipes = _recipes;
+
             // query
-            var recipes = string.IsNullOrEmpty(query)
-                ? _recipes
-                : _recipes.Where(recipe => recipe.Name.Contains(query));
+            if (!string.IsNullOrEmpty(query))
+            {
+                query = query.ToUpper();
+                recipes = _recipes.Where(recipe => recipe.Name.ToUpper().Contains(query));
+            }
 
             // sorting
             if (_recipeProps.Contains(sortBy))
@@ -259,8 +267,7 @@ namespace RecipesAPI.Services
                     recipe.PostingUserId,
                     "Temporary",
                     "Disabled",
-                    "Posting User")
-                );
+                    "Posting User"));
         }
 
         public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)

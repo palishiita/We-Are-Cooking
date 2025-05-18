@@ -4,6 +4,7 @@ using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Ingredients.Add;
 using RecipesAPI.Model.Ingredients.Get;
 using RecipesAPI.Model.Units.Get;
+using RecipesAPI.Model.Units.Request;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -26,6 +27,7 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         [Route("ingredient/{ingredientId:guid}")]
         [ProducesResponseType(typeof(GetIngredientDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public IActionResult GetIngredientById([FromRoute] Guid ingredientId)
         {
@@ -34,10 +36,15 @@ namespace RecipesAPI.Controllers
                 var ingredient = _ingredientService.GetIngredientById(ingredientId);
                 return Ok(ingredient);
             }
-            catch (Exception ex)
+            catch (IngredientNotFoundException ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -251,6 +258,7 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         [Route("unit/{unitId:guid}")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public IActionResult GetUnitById([FromRoute] Guid unitId)
         {
@@ -260,6 +268,31 @@ namespace RecipesAPI.Controllers
                 return Ok(unit);
             }
             catch (UnitNotFoundException ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("ingredient/units")]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public IActionResult TranslateIngredientUnit([FromBody] RequestUnitQuantityTranslationDTO request)
+        {
+            try
+            {
+                var translation = _ingredientService.GetTranslatedUnitQuantities(request);
+                return Ok(translation);
+            }
+            catch (UnitTranslationNotFoundException ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
                 return NotFound(ex.Message);

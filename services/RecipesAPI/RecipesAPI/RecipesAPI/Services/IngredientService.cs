@@ -189,10 +189,9 @@ namespace RecipesAPI.Services
             if (!string.IsNullOrEmpty(query))
             {
                 query = query.ToUpper();
-                categories = categories.Where(cr => cr.Name.ToUpper().Contains(query));
+                categories = _categories.Where(category => category.Name.ToUpper().Contains(query));
             }
 
-            // sort
             if (_ingredientProps.Contains(sortBy))
             {
                 categories = categories.OrderBy(sortBy, orderByAsc);
@@ -229,7 +228,7 @@ namespace RecipesAPI.Services
 
         public async Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IQueryable<Ingredient> ingredients = _ingredients;
+            IQueryable<Ingredient> result;
 
             // query
             if (!string.IsNullOrEmpty(query))
@@ -248,9 +247,6 @@ namespace RecipesAPI.Services
                 // by name by default
                 ingredients = orderByAsc ? ingredients.OrderBy(x => x.Name) : ingredients.OrderByDescending(x => x.Name);
             }
-
-            // query
-            ingredients = ingredients.Where(ingredient => ingredient.Name.Contains(query));
 
             // count the data 
             var totalCount = await ingredients.CountAsync();
@@ -291,7 +287,7 @@ namespace RecipesAPI.Services
             if (!string.IsNullOrEmpty(query))
             {
                 query = query.ToUpper();
-                ingredients = ingredients.Where(cr => cr.Name.ToUpper().Contains(query));
+                ingredients = ingredients.Where(ingredient => ingredient.Name.ToUpper().Contains(query));
             }
 
             // sort
@@ -385,7 +381,7 @@ namespace RecipesAPI.Services
             if (!string.IsNullOrEmpty(query))
             {
                 query = query.ToUpper();
-                units = units.Where(cr => cr.Name.ToUpper().Contains(query));
+                units = units.Where(recipe => recipe.Name.ToUpper().Contains(query));
             }
 
             // sort
@@ -458,8 +454,7 @@ namespace RecipesAPI.Services
                 ratio.UnitOneId,
                 ratio.UnitOne.Name,
                 dto.Quantity,
-                finalQuantity
-                );
+                finalQuantity);
         }
     }
 }
