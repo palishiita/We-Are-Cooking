@@ -7,33 +7,30 @@ namespace RecipesAPI.Services.Interfaces
 {
     public interface IRecipeService
     {
-        GetRecipeDTO GetRecipeById(Guid recipeId);
-        Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy);
-        Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query);
+        Task<GetRecipeDTO> GetRecipeById(Guid recipeId, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
 
-        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy);
-        GetFullRecipeDTO GetFullRecipeById(Guid recipeId);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        Task<GetFullRecipeDTO> GetFullRecipeById(Guid recipeId, CancellationToken ct);
 
-        GetRecipeWithIngredientIdsDTO GetRecipeWithIngredientIds(Guid recipeId);
-        Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy);
+        Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
 
-        GetRecipeWithIngredientsAndCategoriesDTO GetRecipeWithIngredientsAndCategories(Guid recipeId);
+        Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid recipeId, CancellationToken ct);
 
-        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query);
-        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
 
-        Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO);
-        Task<Guid> CreateRecipeWithIngredientsByNames(Guid userId, AddRecipeWithIngredientNamesDTO recipeDTO);
-        Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO);
+        Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct);
 
-        Task UpdateRecipeNameById(Guid recipeId, UpdateRecipeDTO recipeDTO);
+        Task UpdateRecipeNameById(Guid recipeId, UpdateRecipeDTO recipeDTO, CancellationToken ct);
 
-        Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO addIngredientDTO);
-        Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO addIngredientsDTO);
+        Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO addIngredientDTO, CancellationToken ct);
+        Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO addIngredientsDTO, CancellationToken ct);
 
-        Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId);
-        Task RemoveIngredientsFromRecipe(Guid recipeId, IEnumerable<Guid> ingredientId);
+        Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId, CancellationToken ct);
+        Task RemoveIngredientsFromRecipe(Guid recipeId, IEnumerable<Guid> ingredientId, CancellationToken ct);
 
-        Task RemoveRecipeById(Guid recipeId);
+        Task RemoveRecipeById(Guid recipeId, CancellationToken ct);
     }
 }
