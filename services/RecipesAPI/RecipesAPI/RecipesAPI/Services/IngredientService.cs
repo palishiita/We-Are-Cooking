@@ -147,27 +147,27 @@ namespace RecipesAPI.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<GetIngredientCategoryDTO> GetIngredientCategories(Guid ingredientId)
+        public async Task<IEnumerable<GetIngredientCategoryDTO>> GetIngredientCategories(Guid ingredientId, CancellationToken ct)
         {
-            var categories = _connections
+            var categories = await _connections
                 .Where(connection => connection.IngredientId == ingredientId)
                 .Include(connection => connection.IngredientCategory)
                 .Select(connection => new GetIngredientCategoryDTO(
                     connection.IngredientCategory.Id,
                     connection.IngredientCategory.Name,
                     connection.IngredientCategory.Description))
-                .ToArray();
+                .ToListAsync(ct);
 
             return categories;
         }
 
-        public GetIngredientWithCategoriesDTO GetIngredientWithCategoriesById(Guid ingredientId)
+        public async Task<GetIngredientWithCategoriesDTO> GetIngredientWithCategoriesById(Guid ingredientId, CancellationToken ct)
         {
-            var ingredient = _ingredients
+            var ingredient = await _ingredients
                 .Where(x => x.Id == ingredientId)
                 .Include(x => x.Connections)
                 .ThenInclude(x => x.IngredientCategory)
-                .FirstOrDefault() ?? throw new IngredientNotFoundException($"Ingredient with id {ingredientId} not found.");
+                .FirstOrDefaultAsync(ct) ?? throw new IngredientNotFoundException($"Ingredient with id {ingredientId} not found.");
 
             return new GetIngredientWithCategoriesDTO(
                 ingredientId, 
@@ -181,7 +181,7 @@ namespace RecipesAPI.Services
                     .ToArray());
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>> GetAllIngredientCategories(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             IQueryable<IngredientCategory> categories = _categories;
 
@@ -214,7 +214,7 @@ namespace RecipesAPI.Services
                     category.Id,
                     category.Name,
                     category.Description ?? ""))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>
             {
@@ -226,7 +226,7 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             IQueryable<Ingredient> ingredients = _ingredients;
 
@@ -265,9 +265,8 @@ namespace RecipesAPI.Services
                         .Select(connection => new GetIngredientCategoryDTO(
                             connection.CategoryId,
                             connection.IngredientCategory.Name,
-                            connection.IngredientCategory.Description))
-                        .ToArray()))
-                .ToListAsync();
+                            connection.IngredientCategory.Description))))
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>
             {
@@ -279,7 +278,7 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetIngredientDTO>>> GetAllIngredients(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             IQueryable<Ingredient> ingredients = _ingredients;
 
@@ -314,7 +313,7 @@ namespace RecipesAPI.Services
                     ingredient.Id,
                     ingredient.Name,
                     ingredient.Description ?? ""))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetIngredientDTO>>
             {
@@ -326,10 +325,10 @@ namespace RecipesAPI.Services
             };
         }
 
-        public GetIngredientDTO GetIngredientById(Guid ingredientId)
+        public async Task<GetIngredientDTO> GetIngredientById(Guid ingredientId, CancellationToken ct)
         {
-            var ingredient = _ingredients
-                .FirstOrDefault(r => r.Id == ingredientId) ?? throw new IngredientNotFoundException($"Ingredient with id {ingredientId} not found.");
+            var ingredient = await _ingredients
+                .FirstOrDefaultAsync(r => r.Id == ingredientId, ct) ?? throw new IngredientNotFoundException($"Ingredient with id {ingredientId} not found.");
 
             return new GetIngredientDTO(ingredientId, ingredient.Name, ingredient.Description ?? "");
         }
@@ -366,14 +365,14 @@ namespace RecipesAPI.Services
             }
         }
 
-        public GetUnitDTO GetUnit(Guid unitId)
+        public async Task<GetUnitDTO> GetUnitById(Guid unitId, CancellationToken ct)
         {
-            var unit = _units.FirstOrDefault(x => x.Id == unitId) ?? throw new UnitNotFoundException($"Unit with id {unitId} not found.");
+            var unit = await _units.FirstOrDefaultAsync(x => x.Id == unitId, ct) ?? throw new UnitNotFoundException($"Unit with id {unitId} not found.");
 
             return new GetUnitDTO(unitId, unit.Name);
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetUnitDTO>>> GetAllUnits(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetUnitDTO>>> GetAllUnits(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             IQueryable<Unit> units = _units;
 
@@ -404,7 +403,7 @@ namespace RecipesAPI.Services
                 .Select(recipe => new GetUnitDTO(
                     recipe.Id,
                     recipe.Name))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetUnitDTO>>
             {
@@ -416,15 +415,15 @@ namespace RecipesAPI.Services
             };
         }
 
-        public GetTranslatedUnitQuantitiesDTO GetTranslatedUnitQuantities(RequestUnitQuantityTranslationDTO dto)
+        public async Task<GetTranslatedUnitQuantitiesDTO> GetTranslatedUnitQuantities(RequestUnitQuantityTranslationDTO dto, CancellationToken ct)
         {
-           var ratio = _unitRatios
+           var ratio = await _unitRatios
                 .Where(x => x.IngredientId == dto.IngredientId)
                 .Where(x => x.UnitOneId == dto.UnitOneId || x.UnitTwoId == dto.UnitOneId)
                 .Include(x => x.Ingredient)
                 .Include(x => x.UnitOne)
                 .Include(x => x.UnitTwo)
-                .FirstOrDefault(x => x.UnitTwoId == dto.UnitTwoId || x.UnitOneId == dto.UnitTwoId) 
+                .FirstOrDefaultAsync(x => x.UnitTwoId == dto.UnitTwoId || x.UnitOneId == dto.UnitTwoId, ct) 
                 ?? throw new UnitTranslationNotFoundException($"Unit translation for ingredient with id {dto.IngredientId} does not exist for units with ids {dto.UnitOneId} and {dto.UnitTwoId} not found.");
 
             var finalQuantity = dto.Quantity;

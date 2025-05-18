@@ -41,7 +41,7 @@ namespace RecipesAPI.Services
             
         }
 
-        public async Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO)
+        public async Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO, CancellationToken ct)
         {
 
             if (_recipes.Where(x => x.PostingUserId == userId).Any(recipe => recipe.Name.ToLower() == recipeDTO.Name.ToLower()))
@@ -49,7 +49,7 @@ namespace RecipesAPI.Services
                 throw new DuplicateRecipeException($"Recipe with name {recipeDTO.Name} already exists.");
             }
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
@@ -61,25 +61,20 @@ namespace RecipesAPI.Services
                 };
 
                 await _recipes.AddAsync(recipe);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
 
                 return recipe.Id;
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public Task<Guid> CreateRecipeWithIngredientsByNames(Guid userId, AddRecipeWithIngredientNamesDTO recipeDTO)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO)
+        public async Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct)
         {
             // get only those present in the database
             var presentIngredientIds = _ingredients
@@ -92,7 +87,7 @@ namespace RecipesAPI.Services
                 .Where(x => presentIngredientIds.Contains(x.IngredientId))
                 .Distinct();
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
@@ -103,34 +98,34 @@ namespace RecipesAPI.Services
                     PostingUserId = userId
                 };
 
-                await _recipes.AddAsync(recipe);
-                await _dbContext.SaveChangesAsync();
+                await _recipes.AddAsync(recipe, ct);
+                await _dbContext.SaveChangesAsync(ct);
 
-                foreach (var recipeIngredient in recipeIngredients)
-                {
-                    await _recipeIngredients.AddAsync(new RecipeIngredient
-                    {
-                        RecipeId = recipe.Id,
-                        IngredientId = recipeIngredient.IngredientId,
-                        Quantity = recipeIngredient.Quantity,
-                        UnitId = recipeIngredient.UnitId
-                    });
-                }
+                var recipeIngs = recipeIngredients
+                    .Select(ri => new RecipeIngredient
+                        {
+                            RecipeId = recipe.Id,
+                            IngredientId = ri.IngredientId,
+                            Quantity = ri.Quantity,
+                            UnitId = ri.UnitId
+                        })
+                    .ToList();
 
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _recipeIngredients.AddRangeAsync(recipeIngs, ct);
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
 
                 return recipe.Id;
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(CreateRecipeWithIngredientsByIds)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             IQueryable<Recipe> recipes = _recipes;
 
@@ -152,7 +147,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            var totalCount = await recipes.CountAsync();
+            var totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
@@ -180,7 +175,7 @@ namespace RecipesAPI.Services
                         "Temporary",
                         "Disabled",
                         "Posting User")))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>> 
             { 
@@ -192,7 +187,7 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query)
+        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct)
         {
             IQueryable<Recipe> recipes = _recipes;
 
@@ -214,7 +209,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
@@ -229,7 +224,7 @@ namespace RecipesAPI.Services
                         "Temporary",
                         "Disabled",
                         "Posting User")))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
             {
@@ -241,14 +236,14 @@ namespace RecipesAPI.Services
             };
         }
 
-        public GetFullRecipeDTO GetFullRecipeById(Guid recipeId)
+        public async Task<GetFullRecipeDTO> GetFullRecipeById(Guid recipeId, CancellationToken ct)
         {
-            var recipe = _recipes
+            var recipe = await _recipes
                 .Include(r => r.Ingredients)
                     .ThenInclude(r => r.Ingredient)
                 .Include(r => r.Ingredients)
                     .ThenInclude(r => r.Unit)
-                .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+                .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             return new GetFullRecipeDTO(
                 recipe.Id,
@@ -270,7 +265,7 @@ namespace RecipesAPI.Services
                     "Posting User"));
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
         {
             IQueryable<Recipe> recipes = _recipes;
 
@@ -287,7 +282,7 @@ namespace RecipesAPI.Services
             recipes = recipes.Where(recipe => recipeIds.Contains(recipe.Id));
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
@@ -312,7 +307,7 @@ namespace RecipesAPI.Services
                         "Temporary",
                         "Disabled",
                         "Posting User")))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
@@ -324,7 +319,7 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
         {
             IQueryable<Recipe> recipes = _recipes;
 
@@ -338,7 +333,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
@@ -365,7 +360,7 @@ namespace RecipesAPI.Services
                         "Temporary",
                         "Disabled",
                         "Posting User")))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
@@ -377,10 +372,10 @@ namespace RecipesAPI.Services
             };
         }
 
-        public GetRecipeDTO GetRecipeById(Guid recipeId)
+        public async Task<GetRecipeDTO> GetRecipeById(Guid recipeId, CancellationToken ct)
         {
-            var recipe = _recipes
-                .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+            var recipe = await _recipes
+                .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             return new GetRecipeDTO(
                 recipeId, 
@@ -393,7 +388,7 @@ namespace RecipesAPI.Services
                     "Posting User"));
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
         {
             // query
             var recipes = _recipes.Where(x => recipeIds.Contains(x.Id));
@@ -409,7 +404,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
@@ -425,7 +420,7 @@ namespace RecipesAPI.Services
                             "Temporary",
                             "Disabled",
                             "Posting User")))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
             {
@@ -437,33 +432,15 @@ namespace RecipesAPI.Services
             };
         }
 
-        public GetRecipeWithIngredientIdsDTO GetRecipeWithIngredientIds(Guid recipeId)
-        {
-            var recipe = _recipes
-                .Include(r => r.Ingredients)
-                .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
-
-            return new GetRecipeWithIngredientIdsDTO(
-                recipe.Id, 
-                recipe.Name, 
-                recipe.Description,
-                    new CommonUserDataDTO(
-                        recipe.PostingUserId,
-                        "Temporary",
-                        "Disabled",
-                        "Posting User"),
-                recipe.Ingredients.Select(x => x.IngredientId));
-        }
-
         // there may be added quantity and unit
-        public GetRecipeWithIngredientsAndCategoriesDTO GetRecipeWithIngredientsAndCategories(Guid recipeId)
+        public async Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid recipeId, CancellationToken ct)
         {
-            var recipe = _recipes
+            var recipe = await _recipes
                 .Include(r => r.Ingredients)
                     .ThenInclude(i => i.Ingredient)
                         .ThenInclude(i => i.Connections)
                             .ThenInclude(c => c.IngredientCategory)
-                .FirstOrDefault(r => r.Id == recipeId) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+                .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             return new GetRecipeWithIngredientsAndCategoriesDTO(
                 recipe.Id,
@@ -489,9 +466,9 @@ namespace RecipesAPI.Services
                         "Posting User"));
         }
 
-        public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO addIngredientDTO)
+        public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO addIngredientDTO, CancellationToken ct)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
@@ -501,19 +478,19 @@ namespace RecipesAPI.Services
                     IngredientId = addIngredientDTO.IngredientId,
                     Quantity = addIngredientDTO.Quantity,
                     UnitId = addIngredientDTO.UnitId,
-                });
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                }, ct);
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(AddIngredientToRecipeById)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO addIngredientsDTO)
+        public async Task<IEnumerable<Guid>> AddIngredientsToRecipeById(Guid recipeId, AddIngredientRangeToRecipeDTO addIngredientsDTO, CancellationToken ct)
         {
             if (!_recipes.Any(r => r.Id == recipeId))
             {
@@ -522,32 +499,22 @@ namespace RecipesAPI.Services
 
             // only the ingredients that exist, take recipes of the ingredient that are not this recipe so the ingredients are ok
             var existingIngredients = addIngredientsDTO.Ingredients.Where(x => _ingredients.Any(y => y.Id == x.IngredientId));
-            //var existingIngredients = _ingredients
-            //    .Where(x => addIngredientsDTO.Ingredients.Select(x => x.IngredientId).Contains(x.Id))
-            //    .Include(x => x.Recipes)
-            //    .Where(x => !x.Recipes.Any(y => y.RecipeId == recipeId));
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
-                var recipeIngredients = new List<RecipeIngredient>(addIngredientsDTO.Ingredients.Count());
-
-                foreach (var ingredient in existingIngredients)
+                var recipeIngredients = existingIngredients.Select(ri => new RecipeIngredient()
                 {
-                    var recipeIngredient = new RecipeIngredient()
-                    {
-                        IngredientId = ingredient.IngredientId,
-                        RecipeId = recipeId,
-                        Quantity = ingredient.Quantity,
-                        UnitId = ingredient.UnitId,
-                    };
-                    recipeIngredients.Add(recipeIngredient);
-                }
+                    RecipeId = recipeId,
+                    IngredientId = ri.IngredientId,
+                    Quantity = ri.Quantity,
+                    UnitId = ri.UnitId
+                }).ToList();
 
-                await _recipeIngredients.AddRangeAsync(recipeIngredients);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _recipeIngredients.AddRangeAsync(recipeIngredients, ct);
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
 
                 return existingIngredients.Select(x => x.IngredientId);
             }
@@ -559,7 +526,7 @@ namespace RecipesAPI.Services
             }
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy)
+        public async Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
         {
             // query
             var recipes = _recipes.Where(r => recipeIds.Contains(r.Id));
@@ -575,7 +542,7 @@ namespace RecipesAPI.Services
             }
 
             // count
-            int totalCount = await recipes.CountAsync();
+            int totalCount = await recipes.CountAsync(ct);
 
             // project
             var data = await recipes
@@ -592,7 +559,7 @@ namespace RecipesAPI.Services
                         "Disabled",
                         "Posting User"),
                     recipe.Ingredients.Select(r => r.IngredientId)))
-                .ToListAsync();
+                .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>
             {
@@ -604,61 +571,61 @@ namespace RecipesAPI.Services
             };
         }
 
-        public async Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId)
+        public async Task RemoveIngredientFromRecipe(Guid recipeId, Guid ingredientId, CancellationToken ct)
         {
-            var recipeIngredient = _recipeIngredients
+            var recipeIngredient = await _recipeIngredients
                 .Where(x => x.RecipeId == recipeId)
                 .Where(x => x.IngredientId == ingredientId)
-                .FirstOrDefault() ?? throw new ElementNotFoundException($"Ingredient with id {ingredientId} is not connected to recipe with id {recipeId}.");
+                .FirstOrDefaultAsync(ct) ?? throw new ElementNotFoundException($"Ingredient with id {ingredientId} is not connected to recipe with id {recipeId}.");
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 _recipeIngredients.Remove(recipeIngredient);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveIngredientFromRecipe)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task RemoveIngredientsFromRecipe(Guid recipeId, IEnumerable<Guid> ingredientIds)
+        public async Task RemoveIngredientsFromRecipe(Guid recipeId, IEnumerable<Guid> ingredientIds, CancellationToken ct)
         {
             var recipeIngredients = _recipeIngredients
                 .Where(x => x.RecipeId == recipeId)
                 .Where(x => ingredientIds.Contains(x.IngredientId));
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
                 _recipeIngredients.RemoveRange(recipeIngredients);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveIngredientsFromRecipe)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task RemoveRecipeById(Guid recipeId)
+        public async Task RemoveRecipeById(Guid recipeId, CancellationToken ct)
         {
-            var recipe = _recipes
+            var recipe = await _recipes
                 .Where(x => x.Id == recipeId)
                 .Include(x => x.Ingredients)
-                .FirstOrDefault() ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+                .FirstOrDefaultAsync(ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             var recipeIngredients = _recipeIngredients.Where(x => x.RecipeId == recipeId);
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
@@ -668,26 +635,26 @@ namespace RecipesAPI.Services
                     _recipeIngredients.RemoveRange(recipeIngredients);
                 }
 
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(RemoveRecipeById)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
 
-        public async Task UpdateRecipeNameById(Guid recipeId, UpdateRecipeDTO recipeDTO)
+        public async Task UpdateRecipeNameById(Guid recipeId, UpdateRecipeDTO recipeDTO, CancellationToken ct)
         {
-            var recipe = _recipes
-                .FirstOrDefault(x => x.Id == recipeId) 
+            var recipe = await _recipes
+                .FirstOrDefaultAsync(x => x.Id == recipeId, ct) 
                 ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
             // add validation in different layer
 
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
             try
             {
@@ -695,13 +662,13 @@ namespace RecipesAPI.Services
                 recipe.Description = recipeDTO.Description;
 
                 _recipes.Update(recipe);
-                await _dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
             }
             catch
             {
                 _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(UpdateRecipeNameById)}. Rollback.");
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(ct);
                 throw;
             }
         }
