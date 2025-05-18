@@ -26,6 +26,7 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         [Route("cookbook")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Get the recipes from user cookbook.")]
@@ -50,6 +51,11 @@ namespace RecipesAPI.Controllers
                 }
                 return Ok(recipes);
             }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
@@ -60,6 +66,7 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         [Route("cookbook/recipe")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add a recipe to user cookbook.")]
         public async Task<IActionResult> AddRecipeToCookbook([FromHeader] Guid userId,  [FromBody] AddRecipeToCookbookDTO recipeDTO, CancellationToken ct)
@@ -68,6 +75,11 @@ namespace RecipesAPI.Controllers
             {
                 await _userDataService.AddRecipeToCookbook(userId, recipeDTO, ct);
                 return CreatedAtAction(nameof(AddRecipeToCookbook), recipeDTO.RecipeId);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -89,6 +101,11 @@ namespace RecipesAPI.Controllers
                 await _userDataService.RemoveRecipesFromCookbook(userId, recipeIds, ct);
                 return NoContent();
             }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
@@ -99,6 +116,7 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         [Route("fridge/ingredients")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFridgeIngredientDataDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Get ingredients in the fridge.")]
@@ -123,6 +141,11 @@ namespace RecipesAPI.Controllers
                 }
                 return Ok(ingredients);
             }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
@@ -133,6 +156,7 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         [Route("fridge/recipes")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Get the recipes available from ingredients in the fridge.")]
@@ -155,6 +179,11 @@ namespace RecipesAPI.Controllers
                 }
                 return Ok(ingredients);
             }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
@@ -165,6 +194,7 @@ namespace RecipesAPI.Controllers
         [HttpPut]
         [Route("fridge/ingredients")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Set the ingredients in the fridge as given.")]
         public async Task<IActionResult> SetFridgeIngredients([FromHeader] Guid userId, [FromBody] IEnumerable<SetIngredientQuantityDTO> ingredientDTOs, CancellationToken ct)
@@ -173,6 +203,11 @@ namespace RecipesAPI.Controllers
             {
                 await _userDataService.SetFridgeIngredients(userId, ingredientDTOs, ct);
                 return Ok();
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -184,6 +219,7 @@ namespace RecipesAPI.Controllers
         [HttpPut]
         [Route("fridge/ingredients/recipe/{recipeId:guid}")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Set the ingredients in the fridge as given.")]
         public async Task<IActionResult> SetFridgeIngredients([FromHeader] Guid userId, [FromRoute] Guid recipeId, CancellationToken ct)
@@ -192,6 +228,11 @@ namespace RecipesAPI.Controllers
             {
                 await _userDataService.RemoveUsedIngredientsInRecipe(userId, recipeId, ct);
                 return Ok();
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -205,6 +246,7 @@ namespace RecipesAPI.Controllers
         [Route("restrictions/categories")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientCategoryDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Get the restricted categories of the user.")]
         public async Task<IActionResult> GetUserRestrictedCategories([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
@@ -226,6 +268,11 @@ namespace RecipesAPI.Controllers
                 }
                 return Ok(categories);
             }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
@@ -238,6 +285,7 @@ namespace RecipesAPI.Controllers
         [Route("restrictions/ingredients")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetIngredientDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Get the restricted ingredients from restricted categories of the user.")]
         public async Task<IActionResult> GetUserRestrictedIngredients([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
@@ -259,6 +307,11 @@ namespace RecipesAPI.Controllers
                 }
                 return Ok(categories);
             }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception: {ex.Message}.");
@@ -269,6 +322,7 @@ namespace RecipesAPI.Controllers
         [HttpPost]
         [Route("restrictions/categories")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add the categories to restricted categories of the user.")]
         public async Task<IActionResult> AddUserRestrictedCategories([FromHeader] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
@@ -277,6 +331,11 @@ namespace RecipesAPI.Controllers
             {
                 await _userDataService.AddUserRestrictedCategories(userId, categoryIds, ct);
                 return Ok();
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -295,6 +354,11 @@ namespace RecipesAPI.Controllers
             try
             {
                 await _userDataService.RemoveUserRestrictedCategories(userId, categoryIds, ct);
+                return NoContent();
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
                 return NoContent();
             }
             catch (Exception ex)
