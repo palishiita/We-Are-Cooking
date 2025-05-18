@@ -228,13 +228,13 @@ namespace RecipesAPI.Services
 
         public async Task<PaginatedResult<IEnumerable<GetIngredientWithCategoriesDTO>>> GetAllIngredientsWithCategories(int count, int page, bool orderByAsc, string sortBy, string query)
         {
-            IQueryable<Ingredient> result;
+            IQueryable<Ingredient> ingredients = _ingredients;
 
             // query
             if (!string.IsNullOrEmpty(query))
             {
                 query = query.ToUpper();
-                ingredients = ingredients.Where(cr => cr.Name.ToUpper().Contains(query));
+                ingredients = ingredients.Where(ingredient => ingredient.Name.ToUpper().Contains(query));
             }
 
             // sort
@@ -381,7 +381,7 @@ namespace RecipesAPI.Services
             if (!string.IsNullOrEmpty(query))
             {
                 query = query.ToUpper();
-                units = units.Where(recipe => recipe.Name.ToUpper().Contains(query));
+                units = units.Where(unit => unit.Name.ToUpper().Contains(query));
             }
 
             // sort
