@@ -5,5 +5,5 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Entity
 @Table("photo_urls")
-public record UserProfilePhotos() {
+public record UserProfilePhotosEntity() {
 }

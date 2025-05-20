@@ -2,29 +2,30 @@ services:
 
   test:
     container_name: "wrc-test"
-    image: wrc-rest-test:latest
+    build:
+      context: ../services/test
+      dockerfile: Dockerfile
     ports:
       - "$BACKEND_TEST_PORT:8080"
     networks:
       - wrcNetwork
+    external_links:
+      - "auth-keycloak:login.techstructure.com"
 
 
-  reels_api:
-    container_name: "wrc-reels-api"
+  wrc-gateway:
+    container_name: "wrc-gateway"
     build:
-      context: ../services/reels
+      context: ../services/gateway
       dockerfile: Dockerfile
     ports:
-      - "7001:7000"
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "https://localhost:8000/health"]
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
+      - "$GATEWAY_PORT:8000"
     networks:
       - wrcNetwork
-      
+      - authNetwork
+    external_links:
+      - "auth-keycloak:login.techstructure.com"
+
 
   recipesapi:
     container_name: "wrc-recipesapi"
@@ -78,3 +79,9 @@ networks:
     ipam:
       config:
         - subnet: 10.0.2.0/24
+  authNetwork:
+    name: authenticationNetwork
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
