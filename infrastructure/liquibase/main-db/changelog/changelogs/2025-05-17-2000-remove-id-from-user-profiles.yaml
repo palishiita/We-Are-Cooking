@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-17-2000-remove-id-from-user-profiles
+      author: technosudo
+      changes:
+        - dropColumn:
+            tableName: user_profiles
+            columnName: id
+        - addPrimaryKey:
+            tableName: user_profiles
+            columnNames: user_id
