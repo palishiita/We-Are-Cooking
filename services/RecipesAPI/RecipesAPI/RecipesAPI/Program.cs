@@ -24,6 +24,7 @@ builder.Services.AddDbContext<RecipeDbContext>(
 
 Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("RecipesDb")}");
 
+builder.Services.AddScoped<IUserInfoService, UserInfoService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IUserDataService, UserDataService>();

@@ -173,8 +173,7 @@ namespace RecipesAPI.Services
                     new CommonUserDataDTO( // users stored in different database
                         recipe.PostingUserId,
                         "Temporary",
-                        "Disabled",
-                        "Posting User")))
+                        "Disabled")))
                 .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>> 
@@ -221,9 +220,7 @@ namespace RecipesAPI.Services
                     recipe.Description,
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
-                        "Temporary",
-                        "Disabled",
-                        "Posting User")))
+                        "Temporary")))
                 .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
@@ -261,8 +258,7 @@ namespace RecipesAPI.Services
                 new CommonUserDataDTO(
                     recipe.PostingUserId,
                     "Temporary",
-                    "Disabled",
-                    "Posting User"));
+                    "Disabled"));
         }
 
         public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
@@ -306,8 +302,7 @@ namespace RecipesAPI.Services
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         "Temporary",
-                        "Disabled",
-                        "Posting User")))
+                        "Disabled")))
                 .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
@@ -360,8 +355,7 @@ namespace RecipesAPI.Services
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         "Temporary",
-                        "Disabled",
-                        "Posting User")))
+                        "Disabled")))
                 .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
@@ -386,8 +380,7 @@ namespace RecipesAPI.Services
                 new CommonUserDataDTO(
                     recipe.PostingUserId,
                     "Temporary",
-                    "Disabled",
-                    "Posting User"));
+                    "Disabled"));
         }
 
         public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
@@ -421,8 +414,7 @@ namespace RecipesAPI.Services
                         new CommonUserDataDTO(
                             recipe.PostingUserId,
                             "Temporary",
-                            "Disabled",
-                            "Posting User")))
+                            "Disabled")))
                 .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
@@ -465,8 +457,7 @@ namespace RecipesAPI.Services
                 new CommonUserDataDTO(
                     recipe.PostingUserId,
                         "Temporary",
-                        "Disabled",
-                        "Posting User"));
+                        "Disabled"));
         }
 
         public async Task AddIngredientToRecipeById(Guid recipeId, AddIngredientToRecipeDTO addIngredientDTO, CancellationToken ct)
@@ -560,8 +551,7 @@ namespace RecipesAPI.Services
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         "Temporary",
-                        "Disabled",
-                        "Posting User"),
+                        "Disabled"),
                     recipe.Ingredients.Select(r => r.IngredientId)))
                 .ToListAsync(ct);
 
