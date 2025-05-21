@@ -108,9 +108,6 @@ namespace RecipesAPI.Database
 
             // reviews
             modelBuilder.Entity<Review>()
-                .HasKey(rev => new { rev.UserId, rev.RecipeId });
-
-            modelBuilder.Entity<Review>()
                 .HasOne(rev => rev.Recipe)
                 .WithMany(rev => rev.Reviews)
                 .HasForeignKey(rev => rev.RecipeId);

@@ -2,6 +2,7 @@
 {
     public class GetReviewDTO
     {
+        public Guid Id { get; set; }
         public Guid RecipeId { get; set; }
         public Guid UserId { get; set; }
         public float Rating { get; set; }

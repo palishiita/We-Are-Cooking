@@ -5,7 +5,7 @@ using RecipesAPI.Services.Interfaces;
 namespace RecipesAPI.Controllers
 {
     [ApiController]
-    [Route("revipesapi/reviews")]
+    [Route("recipesapi/reviews")]
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
@@ -25,15 +25,15 @@ namespace RecipesAPI.Controllers
         [HttpPost("description/recipe/{recipeId}/user/{userId}")]
         public async Task<IActionResult> AddReviewWithDescription(Guid recipeId, Guid userId, [FromBody] AddReviewWithDescriptionDTO dto)
         {
-            await _reviewService.AddReviewWithDescription(dto, userId, recipeId);
-            return NoContent();
+            var newReviewId = await _reviewService.AddReviewWithDescription(dto, userId, recipeId);
+            return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
         }
 
         [HttpPost("photos/recipe/{recipeId}/user/{userId}")]
         public async Task<IActionResult> AddReviewWithPhotos(Guid recipeId, Guid userId, [FromBody] AddReviewWithPhotosDTO dto)
         {
-            await _reviewService.AddReviewWithPhotos(dto, userId, recipeId);
-            return NoContent();
+            var newReviewId = await _reviewService.AddReviewWithPhotos(dto, userId, recipeId);
+            return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
         }
 
         [HttpDelete("recipe/{recipeId}/user/{userId}")]

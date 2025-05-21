@@ -12,6 +12,11 @@ namespace RecipesAPI.Entities.Reviews
             ReviewPhotos = new HashSet<ReviewPhoto>();
         }
 
+        [Key]
+        [Column("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+
         [Column("recipe_id")]
         public Guid RecipeId { get; set; }
 

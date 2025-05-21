@@ -22,6 +22,7 @@ namespace RecipesAPI.Services
                 .Where(r => r.RecipeId == recipeId)
                 .Select(r => new GetReviewDTO
                 {
+                    Id = r.Id,
                     RecipeId = r.RecipeId,
                     UserId = r.UserId,
                     Rating = r.Rating,
@@ -32,7 +33,7 @@ namespace RecipesAPI.Services
                 .ToListAsync();
         }
 
-        public async Task AddReviewWithDescription(AddReviewWithDescriptionDTO dto, Guid userId, Guid recipeId)
+        public async Task<Guid> AddReviewWithDescription(AddReviewWithDescriptionDTO dto, Guid userId, Guid recipeId)
         {
             var review = new Review
             {
@@ -45,9 +46,10 @@ namespace RecipesAPI.Services
 
             _context.Reviews.Add(review); 
             await _context.SaveChangesAsync();
+            return review.Id;
         }
 
-        public async Task AddReviewWithPhotos(AddReviewWithPhotosDTO dto, Guid userId, Guid recipeId)
+        public async Task<Guid> AddReviewWithPhotos(AddReviewWithPhotosDTO dto, Guid userId, Guid recipeId)
         {
             var review = new Review
             {
@@ -68,6 +70,7 @@ namespace RecipesAPI.Services
                 _context.ReviewPhotos.Add(reviewPhoto);
             }
             await _context.SaveChangesAsync();
+            return review.Id;
         }
 
         public async Task DeleteReview(Guid recipeId, Guid userId)
