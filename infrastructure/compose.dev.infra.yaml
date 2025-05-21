@@ -1,17 +1,5 @@
 services:
 
-  wrc-gateway:
-    container_name: "wrc-gateway"
-    image: wrc-gateway:latest
-    depends_on:
-      auth-keycloak:
-        condition: service_healthy
-    ports:
-      - "$GATEWAY_PORT:8000"
-    networks:
-      - authNetwork
-      - wrcNetwork
-
   auth-keycloak:
     container_name: "auth-keycloak"
     image: quay.io/keycloak/keycloak:26.1
@@ -83,9 +71,3 @@ networks:
     ipam:
       config:
         - subnet: 10.0.1.0/24
-  wrcNetwork:
-    name: wrcNetwork
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.0.2.0/24

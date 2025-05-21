@@ -4,8 +4,8 @@ LABEL authors="technosudo"
 WORKDIR /app
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
-COPY services/gateway/pom.xml .
-COPY services/gateway/src ./src
+COPY ./pom.xml .
+COPY ./src ./src
 
 RUN --mount=type=cache,target=/root/.m2,rw mvn clean package -DskipTests
 

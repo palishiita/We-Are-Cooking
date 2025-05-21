@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_profiles")
-public record UserProfile(
+public record UserProfileEntity(
 
         @Id @jakarta.persistence.Id
         UUID userId,

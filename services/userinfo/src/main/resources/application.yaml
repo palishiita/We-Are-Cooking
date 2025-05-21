@@ -1,0 +1,5 @@
+spring:
+  application.name: userinfo
+  security.oauth2.client.provider.techstructure-keycloak:
+        issuer-uri: "http://login.techstructure.com:8080/realms/Techstructure"
+

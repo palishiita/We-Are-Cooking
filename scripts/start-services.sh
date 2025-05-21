@@ -10,19 +10,13 @@ quiet=false
 # Set env variables
 set -ex
 
-build() {
-  docker build -f "$home"/services/test/Dockerfile . -t wrc-rest-test:latest
-#  docker build -f "$home"/services/userinfo/Dockerfile . -t wrc-userinfo:latest
-#  docker build -f "$home"/services/recommender/app/Dockerfile . -t wrc-recommender:latest
-#  docker build -f "$home"/services/frontend/Dockerfile . -t wrc-frontend:latest
-}
 
 run() {
   if $full; then sh "$home"/scripts/start-infra.sh; fi
-  if $rebuild; then build; fi
   docker compose -f "$home"/infrastructure/compose.dev.db.yaml up --force-recreate -d
 #  sudo chown -R "$USER":"$USER" "$home"/infrastructure/db-volumes/wrc
 #  sudo chmod -R 777 "$home"/infrastructure/db-volumes/wrc
+  docker compose -f "$home"/infrastructure/compose.dev.services.yaml build wrc-gateway
   docker compose -f "$home"/infrastructure/compose.dev.services.yaml up --force-recreate -d
 }
 
