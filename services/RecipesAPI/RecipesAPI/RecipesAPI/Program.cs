@@ -26,7 +26,7 @@ Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionStrin
 
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
-//builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IUserDataService, UserDataService>();
 
 var app = builder.Build();
@@ -34,7 +34,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
+app.UseSwagger();
     app.UseSwaggerUI();
 //}
 
