@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RecipesAPI.Config.Options;
 using RecipesAPI.Database;
 using RecipesAPI.Services;
 using RecipesAPI.Services.Interfaces;
@@ -24,10 +25,8 @@ builder.Services.AddDbContext<RecipeDbContext>(
 
 Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("RecipesDb")}");
 
-builder.Services.AddScoped<IUserInfoService, UserInfoService>();
-builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
-builder.Services.AddScoped<IUserDataService, UserDataService>();
+SetConfigurationOptions(builder);
+ConfiguerServices(builder.Services);
 
 var app = builder.Build();
 
@@ -47,3 +46,16 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SetConfigurationOptions(WebApplicationBuilder builder)
+{
+    builder.Services.Configure<UserInfoServiceOptions>(builder.Configuration);
+}
+
+void ConfiguerServices(IServiceCollection services)
+{
+    services.AddScoped<IUserInfoService, UserInfoService>();
+    services.AddScoped<IRecipeService, RecipeService>();
+    services.AddScoped<IIngredientService, IngredientService>();
+    services.AddScoped<IUserDataService, UserDataService>();
+}

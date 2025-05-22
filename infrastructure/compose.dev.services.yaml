@@ -60,6 +60,7 @@ services:
       #- ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password=${CERT_PASSWORD}
       #- ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_ENVIRONMENT=Release
+      - USER_INFO_SERVICE_URL=http:/localhost:8080/api
     volumes:
       - ./https-recipesapi:/https-recipesapi:ro
       - ../services/RecipesAPI/RecipesAPI/RecipesAPI/Database:/app/Database:ro
