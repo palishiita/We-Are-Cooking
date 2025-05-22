@@ -11,10 +11,10 @@ namespace RecipesAPI.Entities.Reviews
         public Guid ReviewId { get; set; }
 
         [Required]
-        [Column("photo_url_id")]
-        public Guid PhotoUrlId { get; set; }
+        [Column("photo_id")]
+        public Guid PhotoId { get; set; }
 
         public virtual Review Review { get; set; }
-        public virtual PhotoUrl Photo { get; set; }
+        public virtual PhotoUrl PhotoUrl { get; set; }
     }
 }

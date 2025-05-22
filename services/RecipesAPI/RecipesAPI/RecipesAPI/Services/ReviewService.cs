@@ -28,7 +28,7 @@ namespace RecipesAPI.Services
                     Rating = r.Rating,
                     Description = r.Description,
                     HasPhotos = r.HasPhotos,
-                    PhotoUrls = r.ReviewPhotos.Select(p => p.Photo.Url)
+                    PhotoUrls = r.ReviewPhotos.Select(p => p.PhotoUrl.Url)
                 })
                 .ToListAsync();
         }
@@ -65,7 +65,7 @@ namespace RecipesAPI.Services
                 var reviewPhoto = new ReviewPhoto
                 {
                     Review = review,
-                    PhotoUrlId = photoDto.PhotoUrlId
+                    PhotoId = photoDto.PhotoId
                 };
                 _context.ReviewPhotos.Add(reviewPhoto);
             }

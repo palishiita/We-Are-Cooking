@@ -4,7 +4,7 @@ using RecipesAPI.Entities.Recipes;
 
 namespace RecipesAPI.Entities.Reviews
 {
-    [Table("review")]
+    [Table("reviews")]
     public class Review
     {
         public Review()

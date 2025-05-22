@@ -112,9 +112,14 @@ namespace RecipesAPI.Database
                 .WithMany(rev => rev.Reviews)
                 .HasForeignKey(rev => rev.RecipeId);
 
+            // photoUrls
+            modelBuilder.Entity<PhotoUrl>()
+                .Property(p => p.Url)
+                .HasColumnName("photo_url");
+
             // reviewPhotos
             modelBuilder.Entity<ReviewPhoto>()
-                .HasKey(revp => new { revp.ReviewId, revp.PhotoUrlId });
+                .HasKey(revp => new { revp.ReviewId, revp.PhotoId });
 
             modelBuilder.Entity<ReviewPhoto>()
                 .HasOne(revp => revp.Review)
@@ -122,9 +127,9 @@ namespace RecipesAPI.Database
                 .HasForeignKey(revp => revp.ReviewId);
 
             modelBuilder.Entity<ReviewPhoto>()
-                .HasOne(revp => revp.Photo)
-                .WithMany()
-                .HasForeignKey(revp => revp.PhotoUrlId);
+                .HasOne(revp => revp.PhotoUrl)
+                .WithMany(pu => pu.ReviewPhotoAssociated)
+                .HasForeignKey(revp => revp.PhotoId);
         }
 
         // recipes & ingredients
@@ -139,7 +144,6 @@ namespace RecipesAPI.Database
         public DbSet<UserCookbookRecipe> UserCookbooks { get; set; }
         public DbSet<UserDietaryRestriction> UserDietaryRestrictions { get; set; }
         public DbSet<UserFridgeIngredient> UserFridges { get; set; }
-        public DbSet<UserProfile> UserProfiles { get; set; }
 
         // reviews
         public DbSet<Review> Reviews { get; set; }

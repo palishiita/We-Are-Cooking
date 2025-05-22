@@ -1,12 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using RecipesAPI.Entities.UserData;
 
 namespace RecipesAPI.Entities.Reviews
 {
     [Table("photo_urls")]
     public class PhotoUrl
     {
+        public PhotoUrl() 
+        { 
+            ReviewPhotoAssociated = new HashSet<ReviewPhoto>();
+        }
+
         [Key]
         [Column("id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,7 +20,6 @@ namespace RecipesAPI.Entities.Reviews
         [MaxLength(512)]
         public string Url { get; set; }
 
-        public virtual ReviewPhoto ReviewPhoto { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
+        public virtual ICollection<ReviewPhoto> ReviewPhotoAssociated { get; set; }
     }
 }
