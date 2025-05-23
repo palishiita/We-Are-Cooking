@@ -22,19 +22,43 @@ namespace RecipesAPI.Controllers
             return Ok(reviews);
         }
 
-        [HttpPost("description/recipe/{recipeId}/user/{userId}")]
-        public async Task<IActionResult> AddReviewWithDescription(Guid recipeId, Guid userId, [FromBody] AddReviewWithDescriptionDTO dto)
+        [HttpPost("recipe/{recipeId}/user/{userId}")]
+        public async Task<IActionResult> AddReview(Guid recipeId, Guid userId, [FromBody] AddReviewRequestDTO dto)
         {
-            var newReviewId = await _reviewService.AddReviewWithDescription(dto, userId, recipeId);
-            return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var newReviewId = await _reviewService.AddReview(dto, userId, recipeId);
+                return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
+            }
+            catch (KeyNotFoundException knfex)
+            {
+                return NotFound(new { message = knfex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while processing your request.", details = ex.Message });
+            }
         }
 
-        [HttpPost("photos/recipe/{recipeId}/user/{userId}")]
-        public async Task<IActionResult> AddReviewWithPhotos(Guid recipeId, Guid userId, [FromBody] AddReviewWithPhotosDTO dto)
-        {
-            var newReviewId = await _reviewService.AddReviewWithPhotos(dto, userId, recipeId);
-            return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
-        }
+
+        //[HttpPost("description/recipe/{recipeId}/user/{userId}")]
+        //public async Task<IActionResult> AddReviewWithDescription(Guid recipeId, Guid userId, [FromBody] AddReviewWithDescriptionDTO dto)
+        //{
+        //    var newReviewId = await _reviewService.AddReviewWithDescription(dto, userId, recipeId);
+        //    return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
+        //}
+
+        //[HttpPost("photos/recipe/{recipeId}/user/{userId}")]
+        //public async Task<IActionResult> AddReviewWithPhotos(Guid recipeId, Guid userId, [FromBody] AddReviewWithPhotosDTO dto)
+        //{
+        //    var newReviewId = await _reviewService.AddReviewWithPhotos(dto, userId, recipeId);
+        //    return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
+        //}
 
         [HttpDelete("recipe/{recipeId}/user/{userId}")]
         public async Task<IActionResult> DeleteReview(Guid recipeId, Guid userId)

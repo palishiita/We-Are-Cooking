@@ -20,6 +20,8 @@ namespace RecipesAPI.Services
         {
             return await _context.Reviews
                 .Where(r => r.RecipeId == recipeId)
+                .Include(r => r.ReviewPhotos)
+                    .ThenInclude(revp => revp.PhotoUrl)
                 .Select(r => new GetReviewDTO
                 {
                     Id = r.Id,
@@ -33,45 +35,75 @@ namespace RecipesAPI.Services
                 .ToListAsync();
         }
 
-        public async Task<Guid> AddReviewWithDescription(AddReviewWithDescriptionDTO dto, Guid userId, Guid recipeId)
+        public async Task<Guid> AddReview(AddReviewRequestDTO dto, Guid userId, Guid recipeId)
         {
             var review = new Review
             {
                 RecipeId = recipeId,
                 UserId = userId,
-                Rating = dto.Rating,
+                Rating = (int)Math.Round(dto.Rating),
                 Description = dto.Description,
-                HasPhotos = dto.HasPhotos
+                HasPhotos = (dto.Photos != null && dto.Photos.Any())
             };
 
-            _context.Reviews.Add(review); 
-            await _context.SaveChangesAsync();
-            return review.Id;
-        }
-
-        public async Task<Guid> AddReviewWithPhotos(AddReviewWithPhotosDTO dto, Guid userId, Guid recipeId)
-        {
-            var review = new Review
-            {
-                RecipeId = recipeId,
-                UserId = userId,
-                Rating = dto.Rating,
-                HasPhotos = true
-            };
             _context.Reviews.Add(review);
 
-            foreach (var photoDto in dto.Photos)
+            if (dto.Photos != null && dto.Photos.Any())
             {
-                var reviewPhoto = new ReviewPhoto
+                foreach (var photoDto in dto.Photos)
                 {
-                    Review = review,
-                    PhotoId = photoDto.PhotoId
-                };
-                _context.ReviewPhotos.Add(reviewPhoto);
+                    var reviewPhoto = new ReviewPhoto
+                    {
+                        Review = review,
+                        PhotoId = photoDto.PhotoId
+                    };
+                    _context.ReviewPhotos.Add(reviewPhoto);
+                }
             }
+
             await _context.SaveChangesAsync();
             return review.Id;
         }
+
+        //public async Task<Guid> AddReviewWithDescription(AddReviewWithDescriptionDTO dto, Guid userId, Guid recipeId)
+        //{
+        //    var review = new Review
+        //    {
+        //        RecipeId = recipeId,
+        //        UserId = userId,
+        //        Rating = dto.Rating,
+        //        Description = dto.Description,
+        //        HasPhotos = dto.HasPhotos
+        //    };
+
+        //    _context.Reviews.Add(review); 
+        //    await _context.SaveChangesAsync();
+        //    return review.Id;
+        //}
+
+        //public async Task<Guid> AddReviewWithPhotos(AddReviewWithPhotosDTO dto, Guid userId, Guid recipeId)
+        //{
+        //    var review = new Review
+        //    {
+        //        RecipeId = recipeId,
+        //        UserId = userId,
+        //        Rating = dto.Rating,
+        //        HasPhotos = true
+        //    };
+        //    _context.Reviews.Add(review);
+
+        //    foreach (var photoDto in dto.Photos)
+        //    {
+        //        var reviewPhoto = new ReviewPhoto
+        //        {
+        //            Review = review,
+        //            PhotoId = photoDto.PhotoId
+        //        };
+        //        _context.ReviewPhotos.Add(reviewPhoto);
+        //    }
+        //    await _context.SaveChangesAsync();
+        //    return review.Id;
+        //}
 
         public async Task DeleteReview(Guid recipeId, Guid userId)
         {
@@ -86,5 +118,6 @@ namespace RecipesAPI.Services
                 await _context.SaveChangesAsync();
             }
         }
+
     }
 }
