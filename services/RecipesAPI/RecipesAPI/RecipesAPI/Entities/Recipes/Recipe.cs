@@ -1,4 +1,5 @@
-﻿using RecipesAPI.Entities.UserData;
+﻿using RecipesAPI.Entities.Reviews;
+using RecipesAPI.Entities.UserData;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,6 +34,7 @@ namespace RecipesAPI.Entities.Recipes
 
         public virtual ICollection<RecipeIngredient> Ingredients { get; set; }
         public virtual ICollection<UserCookbookRecipe> UserCookbooks { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
         //public virtual User PostingUser { get; set; }
     }
 }
