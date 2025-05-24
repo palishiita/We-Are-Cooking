@@ -25,7 +25,9 @@ namespace RecipesAPI.Services
 
         private readonly HashSet<string> _recipeProps;
 
-        public RecipeService(ILogger<RecipeService> logger, RecipeDbContext dbContext)
+        IUserInfoService _userInfoService;
+
+        public RecipeService(ILogger<RecipeService> logger, RecipeDbContext dbContext, IUserInfoService userInfoService)
         {
             _logger = logger;
 
@@ -38,7 +40,7 @@ namespace RecipesAPI.Services
             _recipes = dbContext.Set<Recipe>();
             _ingredients = dbContext.Set<Ingredient>();
             _recipeIngredients = dbContext.Set<RecipeIngredient>();
-            
+            _userInfoService = userInfoService;
         }
 
         public async Task<Guid> CreateRecipe(Guid userId, AddRecipeDTO recipeDTO, CancellationToken ct)
@@ -170,11 +172,23 @@ namespace RecipesAPI.Services
                         ingredient.UnitId,
                         ingredient.Unit.Name))
                         .ToArray(),
-                    new CommonUserDataDTO( // users stored in different database
+                    new CommonUserDataDTO(
                         recipe.PostingUserId,
-                        "Temporary",
-                        "Disabled")))
+                        null,
+                        null)))
                 .ToListAsync(ct);
+
+            var userData = new List<CommonUserDataDTO>();
+
+            var userIds = data.Select(x => x.UserData.UserId);
+
+            foreach (var userId in userIds)
+            {
+                var user = await _userInfoService.GetUserById(userId);
+                userData.Add(user);
+            }
+
+            // not sure how to correct this now to be in one query
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>> 
             { 
@@ -220,7 +234,8 @@ namespace RecipesAPI.Services
                     recipe.Description,
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
-                        "Temporary")))
+                        "Temporary",
+                        "Disabled")))
                 .ToListAsync(ct);
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
