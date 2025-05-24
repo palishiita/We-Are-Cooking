@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecipesAPI.Entities.Reviews;
 using RecipesAPI.Model.Reviews.Add;
 using RecipesAPI.Services.Interfaces;
 
@@ -18,12 +19,23 @@ namespace RecipesAPI.Controllers
         [HttpGet("recipe/{recipeId}")]
         public async Task<IActionResult> GetReviewsByRecipeId(Guid recipeId)
         {
+            try
+            {
             var reviews = await _reviewService.GetReviewsByRecipeId(recipeId);
             return Ok(reviews);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new { message = "An error occurred while processing your request.", details = ex.Message });
+            }
         }
 
-        [HttpPost("recipe/{recipeId}/user/{userId}")]
-        public async Task<IActionResult> AddReview(Guid recipeId, Guid userId, [FromBody] AddReviewRequestDTO dto)
+        [HttpPost("recipe/{recipeId}")]
+        public async Task<IActionResult> AddReview(Guid recipeId, [FromBody] AddReviewRequestDTO dto, [FromHeader] Guid userId)
         {
             if (!ModelState.IsValid)
             {
@@ -33,11 +45,11 @@ namespace RecipesAPI.Controllers
             try
             {
                 var newReviewId = await _reviewService.AddReview(dto, userId, recipeId);
-                return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
+                return CreatedAtAction(nameof(AddReview), newReviewId);
             }
-            catch (KeyNotFoundException knfex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new { message = knfex.Message });
+                return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -45,23 +57,8 @@ namespace RecipesAPI.Controllers
             }
         }
 
-
-        //[HttpPost("description/recipe/{recipeId}/user/{userId}")]
-        //public async Task<IActionResult> AddReviewWithDescription(Guid recipeId, Guid userId, [FromBody] AddReviewWithDescriptionDTO dto)
-        //{
-        //    var newReviewId = await _reviewService.AddReviewWithDescription(dto, userId, recipeId);
-        //    return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
-        //}
-
-        //[HttpPost("photos/recipe/{recipeId}/user/{userId}")]
-        //public async Task<IActionResult> AddReviewWithPhotos(Guid recipeId, Guid userId, [FromBody] AddReviewWithPhotosDTO dto)
-        //{
-        //    var newReviewId = await _reviewService.AddReviewWithPhotos(dto, userId, recipeId);
-        //    return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
-        //}
-
-        [HttpDelete("recipe/{recipeId}/user/{userId}")]
-        public async Task<IActionResult> DeleteReview(Guid recipeId, Guid userId)
+        [HttpDelete("recipe/{recipeId}")]
+        public async Task<IActionResult> DeleteReview(Guid recipeId, [FromHeader] Guid userId)
         {
             await _reviewService.DeleteReview(recipeId, userId);
             return NoContent();

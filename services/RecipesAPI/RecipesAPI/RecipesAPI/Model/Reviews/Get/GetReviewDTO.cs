@@ -1,13 +1,12 @@
 ﻿namespace RecipesAPI.Model.Reviews.Get
 {
-    public class GetReviewDTO
-    {
-        public Guid Id { get; set; }
-        public Guid RecipeId { get; set; }
-        public Guid UserId { get; set; }
-        public float Rating { get; set; }
-        public string? Description { get; set; }
-        public bool HasPhotos { get; set; }
-        public IEnumerable<string>? PhotoUrls { get; set; }
-    }
+    public record GetReviewDTO(
+        Guid Id,
+        Guid RecipeId,
+        Guid UserId,
+        float Rating,
+        string? Description,
+        bool HasPhotos,
+        IEnumerable<string>? PhotoUrls
+        );
 }

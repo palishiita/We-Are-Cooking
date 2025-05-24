@@ -112,11 +112,6 @@ namespace RecipesAPI.Database
                 .WithMany(rev => rev.Reviews)
                 .HasForeignKey(rev => rev.RecipeId);
 
-            // photoUrls
-            modelBuilder.Entity<PhotoUrl>()
-                .Property(p => p.Url)
-                .HasColumnName("photo_url");
-
             // reviewPhotos
             modelBuilder.Entity<ReviewPhoto>()
                 .HasKey(revp => new { revp.ReviewId, revp.PhotoId });
