@@ -16,7 +16,7 @@ namespace RecipesAPI.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<GetReviewDTO>> GetReviewsByRecipeId(Guid recipeId)
+        public async Task<IEnumerable<GetReviewDTO>> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct)
         {
             return await _context.Reviews
                 .Where(r => r.RecipeId == recipeId)
@@ -31,10 +31,10 @@ namespace RecipesAPI.Services
                     r.HasPhotos,
                     r.ReviewPhotos.Select(p => p.PhotoUrl.Url).ToList()
                 ))   
-                .ToListAsync();
+                .ToListAsync(ct);
         }
 
-        public async Task<Guid> AddReview(AddReviewRequestDTO dto, Guid userId, Guid recipeId)
+        public async Task<Guid> AddReview(AddReviewRequestDTO dto, Guid userId, Guid recipeId, CancellationToken ct)
         {
             var review = new Review
             {
@@ -60,11 +60,11 @@ namespace RecipesAPI.Services
                 }
             }
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(ct);
             return review.Id;
         }
 
-        public async Task DeleteReview(Guid recipeId, Guid userId)
+        public async Task DeleteReview(Guid recipeId, Guid userId, CancellationToken ct)
         {
             var review = await _context.Reviews
                 .Include(r => r.ReviewPhotos)
@@ -74,7 +74,7 @@ namespace RecipesAPI.Services
             {
                 _context.ReviewPhotos.RemoveRange(review.ReviewPhotos);
                 _context.Reviews.Remove(review);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(ct);
             }
         }
 

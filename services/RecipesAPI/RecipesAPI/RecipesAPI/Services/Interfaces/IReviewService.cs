@@ -5,8 +5,8 @@ namespace RecipesAPI.Services.Interfaces
 {
     public interface IReviewService
     {
-        Task<IEnumerable<GetReviewDTO>> GetReviewsByRecipeId(Guid recipeId);
-        Task<Guid> AddReview(AddReviewRequestDTO dto, Guid userId, Guid recipeId);
-        Task DeleteReview(Guid recipeId, Guid userId);
+        Task<IEnumerable<GetReviewDTO>> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct);
+        Task<Guid> AddReview(AddReviewRequestDTO dto, Guid userId, Guid recipeId, CancellationToken ct);
+        Task DeleteReview(Guid recipeId, Guid userId, CancellationToken ct);
     }
 }

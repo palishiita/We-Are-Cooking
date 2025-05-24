@@ -10,32 +10,36 @@ namespace RecipesAPI.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
+        private readonly ILogger<ReviewsController> _logger;
 
-        public ReviewsController(IReviewService reviewService)
+        public ReviewsController(IReviewService reviewService, ILogger<ReviewsController> logger)
         {
             _reviewService = reviewService;
+            _logger = logger;
         }
 
         [HttpGet("recipe/{recipeId}")]
-        public async Task<IActionResult> GetReviewsByRecipeId(Guid recipeId)
+        public async Task<IActionResult> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct)
         {
             try
             {
-            var reviews = await _reviewService.GetReviewsByRecipeId(recipeId);
+            var reviews = await _reviewService.GetReviewsByRecipeId(recipeId, ct);
             return Ok(reviews);
             }
             catch (KeyNotFoundException ex)
             {
+                _logger.LogError(ex, "Recipe not found for ID: {RecipeId}", recipeId);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new { message = "An error occurred while processing your request.", details = ex.Message });
+                _logger.LogError(ex, "An error occurred while retrieving reviews for recipe ID: {RecipeId}", recipeId);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost("recipe/{recipeId}")]
-        public async Task<IActionResult> AddReview(Guid recipeId, [FromBody] AddReviewRequestDTO dto, [FromHeader] Guid userId)
+        public async Task<IActionResult> AddReview(Guid recipeId, [FromBody] AddReviewRequestDTO dto, [FromHeader] Guid userId, CancellationToken ct)
         {
             if (!ModelState.IsValid)
             {
@@ -44,24 +48,39 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var newReviewId = await _reviewService.AddReview(dto, userId, recipeId);
+                var newReviewId = await _reviewService.AddReview(dto, userId, recipeId, ct);
                 return CreatedAtAction(nameof(AddReview), newReviewId);
             }
             catch (KeyNotFoundException ex)
             {
+                _logger.LogError(ex, "Recipe not found for ID: {RecipeId}", recipeId);
                 return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while processing your request.", details = ex.Message });
+                _logger.LogError(ex, "An error occurred while adding a review for recipe ID: {RecipeId}", recipeId);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("recipe/{recipeId}")]
-        public async Task<IActionResult> DeleteReview(Guid recipeId, [FromHeader] Guid userId)
+        public async Task<IActionResult> DeleteReview(Guid recipeId, [FromHeader] Guid userId, CancellationToken ct)
         {
-            await _reviewService.DeleteReview(recipeId, userId);
-            return NoContent();
+            try
+            {
+                await _reviewService.DeleteReview(recipeId, userId, ct);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError(ex, "Review not found for recipe ID: {RecipeId} and user ID: {UserId}", recipeId, userId);
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting a review for recipe ID: {RecipeId} and user ID: {UserId}", recipeId, userId);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
