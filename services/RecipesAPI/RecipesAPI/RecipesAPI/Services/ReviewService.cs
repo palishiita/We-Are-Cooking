@@ -65,46 +65,6 @@ namespace RecipesAPI.Services
             return review.Id;
         }
 
-        //public async Task<Guid> AddReviewWithDescription(AddReviewWithDescriptionDTO dto, Guid userId, Guid recipeId)
-        //{
-        //    var review = new Review
-        //    {
-        //        RecipeId = recipeId,
-        //        UserId = userId,
-        //        Rating = dto.Rating,
-        //        Description = dto.Description,
-        //        HasPhotos = dto.HasPhotos
-        //    };
-
-        //    _context.Reviews.Add(review); 
-        //    await _context.SaveChangesAsync();
-        //    return review.Id;
-        //}
-
-        //public async Task<Guid> AddReviewWithPhotos(AddReviewWithPhotosDTO dto, Guid userId, Guid recipeId)
-        //{
-        //    var review = new Review
-        //    {
-        //        RecipeId = recipeId,
-        //        UserId = userId,
-        //        Rating = dto.Rating,
-        //        HasPhotos = true
-        //    };
-        //    _context.Reviews.Add(review);
-
-        //    foreach (var photoDto in dto.Photos)
-        //    {
-        //        var reviewPhoto = new ReviewPhoto
-        //        {
-        //            Review = review,
-        //            PhotoId = photoDto.PhotoId
-        //        };
-        //        _context.ReviewPhotos.Add(reviewPhoto);
-        //    }
-        //    await _context.SaveChangesAsync();
-        //    return review.Id;
-        //}
-
         public async Task DeleteReview(Guid recipeId, Guid userId)
         {
             var review = await _context.Reviews

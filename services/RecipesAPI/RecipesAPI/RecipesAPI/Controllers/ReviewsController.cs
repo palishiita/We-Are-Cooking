@@ -45,21 +45,6 @@ namespace RecipesAPI.Controllers
             }
         }
 
-
-        //[HttpPost("description/recipe/{recipeId}/user/{userId}")]
-        //public async Task<IActionResult> AddReviewWithDescription(Guid recipeId, Guid userId, [FromBody] AddReviewWithDescriptionDTO dto)
-        //{
-        //    var newReviewId = await _reviewService.AddReviewWithDescription(dto, userId, recipeId);
-        //    return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
-        //}
-
-        //[HttpPost("photos/recipe/{recipeId}/user/{userId}")]
-        //public async Task<IActionResult> AddReviewWithPhotos(Guid recipeId, Guid userId, [FromBody] AddReviewWithPhotosDTO dto)
-        //{
-        //    var newReviewId = await _reviewService.AddReviewWithPhotos(dto, userId, recipeId);
-        //    return StatusCode(StatusCodes.Status201Created, new { reviewId = newReviewId });
-        //}
-
         [HttpDelete("recipe/{recipeId}/user/{userId}")]
         public async Task<IActionResult> DeleteReview(Guid recipeId, Guid userId)
         {
