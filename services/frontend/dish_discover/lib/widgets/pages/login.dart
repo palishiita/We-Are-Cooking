@@ -104,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Image.asset('assets/images/logo.png', scale: 0.7),
+                      SizedBox(height: 5),
                       errorMessage == null
                           ? Container()
                           : ValidationMessage(message: errorMessage!),
