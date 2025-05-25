@@ -20,7 +20,7 @@ dependencies:
   flutter_riverpod: ^2.4.9
   #easy_web_view: ^1.6.0
   http: ^0.13.6
-  flutter_markdown: ^0.7.1     # ✅ Updated to support Material 3 / Dart 3.2+
+  flutter_markdown: ^0.7.1 
   flutter_popup: ^3.1.8
 
 dev_dependencies:
