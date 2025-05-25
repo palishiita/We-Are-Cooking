@@ -37,8 +37,9 @@ namespace RecipesAPI.Services
         private readonly HashSet<string> _categoryProps;
 
         private readonly IIngredientService _ingredientService;
+        private readonly IUserInfoService _userInfoService;
 
-        public UserDataService(ILogger<UserDataService> logger, RecipeDbContext dbContext, IIngredientService ingredientService)
+        public UserDataService(ILogger<UserDataService> logger, RecipeDbContext dbContext, IIngredientService ingredientService, IUserInfoService userInfoService)
         {
             _logger = logger;
 
@@ -68,6 +69,7 @@ namespace RecipesAPI.Services
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             _ingredientService = ingredientService;
+            _userInfoService = userInfoService;
         }
 
         #region Cookbook
@@ -156,24 +158,47 @@ namespace RecipesAPI.Services
                 .Include(cr => cr.Recipe)
                     .ThenInclude(r => r.Ingredients)
                         .ThenInclude(ri => ri.Ingredient)
-                .Select(cr => new GetFullRecipeForCookbookDTO(
+                .Select(cr => new
+                {
                     cr.RecipeId,
                     cr.Recipe.Name,
                     cr.Recipe.Description,
-                    cr.Recipe.Ingredients.Select(i => new GetIngredientDTO(
+                    Ingredients = cr.Recipe.Ingredients.Select(i => new GetIngredientDTO(
                         i.IngredientId,
                         i.Ingredient.Name,
                         i.Ingredient.Description ?? "")),
                     cr.IsFavorite,
-                    new CommonUserDataDTO(
-                        cr.Recipe.PostingUserId,
-                        "Temporary",
-                        "Disabled")))
+                    cr.Recipe.PostingUserId
+                })
                 .ToListAsync(ct);
+
+            var userIds = recipesFromCookbook.Select(r => r.PostingUserId).Distinct();
+
+            // fetch all user info in parallel (or use a batch API if available)
+            var userInfoTasks = userIds
+                .ToDictionary(
+                    id => id,
+                    id => _userInfoService.GetUserById(id)
+                );
+
+            await Task.WhenAll(userInfoTasks.Values);
+
+            var data = recipesFromCookbook
+                .Select(recipe => new GetFullRecipeForCookbookDTO(
+                    recipe.RecipeId,
+                    recipe.Name,
+                    recipe.Description,
+                    recipe.Ingredients,
+                    recipe.IsFavorite,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
+            ))).ToList();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>
             {
-                Data = recipesFromCookbook,
+                Data = data,
                 TotalElements = totalCount,
                 TotalPages = (int)Math.Ceiling((double)totalCount / count),
                 Page = page,
@@ -405,23 +430,45 @@ namespace RecipesAPI.Services
             int totalCount = await recipes.CountAsync(ct);
 
             // project
-            var data = await recipes
-                .Select(recipe => new GetFullRecipeDTO(
-                    recipe.Id, 
-                    recipe.Name, 
-                    recipe.Description, 
-                    recipe.Ingredients.Select(ingredient => new GetRecipeIngredientDTO(
+            var recipeDTOs = await recipes
+                .Select(recipe => new
+                {
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    Ingredients = recipe.Ingredients.Select(ingredient => new GetRecipeIngredientDTO(
                         ingredient.IngredientId,
                         ingredient.Ingredient.Name,
                         ingredient.Ingredient.Description ?? "",
                         ingredient.Quantity,
                         ingredient.UnitId,
                         ingredient.Unit.Name)),
+                    recipe.PostingUserId
+                })
+                .ToListAsync(ct);
+
+            var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
+
+            // fetch all user info in parallel (or use a batch API if available)
+            var userInfoTasks = userIds
+                .ToDictionary(
+                    id => id,
+                    id => _userInfoService.GetUserById(id)
+                );
+
+            await Task.WhenAll(userInfoTasks.Values);
+
+            var data = recipeDTOs
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    recipe.Ingredients,
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
-                        "Temporary",
-                        "Disabled")))
-                .ToListAsync(ct);
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
+            ))).ToList();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
