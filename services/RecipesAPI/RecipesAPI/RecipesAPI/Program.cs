@@ -25,7 +25,7 @@ builder.Services.AddDbContext<RecipeDbContext>(
 
 Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("RecipesDb")}");
 
-SetConfigurationOptions(builder);
+SetConfigurationOptions(builder.Services);
 ConfiguerServices(builder.Services);
 
 var app = builder.Build();
@@ -47,9 +47,10 @@ app.MapControllers();
 
 app.Run();
 
-void SetConfigurationOptions(WebApplicationBuilder builder)
+void SetConfigurationOptions(IServiceCollection services)
 {
-    builder.Services.Configure<UserInfoServiceOptions>(builder.Configuration);
+    services.Configure<UserInfoServiceOptions>(builder.Configuration);
+    services.AddHttpClient<IUserInfoService, UserInfoService>();
 }
 
 void ConfiguerServices(IServiceCollection services)
