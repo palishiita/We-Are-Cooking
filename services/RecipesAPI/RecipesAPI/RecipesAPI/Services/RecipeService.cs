@@ -187,16 +187,17 @@ namespace RecipesAPI.Services
 
             await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs.Select(recipe => new GetFullRecipeDTO(
-            recipe.Id,
-            recipe.Name,
-            recipe.Description,
-            recipe.Ingredients,
-            new CommonUserDataDTO(
-                recipe.PostingUserId,
-                userInfoTasks[recipe.PostingUserId].Result.Username,
-                userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
-            ))).ToList();
+            var data = recipeDTOs
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    recipe.Ingredients,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl)))
+                .ToList();
 
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>> 
@@ -258,15 +259,16 @@ namespace RecipesAPI.Services
 
             await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs.Select(recipe => new GetRecipeDTO(
-            recipe.Id,
-            recipe.Name,
-            recipe.Description,
-            new CommonUserDataDTO(
-                recipe.PostingUserId,
-                userInfoTasks[recipe.PostingUserId].Result.Username,
-                userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
-            ))).ToList();
+            var data = recipeDTOs
+                .Select(recipe => new GetRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl)))
+                .ToList();
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
             {
@@ -287,6 +289,8 @@ namespace RecipesAPI.Services
                     .ThenInclude(r => r.Unit)
                 .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
+            var user = await _userInfoService.GetUserById(recipe.PostingUserId);
+
             return new GetFullRecipeDTO(
                 recipe.Id,
                 recipe.Name,
@@ -302,8 +306,8 @@ namespace RecipesAPI.Services
                     .ToArray(),
                 new CommonUserDataDTO(
                     recipe.PostingUserId,
-                    "Temporary",
-                    "Disabled"));
+                    user.Username,
+                    user.PhotoUrl));
         }
 
         public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
@@ -361,16 +365,17 @@ namespace RecipesAPI.Services
 
             await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs.Select(recipe => new GetFullRecipeDTO(
-            recipe.Id,
-            recipe.Name,
-            recipe.Description,
-            recipe.Ingredients,
-            new CommonUserDataDTO(
-                recipe.PostingUserId,
-                userInfoTasks[recipe.PostingUserId].Result.Username,
-                userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
-            ))).ToList();
+            var data = recipeDTOs
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    recipe.Ingredients,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl)))
+                .ToList();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
@@ -435,16 +440,17 @@ namespace RecipesAPI.Services
 
             await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs.Select(recipe => new GetFullRecipeDTO(
-            recipe.Id,
-            recipe.Name,
-            recipe.Description,
-            recipe.Ingredients,
-            new CommonUserDataDTO(
-                recipe.PostingUserId,
-                userInfoTasks[recipe.PostingUserId].Result.Username,
-                userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
-            ))).ToList();
+            var data = recipeDTOs
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    recipe.Ingredients,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl)))
+                .ToList();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
             {
@@ -517,15 +523,16 @@ namespace RecipesAPI.Services
 
             await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs.Select(recipe => new GetRecipeDTO(
-            recipe.Id,
-            recipe.Name,
-            recipe.Description,
-            new CommonUserDataDTO(
-                recipe.PostingUserId,
-                userInfoTasks[recipe.PostingUserId].Result.Username,
-                userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
-            ))).ToList();
+            var data = recipeDTOs
+                .Select(recipe => new GetRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl)))
+                .ToList();
 
 
             return new PaginatedResult<IEnumerable<GetRecipeDTO>>
@@ -676,16 +683,17 @@ namespace RecipesAPI.Services
 
             await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs.Select(recipe => new GetRecipeWithIngredientIdsDTO(
-            recipe.Id,
-            recipe.Name,
-            recipe.Description,
-            new CommonUserDataDTO(
-                recipe.PostingUserId,
-                userInfoTasks[recipe.PostingUserId].Result.Username,
-                userInfoTasks[recipe.PostingUserId].Result.PhotoUrl),
-            recipe.IngredientIds
-            )).ToList();
+            var data = recipeDTOs
+                .Select(recipe => new GetRecipeWithIngredientIdsDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userInfoTasks[recipe.PostingUserId].Result.Username,
+                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl),
+                    recipe.IngredientIds))
+                .ToList();
 
             return new PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>
             {
