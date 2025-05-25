@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipesAPI.Entities.Reviews;
+using RecipesAPI.Model.Common;
 using RecipesAPI.Model.Reviews.Add;
+using RecipesAPI.Model.Reviews.Get;
 using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
@@ -19,12 +21,12 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpGet("recipe/{recipeId}")]
-        public async Task<IActionResult> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct)
+        public async Task<IActionResult> GetReviewsByRecipeId(Guid recipeId, [FromQuery] PaginationParameters paginationParameters, CancellationToken ct)
         {
             try
             {
-            var reviews = await _reviewService.GetReviewsByRecipeId(recipeId, ct);
-            return Ok(reviews);
+            PaginatedResult<IEnumerable<GetReviewDTO>> reviews = await _reviewService.GetReviewsByRecipeId(recipeId, paginationParameters, ct);
+                return Ok(reviews);
             }
             catch (KeyNotFoundException ex)
             {
