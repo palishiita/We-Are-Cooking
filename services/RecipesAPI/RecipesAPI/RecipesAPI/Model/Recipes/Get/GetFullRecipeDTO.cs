@@ -1,5 +1,4 @@
 ﻿using RecipesAPI.Model.Common;
-using RecipesAPI.Model.Ingredients.Get;
 
 namespace RecipesAPI.Model.Recipes.Get
 {
