@@ -11,10 +11,12 @@ namespace RecipesAPI.Services
     public class ReviewService : IReviewService
     {
         private readonly RecipeDbContext _context;
+        private readonly IUserInfoService _userInfoService;
 
-        public ReviewService(RecipeDbContext context)
+        public ReviewService(RecipeDbContext context, IUserInfoService userInfoService)
         {
             _context = context;
+            _userInfoService = userInfoService;
         }
 
         public async Task<PaginatedResult<IEnumerable<GetReviewDTO>>> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct, int pageNumber, int pageSize)
@@ -23,39 +25,80 @@ namespace RecipesAPI.Services
             if (pageNumber <= 0) pageNumber = 1;
             if (pageSize <= 0) pageSize = 10;
 
-            var query = _context.Reviews
-                .Where(r => r.RecipeId == recipeId)
+            IQueryable<Review> baseQuery = _context.Reviews.Where(r => r.RecipeId == recipeId);
+            int totalElements = await baseQuery.CountAsync(ct);
+
+            var reviewsOnPageTemp = await baseQuery
                 .Include(r => r.ReviewPhotos)
-                    .ThenInclude(revp => revp.PhotoUrl)
-                .Select(r => new GetReviewDTO(
+                    .ThenInclude(rp => rp.PhotoUrl)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(r => new 
+                {
                     r.Id,
                     r.RecipeId,
                     r.UserId,
-                    (float)r.Rating,
+                    r.Rating,
                     r.Description,
                     r.HasPhotos,
-                    r.ReviewPhotos.Select(p => p.PhotoUrl.Url).ToList()
-                ));
+                    PhotoUrls = r.ReviewPhotos.Select(p => p.PhotoUrl.Url)
+                })
+                .ToListAsync(ct);
 
-            var totalElements = await query.CountAsync(ct);
-            var itemsOnPage = await query
-                                    .Skip((pageNumber - 1) * pageSize)
-                                    .Take(pageSize)
-                                    .ToListAsync(ct);
+            var userIds = reviewsOnPageTemp.Select(r => r.UserId).Distinct().ToList();
+            var userInfoTasks = userIds.ToDictionary(id => id, id => _userInfoService.GetUserById(id));
+            var userResults = new Dictionary<Guid, CommonUserDataDTO?>();
+
+            foreach (var userId in userIds)
+            {
+                try
+                {
+                    if (userInfoTasks.TryGetValue(userId, out var task))
+                    {
+                        userResults[userId] = await task;
+                    }
+                    else
+                    {
+                        userResults[userId] = null;
+                    }
+                }
+                catch (Exception)
+                {
+                    userResults[userId] = null;
+                }
+            }
+
+            var data = reviewsOnPageTemp
+                .Select(tempReview =>
+                {
+                    userResults.TryGetValue(tempReview.UserId, out var userInfo);
+
+                    return new GetReviewDTO(
+                        tempReview.Id,
+                        tempReview.RecipeId,
+                        new CommonUserDataDTO(
+                            tempReview.UserId,
+                            userInfo?.Username,
+                            userInfo?.PhotoUrl
+                        ),
+                        (float)tempReview.Rating,
+                        tempReview.Description,
+                        tempReview.HasPhotos,
+                        tempReview.PhotoUrls
+                    );
+                })
+                .ToList();
 
             var totalPages = 0;
             if (totalElements > 0 && pageSize > 0)
             {
                 totalPages = (int)Math.Ceiling(totalElements / (double)pageSize);
             }
-
-            if (totalElements == 0) totalPages = 0;
-            else if (totalPages == 0) totalPages = 1;
-
+            if (totalPages == 0 && totalElements > 0) totalPages = 1;
 
             var paginatedResult = new PaginatedResult<IEnumerable<GetReviewDTO>>
             {
-                Data = itemsOnPage,
+                Data = data,
                 TotalElements = totalElements,
                 TotalPages = totalPages,
                 Page = pageNumber,

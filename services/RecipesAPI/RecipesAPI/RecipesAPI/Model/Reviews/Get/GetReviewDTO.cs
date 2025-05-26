@@ -1,9 +1,11 @@
-﻿namespace RecipesAPI.Model.Reviews.Get
+﻿using RecipesAPI.Model.Common;
+
+namespace RecipesAPI.Model.Reviews.Get
 {
     public record GetReviewDTO(
         Guid Id,
         Guid RecipeId,
-        Guid UserId,
+        CommonUserDataDTO User,
         float Rating,
         string? Description,
         bool HasPhotos,
