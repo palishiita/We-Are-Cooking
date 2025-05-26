@@ -10,7 +10,7 @@ using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
 {
-    [Route("recipesapi/userdata")]
+    [Route("api/userdata")]
     [ApiController]
     public class UserDataController : ControllerBase
     {
