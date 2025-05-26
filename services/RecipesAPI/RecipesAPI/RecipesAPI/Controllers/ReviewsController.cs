@@ -8,11 +8,15 @@ using RecipesAPI.Services.Interfaces;
 namespace RecipesAPI.Controllers
 {
     [ApiController]
-    [Route("recipesapi/reviews")]
+    [Route("api/reviews")]
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
         private readonly ILogger<ReviewsController> _logger;
+
+        private const int DefaultPageSize = 10;
+        private const int MaxPageSize = 50;
+        private const int DefaultPageNumber = 1;
 
         public ReviewsController(IReviewService reviewService, ILogger<ReviewsController> logger)
         {
@@ -21,22 +25,42 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpGet("recipe/{recipeId}")]
-        public async Task<IActionResult> GetReviewsByRecipeId(Guid recipeId, [FromQuery] PaginationParameters paginationParameters, CancellationToken ct)
+        public async Task<ActionResult<PaginatedResult<IEnumerable<GetReviewDTO>>>> GetReviewsByRecipeId(
+            Guid recipeId, CancellationToken ct,
+            [FromQuery] int pageNumber = DefaultPageNumber,
+            [FromQuery] int pageSize = DefaultPageSize)
         {
+            if (pageNumber <= 0)
+            {
+                _logger.LogWarning("Invalid PageNumber {RequestedPageNumber} requested for recipeId {RecipeId}, defaulting to {DefaultPageNumber}.", pageNumber, recipeId, DefaultPageNumber);
+                pageNumber = DefaultPageNumber;
+            }
+
+            if (pageSize <= 0)
+            {
+                _logger.LogWarning("Invalid PageSize {RequestedPageSize} requested for recipeId {RecipeId}, defaulting to {DefaultPageSize}.", pageSize, recipeId, DefaultPageSize);
+                pageSize = DefaultPageSize;
+            }
+            else if (pageSize > MaxPageSize)
+            {
+                _logger.LogWarning("Requested PageSize {RequestedPageSize} for recipeId {RecipeId} exceeds MaxPageSize {MaxPageSize}, capping at MaxPageSize.", pageSize, recipeId, MaxPageSize);
+                pageSize = MaxPageSize;
+            }
+
             try
             {
-            PaginatedResult<IEnumerable<GetReviewDTO>> reviews = await _reviewService.GetReviewsByRecipeId(recipeId, paginationParameters, ct);
+                PaginatedResult<IEnumerable<GetReviewDTO>> reviews = await _reviewService.GetReviewsByRecipeId(recipeId, ct, pageNumber, pageSize);
                 return Ok(reviews);
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogError(ex, "Recipe not found for ID: {RecipeId}", recipeId);
-                return NotFound(ex.Message);
+                _logger.LogWarning(ex, "Recipe not found for ID: {RecipeId} when fetching reviews.", recipeId);
+                return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while retrieving reviews for recipe ID: {RecipeId}", recipeId);
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An unexpected error occurred while processing your request.", details = ex.Message });
             }
         }
 

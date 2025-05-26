@@ -59,4 +59,5 @@ void ConfiguerServices(IServiceCollection services)
     services.AddScoped<IRecipeService, RecipeService>();
     services.AddScoped<IIngredientService, IngredientService>();
     services.AddScoped<IUserDataService, UserDataService>();
+    services.AddScoped<IReviewService, ReviewService>();
 }

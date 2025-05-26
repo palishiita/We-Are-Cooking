@@ -17,13 +17,16 @@ namespace RecipesAPI.Services
             _context = context;
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetReviewDTO>>> GetReviewsByRecipeId(Guid recipeId, PaginationParameters paginationParameters, CancellationToken ct)
+        public async Task<PaginatedResult<IEnumerable<GetReviewDTO>>> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct, int pageNumber, int pageSize)
         {
+
+            if (pageNumber <= 0) pageNumber = 1;
+            if (pageSize <= 0) pageSize = 10;
+
             var query = _context.Reviews
                 .Where(r => r.RecipeId == recipeId)
                 .Include(r => r.ReviewPhotos)
                     .ThenInclude(revp => revp.PhotoUrl)
-                .OrderByDescending(r => r.Id)
                 .Select(r => new GetReviewDTO(
                     r.Id,
                     r.RecipeId,
@@ -34,21 +37,21 @@ namespace RecipesAPI.Services
                     r.ReviewPhotos.Select(p => p.PhotoUrl.Url).ToList()
                 ));
 
-            int pageNumber = paginationParameters.Page;
-            int pageSize = paginationParameters.PageSize;
-
-            if (pageNumber <= 0) pageNumber = 1;
-            if (pageSize <= 0) pageSize = 10;
-
             var totalElements = await query.CountAsync(ct);
             var itemsOnPage = await query
                                     .Skip((pageNumber - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToListAsync(ct);
 
-            var totalPages = (int)Math.Ceiling(totalElements / (double)pageSize);
-            if (totalPages == 0 && totalElements > 0) totalPages = 1;
-            if (totalPages == 0 && totalElements == 0) totalPages = 0;
+            var totalPages = 0;
+            if (totalElements > 0 && pageSize > 0)
+            {
+                totalPages = (int)Math.Ceiling(totalElements / (double)pageSize);
+            }
+
+            if (totalElements == 0) totalPages = 0;
+            else if (totalPages == 0) totalPages = 1;
+
 
             var paginatedResult = new PaginatedResult<IEnumerable<GetReviewDTO>>
             {
