@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dish_discover/entities/comment.dart';
+import 'package:dish_discover/entities/ingredient.dart';
 import 'package:dish_discover/entities/recipe.dart';
 import 'package:dish_discover/entities/ticket.dart';
 import 'package:flutter/foundation.dart';
@@ -23,6 +24,10 @@ class User extends ChangeNotifier {
   late List<Recipe> addedRecipes;
   int likesTotal;
   int savesTotal;
+
+    // Fridge ingredients
+  final List<Ingredient> _fridgeIngredients = [];
+  List<Ingredient> get fridgeIngredients => _fridgeIngredients;
 
   User(
       {required this.username,
@@ -107,6 +112,24 @@ class User extends ChangeNotifier {
 
   void getPremium() {
     isPremium = true;
+    notifyListeners();
+  }
+
+  // Add ingredient to fridge
+  void addFridgeIngredient(Ingredient ingredient) {
+    _fridgeIngredients.add(ingredient);
+    notifyListeners();
+  }
+
+  // Remove ingredient from fridge
+  void removeFridgeIngredient(Ingredient ingredient) {
+    _fridgeIngredients.removeWhere((i) => i.name == ingredient.name);
+    notifyListeners();
+  }
+
+  // Add a recipe to user's added recipes (void version, renamed to avoid conflict)
+  void addRecipeToUser(Recipe recipe) {
+    addedRecipes.add(recipe);
     notifyListeners();
   }
 
