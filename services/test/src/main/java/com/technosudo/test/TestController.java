@@ -3,7 +3,7 @@ package com.technosudo.test;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api/test")
 public class TestController {
 
     @GetMapping

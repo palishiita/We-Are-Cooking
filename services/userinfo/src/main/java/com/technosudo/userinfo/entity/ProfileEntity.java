@@ -8,12 +8,16 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_profiles")
-public record UserProfileEntity(
+public record ProfileEntity(
 
         @Id @jakarta.persistence.Id
-        UUID userId,
+        UUID userUuid,
 
-        UUID photoUrlId,
+        UUID imageUrlUuid,
+        UUID imageSmallUrlUuid,
+
+        Boolean isPrivate,
+
         String description
 ) {
 }

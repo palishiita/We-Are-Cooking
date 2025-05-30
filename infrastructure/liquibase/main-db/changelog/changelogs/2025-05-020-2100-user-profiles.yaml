@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-020-2100-user-profiles.yaml
+      author: technosudo
+      changes:
+        - renameColumn:
+            tableName: user_profiles
+            oldColumnName: user_id
+            newColumnName: user_uuid
+        - renameColumn:
+            tableName: user_profiles
+            oldColumnName: photo_url_id
+            newColumnName: image_url_uuid
+        - addColumn:
+            tableName: user_profiles
+            columns:
+              - column:
+                  name: image_small_url_uuid
+                  type: UUID
+        - addForeignKeyConstraint:
+            constraintName: fk_user_profiles_image_small
+            baseTableName: user_profiles
+            baseColumnNames: image_small_url_uuid
+            referencedTableName: photo_urls
+            referencedColumnNames: id
+        - addColumn:
+            tableName: user_profiles
+            columns:
+              - column:
+                  name: is_private
+                  type: BOOLEAN
