@@ -6,8 +6,6 @@ import com.technosudo.userinfo.dto.other.RecipeDto;
 import com.technosudo.userinfo.dto.other.ReelDto;
 import com.technosudo.userinfo.service.ProfileService;
 import lombok.AllArgsConstructor;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
-//import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,11 +37,6 @@ public class ProfileController {
 //        return userService.getUserProfile(uuid);
 //    }
 //    @GetMapping("/{uuid}/following")
-//    public ProfileDto getUserProfile(@PathVariable UUID uuid) {
-//        return userService.getUserProfile(uuid);
-//    }
-//
-//    @GetMapping("/{uuid}/posts")
 //    public ProfileDto getUserProfile(@PathVariable UUID uuid) {
 //        return userService.getUserProfile(uuid);
 //    }
