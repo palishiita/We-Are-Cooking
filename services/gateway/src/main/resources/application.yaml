@@ -25,13 +25,13 @@ spring:
           predicates:
             - Path=/
         - id: test
-          uri: "http://localhost:8030"
+          uri: "http://wrc-test:8030"
           predicates:
             - Path=/api/test/**
         #          filters:
         #            - AuthFilter
         - id: userinfo
-          uri: "http://localhost:8032"
+          uri: "http://wrc-userinfo:8032"
           predicates:
             - Path=/api/profile/**
 

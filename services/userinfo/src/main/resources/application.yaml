@@ -7,7 +7,7 @@ server.port: 8032
 #        issuer-uri: "http://login.techstructure.com:8080/realms/Techstructure"
 
 spring.datasource:
-  url: jdbc:postgresql://localhost:5432/wrc
+  url: jdbc:postgresql://wrc-db:5432/wrc
   username: admin
   password: admin
   driver-class-name: org.postgresql.Driver
