@@ -24,7 +24,7 @@ namespace RecipesAPI.Services
         {
 
             // NOT WORKING USER_INFO_SERVICE YET
-            return new CommonUserDataDTO(id, "Temporary", "Disabled");
+//            return new CommonUserDataDTO(id, "Temporary", "Disabled");
 
             try
             {
@@ -35,11 +35,11 @@ namespace RecipesAPI.Services
                 var responseValue = await response.Content.ReadAsStringAsync();
                 var userDataMapped = JsonSerializer.Deserialize<UserInfoTempDTO>(responseValue)
                     ?? throw new UserNotFoundException($"User with id {id} could not be found.");
+                var userData = new CommonUserDataDTO(userDataMapped.Id, userDataMapped.Username, userDataMapped.PhotoUrl);
 #else
-                var userData = JsonSerializer.Deserialize<UserInfoTempDTO>(await response.Content.ReadAsStringAsync()) 
+                var userData = JsonSerializer.Deserialize<CommonUserDataDTO>(await response.Content.ReadAsStringAsync()) 
                     ?? throw new UserNotFoundException($"User with id {id} could not be found.");
 #endif
-                var userData = new CommonUserDataDTO(userDataMapped.Id, userDataMapped.Username, userDataMapped.PhotoUrl);
 
                 return userData;
             }
