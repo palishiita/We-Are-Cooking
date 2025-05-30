@@ -19,6 +19,83 @@ namespace RecipesAPI.Services
             _userInfoService = userInfoService;
         }
 
+        public async Task<PaginatedResult<IEnumerable<GetReviewDTO>>> GetReviewsByUserId(Guid userId, int pageNumber, int pageSize, CancellationToken ct)
+        {
+            if (pageNumber <= 0) pageNumber = 1;
+            if (pageSize <= 0) pageSize = 10;
+            const int MaxPageSize = 50;
+            if (pageSize > MaxPageSize) pageSize = MaxPageSize;
+
+            CommonUserDataDTO userInfoDto;
+            try
+            {
+                var fetchedUserInfo = await _userInfoService.GetUserById(userId);
+                if (fetchedUserInfo == null)
+                {
+                    userInfoDto = new CommonUserDataDTO(userId, null, null);
+                }
+                else
+                {
+                    userInfoDto = fetchedUserInfo;
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                userInfoDto = new CommonUserDataDTO(userId, null, null);
+            }
+
+            IQueryable<Review> baseQuery = _context.Reviews
+                .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.Id);
+
+            int totalElements = await baseQuery.CountAsync(ct);
+
+            List<GetReviewDTO> reviewsData;
+            if (totalElements > 0)
+            {
+                reviewsData = await baseQuery
+                    .Include(r => r.ReviewPhotos)
+                        .ThenInclude(rp => rp.PhotoUrl)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(r => new GetReviewDTO(
+                        r.Id,
+                        r.RecipeId,
+                        userInfoDto,
+                        (float)r.Rating,
+                        r.Description,
+                        r.HasPhotos,
+                        r.ReviewPhotos.Select(p => p.PhotoUrl.Url).ToList()
+                    ))
+                    .ToListAsync(ct);
+            }
+            else
+            {
+                reviewsData = new List<GetReviewDTO>();
+            }
+
+            var totalPages = 0;
+            if (totalElements > 0 && pageSize > 0)
+            {
+                totalPages = (int)Math.Ceiling(totalElements / (double)pageSize);
+            }
+
+            var paginatedResult = new PaginatedResult<IEnumerable<GetReviewDTO>>
+            {
+                Data = reviewsData,
+                TotalElements = totalElements,
+                TotalPages = totalPages,
+                Page = pageNumber,
+                PageSize = pageSize
+            };
+
+            return paginatedResult;
+        }
+
         public async Task<PaginatedResult<IEnumerable<GetReviewDTO>>> GetReviewsByRecipeId(Guid recipeId, CancellationToken ct, int pageNumber, int pageSize)
         {
 

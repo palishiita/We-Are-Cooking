@@ -24,6 +24,32 @@ namespace RecipesAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet("user")]
+        public async Task<IActionResult> GetReviewsByUserId([FromHeader(Name = "X-UserId")] Guid userId, CancellationToken ct, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            if (userId == Guid.Empty)
+            {
+                _logger.LogWarning("GetReviewsByUserId called with empty UserId in header.");
+                return BadRequest(new { message = "User ID in header (X-UserId) is missing or invalid." });
+            }
+
+            try
+            {
+                var paginatedReviews = await _reviewService.GetReviewsByUserId(userId, pageNumber, pageSize, ct);
+                return Ok(paginatedReviews);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "User not found when trying to get reviews for User ID: {UserId}", userId);
+                return NotFound(new { message = $"User with ID {userId} not found or no reviews available under these conditions.", details = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving reviews for User ID: {UserId}", userId);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+
         [HttpGet("recipe/{recipeId}")]
         public async Task<ActionResult<PaginatedResult<IEnumerable<GetReviewDTO>>>> GetReviewsByRecipeId(
             Guid recipeId, CancellationToken ct,
