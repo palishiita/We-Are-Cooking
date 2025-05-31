@@ -33,8 +33,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 app.UseHttpsRedirection();
@@ -59,4 +59,5 @@ void ConfiguerServices(IServiceCollection services)
     services.AddScoped<IRecipeService, RecipeService>();
     services.AddScoped<IIngredientService, IngredientService>();
     services.AddScoped<IUserDataService, UserDataService>();
+    services.AddScoped<IReviewService, ReviewService>();
 }

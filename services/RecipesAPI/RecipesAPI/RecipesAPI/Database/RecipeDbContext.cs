@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
+using RecipesAPI.Entities.Reviews;
 using RecipesAPI.Entities.UserData;
 
 namespace RecipesAPI.Database
@@ -104,6 +105,26 @@ namespace RecipesAPI.Database
                 .HasOne(ufi => ufi.Unit)
                 .WithMany()
                 .HasForeignKey(ufi => ufi.UnitId);
+
+            // reviews
+            modelBuilder.Entity<Review>()
+                .HasOne(rev => rev.Recipe)
+                .WithMany(rev => rev.Reviews)
+                .HasForeignKey(rev => rev.RecipeId);
+
+            // reviewPhotos
+            modelBuilder.Entity<ReviewPhoto>()
+                .HasKey(revp => new { revp.ReviewId, revp.PhotoId });
+
+            modelBuilder.Entity<ReviewPhoto>()
+                .HasOne(revp => revp.Review)
+                .WithMany(rev => rev.ReviewPhotos)
+                .HasForeignKey(revp => revp.ReviewId);
+
+            modelBuilder.Entity<ReviewPhoto>()
+                .HasOne(revp => revp.PhotoUrl)
+                .WithMany(pu => pu.ReviewPhotoAssociated)
+                .HasForeignKey(revp => revp.PhotoId);
         }
 
         // recipes & ingredients
@@ -118,5 +139,10 @@ namespace RecipesAPI.Database
         public DbSet<UserCookbookRecipe> UserCookbooks { get; set; }
         public DbSet<UserDietaryRestriction> UserDietaryRestrictions { get; set; }
         public DbSet<UserFridgeIngredient> UserFridges { get; set; }
+
+        // reviews
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<ReviewPhoto> ReviewPhotos { get; set; }
+        public DbSet<PhotoUrl> PhotoUrls { get; set; }
     }
 }
