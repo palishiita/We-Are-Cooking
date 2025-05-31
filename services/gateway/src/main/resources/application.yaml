@@ -23,7 +23,7 @@ spring:
         - id: frontend
           uri: "http://wrc-frontend:80"
           predicates:
-            - Path=/
+            - Path=/**
         - id: test
           uri: "http://wrc-test:8030"
           predicates:
