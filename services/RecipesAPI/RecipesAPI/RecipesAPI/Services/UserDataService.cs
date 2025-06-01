@@ -193,7 +193,7 @@ namespace RecipesAPI.Services
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         userInfoTasks[recipe.PostingUserId].Result.Username,
-                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
+                        userInfoTasks[recipe.PostingUserId].Result.ImageUrl
             ))).ToList();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>
@@ -467,7 +467,7 @@ namespace RecipesAPI.Services
                     new CommonUserDataDTO(
                         recipe.PostingUserId,
                         userInfoTasks[recipe.PostingUserId].Result.Username,
-                        userInfoTasks[recipe.PostingUserId].Result.PhotoUrl
+                        userInfoTasks[recipe.PostingUserId].Result.ImageUrl
             ))).ToList();
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
@@ -518,7 +518,7 @@ namespace RecipesAPI.Services
 
         public async Task RemoveUserRestrictedCategories(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
-            var restrictions = _dietaryRestrictions.Where(x => categoryIds.Contains(x.IngredientCategoryId));
+            var restrictions = _dietaryRestrictions.Where(x => categoryIds.Contains(x.IngredientCategoryId) && x.UserId == userId);
 
             using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
 
