@@ -41,21 +41,14 @@ namespace RecipesAPI.Services
                     return new CommonUserDataDTO(id, "Not Found", string.Empty);
                 }
 
-                var responseStream = await response.Content.ReadAsStringAsync();
-
-#if DEBUG
-                var userDataTemp = JsonSerializer.Deserialize<UserInfoTempDTO>(responseStream);
+                await using var responseStream = await response.Content.ReadAsStreamAsync();
+                var userDataTemp = await JsonSerializer.DeserializeAsync<UserInfoTempDTO>(responseStream);
                 if (userDataTemp == null)
                     throw new UserNotFoundException($"User with id {id} could not be found.");
 
-                return new CommonUserDataDTO(userDataTemp.Id, userDataTemp.Username, userDataTemp.ImageUrl);
-#else
-                var userData = await JsonSerializer.DeserializeAsync<CommonUserDataDTO>(responseStream);
-                if (userData == null)
-                    throw new UserNotFoundException($"User with id {id} could not be found.");
+                _logger.LogError($"TEMP: {userDataTemp.ToString()}");
 
-                return userData;
-#endif
+                return new CommonUserDataDTO(userDataTemp.Id, userDataTemp.Username, userDataTemp.ImageUrl);
             }
             catch (HttpRequestException ex)
             {
@@ -76,15 +69,25 @@ namespace RecipesAPI.Services
 
         public record UserInfoTempDTO
         {
+            [JsonPropertyName("userUuid")]
             public Guid Id { get; init; }
+            [JsonPropertyName("userName")]
             public string Username { get; init; }
+            [JsonPropertyName("imageUrl")]
             public string ImageUrl { get; init; }
+            [JsonPropertyName("imageSmallUrl")]
             public string ImageSmallUrl { get; init; }
+            [JsonPropertyName("isPrivate")]
             public bool IsPrivate { get; init; }
+            [JsonPropertyName("isBanned")]
             public bool IsBanned { get; init; }
+            [JsonPropertyName("bio")]
             public string Bio { get; init; }
+            [JsonPropertyName("followers")]
             public IEnumerable<Guid> Followers { get; init; }
+            [JsonPropertyName("recipes")]
             public IEnumerable<Guid> Recipes { get; init; }
+            [JsonPropertyName("reels")]
             public IEnumerable<Guid> Reels { get; init; }
 
             [JsonConstructor]
