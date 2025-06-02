@@ -48,7 +48,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Recipes with full ingredient data.")]
         [HttpGet]
-        public async Task<IActionResult> GetAllRecipesFull([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
+        public async Task<IActionResult> GetAllRecipesFull([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -59,7 +59,7 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var recipes = await _recipeService.GetAllFullRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query, ct);
+                var recipes = await _recipeService.GetAllFullRecipes(userId, count.Value, page.Value, orderByAsc.Value, sortBy, query, ct);
 
                 if (!recipes.Data.Any())
                 {
@@ -111,7 +111,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Recipes only with name and description.")]
         [HttpGet]
-        public async Task<IActionResult> GetAllRecipes([FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
+        public async Task<IActionResult> GetAllRecipes([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -122,7 +122,7 @@ namespace RecipesAPI.Controllers
 
             try
             {
-                var recipes = await _recipeService.GetAllRecipes(count.Value, page.Value, orderByAsc.Value, sortBy, query, ct);
+                var recipes = await _recipeService.GetAllRecipes(userId, count.Value, page.Value, orderByAsc.Value, sortBy, query, ct);
 
                 if (!recipes.Data.Any())
                 {
@@ -149,11 +149,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Recipe name and description by id.")]
         [HttpGet]
-        public async Task<IActionResult> GetRecipeById(Guid recipeId, CancellationToken ct)
+        public async Task<IActionResult> GetRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, Guid recipeId, CancellationToken ct)
         {
             try
             {
-                var recipe = await _recipeService.GetRecipeById(recipeId, ct);
+                var recipe = await _recipeService.GetRecipeById(userId, recipeId, ct);
                 return Ok(recipe);
             }
             catch (OperationCanceledException ex)
@@ -181,11 +181,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Recipe with full ingredient data by id.")]
         [HttpGet]
-        public async Task<IActionResult> GetFullRecipeByIdAsync(Guid recipeId, CancellationToken ct)
+        public async Task<IActionResult> GetFullRecipeByIdAsync([FromHeader(Name = "X-Uuid")] Guid userId, Guid recipeId, CancellationToken ct)
         {
             try
             {
-                var recipe = await _recipeService.GetFullRecipeById(recipeId, ct);
+                var recipe = await _recipeService.GetFullRecipeById(userId, recipeId, ct);
                 return Ok(recipe);
             }
             catch (OperationCanceledException ex)
@@ -213,11 +213,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Recipes with full ingredient data, each with the connected categories.")]
         [HttpGet]
-        public async Task<IActionResult> GetRecipeWithIngredientCategoriesByIdAsync([FromRoute] Guid recipeId, CancellationToken ct)
+        public async Task<IActionResult> GetRecipeWithIngredientCategoriesByIdAsync([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, CancellationToken ct)
         {
             try
             {
-                var recipe = await _recipeService.GetRecipeWithIngredientsAndCategories(recipeId, ct);
+                var recipe = await _recipeService.GetRecipeWithIngredientsAndCategories(userId, recipeId, ct);
 
                 if (recipe == null)
                 {
@@ -247,11 +247,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpDelete]
-        public async Task<IActionResult> DeleteRecipeById([FromRoute] Guid recipeId, CancellationToken ct)
+        public async Task<IActionResult> DeleteRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, CancellationToken ct)
         {
             try
             {
-                await _recipeService.RemoveRecipeById(recipeId, ct);
+                await _recipeService.RemoveRecipeById(userId, recipeId, ct);
                 return NoContent();
             }
             catch (OperationCanceledException ex)
@@ -277,11 +277,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpPut]
-        public async Task<IActionResult> UpdateRecipeById([FromRoute] Guid recipeId, [FromBody] UpdateRecipeDTO recipeDTO, CancellationToken ct)
+        public async Task<IActionResult> UpdateRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, [FromBody] UpdateRecipeDTO recipeDTO, CancellationToken ct)
         {
             try
             {
-                await _recipeService.UpdateRecipeNameById(recipeId, recipeDTO, ct);
+                await _recipeService.UpdateRecipeNameById(userId, recipeId, recipeDTO, ct);
                 return Ok();
             }
             catch (OperationCanceledException ex)
@@ -307,11 +307,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpPost]
-        public async Task<IActionResult> AddIngredientsToRecipeById([FromRoute] Guid recipeId, [FromBody] AddIngredientRangeToRecipeDTO ingredients, CancellationToken ct)
+        public async Task<IActionResult> AddIngredientsToRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, [FromBody] AddIngredientRangeToRecipeDTO ingredients, CancellationToken ct)
         {
             try
             {
-                var addedIngredients = await _recipeService.AddIngredientsToRecipeById(recipeId, ingredients, ct);
+                var addedIngredients = await _recipeService.AddIngredientsToRecipeById(userId, recipeId, ingredients, ct);
                 return CreatedAtAction(nameof(AddIngredientsToRecipeById), addedIngredients);
             }
             catch (OperationCanceledException ex)
@@ -336,11 +336,11 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [HttpDelete]
-        public async Task<IActionResult> DeleteIngredientsFromRecipeById([FromRoute] Guid recipeId, [FromBody] IEnumerable<Guid> ingredientIds, CancellationToken ct)
+        public async Task<IActionResult> DeleteIngredientsFromRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, [FromBody] IEnumerable<Guid> ingredientIds, CancellationToken ct)
         {
             try
             {
-                await _recipeService.RemoveIngredientsFromRecipe(recipeId, ingredientIds, ct);
+                await _recipeService.RemoveIngredientsFromRecipe(userId, recipeId, ingredientIds, ct);
                 return NoContent();
             }
             catch (OperationCanceledException ex)
