@@ -217,7 +217,7 @@ namespace RecipesAPI.Controllers
         {
             try
             {
-                var recipe = await _recipeService.GetRecipeWithIngredientsAndCategories(recipeId, ct);
+                var recipe = await _recipeService.GetRecipeWithIngredientsAndCategories(userId, recipeId, ct);
 
                 if (recipe == null)
                 {

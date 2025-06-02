@@ -8,19 +8,19 @@ namespace RecipesAPI.Services.Interfaces
     public interface IRecipeService
     {
         Task<GetRecipeDTO> GetRecipeById(Guid userId, Guid recipeId, CancellationToken ct);
-        Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        //Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
         Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetAllRecipes(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
 
-        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        //Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
         Task<GetFullRecipeDTO> GetFullRecipeById(Guid userId, Guid recipeId, CancellationToken ct);
 
-        Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        //Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
 
-        Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid recipeId, CancellationToken ct);
+        Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid userId, Guid recipeId, CancellationToken ct);
 
         Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetAllFullRecipes(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, CancellationToken ct);
         // skipped Guid userId
-        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        //Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
 
         Task<Guid> CreateRecipeWithIngredientsByIds(Guid userId, AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct);
 

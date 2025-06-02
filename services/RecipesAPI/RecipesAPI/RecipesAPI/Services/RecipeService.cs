@@ -149,7 +149,7 @@ namespace RecipesAPI.Services
             var userInfoTasks = userIds
                 .ToDictionary(
                     id => id,
-                    id => _userInfoService.GetUserById(id)
+                    id => _userInfoService.GetUserById(id, userId)
                 );
 
             await Task.WhenAll(userInfoTasks.Values);
@@ -221,7 +221,7 @@ namespace RecipesAPI.Services
             var userInfoTasks = userIds
                 .ToDictionary(
                     id => id,
-                    id => _userInfoService.GetUserById(id)
+                    id => _userInfoService.GetUserById(id, userId)
                 );
 
             await Task.WhenAll(userInfoTasks.Values);
@@ -256,7 +256,7 @@ namespace RecipesAPI.Services
                     .ThenInclude(r => r.Unit)
                 .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
-            var user = await _userInfoService.GetUserById(recipe.PostingUserId);
+            var user = await _userInfoService.GetUserById(recipe.PostingUserId, userId);
 
             return new GetFullRecipeDTO(
                 recipe.Id,
@@ -277,164 +277,164 @@ namespace RecipesAPI.Services
                     user.ImageUrl));
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
-        {
-            IQueryable<Recipe> recipes = _recipes;
+        //public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
+        //{
+        //    IQueryable<Recipe> recipes = _recipes;
 
-            // query
-            recipes = recipes.Where(recipe => recipeIds.Contains(recipe.Id));
+        //    // query
+        //    recipes = recipes.Where(recipe => recipeIds.Contains(recipe.Id));
 
-            // order
-            if (_recipeProps.Contains(sortBy))
-            {
-                recipes = recipes.OrderBy(sortBy, orderByAsc);
-            }
-            else
-            {
-                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
-            }
+        //    // order
+        //    if (_recipeProps.Contains(sortBy))
+        //    {
+        //        recipes = recipes.OrderBy(sortBy, orderByAsc);
+        //    }
+        //    else
+        //    {
+        //        recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
+        //    }
 
-            // count
-            int totalCount = await recipes.CountAsync(ct);
+        //    // count
+        //    int totalCount = await recipes.CountAsync(ct);
 
-            // project
-            var recipeDTOs = await recipes
-                .Include(recipe => recipe.Ingredients)
-                    .ThenInclude(recipe => recipe.Ingredient)
-                .Include(recipe => recipe.Ingredients)
-                    .ThenInclude(recipe => recipe.Unit)
-                .Select(recipe => new
-                {
-                    recipe.Id,
-                    recipe.Name,
-                    recipe.Description,
-                    Ingredients = recipe.Ingredients
-                        .Select(ingredient => new GetRecipeIngredientDTO(
-                        ingredient.Ingredient.Id,
-                        ingredient.Ingredient.Name,
-                        ingredient.Ingredient.Description ?? "",
-                        ingredient.Quantity,
-                        ingredient.UnitId,
-                        ingredient.Unit.Name)),
-                    recipe.PostingUserId
-                })
-                .ToListAsync(ct);
+        //    // project
+        //    var recipeDTOs = await recipes
+        //        .Include(recipe => recipe.Ingredients)
+        //            .ThenInclude(recipe => recipe.Ingredient)
+        //        .Include(recipe => recipe.Ingredients)
+        //            .ThenInclude(recipe => recipe.Unit)
+        //        .Select(recipe => new
+        //        {
+        //            recipe.Id,
+        //            recipe.Name,
+        //            recipe.Description,
+        //            Ingredients = recipe.Ingredients
+        //                .Select(ingredient => new GetRecipeIngredientDTO(
+        //                ingredient.Ingredient.Id,
+        //                ingredient.Ingredient.Name,
+        //                ingredient.Ingredient.Description ?? "",
+        //                ingredient.Quantity,
+        //                ingredient.UnitId,
+        //                ingredient.Unit.Name)),
+        //            recipe.PostingUserId
+        //        })
+        //        .ToListAsync(ct);
 
 
-            var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
+        //    var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
 
-            // fetch all user info in parallel (or use a batch API if available)
-            var userInfoTasks = userIds
-                .ToDictionary(
-                    id => id,
-                    id => _userInfoService.GetUserById(id)
-                );
+        //    // fetch all user info in parallel (or use a batch API if available)
+        //    var userInfoTasks = userIds
+        //        .ToDictionary(
+        //            id => id,
+        //            id => _userInfoService.GetUserById(id)
+        //        );
 
-            await Task.WhenAll(userInfoTasks.Values);
+        //    await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs
-                .Select(recipe => new GetFullRecipeDTO(
-                    recipe.Id,
-                    recipe.Name,
-                    recipe.Description,
-                    recipe.Ingredients,
-                    new CommonUserDataDTO(
-                        recipe.PostingUserId,
-                        userInfoTasks[recipe.PostingUserId].Result.Username,
-                        userInfoTasks[recipe.PostingUserId].Result.ImageUrl)))
-                .ToList();
+        //    var data = recipeDTOs
+        //        .Select(recipe => new GetFullRecipeDTO(
+        //            recipe.Id,
+        //            recipe.Name,
+        //            recipe.Description,
+        //            recipe.Ingredients,
+        //            new CommonUserDataDTO(
+        //                recipe.PostingUserId,
+        //                userInfoTasks[recipe.PostingUserId].Result.Username,
+        //                userInfoTasks[recipe.PostingUserId].Result.ImageUrl)))
+        //        .ToList();
 
-            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
-            {
-                Data = data,
-                TotalElements = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / count),
-                Page = page,
-                PageSize = count
-            };
-        }
+        //    return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
+        //    {
+        //        Data = data,
+        //        TotalElements = totalCount,
+        //        TotalPages = (int)Math.Ceiling((double)totalCount / count),
+        //        Page = page,
+        //        PageSize = count
+        //    };
+        //}
 
-        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
-        {
-            IQueryable<Recipe> recipes = _recipes;
+        //public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIngredientIds(IEnumerable<Guid> ingredientIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
+        //{
+        //    IQueryable<Recipe> recipes = _recipes;
 
-            // order
-            if (_recipeProps.Contains(sortBy))
-            {
-                recipes = recipes.OrderBy(sortBy, orderByAsc);
-            }
-            else
-            {
-                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
-            }
+        //    // order
+        //    if (_recipeProps.Contains(sortBy))
+        //    {
+        //        recipes = recipes.OrderBy(sortBy, orderByAsc);
+        //    }
+        //    else
+        //    {
+        //        recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
+        //    }
 
-            // count
-            int totalCount = await recipes.CountAsync(ct);
+        //    // count
+        //    int totalCount = await recipes.CountAsync(ct);
 
-            // project
-            var recipeDTOs = await recipes
-                .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
-                    .ThenInclude(recipe => recipe.Ingredient)
-                .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
-                    .ThenInclude(recipe => recipe.Unit)
-                .Skip(page * count)
-                .Take(count)
-                .Select(recipe => new
-                {
-                    recipe.Id,
-                    recipe.Name,
-                    Description = recipe.Description ?? "",
-                    Ingredients = recipe.Ingredients
-                        .Select(recipeIngredient => new GetRecipeIngredientDTO(
-                            recipeIngredient.IngredientId,
-                            recipeIngredient.Ingredient.Name,
-                            recipeIngredient.Ingredient.Description ?? "",
-                            recipeIngredient.Quantity,
-                            recipeIngredient.UnitId,
-                            recipeIngredient.Unit.Name)),
-                    recipe.PostingUserId
-                })
-                .ToListAsync(ct);
+        //    // project
+        //    var recipeDTOs = await recipes
+        //        .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
+        //            .ThenInclude(recipe => recipe.Ingredient)
+        //        .Include(recipe => recipe.Ingredients.Where(ingredient => ingredientIds.Contains(ingredient.IngredientId)))
+        //            .ThenInclude(recipe => recipe.Unit)
+        //        .Skip(page * count)
+        //        .Take(count)
+        //        .Select(recipe => new
+        //        {
+        //            recipe.Id,
+        //            recipe.Name,
+        //            Description = recipe.Description ?? "",
+        //            Ingredients = recipe.Ingredients
+        //                .Select(recipeIngredient => new GetRecipeIngredientDTO(
+        //                    recipeIngredient.IngredientId,
+        //                    recipeIngredient.Ingredient.Name,
+        //                    recipeIngredient.Ingredient.Description ?? "",
+        //                    recipeIngredient.Quantity,
+        //                    recipeIngredient.UnitId,
+        //                    recipeIngredient.Unit.Name)),
+        //            recipe.PostingUserId
+        //        })
+        //        .ToListAsync(ct);
 
-            var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
+        //    var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
 
-            // fetch all user info in parallel (or use a batch API if available)
-            var userInfoTasks = userIds
-                .ToDictionary(
-                    id => id,
-                    id => _userInfoService.GetUserById(id)
-                );
+        //    // fetch all user info in parallel (or use a batch API if available)
+        //    var userInfoTasks = userIds
+        //        .ToDictionary(
+        //            id => id,
+        //            id => _userInfoService.GetUserById(id)
+        //        );
 
-            await Task.WhenAll(userInfoTasks.Values);
+        //    await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs
-                .Select(recipe => new GetFullRecipeDTO(
-                    recipe.Id,
-                    recipe.Name,
-                    recipe.Description,
-                    recipe.Ingredients,
-                    new CommonUserDataDTO(
-                        recipe.PostingUserId,
-                        userInfoTasks[recipe.PostingUserId].Result.Username,
-                        userInfoTasks[recipe.PostingUserId].Result.ImageUrl)))
-                .ToList();
+        //    var data = recipeDTOs
+        //        .Select(recipe => new GetFullRecipeDTO(
+        //            recipe.Id,
+        //            recipe.Name,
+        //            recipe.Description,
+        //            recipe.Ingredients,
+        //            new CommonUserDataDTO(
+        //                recipe.PostingUserId,
+        //                userInfoTasks[recipe.PostingUserId].Result.Username,
+        //                userInfoTasks[recipe.PostingUserId].Result.ImageUrl)))
+        //        .ToList();
 
-            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
-            {
-                Data = data,
-                TotalElements = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / count),
-                Page = page,
-                PageSize = count
-            };
-        }
+        //    return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
+        //    {
+        //        Data = data,
+        //        TotalElements = totalCount,
+        //        TotalPages = (int)Math.Ceiling((double)totalCount / count),
+        //        Page = page,
+        //        PageSize = count
+        //    };
+        //}
 
         public async Task<GetRecipeDTO> GetRecipeById(Guid userId, Guid recipeId, CancellationToken ct)
         {
             var recipe = await _recipes
-                .FirstOrDefaultAsync(r => r.Id == recipeId && r.PostingUserId == userId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
+                .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
-            var user = await _userInfoService.GetUserById(recipe.PostingUserId);
+            var user = await _userInfoService.GetUserById(recipe.PostingUserId, userId);
 
             return new GetRecipeDTO(
                 recipeId, 
@@ -446,74 +446,74 @@ namespace RecipesAPI.Services
                     user.ImageUrl));
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
-        {
-            // query
-            var recipes = _recipes.Where(x => recipeIds.Contains(x.Id));
+        //public async Task<PaginatedResult<IEnumerable<GetRecipeDTO>>> GetRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
+        //{
+        //    // query
+        //    var recipes = _recipes.Where(x => recipeIds.Contains(x.Id));
 
-            // order
-            if (_recipeProps.Contains(sortBy))
-            {
-                recipes = recipes.OrderBy(sortBy, orderByAsc);
-            }
-            else
-            {
-                // by name by default
-                recipes = orderByAsc ? recipes.OrderBy(x => x.Name) : recipes.OrderByDescending(x => x.Name);
-            }
+        //    // order
+        //    if (_recipeProps.Contains(sortBy))
+        //    {
+        //        recipes = recipes.OrderBy(sortBy, orderByAsc);
+        //    }
+        //    else
+        //    {
+        //        // by name by default
+        //        recipes = orderByAsc ? recipes.OrderBy(x => x.Name) : recipes.OrderByDescending(x => x.Name);
+        //    }
 
-            // count
-            int totalCount = await recipes.CountAsync(ct);
+        //    // count
+        //    int totalCount = await recipes.CountAsync(ct);
 
-            // project
-            var recipeDTOs = await recipes
-                .Skip(page * count)
-                .Take(count)
-                .Select(recipe =>
-                    new
-                    {
-                        recipe.Id,
-                        recipe.Name,
-                        recipe.Description,
-                        recipe.PostingUserId,
-                    })
-                .ToListAsync(ct);
+        //    // project
+        //    var recipeDTOs = await recipes
+        //        .Skip(page * count)
+        //        .Take(count)
+        //        .Select(recipe =>
+        //            new
+        //            {
+        //                recipe.Id,
+        //                recipe.Name,
+        //                recipe.Description,
+        //                recipe.PostingUserId,
+        //            })
+        //        .ToListAsync(ct);
 
-            var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
+        //    var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
 
-            // fetch all user info in parallel (or use a batch API if available)
-            var userInfoTasks = userIds
-                .ToDictionary(
-                    id => id,
-                    id => _userInfoService.GetUserById(id)
-                );
+        //    // fetch all user info in parallel (or use a batch API if available)
+        //    var userInfoTasks = userIds
+        //        .ToDictionary(
+        //            id => id,
+        //            id => _userInfoService.GetUserById(id)
+        //        );
 
-            await Task.WhenAll(userInfoTasks.Values);
+        //    await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs
-                .Select(recipe => new GetRecipeDTO(
-                    recipe.Id,
-                    recipe.Name,
-                    recipe.Description,
-                    new CommonUserDataDTO(
-                        recipe.PostingUserId,
-                        userInfoTasks[recipe.PostingUserId].Result.Username,
-                        userInfoTasks[recipe.PostingUserId].Result.ImageUrl)))
-                .ToList();
+        //    var data = recipeDTOs
+        //        .Select(recipe => new GetRecipeDTO(
+        //            recipe.Id,
+        //            recipe.Name,
+        //            recipe.Description,
+        //            new CommonUserDataDTO(
+        //                recipe.PostingUserId,
+        //                userInfoTasks[recipe.PostingUserId].Result.Username,
+        //                userInfoTasks[recipe.PostingUserId].Result.ImageUrl)))
+        //        .ToList();
 
 
-            return new PaginatedResult<IEnumerable<GetRecipeDTO>>
-            {
-                Data = data,
-                TotalElements = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / count),
-                Page = page,
-                PageSize = count
-            };
-        }
+        //    return new PaginatedResult<IEnumerable<GetRecipeDTO>>
+        //    {
+        //        Data = data,
+        //        TotalElements = totalCount,
+        //        TotalPages = (int)Math.Ceiling((double)totalCount / count),
+        //        Page = page,
+        //        PageSize = count
+        //    };
+        //}
 
         // there may be added quantity and unit
-        public async Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid recipeId, CancellationToken ct)
+        public async Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid userId, Guid recipeId, CancellationToken ct)
         {
             var recipe = await _recipes
                 .Include(r => r.Ingredients)
@@ -522,7 +522,7 @@ namespace RecipesAPI.Services
                             .ThenInclude(c => c.IngredientCategory)
                 .FirstOrDefaultAsync(r => r.Id == recipeId, ct) ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found.");
 
-            var user = await _userInfoService.GetUserById(recipe.PostingUserId);
+            var user = await _userInfoService.GetUserById(recipe.PostingUserId, userId);
 
             return new GetRecipeWithIngredientsAndCategoriesDTO(
                 recipe.Id,
@@ -612,70 +612,70 @@ namespace RecipesAPI.Services
             }
         }
 
-        public async Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
-        {
-            // query
-            var recipes = _recipes.Where(r => recipeIds.Contains(r.Id));
+        //public async Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct)
+        //{
+        //    // query
+        //    var recipes = _recipes.Where(r => recipeIds.Contains(r.Id));
 
-            // order
-            if (_recipeProps.Contains(sortBy))
-            {
-                recipes = recipes.OrderBy(sortBy, orderByAsc);
-            }
-            else
-            {
-                // by name by default
-                recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
-            }
+        //    // order
+        //    if (_recipeProps.Contains(sortBy))
+        //    {
+        //        recipes = recipes.OrderBy(sortBy, orderByAsc);
+        //    }
+        //    else
+        //    {
+        //        // by name by default
+        //        recipes = orderByAsc ? recipes.OrderBy(r => r.Name) : recipes.OrderByDescending(r => r.Name);
+        //    }
 
-            // count
-            int totalCount = await recipes.CountAsync(ct);
+        //    // count
+        //    int totalCount = await recipes.CountAsync(ct);
 
-            // project
-            var recipeDTOs = await recipes
-                .Include(x => x.Ingredients)
-                .Skip(page * count)
-                .Take(count)
-                .Select(recipe => new {
-                    recipe.Id,
-                    recipe.Name,
-                    Description = recipe.Description ?? "",
-                    recipe.PostingUserId,
-                    IngredientIds = recipe.Ingredients.Select(r => r.IngredientId)})
-                .ToListAsync(ct);
+        //    // project
+        //    var recipeDTOs = await recipes
+        //        .Include(x => x.Ingredients)
+        //        .Skip(page * count)
+        //        .Take(count)
+        //        .Select(recipe => new {
+        //            recipe.Id,
+        //            recipe.Name,
+        //            Description = recipe.Description ?? "",
+        //            recipe.PostingUserId,
+        //            IngredientIds = recipe.Ingredients.Select(r => r.IngredientId)})
+        //        .ToListAsync(ct);
 
-            var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
+        //    var userIds = recipeDTOs.Select(r => r.PostingUserId).Distinct();
 
-            // fetch all user info in parallel (or use a batch API if available)
-            var userInfoTasks = userIds
-                .ToDictionary(
-                    id => id,
-                    id => _userInfoService.GetUserById(id)
-                );
+        //    // fetch all user info in parallel (or use a batch API if available)
+        //    var userInfoTasks = userIds
+        //        .ToDictionary(
+        //            id => id,
+        //            id => _userInfoService.GetUserById(id)
+        //        );
 
-            await Task.WhenAll(userInfoTasks.Values);
+        //    await Task.WhenAll(userInfoTasks.Values);
 
-            var data = recipeDTOs
-                .Select(recipe => new GetRecipeWithIngredientIdsDTO(
-                    recipe.Id,
-                    recipe.Name,
-                    recipe.Description,
-                    new CommonUserDataDTO(
-                        recipe.PostingUserId,
-                        userInfoTasks[recipe.PostingUserId].Result.Username,
-                        userInfoTasks[recipe.PostingUserId].Result.ImageUrl),
-                    recipe.IngredientIds))
-                .ToList();
+        //    var data = recipeDTOs
+        //        .Select(recipe => new GetRecipeWithIngredientIdsDTO(
+        //            recipe.Id,
+        //            recipe.Name,
+        //            recipe.Description,
+        //            new CommonUserDataDTO(
+        //                recipe.PostingUserId,
+        //                userInfoTasks[recipe.PostingUserId].Result.Username,
+        //                userInfoTasks[recipe.PostingUserId].Result.ImageUrl),
+        //            recipe.IngredientIds))
+        //        .ToList();
 
-            return new PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>
-            {
-                Data = data,
-                TotalElements = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / count),
-                Page = page,
-                PageSize = count
-            };
-        }
+        //    return new PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>
+        //    {
+        //        Data = data,
+        //        TotalElements = totalCount,
+        //        TotalPages = (int)Math.Ceiling((double)totalCount / count),
+        //        Page = page,
+        //        PageSize = count
+        //    };
+        //}
 
         public async Task RemoveIngredientFromRecipe(Guid userId, Guid recipeId, Guid ingredientId, CancellationToken ct)
         {

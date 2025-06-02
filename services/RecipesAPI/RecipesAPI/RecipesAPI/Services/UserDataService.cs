@@ -178,7 +178,7 @@ namespace RecipesAPI.Services
             var userInfoTasks = userIds
                 .ToDictionary(
                     id => id,
-                    id => _userInfoService.GetUserById(id)
+                    id => _userInfoService.GetUserById(id, userId)
                 );
 
             await Task.WhenAll(userInfoTasks.Values);
@@ -453,7 +453,7 @@ namespace RecipesAPI.Services
             var userInfoTasks = userIds
                 .ToDictionary(
                     id => id,
-                    id => _userInfoService.GetUserById(id)
+                    id => _userInfoService.GetUserById(id, userId)
                 );
 
             await Task.WhenAll(userInfoTasks.Values);
