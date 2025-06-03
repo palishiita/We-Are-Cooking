@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-28-2400-user-profiles-mock.yaml
+      author: technosudo
+      changes:
+        - insert:
+            tableName: photo_urls
+            columns:
+              - column:
+                  name: id
+                  value: b3825350-8248-4c64-b291-e2bdc6014d52
+              - column:
+                  name: photo_url
+                  value: "https://example.com/mock-photo.jpg"
+        - insert:
+            tableName: user_profiles
+            columns:
+              - column:
+                  name: user_uuid
+                  value: b3825350-8248-4c64-b291-e2bdc6014d52
+              - column:
+                  name: image_url_uuid
+                  value: b3825350-8248-4c64-b291-e2bdc6014d52
+              - column:
+                  name: image_small_url_uuid
+                  value: b3825350-8248-4c64-b291-e2bdc6014d52
+              - column:
+                  name: description
+                  value: "Mock user profile description."
+              - column:
+                  name: is_private
+                  valueBoolean: false

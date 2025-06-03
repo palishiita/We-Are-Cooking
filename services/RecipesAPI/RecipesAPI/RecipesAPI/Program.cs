@@ -49,7 +49,7 @@ app.Run();
 
 void SetConfigurationOptions(IServiceCollection services)
 {
-    services.Configure<UserInfoServiceOptions>(builder.Configuration);
+    services.Configure<UserInfoServiceOptions>(builder.Configuration.GetSection(nameof(UserInfoServiceOptions)));
     services.AddHttpClient<IUserInfoService, UserInfoService>();
 }
 

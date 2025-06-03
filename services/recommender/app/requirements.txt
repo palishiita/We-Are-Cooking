@@ -1,6 +1,6 @@
 # Core data tools
 pandas
-numpy
+numpy==1.26.4
 
 # Machine learning utilities
 scikit-learn

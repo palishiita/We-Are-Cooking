@@ -23,17 +23,18 @@ spring:
         - id: frontend
           uri: "http://wrc-frontend:80"
           predicates:
-            - Path=/
+            - Path=/**
         - id: test
           uri: "http://wrc-test:8030"
           predicates:
-            - Path=/test/**
+            - Path=/api/test/**
         #          filters:
         #            - AuthFilter
         - id: userinfo
-          uri: "http://wrc-userinfo:8031"
+          uri: "http://wrc-userinfo:8032"
           predicates:
-            - Path=/api/userinfo/**
+            - Path=/api/profile/**
+
         - id: recipes
           uri: "http://wrc-recipesapi:8080"
           predicates:
