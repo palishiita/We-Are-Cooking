@@ -55,7 +55,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PaginatedResult<IEnumerable<GetReviewDTO>>>> GetReviewsByUserId(
-            [FromHeader(Name = "X-UserId")] Guid userId,
+            [FromHeader(Name = "X-Uuid")] Guid userId,
             CancellationToken ct,
             [FromQuery] int pageNumber = DefaultPageNumber,
             [FromQuery] int pageSize = DefaultPageSize
@@ -64,7 +64,7 @@ namespace RecipesAPI.Controllers
             if (userId == Guid.Empty)
             {
                 _logger.LogWarning("GetReviewsByUserId called with empty UserId in header.");
-                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = "User ID in header (X-UserId) is missing or invalid.", Status = StatusCodes.Status400BadRequest });
+                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = "User ID in header (X-Uuid) is missing or invalid.", Status = StatusCodes.Status400BadRequest });
             }
 
             if (pageNumber < DefaultPageNumber) pageNumber = DefaultPageNumber;

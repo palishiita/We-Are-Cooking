@@ -38,7 +38,7 @@ namespace RecipesAPI.Services
             CommonUserDataDTO userInfo;
             try
             {
-                userInfo = await _userInfoService.GetUserById(review.UserId)
+                userInfo = await _userInfoService.GetUserById(review.UserId, review.UserId)
                            ?? new CommonUserDataDTO(review.UserId, "N/A", null);
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace RecipesAPI.Services
             CommonUserDataDTO userInfoDto;
             try
             {
-                var fetchedUserInfo = await _userInfoService.GetUserById(userId);
+                var fetchedUserInfo = await _userInfoService.GetUserById(userId, userId);
                 userInfoDto = fetchedUserInfo ?? new CommonUserDataDTO(userId, "N/A", null);
             }
             catch (KeyNotFoundException ex)
@@ -165,7 +165,10 @@ namespace RecipesAPI.Services
                 if (userIds.Any())
                 {
                     var userInfoTasks = userIds.Select(async uId => {
-                        try { return await _userInfoService.GetUserById(uId); }
+                        try 
+                        { 
+                            return await _userInfoService.GetUserById(uId, uId); 
+                        }
                         catch (Exception ex)
                         {
                             _logger.LogWarning(ex, "Error fetching user info for UserId {UserId} in GetReviewsByRecipeId. Using fallback.", uId);
