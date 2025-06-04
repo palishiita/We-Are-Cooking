@@ -1,9 +1,8 @@
 package com.technosudo.userinfo.controller;
 
-import com.technosudo.userinfo.dto.UserProfileDto;
-import com.technosudo.userinfo.entity.UserProfileEntity;
-import com.technosudo.userinfo.service.UserService;
+import com.technosudo.userinfo.service.KeycloakService;
 import lombok.AllArgsConstructor;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -13,16 +12,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private KeycloakService keycloakService;
 
-
-
-    @GetMapping("{uuid}/email")
-    public String getEmailByUuid() {
-        return "TODO";
-    }
-    @GetMapping("{uuid}/username")
-    public String getUsernameByUuid() {
-        return "TODO";
+    @GetMapping("/{uuid}")
+    public UserRepresentation getUserDetailsByUuid(@PathVariable UUID uuid) {
+        return keycloakService.getUserByUuid(uuid);
     }
 }

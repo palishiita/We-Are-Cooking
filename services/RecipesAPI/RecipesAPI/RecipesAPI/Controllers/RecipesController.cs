@@ -9,7 +9,7 @@ using RecipesAPI.Services.Interfaces;
 
 namespace RecipesAPI.Controllers
 {
-    [Route("recipesapi/recipes")]
+    [Route("api/recipes")]
     [ApiController]
     public class RecipesController : ControllerBase
     {
