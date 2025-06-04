@@ -17,6 +17,12 @@ pub trait ReelRepository<'a>: Send + Sync {
         page: u32,
         limit: u32,
     ) -> Result<Vec<Reel>, AppError>;
+    async fn get_reels_by_user_id(
+        &self,
+        user_id: Uuid,
+        page: u32,
+        limit: u32,
+    ) -> Result<Vec<Reel>, AppError>;
     async fn get_reels_with_videos_paginated(
         &self,
         page: u32,
@@ -60,6 +66,21 @@ impl<'a> ReelRepository<'a> for ReelService<'a> {
         let limit = limit as i64;
 
         match self.db.reels.get_reels_paginated(offset, limit).await {
+            Ok(reels) => Ok(reels),
+            Err(e) => Err(AppError::InternalError(e.to_string())),
+        }
+    }
+
+    async fn get_reels_by_user_id(
+        &self,
+        user_id: Uuid,
+        page: u32,
+        limit: u32,
+    ) -> Result<Vec<Reel>, AppError> {
+        let offset = (page.saturating_sub(1) * limit) as i64;
+        let limit = limit as i64;
+
+        match self.db.reels.get_reels_by_user_id_paginated(user_id, offset, limit).await {
             Ok(reels) => Ok(reels),
             Err(e) => Err(AppError::InternalError(e.to_string())),
         }

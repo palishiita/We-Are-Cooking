@@ -259,4 +259,6 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 *here be dragons*
 :::  
   """;
+
+  static var allRecipes;
 }
