@@ -4,7 +4,7 @@ use crate::{
     error::error::AppError, model::{PostReel, PostVideo, Reel, ReelWithVideosForm}, service::{reel_service::ReelRepository, video_service::VideoRepository}, util::read_bytes::read_bytes, AppState
 };
 use actix_multipart::{Field, Multipart};
-use actix_web::{delete, get, post, put, web, HttpResponse, Responder};
+use actix_web::{delete, get, post, put, web, HttpResponse, Responder, HttpRequest};
 use bytes::BytesMut;
 use serde_json::from_slice;
 use uuid::Uuid;
@@ -16,6 +16,7 @@ pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(get_reel_by_id);
     cfg.service(get_reels_paginated);
     cfg.service(get_reels_with_videos_paginated);
+    cfg.service(get_reels_by_user_id);
     cfg.service(post_reel);
     cfg.service(post_reel_with_video);
     cfg.service(put_reel);
@@ -255,4 +256,53 @@ async fn delete_reel_with_video(
         .await?;
 
     Ok(HttpResponse::Ok().json(reel))
+}
+
+#[utoipa::path(
+    get,
+    path = "/user/reels",
+    params(
+        ("page" = Option<u32>, Query, description = "Page number (default: 1)"),
+        ("limit" = Option<u32>, Query, description = "Items per page (default: 10)")
+    ),
+    responses(
+        (status = 200, description = "List of reels for the user", body = [Reel]),
+        (status = 400, description = "Missing user ID in header"),
+        (status = 500, description = "Internal server error")
+    ),
+    tag = "Reels"
+)]
+#[get("/user/reels")]
+async fn get_reels_by_user_id(
+    req: HttpRequest,
+    web::Query(params): web::Query<HashMap<String, String>>,
+    app_state: web::Data<AppState<'_>>,
+) -> Result<impl Responder, AppError> {
+    log_request("Get: /reel/user", &app_state.connections);
+
+    // Pobierz UUID użytkownika z nagłówka X-Uuid
+    let user_uuid = req
+        .headers()
+        .get("x-uuid")
+        .and_then(|h| h.to_str().ok())
+        .ok_or_else(|| AppError::BadRequest("Missing X-Uuid header".into()))?;
+
+    let page = params
+        .get("page")
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(1);
+    let limit = params
+        .get("limit")
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(10);
+
+    let user_id = user_uuid.parse::<Uuid>()
+        .map_err(|_| AppError::BadRequest("Invalid UUID format in X-Uuid header".into()))?;
+
+    let reels = app_state
+        .reels_service
+        .get_reels_by_user_id(user_id, page, limit)
+        .await?;
+    
+    Ok(HttpResponse::Ok().json(reels))
 }
