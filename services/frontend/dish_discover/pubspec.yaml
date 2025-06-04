@@ -1,5 +1,5 @@
 name: dish_discover
-description: "Recipe sharing app with an advanced tagging system."
+description: "Recipe sharing app"
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -18,10 +18,10 @@ dependencies:
   file_picker: ^6.1.1
   flutter_share: ^2.0.0
   flutter_riverpod: ^2.4.9
-  #easy_web_view: ^1.6.0
-  http: ^0.13.6
-  flutter_markdown: ^0.7.1 
+  flutter_markdown: ^0.7.1
   flutter_popup: ^3.1.8
+  http: ^0.13.6
+  video_player: ^2.8.1
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +55,9 @@ flutter:
     - assets/images/default_avatar.jpg
     - assets/images/missing_cover.jpg
     - assets/images/tutorial_1.png
+    - assets/images/event_italian.jpg
+    - assets/images/event_sushi.jpg
+    - assets/images/event_vegan.jpg
 
 dependency_overrides:
-  web: ^0.5.0   # ✅ Override incompatible version from other packages
+  web: ^0.5.0 

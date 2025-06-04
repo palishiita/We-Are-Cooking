@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import '../../entities/app_state.dart';
 import '../../entities/user.dart';
 import '../display/loading_indicator.dart';
-import 'home_tabs/moderation_tab.dart';
 import 'home_tabs/recommended_tab.dart';
-import 'home_tabs/saved_tab.dart';
+import 'home_tabs/fridge_tab.dart';
+import 'home_tabs/cookbook_tab.dart';
 import 'login.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,8 +30,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(
-        length: AppState.currentUser!.isModerator ? 3 : 2, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -50,7 +49,7 @@ class _HomePageState extends State<HomePage>
         builder: (context, userData) {
           if (userData.connectionState != ConnectionState.done) {
             return const LoadingIndicator(
-                showBackButton: false, title: "DishDiscover");
+                showBackButton: false, title: "We Are Cooking");
           } else if (userData.data == null) {
             if (kDebugMode) {
               AppState.userDataLoaded = true;
@@ -70,7 +69,7 @@ class _HomePageState extends State<HomePage>
   Widget loadError() {
     return LoadingErrorIndicator(
         showBackButton: false,
-        title: "DishDiscover",
+        title: "We Are Cooking",
         child: Center(
             child: Flex(
           direction: Axis.vertical,
@@ -103,10 +102,10 @@ class _HomePageState extends State<HomePage>
         appBar: AppBar(
             toolbarHeight: appBarHeight,
             scrolledUnderElevation: 0.0,
-            title: Text('DishDiscover',
+            title: Text('We Are Cooking',
                 style: Theme.of(context)
                     .textTheme
-                    .headlineMedium), //Image.asset('assets/images/logo.png')),
+                    .headlineMedium),
             centerTitle: true,
             actions: [
               IconButton(
@@ -123,23 +122,23 @@ class _HomePageState extends State<HomePage>
               Expanded(
                   child: TabBarView(
                 controller: tabController,
-                children: [const RecommendedTab(), const SavedTab()] +
-                    (AppState.currentUser!.isModerator
-                        ? [const ModerationTab()]
-                        : []),
+                children: const [
+                  RecommendedTab(),
+                  FridgeTab(),
+                  CookbookTab(),
+                ],
               ))
             ]),
         bottomNavigationBar: TabBar(
-          padding: const EdgeInsets.symmetric(horizontal: 120),
           controller: tabController,
-          tabs: List.filled(
-              AppState.currentUser!.isModerator ? 3 : 2,
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 15),
-                  child: Icon(Icons.circle, size: 13))),
-          indicatorColor: baseColor.withAlpha(0),
+          tabs: const [
+            Tab(text: 'Recommended'),
+            Tab(text: 'Fridge'),
+            Tab(text: 'Cookbook'),
+          ],
+          indicatorColor: buttonColor,
           labelColor: buttonColor,
-          unselectedLabelColor: inactiveColor.withAlpha(0x52),
+          unselectedLabelColor: inactiveColor,
         ));
   }
 }
