@@ -21,9 +21,9 @@ namespace RecipesAPI.Services
             _logger = logger;
         }
 
-        public async Task<GetReviewDTO?> GetReviewById(Guid reviewId, CancellationToken ct)
+        public async Task<GetReviewDTO?> GetReviewById(Guid reviewId, Guid requestedUserId, CancellationToken ct)
         {
-            _logger.LogInformation("Fetching review by ID: {ReviewId}", reviewId);
+            _logger.LogInformation("Fetching review by ID: {ReviewId}, requested by UserID: {RequestedUserId}", reviewId, requestedUserId);
             var review = await _context.Reviews
                 .Where(r => r.Id == reviewId)
                 .Include(r => r.ReviewPhotos).ThenInclude(rp => rp.PhotoUrl)
@@ -38,12 +38,17 @@ namespace RecipesAPI.Services
             CommonUserDataDTO userInfo;
             try
             {
-                userInfo = await _userInfoService.GetUserById(review.UserId, review.UserId)
-                           ?? new CommonUserDataDTO(review.UserId, "N/A", null);
+                userInfo = await _userInfoService.GetUserById(review.UserId, requestedUserId); 
+
+                if (userInfo == null)
+                {
+                    _logger.LogWarning("User info not found for UserId {TargetUserId} (requested by {RequestedUserId}) for review {ReviewId}. Using fallback.", review.UserId, requestedUserId, reviewId);
+                    userInfo = new CommonUserDataDTO(review.UserId, "N/A", null);
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error fetching user info for UserId {UserId} while getting review {ReviewId}. Using fallback.", review.UserId, reviewId);
+                _logger.LogError(ex, "Error fetching user info for TargetUserId {TargetUserId} (requested by {RequestedUserId}) for review {ReviewId}. Using fallback.", review.UserId, requestedUserId, reviewId);
                 userInfo = new CommonUserDataDTO(review.UserId, "N/A", null);
             }
 
@@ -70,8 +75,12 @@ namespace RecipesAPI.Services
             CommonUserDataDTO userInfoDto;
             try
             {
-                var fetchedUserInfo = await _userInfoService.GetUserById(userId, userId);
-                userInfoDto = fetchedUserInfo ?? new CommonUserDataDTO(userId, "N/A", null);
+                userInfoDto = await _userInfoService.GetUserById(userId, userId);
+                if (userInfoDto == null)
+                {
+                    _logger.LogWarning("User info not found for UserId {UserId} when fetching their reviews. This should ideally not happen if user exists for reviews.", userId);
+                }
+                userInfoDto = new CommonUserDataDTO(userId, "N/A", null);
             }
             catch (KeyNotFoundException ex)
             {

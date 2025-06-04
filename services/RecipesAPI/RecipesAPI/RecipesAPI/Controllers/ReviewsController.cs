@@ -30,11 +30,19 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(GetReviewDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GetReviewDTO>> GetReviewById(Guid reviewId, CancellationToken ct)
+        public async Task<ActionResult<GetReviewDTO>> GetReviewById(
+            Guid reviewId, 
+            [FromHeader(Name = "X-Uuid")] Guid requestedUserId, 
+            CancellationToken ct
+            )
         {
+            if (requestedUserId == Guid.Empty)
+            {
+                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = $"Header 'X-Uuid' is missing or invalid.", Status = StatusCodes.Status400BadRequest });
+            }
             try
             {
-                var review = await _reviewService.GetReviewById(reviewId, ct);
+                var review = await _reviewService.GetReviewById(reviewId, requestedUserId, ct);
                 if (review == null)
                 {
                     _logger.LogWarning("Review not found with ID: {ReviewId}", reviewId);
