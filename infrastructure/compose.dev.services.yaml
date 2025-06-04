@@ -32,7 +32,7 @@ services:
       context: ../services/userinfo
       dockerfile: Dockerfile
     ports:
-      - "$BACKEND_USERINFO_PORT:8000"
+      - "$BACKEND_USERINFO_PORT:8032"
     networks:
       - wrcNetwork
       - authNetwork

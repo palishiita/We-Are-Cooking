@@ -30,7 +30,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Get the recipes from user cookbook.")]
-        public async Task<IActionResult> GetCookbookRecipes([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, [FromQuery] bool? showOnlyFavorites, CancellationToken ct)
+        public async Task<IActionResult> GetCookbookRecipes([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, [FromQuery] bool? showOnlyFavorites, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -69,7 +69,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add a recipe to user cookbook.")]
-        public async Task<IActionResult> AddRecipeToCookbook([FromHeader] Guid userId,  [FromBody] AddRecipeToCookbookDTO recipeDTO, CancellationToken ct)
+        public async Task<IActionResult> AddRecipeToCookbook([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] AddRecipeToCookbookDTO recipeDTO, CancellationToken ct)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Remove given recipes from user cookbook.")]
-        public async Task<IActionResult> RemoveRecipesFromCookbook([FromHeader] Guid userId, [FromBody] IEnumerable<Guid> recipeIds, CancellationToken ct)
+        public async Task<IActionResult> RemoveRecipesFromCookbook([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] IEnumerable<Guid> recipeIds, CancellationToken ct)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Get ingredients in the fridge.")]
-        public async Task<IActionResult> GetFridgeIngredients([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, [FromQuery] bool? showOnlyFavorites, CancellationToken ct)
+        public async Task<IActionResult> GetFridgeIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, [FromQuery] bool? showOnlyFavorites, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -160,7 +160,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [EndpointDescription("Get the recipes available from ingredients in the fridge.")]
-        public async Task<IActionResult> GetFridgePossibleRecipes([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
+        public async Task<IActionResult> GetFridgePossibleRecipes([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -197,7 +197,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Set the ingredients in the fridge as given.")]
-        public async Task<IActionResult> SetFridgeIngredients([FromHeader] Guid userId, [FromBody] IEnumerable<SetIngredientQuantityDTO> ingredientDTOs, CancellationToken ct)
+        public async Task<IActionResult> SetFridgeIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] IEnumerable<SetIngredientQuantityDTO> ingredientDTOs, CancellationToken ct)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Set the ingredients in the fridge as given.")]
-        public async Task<IActionResult> SetFridgeIngredients([FromHeader] Guid userId, [FromRoute] Guid recipeId, CancellationToken ct)
+        public async Task<IActionResult> SetFridgeIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, CancellationToken ct)
         {
             try
             {
@@ -249,7 +249,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Get the restricted categories of the user.")]
-        public async Task<IActionResult> GetUserRestrictedCategories([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
+        public async Task<IActionResult> GetUserRestrictedCategories([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -288,7 +288,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Get the restricted ingredients from restricted categories of the user.")]
-        public async Task<IActionResult> GetUserRestrictedIngredients([FromHeader] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
+        public async Task<IActionResult> GetUserRestrictedIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
             count ??= 10;
             page ??= 0;
@@ -325,7 +325,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add the categories to restricted categories of the user.")]
-        public async Task<IActionResult> AddUserRestrictedCategories([FromHeader] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
+        public async Task<IActionResult> AddUserRestrictedCategories([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
             try
             {
@@ -349,7 +349,7 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add the categories to restricted categories of the user.")]
-        public async Task<IActionResult> RemoveUserRestrictedCategories([FromHeader] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
+        public async Task<IActionResult> RemoveUserRestrictedCategories([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
             try
             {
