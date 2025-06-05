@@ -1,4 +1,4 @@
-package com.technosudo.gateway;
+package com.technosudo.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class SecurityConfig {
                         .pathMatchers("/test/**").permitAll()
                         .pathMatchers("/test/private").authenticated()
                         .pathMatchers("/login/**", "/oauth2/**").permitAll()
-                        .pathMatchers("/").permitAll()
+                        .pathMatchers("/front/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

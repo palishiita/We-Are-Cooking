@@ -6,11 +6,9 @@ services:
       context: ../services/test
       dockerfile: Dockerfile
     ports:
-      - "$BACKEND_TEST_PORT:8080"
+      - "$BACKEND_TEST_PORT:8030"
     networks:
       - wrcNetwork
-    external_links:
-      - "auth-keycloak:login.techstructure.com"
 
 
   wrc-gateway:

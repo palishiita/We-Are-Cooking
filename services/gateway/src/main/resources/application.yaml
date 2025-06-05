@@ -20,26 +20,65 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: frontend
-          uri: "http://wrc-frontend:80"
-          predicates:
-            - Path=/**
         - id: test
           uri: "http://wrc-test:8030"
           predicates:
             - Path=/api/test/**
         #          filters:
         #            - AuthFilter
+          filters:
+            - RewritePath=/api/test/(?<segment>.*), /${segment}
+
+
         - id: userinfo
           uri: "http://wrc-userinfo:8032"
           predicates:
             - Path=/api/profile/**
+          filters:
+            - RewritePath=/api/profile/(?<segment>.*), /${segment}
 
         - id: recipes
           uri: "http://wrc-recipesapi:8080"
           predicates:
             - Path=/api/recipesapi/**
+          filters:
+            - RewritePath=/api/recipesapi/(?<segment>.*), /${segment}
+
         - id: reels
           uri: "http://wrc-reels:7001"
           predicates:
             - Path=/api/reels/**
+          filters:
+            - RewritePath=/api/reels/(?<segment>.*), /${segment}
+
+        - id: frontend
+          uri: "http://wrc-frontend:80"
+          predicates:
+            - Path=/front/**
+          filters:
+            - RewritePath=/front/(?<segment>.*), /${segment}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/
+    urls:
+      - name: Userinfo
+        url: /api/profile/v3/api-docs
+      - name: Recipes
+        url: /api/recipesapi/v3/api-docs
+      - name: Reels
+        url: /api/reels/v3/api-docs
+
+logging:
+  level:
+    root: INFO # Keep root at INFO for general purpose, or DEBUG if you want more verbosity overall
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: TRACE # Crucial for seeing how predicates are evaluated
+    org.springframework.web.reactive: DEBUG # For WebFlux related components in the Gateway
+    reactor.netty: DEBUG # For low-level network activity (connections, requests, responses)
+    reactor.netty.http.server: DEBUG # Specific to the server-side of Netty
+    reactor.netty.http.client: DEBUG # Specific to the client-side of Netty (when gateway calls downstream services)
