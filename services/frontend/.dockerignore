@@ -1,0 +1,28 @@
+# Flutter/Dart related
+dish_discover/.dart_tool/
+dish_discover/build/
+dish_discover/.flutter-plugins
+dish_discover/.flutter-plugins-dependencies
+dish_discover/.packages
+
+# IDE related
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS related
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Logs
+*.log

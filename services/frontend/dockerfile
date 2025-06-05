@@ -4,13 +4,15 @@ FROM ghcr.io/cirruslabs/flutter:stable
 # Set working directory inside the container
 WORKDIR /app
 
+COPY dish_discover/pubspec.yaml ./
+COPY dish_discover/pubspec.lock ./
+
+RUN flutter pub get --verbose
+
 COPY dish_discover .
 
-# Get dependencies
-RUN flutter pub get
-
 # Build the Flutter web app
-RUN flutter build web --release
+RUN flutter build web --release --verbose --dart-define=FLUTTER_WEB_USE_SKIA=true
 
 # Use a lightweight web server to serve the app
 FROM nginx:alpine
