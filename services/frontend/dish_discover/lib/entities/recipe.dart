@@ -21,9 +21,6 @@ class Recipe extends ChangeNotifier {
   bool isBoosted;
   List<Ingredient> ingredients;
   List<Tag> tags;
-  List<Comment> comments;
-  int likeCount = 0;
-  int saveCount = 0;
 
   Recipe(
       {required this.id,

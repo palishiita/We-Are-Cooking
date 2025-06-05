@@ -6,34 +6,29 @@ import 'package:http/http.dart' as http;
 import 'app_state.dart';
 
 class Ingredient {
-  final int id;
+  final String id; // guid = string
   final String name;
-  double quantity;
-  int? caloricDensity;
-  String? unit;
+  final String description
 
-  Ingredient(
-      {required this.id,
-      required this.name,
-      required this.quantity,
-      this.caloricDensity,
-      this.unit});
+  Ingredient({
+    required this.id,
+    required this.name,
+    this.description
+    });
 
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     return Ingredient(
       id: json['id'],
-      name: '', //json['name'],
-      quantity: json['amount'],
-      unit: json['unit'],
+      name: json['name'],
+      description: json['description']
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      //'name': name,
-      'amount': quantity,
-      'unit': unit,
+      'name': name,
+      'description': quantity
     };
   }
 
