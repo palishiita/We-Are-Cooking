@@ -50,8 +50,14 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllRecipesFull([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
@@ -113,8 +119,14 @@ namespace RecipesAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllRecipes([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
