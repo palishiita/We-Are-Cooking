@@ -120,7 +120,7 @@ namespace RecipesAPI.Services
 
             // project
             var recipeDTOs = await recipes
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Include(recipe => recipe.Ingredients)
                     .ThenInclude(ing => ing.Ingredient)
@@ -203,7 +203,7 @@ namespace RecipesAPI.Services
 
             // project
             var recipeDTOs = await recipes
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Select(recipe => new
                 {
