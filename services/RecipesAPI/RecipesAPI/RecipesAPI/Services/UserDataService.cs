@@ -368,7 +368,7 @@ namespace RecipesAPI.Services
             var data = await fridgeIngredients
                 .Include(x => x.Ingredient)
                 .Include(x => x.Unit)
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Select(x => new GetFridgeIngredientDataDTO(
                     x.IngredientId, 

@@ -32,8 +32,14 @@ namespace RecipesAPI.Controllers
         [EndpointDescription("Get the recipes from user cookbook.")]
         public async Task<IActionResult> GetCookbookRecipes([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, [FromQuery] bool? showOnlyFavorites, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
@@ -122,8 +128,14 @@ namespace RecipesAPI.Controllers
         [EndpointDescription("Get ingredients in the fridge.")]
         public async Task<IActionResult> GetFridgeIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, [FromQuery] bool? showOnlyFavorites, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
@@ -162,8 +174,14 @@ namespace RecipesAPI.Controllers
         [EndpointDescription("Get the recipes available from ingredients in the fridge.")]
         public async Task<IActionResult> GetFridgePossibleRecipes([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
@@ -251,8 +269,14 @@ namespace RecipesAPI.Controllers
         [EndpointDescription("Get the restricted categories of the user.")]
         public async Task<IActionResult> GetUserRestrictedCategories([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
@@ -290,8 +314,14 @@ namespace RecipesAPI.Controllers
         [EndpointDescription("Get the restricted ingredients from restricted categories of the user.")]
         public async Task<IActionResult> GetUserRestrictedIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromQuery] int? count, [FromQuery] int? page, [FromQuery] bool? orderByAsc, [FromQuery] string? sortBy, [FromQuery] string? query, CancellationToken ct)
         {
-            count ??= 10;
-            page ??= 0;
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
             orderByAsc ??= true;
 
             sortBy = string.IsNullOrEmpty(sortBy) ? string.Empty : sortBy;
