@@ -145,11 +145,16 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddReview(Guid recipeId, [FromBody] AddReviewRequestDTO dto, [FromHeader(Name = "X-UserId")] Guid userId, CancellationToken ct)
+        public async Task<IActionResult> AddReview(
+            Guid recipeId, 
+            [FromBody] AddReviewRequestDTO dto, 
+            [FromHeader(Name = "X-Uuid")] Guid userId, 
+            CancellationToken ct
+            )
         {
             if (userId == Guid.Empty)
             {
-                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = "User ID in header (X-UserId) is missing or invalid.", Status = StatusCodes.Status400BadRequest });
+                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = "User ID in header (X-Uuid) is missing or invalid.", Status = StatusCodes.Status400BadRequest });
             }
             if (!ModelState.IsValid)
             {
@@ -184,11 +189,15 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteReview(Guid recipeId, [FromHeader(Name = "X-UserId")] Guid userId, CancellationToken ct)
+        public async Task<IActionResult> DeleteReview(
+            Guid recipeId, 
+            [FromHeader(Name = "X-Uuid")] Guid userId, 
+            CancellationToken ct
+            )
         {
             if (userId == Guid.Empty)
             {
-                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = "User ID in header (X-UserId) is missing or invalid.", Status = StatusCodes.Status400BadRequest });
+                return BadRequest(new ProblemDetails { Title = "Bad Request", Detail = "User ID in header (X-Uuid) is missing or invalid.", Status = StatusCodes.Status400BadRequest });
             }
             try
             {
