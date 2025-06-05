@@ -208,7 +208,7 @@ namespace RecipesAPI.Services
             // project
             var data = await categories
                 .Where(category => category.Name.Contains(query))
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Select(category => new GetIngredientCategoryDTO(
                     category.Id,
@@ -253,7 +253,7 @@ namespace RecipesAPI.Services
 
             // project
             var data = await ingredients
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Include(ingredient => ingredient.Connections)
                 .ThenInclude(connection => connection.IngredientCategory)
@@ -305,7 +305,7 @@ namespace RecipesAPI.Services
 
             // project
             var data = await ingredients
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Include(ingredient => ingredient.Connections)
                 .ThenInclude(connection => connection.IngredientCategory)
@@ -398,7 +398,7 @@ namespace RecipesAPI.Services
 
             // project
             var data = await units
-                .Skip(page * count)
+                .Skip((page - 1) * count)
                 .Take(count)
                 .Select(recipe => new GetUnitDTO(
                     recipe.Id,

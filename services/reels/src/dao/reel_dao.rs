@@ -56,6 +56,28 @@ impl<'c> Table<'c, Reel> {
         .await
     }
 
+    pub async fn get_reels_by_user_id_paginated(
+        &self,
+        user_id: Uuid,
+        offset: i64,
+        limit: i64,
+    ) -> Result<Vec<Reel>, sqlx::Error> {
+        sqlx::query_as(
+            r#"
+                SELECT * 
+                FROM reels
+                WHERE posting_user_id = $1
+                ORDER BY creation_timestamp DESC
+                LIMIT $2 OFFSET $3
+            "#,
+        )
+        .bind(user_id)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(&*self.pool)
+        .await
+    }
+
     pub async fn get_reels_with_videos_paginated(
         &self,
         offset: i64,
