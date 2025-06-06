@@ -1,14 +1,14 @@
-import 'package:dish_discover/entities/ingredient.dart';
-import 'package:flutter/foundation.dart';
+//import 'package:dish_discover/entities/ingredient.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/app_state.dart';
-import '../../../entities/recipe.dart';
-import '../../../entities/tag.dart';
+import '../../../entities/new_recipe.dart';
+//import '../../../entities/tag.dart';
 import '../../dialogs/custom_dialog.dart';
 import '../../inputs/custom_text_field.dart';
 import '../edit_recipe.dart';
-import '../../display/recipe_list.dart';
+//import '../../display/recipe_list.dart';
 import '../reels_page.dart';
 
 class CookbookTab extends StatelessWidget {
@@ -31,27 +31,28 @@ class CookbookTab extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
+                  // those are the same, just a flag should be displayed, flag isFavorite
                   // --- Saved Recipes ---
-                  RecipeList(
-                    getRecipes: () => Future<List<Recipe>>(() {
-                      List<Recipe> recipes = AppState.currentUser!.savedRecipes;
-                      if (kDebugMode && recipes.isEmpty) {
-                        recipes = _generateDummyRecipes();
-                      }
-                      return recipes;
-                    }),
-                  ),
-
-                  // --- Liked Recipes ---
-                  RecipeList(
-                    getRecipes: () => Future<List<Recipe>>(() {
-                      List<Recipe> recipes = AppState.currentUser!.likedRecipes;
-                      if (kDebugMode && recipes.isEmpty) {
-                        recipes = _generateDummyRecipes();
-                      }
-                      return recipes;
-                    }),
-                  ),
+                  //RecipeList(
+                  //  getRecipes: () => Future<List<Recipe>>(() {
+                  //    List<Recipe> recipes = AppState.currentUser!.savedRecipes;
+                  //    if (kDebugMode && recipes.isEmpty) {
+                  //      recipes = _generateDummyRecipes();
+                  //    }
+                  //    return recipes;
+                  //  }),
+                  //),
+//
+                  //// --- Liked Recipes ---
+                  //RecipeList(
+                  //  getRecipes: () => Future<List<Recipe>>(() {
+                  //    List<Recipe> recipes = AppState.currentUser!.likedRecipes;
+                  //    if (kDebugMode && recipes.isEmpty) {
+                  //      recipes = _generateDummyRecipes();
+                  //    }
+                  //    return recipes;
+                  //  }),
+                  //),
                 ],
               ),
             ),
@@ -78,9 +79,9 @@ class CookbookTab extends StatelessWidget {
                   'Create', () {
                 if (titleController.text.trim().isNotEmpty) {
                   Recipe newRecipe = Recipe(
-                      id: 0,
-                      title: titleController.text,
-                      author: AppState.currentUser!.username);
+                      id: '',
+                      name: titleController.text,
+                      userData: UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username));
                   AppState.currentUser!.addRecipe(newRecipe);
                   Future.microtask(() => Navigator.of(context).push(
                       MaterialPageRoute(
@@ -110,46 +111,46 @@ class CookbookTab extends StatelessWidget {
   }
 
   /// Helper to generate dummy recipes
-  List<Recipe> _generateDummyRecipes() {
-    final recipes = [
-      Recipe(
-        author: AppState.currentUser!.username,
-        title: 'My test recipe',
-        description: 'Lorem ipsum...',
-        steps: AppState.markdownTestText,
-        id: 1,
-        image: Image.asset('assets/images/logo.png'),
-      ),
-      Recipe(
-        author: 'test_dummy',
-        title: 'My test recipe',
-        description: 'Lorem ipsum...',
-        steps: AppState.markdownTestText,
-        id: 2,
-        image: Image.asset('assets/images/logo.png'),
-      ),
-    ];
-    recipes.forEach((recipe) {
-      recipe.editRecipe(
-        ingredients: [
-          Ingredient(id: 0, name: 'tomato', quantity: 2),
-          Ingredient(id: 0, name: 'basil', quantity: 2, unit: 'teaspoons'),
-          Ingredient(id: 0, name: 'flatbread', quantity: 3, unit: 'pieces'),
-          Ingredient(id: 0, name: 'olive oil', quantity: 1, unit: 'tablespoon'),
-          Ingredient(id: 0, name: 'salt', quantity: 1, unit: 'pinch'),
-          Ingredient(id: 0, name: 'garlic', quantity: 0.5, unit: 'teaspoons'),
-        ],
-        tags: [
-          Tag(isPredefined: true, name: 'basil', category: TagCategory.ingredient),
-          Tag(isPredefined: true, name: 'bread', category: TagCategory.ingredient),
-          Tag(isPredefined: true, name: 'tomato', category: TagCategory.ingredient),
-          Tag(isPredefined: true, name: 'Italian', category: TagCategory.cuisine),
-          Tag(isPredefined: false, name: 'no-bake', category: null),
-          Tag(isPredefined: false, name: 'cheap', category: TagCategory.expense),
-          Tag(isPredefined: true, name: 'fast', category: TagCategory.time),
-        ],
-      );
-    });
-    return recipes;
-  }
+  //List<Recipe> _generateDummyRecipes() {
+  //  final recipes = [
+  //    Recipe(
+  //      author: AppState.currentUser!.username,
+  //      title: 'My test recipe',
+  //      description: 'Lorem ipsum...',
+  //      steps: AppState.markdownTestText,
+  //      id: 1,
+  //      image: Image.asset('assets/images/logo.png'),
+  //    ),
+  //    Recipe(
+  //      author: 'test_dummy',
+  //      title: 'My test recipe',
+  //      description: 'Lorem ipsum...',
+  //      steps: AppState.markdownTestText,
+  //      id: 2,
+  //      image: Image.asset('assets/images/logo.png'),
+  //    ),
+  //  ];
+  //  recipes.forEach((recipe) {
+  //    recipe.editRecipe(
+  //      ingredients: [
+  //        Ingredient(id: 0, name: 'tomato', quantity: 2),
+  //        Ingredient(id: 0, name: 'basil', quantity: 2, unit: 'teaspoons'),
+  //        Ingredient(id: 0, name: 'flatbread', quantity: 3, unit: 'pieces'),
+  //        Ingredient(id: 0, name: 'olive oil', quantity: 1, unit: 'tablespoon'),
+  //        Ingredient(id: 0, name: 'salt', quantity: 1, unit: 'pinch'),
+  //        Ingredient(id: 0, name: 'garlic', quantity: 0.5, unit: 'teaspoons'),
+  //      ],
+  //      tags: [
+  //        Tag(isPredefined: true, name: 'basil', category: TagCategory.ingredient),
+  //        Tag(isPredefined: true, name: 'bread', category: TagCategory.ingredient),
+  //        Tag(isPredefined: true, name: 'tomato', category: TagCategory.ingredient),
+  //        Tag(isPredefined: true, name: 'Italian', category: TagCategory.cuisine),
+  //        Tag(isPredefined: false, name: 'no-bake', category: null),
+  //        Tag(isPredefined: false, name: 'cheap', category: TagCategory.expense),
+  //        Tag(isPredefined: true, name: 'fast', category: TagCategory.time),
+  //      ],
+  //    );
+  //  });
+  //  return recipes;
+  //}
 }

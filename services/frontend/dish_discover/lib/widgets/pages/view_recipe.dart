@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../entities/app_state.dart';
-import '../../entities/recipe.dart';
+import '../../entities/new_recipe.dart';
 import '../display/loading_indicator.dart';
 import '../display/recipe_cover.dart';
 import '../display_with_input/comments_box.dart';
@@ -15,7 +15,7 @@ import '../display_with_input/tags_box.dart';
 
 class ViewRecipePage extends ConsumerStatefulWidget {
   static const routeName = "/recipe";
-  final int recipeId;
+  final String recipeId;
   final ChangeNotifierProvider<Recipe>? recipeProvider;
 
   const ViewRecipePage(
@@ -52,11 +52,9 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
             if (kDebugMode) {
               recipe = Recipe(
                   id: widget.recipeId,
-                  title: "recipe_${widget.recipeId}_debug",
-                  author: "debug",
-                  description:
-                      "Testing testing testing testing testing testing testing.",
-                  image: Image.asset("assets/images/logo.png"));
+                  name: "recipe_${widget.recipeId}_debug",
+                  userData: UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug'),
+                  description: "Testing testing testing testing testing testing testing.");
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
             }
@@ -93,28 +91,27 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
                           : AppState.currentUser!.isModerator
                               ? PopupMenuAction.ban
                               : PopupMenuAction.report,
-                  onPressed2: () => recipe.author
-                              .compareTo(AppState.currentUser!.username) ==
-                          0
-                      ? PopupMenuAction.editAction(
-                          context, recipe.id, recipeProvider!)
-                      : AppState.currentUser!.isModerator
-                          ? PopupMenuAction.banAction(
-                              context, recipe.id, recipe.title, null, null, () {
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                            })
-                          : PopupMenuAction.reportAction(
-                              context, recipe.id, recipe.title, null, null)),
+                  onPressed2: () => recipe.author.compareTo(AppState.currentUser!.username) == 0
+                      ? PopupMenuAction.editAction(context, recipe.id, recipeProvider!)
+                      : null
+                      //: AppState.currentUser!.isModerator
+                      //    ? PopupMenuAction.banAction(
+                      //        context, recipe.id, recipe.title, null, null, () {
+                      //        Navigator.of(context)
+                      //            .popUntil((route) => route.isFirst);
+                      //      })
+                      //    : PopupMenuAction.reportAction(
+                      //        context, recipe.id, recipe.title, null, null)
+                      )
             ],
             flexibleSpace: AspectRatio(
                 aspectRatio: 4 / 3, child: RecipeCover(cover: recipe.image))),
         body: ListView(children: [
           RecipeHeader(recipeProvider: recipeProvider!),
           IngredientsBox(recipeProvider: recipeProvider!),
-          StepsBox(recipeProvider: recipeProvider!),
-          TagsBox(recipeProvider: recipeProvider!),
-          CommentsBox(recipeProvider: recipeProvider!)
+          //StepsBox(recipeProvider: recipeProvider!),
+          //TagsBox(recipeProvider: recipeProvider!),
+          //CommentsBox(recipeProvider: recipeProvider!)
         ]));
   }
 }

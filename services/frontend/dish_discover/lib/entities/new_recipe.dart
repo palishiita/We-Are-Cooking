@@ -234,6 +234,14 @@ class Recipe extends ChangeNotifier {
         'page': page.toString(),
       };
 
+      print('Building query.');
+
+      Map<String, String> requestHeaders = {
+       'Content-type': 'application/json',
+       'Accept': 'application/json',
+       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+     };
+
       if (query != null && query.isNotEmpty) {
         queryParams['query'] = query;
       }
@@ -241,14 +249,16 @@ class Recipe extends ChangeNotifier {
         queryParams['sortBy'] = sortBy;
       }
       queryParams['orderByAsc'] = orderByAsc.toString();
+      
 
       final uri = Uri.http(
         AppState.serverDomain,
-        '/api/recipes/recipes/',
-        queryParams,
+        '/api/recipes/recipes/full',
+        queryParams
       );
 
       final response = await http.get(uri);
+      //final response = await http.get(uri, headers: requestHeaders);
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
@@ -274,8 +284,15 @@ class Recipe extends ChangeNotifier {
 
   static Future<Recipe> getRecipe(String recipeId) async {
     try {
+
+      Map<String, String> requestHeaders = {
+       'Content-type': 'application/json',
+       'Accept': 'application/json',
+       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+     };
+
       final response = await http.get(Uri.parse(
-          'http://${AppState.serverDomain}/api/recipes/recipes/$recipeId'));
+          'http://${AppState.serverDomain}/api/recipes/recipes/$recipeId'), headers: requestHeaders);
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
@@ -303,7 +320,7 @@ class Recipe extends ChangeNotifier {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://${AppState.serverDomain}/api/recipes/recipes/${recipe.id}'),
+            'http://${AppState.serverDomain}/api/recipes/recipes'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
