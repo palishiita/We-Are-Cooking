@@ -79,31 +79,13 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
             scrolledUnderElevation: 0.0,
             leading: const BackButton(),
             actions: [
-              PopupMenu(
-                  action1: PopupMenuAction.share,
-                  onPressed1: () => PopupMenuAction.shareAction(
-                      context,
-                      "Sharing recipe",
-                      "Have a look at this recipe: ",
-                      recipe.getUrl()),
-                  action2:
-                      recipe.author.compareTo(AppState.currentUser?.username ?? '') == 0
-                          ? PopupMenuAction.edit
-                          : AppState.currentUser!.isModerator
-                              ? PopupMenuAction.ban
-                              : PopupMenuAction.report,
-                  onPressed2: () => recipe.author.compareTo(AppState.currentUser?.username ?? '') == 0
-                      ? PopupMenuAction.editAction(context, recipe.id, recipeProvider!)
-                      : null
-                      //: AppState.currentUser!.isModerator
-                      //    ? PopupMenuAction.banAction(
-                      //        context, recipe.id, recipe.title, null, null, () {
-                      //        Navigator.of(context)
-                      //            .popUntil((route) => route.isFirst);
-                      //      })
-                      //    : PopupMenuAction.reportAction(
-                      //        context, recipe.id, recipe.title, null, null)
-                      )
+                IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () => PopupMenuAction.shareAction(
+                  context,
+                  "Sharing recipe",
+                  "Have a look at this recipe: ",
+                  recipe.getUrl()))
             ],
             flexibleSpace: AspectRatio(
                 aspectRatio: 4 / 3, child: RecipeCover(cover: recipe.image))),
