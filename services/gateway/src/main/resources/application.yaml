@@ -13,7 +13,7 @@ spring:
       registration.techstructure-keycloak:
         redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         client-id: wearecooking-gateway
-        client-secret: yXuau0SJRl3QVDJopgQ9GxpmL7Mav1FM
+        client-secret: ZzSeT4V53qCIITa16u4ssPOuUtYGkJNW
         provider: techstructure-keycloak
         authorization-grant-type: authorization_code
         scope: openid,profile,email
