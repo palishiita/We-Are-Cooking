@@ -8,7 +8,7 @@ import '../../entities/app_state.dart';
 import '../../entities/user.dart';
 import '../display/loading_indicator.dart';
 import 'home_tabs/recommended_tab.dart';
-import 'home_tabs/fridge_tab.dart';
+//import 'home_tabs/fridge_tab.dart';
 import 'home_tabs/cookbook_tab.dart';
 import 'login.dart';
 
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage>
                 controller: tabController,
                 children: const [
                   RecommendedTab(),
-                  FridgeTab(),
+                  //FridgeTab(),
                   CookbookTab(),
                 ],
               ))
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage>
           controller: tabController,
           tabs: const [
             Tab(text: 'Recommended'),
-            Tab(text: 'Fridge'),
+            //Tab(text: 'Fridge'),
             Tab(text: 'Cookbook'),
           ],
           indicatorColor: buttonColor,
