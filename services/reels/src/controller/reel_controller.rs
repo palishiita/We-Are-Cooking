@@ -280,7 +280,6 @@ async fn get_reels_by_user_id(
 ) -> Result<impl Responder, AppError> {
     log_request("Get: /reel/user", &app_state.connections);
 
-    // Pobierz UUID użytkownika z nagłówka X-Uuid
     let user_uuid = req
         .headers()
         .get("x-uuid")

@@ -273,8 +273,8 @@ class _RecommendedTabState extends State<RecommendedTab> {
               itemBuilder: (context, index) {
                 final recipe = testRecipes[index];
                 return Card(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 8),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -320,9 +320,8 @@ class _RecommendedTabState extends State<RecommendedTab> {
                                 recipe['saved']
                                     ? Icons.bookmark
                                     : Icons.bookmark_border,
-                                color: recipe['saved']
-                                    ? Colors.blue
-                                    : Colors.grey,
+                                color:
+                                    recipe['saved'] ? Colors.blue : Colors.grey,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -398,8 +397,11 @@ class _RecommendedTabState extends State<RecommendedTab> {
             mini: true,
             child: const Icon(Icons.video_library),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ReelsPage()),
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                barrierColor: Colors.transparent,
+                builder: (context) => const ReelsPage(),
               );
             },
           ),

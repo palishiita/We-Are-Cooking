@@ -40,6 +40,6 @@ spring:
           predicates:
             - Path=/api/recipesapi/**
         - id: reels
-          uri: "http://wrc-reels:7001"
+          uri: "http://wrc-reels-api:7000"
           predicates:
             - Path=/api/reels/**

@@ -99,8 +99,11 @@ class CookbookTab extends StatelessWidget {
             mini: true,
             child: const Icon(Icons.video_library),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ReelsPage()),
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                barrierColor: Colors.transparent,
+                builder: (context) => const ReelsPage(),
               );
             },
           ),
@@ -140,12 +143,27 @@ class CookbookTab extends StatelessWidget {
           Ingredient(id: 0, name: 'garlic', quantity: 0.5, unit: 'teaspoons'),
         ],
         tags: [
-          Tag(isPredefined: true, name: 'basil', category: TagCategory.ingredient),
-          Tag(isPredefined: true, name: 'bread', category: TagCategory.ingredient),
-          Tag(isPredefined: true, name: 'tomato', category: TagCategory.ingredient),
-          Tag(isPredefined: true, name: 'Italian', category: TagCategory.cuisine),
+          Tag(
+              isPredefined: true,
+              name: 'basil',
+              category: TagCategory.ingredient),
+          Tag(
+              isPredefined: true,
+              name: 'bread',
+              category: TagCategory.ingredient),
+          Tag(
+              isPredefined: true,
+              name: 'tomato',
+              category: TagCategory.ingredient),
+          Tag(
+              isPredefined: true,
+              name: 'Italian',
+              category: TagCategory.cuisine),
           Tag(isPredefined: false, name: 'no-bake', category: null),
-          Tag(isPredefined: false, name: 'cheap', category: TagCategory.expense),
+          Tag(
+              isPredefined: false,
+              name: 'cheap',
+              category: TagCategory.expense),
           Tag(isPredefined: true, name: 'fast', category: TagCategory.time),
         ],
       );
