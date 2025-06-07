@@ -40,7 +40,6 @@ namespace RecipesAPI.Controllers
         }
 #endif
 
-        // should add page count in the response
         [Route("recipes/full")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
@@ -66,6 +65,46 @@ namespace RecipesAPI.Controllers
             try
             {
                 var recipes = await _recipeService.GetAllFullRecipes(userId, count.Value, page.Value, orderByAsc.Value, sortBy, query, ct);
+
+                if (!recipes.Data.Any())
+                {
+                    return NotFound("No recipes matching the given query.");
+                }
+                return Ok(recipes);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("recipes/full/{selectedUserId:guid}")]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipes with full ingredient data.")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRecipesFull([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid selectedUserId, [FromQuery] int? count, [FromQuery] int? page, CancellationToken ct)
+        {
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
+
+            try
+            {
+                var recipes = await _recipeService.GetUserFullRecipes(userId, selectedUserId, count.Value, page.Value, ct);
 
                 if (!recipes.Data.Any())
                 {
