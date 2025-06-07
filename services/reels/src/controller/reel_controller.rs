@@ -128,20 +128,33 @@ async fn get_reels_with_videos_paginated(
     request_body = PostReel,
     responses(
         (status = 201, description = "Reel created successfully"),
+        (status = 400, description = "Bad request - Missing or invalid x-uuid header"),
         (status = 500, description = "Internal server error")
+    ),
+    security(
+        ("x-uuid" = [])
     ),
     tag = "Reels"
 )]
 #[post("/reel")]
 async fn post_reel(
+    req: HttpRequest,
     reel: web::Json<PostReel>,
     app_state: web::Data<AppState<'_>>,
-) -> impl Responder {
+) -> Result<impl Responder, AppError> {
     log_request("Post: /reel", &app_state.connections);
 
-    match app_state.reels_service.post_reel(reel.into_inner(), None).await {
-        Ok(_) => HttpResponse::Created().finish(),
-        Err(_) => HttpResponse::InternalServerError().finish(),
+    let posting_user_id = req
+        .headers()
+        .get("x-uuid")
+        .and_then(|h| h.to_str().ok())
+        .ok_or_else(|| AppError::BadRequest("Missing x-uuid header".into()))?
+        .parse::<Uuid>()
+        .map_err(|_| AppError::BadRequest("Invalid UUID format in x-uuid header".into()))?;
+
+    match app_state.reels_service.post_reel(reel.into_inner(), posting_user_id, None).await {
+        Ok(_) => Ok(HttpResponse::Created().finish()),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
 
@@ -154,18 +167,35 @@ async fn post_reel(
     ),
     responses(
         (status = 200, description = "Video uploaded successfully"),
-        (status = 400, description = "Invalid input")
+        (status = 400, description = "Bad request - Missing or invalid x-uuid header, or invalid input")
+    ),
+    security(
+        ("x-uuid" = [])
     ),
     description = r#"
+Upload a reel with video. Requires x-uuid header containing the posting user ID.
     "#,
     tag = "Reels"
 )]
 #[post("/reel-video")]
 async fn post_reel_with_video(
+    req: HttpRequest,
     mut payload: Multipart,
     app_state: web::Data<AppState<'_>>,
 ) -> impl Responder {
     log_request("Post: /reel-video", &app_state.connections);
+
+    let posting_user_id = match req
+        .headers()
+        .get("x-uuid")
+        .and_then(|h| h.to_str().ok())
+        .ok_or_else(|| AppError::BadRequest("Missing x-uuid header".into()))
+        .and_then(|uuid_str| uuid_str.parse::<Uuid>()
+            .map_err(|_| AppError::BadRequest("Invalid UUID format in x-uuid header".into())))
+    {
+        Ok(uuid) => uuid,
+        Err(e) => return Err(e),
+    };
 
     let mut video_metadata: Option<PostVideo> = None;
     let mut reel_metadata: Option<PostReel> = None;
@@ -209,16 +239,12 @@ async fn post_reel_with_video(
     let video_data = video_data
         .ok_or_else(|| AppError::BadRequest("Missing file field".into()))?;
     let file_name = file_name
-        .ok_or_else(|| AppError::BadRequest("Missing file name".into()))?;
-
-    let video_id = app_state
+        .ok_or_else(|| AppError::BadRequest("Missing file name".into()))?;    let video_id = app_state
         .video_service
-        .post_video(video_metadata, video_data, file_name)
-        .await?;
-
-    app_state
+        .post_video(video_metadata, posting_user_id, video_data, file_name)
+        .await?;    app_state
         .reels_service
-        .post_reel(reel_metadata, Some(video_id))
+        .post_reel(reel_metadata, posting_user_id, Some(video_id))
         .await?;
     
     Ok(HttpResponse::Ok().finish())
@@ -280,7 +306,6 @@ async fn get_reels_by_user_id(
 ) -> Result<impl Responder, AppError> {
     log_request("Get: /reel/user", &app_state.connections);
 
-    // Pobierz UUID użytkownika z nagłówka X-Uuid
     let user_uuid = req
         .headers()
         .get("x-uuid")

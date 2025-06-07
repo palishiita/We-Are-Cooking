@@ -1,6 +1,7 @@
 use actix_web::web::Data;
 use actix_web::{App, HttpServer, web};
 use actix_files::Files;
+use actix_cors::Cors;
 use reels_microservice::config::{Settings, get_configuration};
 use reels_microservice::dao::database_context::Database;
 use reels_microservice::openapi::ApiDoc;
@@ -27,10 +28,16 @@ async fn main() -> std::io::Result<()> {
         connections: Mutex::new(0),
         reels_service: reel_service,
         video_service: video_service,
-    });
-
-    let app = HttpServer::new(move || {
+    });    let app = HttpServer::new(move || {
         App::new()
+            .wrap(
+                Cors::default()
+                    .allowed_origin("http://localhost:8020")
+                    .allowed_origin("http://localhost:8000")
+                    .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+                    .allowed_headers(vec!["Content-Type", "Authorization", "Accept"])
+                    .supports_credentials()
+            )
             .app_data(app_state.clone())
             .configure(controller::init_health_controller)
             .configure(controller::init_reel_controller)

@@ -28,7 +28,7 @@ pub trait ReelRepository<'a>: Send + Sync {
         page: u32,
         limit: u32,
     ) -> Result<ReelWithVideos, AppError>;
-    async fn post_reel(&self, reel: PostReel, video_id: Option<Uuid>) -> Result<(), AppError>;
+    async fn post_reel(&self, reel: PostReel, posting_user_id: Uuid, video_id: Option<Uuid>) -> Result<(), AppError>;
     // async fn post_reel_with_video(
     //     &self,
     //     reel: PostReel,
@@ -36,7 +36,7 @@ pub trait ReelRepository<'a>: Send + Sync {
     //     file: BytesMut,
     //     file_name: String,
     // ) -> Result<(), AppError>;
-    async fn put_reel(&self, reel: PostReel) -> Result<(), actix_web::Error>;
+    // async fn put_reel(&self, reel: PostReel, posting_user_id: Uuid) -> Result<(), actix_web::Error>;
     async fn delete_reel_with_video(&self, reel_id: Uuid) -> Result<(), AppError>;
 }
 
@@ -98,16 +98,14 @@ impl<'a> ReelRepository<'a> for ReelService<'a> {
             Ok(reels_with_videos) => Ok(reels_with_videos),
             Err(e) => Err(AppError::InternalError(e.to_string())),
         }
-    }
-
-    async fn post_reel(&self, reel: PostReel, video_id: Option<Uuid>) -> Result<(), AppError> {
+    }    async fn post_reel(&self, reel: PostReel, posting_user_id: Uuid, video_id: Option<Uuid>) -> Result<(), AppError> {
         let reel_id: Uuid = Uuid::new_v4();
         let timestamp: NaiveDateTime = Utc::now().naive_utc();
 
         let reel: Reel = Reel {
             id: reel_id,
             video_id: video_id.unwrap_or(Uuid::new_v4()),
-            posting_user_id: reel.posting_user_id,
+            posting_user_id: posting_user_id,
             title: reel.title,
             description: reel.description,
             creation_timestamp: timestamp,
@@ -126,11 +124,9 @@ impl<'a> ReelRepository<'a> for ReelService<'a> {
     //     file_name: String,
     // ) -> Result<(), AppError> {
     //     todo!()
+    // }    async fn put_reel(&self, reel: PostReel, posting_user_id: Uuid) -> Result<(), actix_web::Error> {
+    //     todo!()
     // }
-
-    async fn put_reel(&self, reel: PostReel) -> Result<(), actix_web::Error> {
-        todo!()
-    }
 
     async fn delete_reel_with_video(&self, reel_id: Uuid) -> Result<(), AppError> {
         match self.db.reels.delete_reel(reel_id).await {

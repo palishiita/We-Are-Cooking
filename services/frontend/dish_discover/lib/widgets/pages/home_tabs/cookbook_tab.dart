@@ -100,8 +100,11 @@ class CookbookTab extends StatelessWidget {
             mini: true,
             child: const Icon(Icons.video_library),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ReelsPage()),
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                barrierColor: Colors.transparent,
+                builder: (context) => const ReelsPage(),
               );
             },
           ),
