@@ -26,6 +26,7 @@ class RecipeResponse {
   });
 
   factory RecipeResponse.fromJson(Map<String, dynamic> json) {
+    print('Json data: $json');
     return RecipeResponse(
       data: (json['data'] as List)
           .map((item) => Recipe.fromJson(item))
@@ -52,9 +53,9 @@ class UserData {
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
-      userId: json['userId'] ?? '',
-      username: json['username'] ?? '',
-      imageUrl: json['imageUrl'],
+      userId: json['userId']?.toString() ?? '',
+    username: json['username']?.toString() ?? '',
+    imageUrl: json['imageUrl']?.toString(),
     );
   }
 
@@ -71,7 +72,7 @@ class UserData {
 class RecipeIngredient {
   final String ingredientId;
   final String name;
-  final String description;
+  String? description;
   final double quantity;
   final String unitId;
   final String unit;
@@ -79,7 +80,7 @@ class RecipeIngredient {
   RecipeIngredient({
     required this.ingredientId,
     required this.name,
-    required this.description,
+    this.description,
     required this.quantity,
     required this.unitId,
     required this.unit,
@@ -87,7 +88,7 @@ class RecipeIngredient {
 
   factory RecipeIngredient.fromJson(Map<String, dynamic> json) {
     return RecipeIngredient(
-      ingredientId: json['ingredientId'] ?? '',
+      ingredientId: json['id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       quantity: (json['quantity'] ?? 0).toDouble(),
@@ -149,9 +150,8 @@ class Recipe extends ChangeNotifier {
       description: json['description'] ?? '',
       userData: json['userData'] != null 
           ? UserData.fromJson(json['userData']) 
-          : null,
+          : UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'User not found'),
     );
-
     // Parse ingredients
     if (json['ingredients'] != null) {
       recipe.ingredients = (json['ingredients'] as List)
@@ -249,10 +249,14 @@ class Recipe extends ChangeNotifier {
         queryParams['sortBy'] = sortBy;
       }
       queryParams['orderByAsc'] = orderByAsc.toString();
-      
+      //final uri = Uri.http(
+      //  AppState.serverDomain,
+      //  '/api/recipes/recipes/full',
+      //  queryParams
+      //);
 
       final uri = Uri.http(
-        AppState.serverDomain,
+        'localhost:7140',
         '/api/recipes/recipes/full',
         queryParams
       );
@@ -292,7 +296,8 @@ class Recipe extends ChangeNotifier {
      };
 
       final response = await http.get(Uri.parse(
-          'http://${AppState.serverDomain}/api/recipes/recipes/$recipeId'), headers: requestHeaders);
+          'http://localhost:7140/api/recipes/recipes/$recipeId'));
+          //'http://${AppState.serverDomain}/api/recipes/recipes/$recipeId'));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);

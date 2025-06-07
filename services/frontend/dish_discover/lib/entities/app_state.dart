@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 abstract class AppState {
   static const String serverDomain =
-      kDebugMode ? "localhost:7140" : "localhost:7140";
+      kDebugMode ? "localhost:8000" : "localhost:8000";
   static const String clientDomain =
       kDebugMode ? "localhost:????" : "localhost:????";
   static String? loginToken;

@@ -15,11 +15,15 @@ class RecipeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('Recipe card build start.');
     Recipe recipe = ref.watch(recipeProvider);
+    print('Recipe on card: $recipe');
     
     // Updated to use new Recipe model properties
     String authorUsername = recipe.userData?.username ?? 'Unknown';
     String recipeTitle = recipe.name;
+
+    print('Recipe by $authorUsername named $recipeTitle');
 
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
@@ -35,10 +39,12 @@ class RecipeCard extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                       ListTile(
-                          leading: UserAvatar(
-                              username: authorUsername,
-                              image: recipe.authorAvatar, // This might need updating too
-                              diameter: 30),
+                        leading: CircleAvatar(
+                            radius: 15,
+                            backgroundImage: recipe.authorAvatar?.image,
+                            child: recipe.authorAvatar?.image == null 
+                                ? Text(authorUsername.isNotEmpty ? authorUsername[0].toUpperCase() : 'U')
+                                : null),
                           title: Text(recipeTitle,
                               softWrap: true, overflow: TextOverflow.ellipsis),
                           subtitle: GestureDetector(
@@ -47,21 +53,16 @@ class RecipeCard extends ConsumerWidget {
                                       UserPage(username: authorUsername))),
                               child: Text(authorUsername, softWrap: true)),
                           trailing: PopupMenu(
-                              action1: PopupMenuAction.share,
-                              onPressed1: () => PopupMenuAction.shareAction(
-                                  context,
-                                  "Sharing recipe",
-                                  "Have a look at this recipe: ",
-                                  recipe.getUrl()),
-                              action2: authorUsername ==
-                                      AppState.currentUser!.username
-                                  ? PopupMenuAction.edit
-                                  : AppState.currentUser!.isModerator
-                                      ? PopupMenuAction.ban
-                                      : PopupMenuAction.report,
-                              onPressed2: () => authorUsername == AppState.currentUser!.username
-                                  ? PopupMenuAction.editAction(context, recipe.id, recipeProvider)
-                                  : {})),
+                            action1: PopupMenuAction.share,
+                            onPressed1: () => PopupMenuAction.shareAction(
+                                context,
+                                "Sharing recipe",
+                                "Have a look at this recipe: ",
+                                recipe.getUrl()),
+                            action2: PopupMenuAction.edit,
+                            onPressed2: authorUsername == (AppState.currentUser?.username ?? '')
+                                ? () => PopupMenuAction.editAction(context, recipe.id, recipeProvider)
+                                : null)),
                                   //: AppState.currentUser!.isModerator
                                   //    ? PopupMenuAction.banAction(
                                   //        context,
