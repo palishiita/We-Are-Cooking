@@ -100,36 +100,16 @@ class _UserPageState extends ConsumerState<UserPage> {
                         context,
                         "Sharing user",
                         "Have a look at this: ",
-                        user.getUrl()))                    
-                      //PopupMenu(
-                    //  action1: PopupMenuAction.share,
-                    //  onPressed1: () => PopupMenuAction.shareAction(
-                    //      context,
-                    //      "Sharing user",
-                    //      "Have a look at this: ",
-                    //      user.getUrl()),
-                    //  action2: AppState.currentUser!.isModerator
-                    //      ? PopupMenuAction.ban
-                    //      : PopupMenuAction.report,
-                    //  onPressed2: () => AppState.currentUser!.isModerator
-                    //      ? PopupMenuAction.banAction(
-                    //          context, null, user.username, null, user.username,
-                    //          () {
-                    //          Navigator.of(context)
-                    //              .popUntil((route) => route.isFirst);
-                    //        })
-                    //      : PopupMenuAction.reportAction(context, null,
-                    //          user.username, null, user.username))
+                        user.getUrl()))
             ]),
-        body: Flex(
-            direction: Axis.vertical,
+        body: SingleChildScrollView(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               UserHeader(userProvider: userProvider!),
-            //  RecipeList(
-            //      getRecipes: () =>
-            //          Future<List<Recipe>>(() => (user.addedRecipes))) // this is not implemented, sorry
+              // RecipeList can be added here if implemented
             ]),
+        ),
         floatingActionButton: isCurrentUser
             ? FloatingActionButton(
                 shape: const CircleBorder(),
@@ -151,7 +131,9 @@ class _UserPageState extends ConsumerState<UserPage> {
                       Recipe newRecipe = Recipe(
                           id: '',
                           name: titleController.text,
-                          userData: UserData(userId: '', username: AppState.currentUser!.username)); // this should be the user id got from token
+                          userData: UserData(
+                              userId: AppState.currentUser!.userId,
+                              username: AppState.currentUser!.username));
                       AppState.currentUser!.addRecipe(newRecipe);
                       Future.microtask(() => Navigator.of(context).push(
                           MaterialPageRoute(
