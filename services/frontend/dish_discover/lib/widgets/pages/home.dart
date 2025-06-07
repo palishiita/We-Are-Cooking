@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    // tabController = TabController(length: 3, vsync: this); when the reels are added, change to the bottom
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
