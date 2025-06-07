@@ -106,7 +106,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     return double.tryParse(s) ?? 0;
   }
 
-  String ingredientToString(Ingredient ingredient) {
+  String ingredientToStringOld(Ingredient ingredient) {
     String amount = doubleToString(ingredient.quantity * multiplier);
     String units = ingredient.unit == null || ingredient.unit!.isEmpty
         ? ''
@@ -114,7 +114,13 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     return "${ingredient.name}: $amount$units";
   }
 
-  // I guess its different now
+  String ingredientToString(RecipeIngredient ingredient, int index) {
+    String amount = doubleToString(ingredient.quantity * multiplier);
+    String units = ingredient.unit.isEmpty ? '' : ' ${ingredient.unit}';
+    return "${ingredient.name} #${index + 1} - $amount$units";
+  }
+
+  // I guess its different now, at least should be
   void callIngredientDialog(bool add, Recipe recipe, int? index) {
     if (add) {
       nameController.text = '';
@@ -124,7 +130,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     } else {
       nameController.text = recipe.ingredients[index!].name;
       quantityController.text = recipe.ingredients[index].quantity.toString();
-      unitController.text = recipe.ingredients[index].unit?.toString() ?? '';
+      unitController.text = recipe.ingredients[index].unit;
     }
 
     CustomDialog.callDialog(
@@ -164,7 +170,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     });
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     Recipe recipe = ref.watch(widget.recipeProvider);
 
@@ -181,22 +187,31 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
                           onPressed: () =>
                               callIngredientDialog(true, recipe, null),
                           icon: const Icon(Icons.add))
-                      : MultiplierField(
-                          controller: multiplierController,
-                          focusNode: focusNode,
-                          hintText: 'N',
-                          maxLength: 4,
-                          width: 90,
-                          height: 45,
-                          onChanged: (value) => setState(() {
-                                multiplier = stringToDouble(value);
-                                multiplierController.text =
-                                    doubleToString(multiplier);
-                              }),
-                          leadingIcon: const Icon(
-                            Icons.clear,
-                            size: 16,
-                          )))),
+                      : Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Quantity multiplier:",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            const SizedBox(width: 8),
+                            MultiplierField(
+                                controller: multiplierController,
+                                focusNode: focusNode,
+                                hintText: 'N',
+                                maxLength: 4,
+                                width: 90,
+                                height: 45,
+                                onChanged: (value) => setState(() {
+                                      multiplier = stringToDouble(value);
+                                      multiplierController.text =
+                                          doubleToString(multiplier);
+                                    }),
+                                leadingIcon: const Icon(
+                                  Icons.clear,
+                                  size: 16,
+                                ))
+                          ],))),
           Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
@@ -231,19 +246,20 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
                                                                 index]),
                                                     icon: const Icon(
                                                         Icons.close)),
-                                                InkWell(
-                                                    onTap: () =>
-                                                        callIngredientDialog(
-                                                            false,
-                                                            recipe,
-                                                            index),
-                                                    child: Text(
-                                                        "  ${recipe.ingredients[index].name}",
-                                                        overflow: TextOverflow
-                                                            .ellipsis))
+                                                Expanded(
+                                                    child: InkWell(
+                                                        onTap: () =>
+                                                            callIngredientDialog(
+                                                                false,
+                                                                recipe,
+                                                                index),
+                                                        child: Text(
+                                                            "  ${recipe.ingredients[index].name} #${index + 1} - ${doubleToString(recipe.ingredients[index].quantity)} ${recipe.ingredients[index].unit}",
+                                                            overflow: TextOverflow
+                                                                .ellipsis)))
                                               ])
                                         : Text(
-                                            "\u2022  ${recipe.ingredients[index].name}",
+                                            "\u2022  ${recipe.ingredients[index].name} #${index + 1} - ${doubleToString(recipe.ingredients[index].quantity * multiplier)} ${recipe.ingredients[index].unit}",
                                             overflow: TextOverflow.ellipsis)))))
                   ]))
         ])));
