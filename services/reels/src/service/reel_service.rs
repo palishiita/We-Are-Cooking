@@ -36,7 +36,7 @@ pub trait ReelRepository<'a>: Send + Sync {
     //     file: BytesMut,
     //     file_name: String,
     // ) -> Result<(), AppError>;
-    async fn put_reel(&self, reel: PostReel, posting_user_id: Uuid) -> Result<(), actix_web::Error>;
+    // async fn put_reel(&self, reel: PostReel, posting_user_id: Uuid) -> Result<(), actix_web::Error>;
     async fn delete_reel_with_video(&self, reel_id: Uuid) -> Result<(), AppError>;
 }
 
