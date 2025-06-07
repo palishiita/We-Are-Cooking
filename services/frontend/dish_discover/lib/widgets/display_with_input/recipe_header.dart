@@ -4,9 +4,7 @@ import 'package:dish_discover/widgets/pages/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../entities/app_state.dart';
-import '../../entities/recipe.dart';
-import 'like_save_indicator.dart';
+import '../../entities/new_recipe.dart';
 
 class RecipeHeader extends ConsumerStatefulWidget {
   final ChangeNotifierProvider<Recipe> recipeProvider;
@@ -40,12 +38,6 @@ class _RecipeHeaderState extends ConsumerState<RecipeHeader> {
 
   Widget notEditable(BuildContext context, WidgetRef ref) {
     Recipe recipe = ref.watch(widget.recipeProvider);
-    bool likedRecipe = AppState.currentUser!.username == recipe.author
-        ? true
-        : AppState.currentUser!.likedRecipes.contains(recipe);
-    bool savedRecipe = AppState.currentUser!.username == recipe.author
-        ? true
-        : AppState.currentUser!.savedRecipes.contains(recipe);
 
     return Flex(
         direction: Axis.vertical,
@@ -71,20 +63,6 @@ class _RecipeHeaderState extends ConsumerState<RecipeHeader> {
                       maxLines: 50,
                       softWrap: true,
                       overflow: TextOverflow.ellipsis))),
-          LikeSaveIndicator(
-              likeButtonEnabled: likedRecipe,
-              likeCount: recipe.likeCount,
-              onLikePressed: AppState.currentUser!.username == recipe.author
-                  ? null
-                  : () => AppState.currentUser!
-                      .switchLikeRecipe(recipe, !likedRecipe),
-              saveButtonEnabled: savedRecipe,
-              saveCount: recipe.saveCount, // recipe.saves
-              onSavePressed: AppState.currentUser!.username == recipe.author
-                  ? null
-                  : () => AppState.currentUser!
-                      .switchSaveRecipe(recipe, !savedRecipe),
-              center: true),
           const Divider(height: 2)
         ]);
   }

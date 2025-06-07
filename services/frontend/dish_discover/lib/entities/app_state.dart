@@ -1,4 +1,4 @@
-import 'package:dish_discover/entities/ticket.dart';
+//import 'package:dish_discover/entities/ticket.dart';
 import 'package:dish_discover/entities/user.dart';
 import 'package:flutter/foundation.dart';
 
@@ -10,7 +10,7 @@ abstract class AppState {
   static String? loginToken;
   static User? currentUser;
   static bool userDataLoaded = false;
-  static Ticket? currentTicket;
+  //static Ticket? currentTicket;
 
   static const markdownTestText = """
   ---

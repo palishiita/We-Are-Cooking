@@ -75,7 +75,16 @@ class UserHeader extends ConsumerWidget {
                               descriptionController.text;
                           AppState.currentUser!.notifyListeners();
                         })))
-          ])
+          ]),
+          //LikeSaveIndicator(
+          //    likeButtonEnabled: true,
+          //    likeCount: user.likesTotal,
+          //    onLikePressed: null,
+          //    saveButtonEnabled: true,
+          //    saveCount: user.savesTotal,
+          //    onSavePressed: null,
+          //    center: true),
+          const Divider(height: 2)
         ]);
   }
 }

@@ -49,7 +49,7 @@ class TagChip extends StatelessWidget {
             onSelected: (value) => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => SearchPage(
                       searchPhrase: "",
-                      filter: [tag],
+                      //filter: [tag],
                     ))))
         // deletable
         : InputChip(
