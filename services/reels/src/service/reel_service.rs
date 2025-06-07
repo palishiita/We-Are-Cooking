@@ -125,8 +125,8 @@ impl<'a> ReelRepository<'a> for ReelService<'a> {
     // ) -> Result<(), AppError> {
     //     todo!()
     // }    async fn put_reel(&self, reel: PostReel, posting_user_id: Uuid) -> Result<(), actix_web::Error> {
-        todo!()
-    }
+    //     todo!()
+    // }
 
     async fn delete_reel_with_video(&self, reel_id: Uuid) -> Result<(), AppError> {
         match self.db.reels.delete_reel(reel_id).await {
