@@ -7,11 +7,8 @@ import '../../entities/app_state.dart';
 import '../../entities/new_recipe.dart';
 import '../display/loading_indicator.dart';
 import '../display/recipe_cover.dart';
-import '../display_with_input/comments_box.dart';
 import '../display_with_input/ingredients_box.dart';
 import '../display_with_input/recipe_header.dart';
-import '../display_with_input/steps_box.dart';
-import '../display_with_input/tags_box.dart';
 
 class ViewRecipePage extends ConsumerStatefulWidget {
   static const routeName = "/recipe";
@@ -32,6 +29,7 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
   void initState() {
     super.initState();
     recipeProvider = widget.recipeProvider;
+    print('Initializing recipe view.');
   }
 
   @override
@@ -40,6 +38,7 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
   }
 
   Widget loading() {
+    print('Loading recipe view.');
     return FutureBuilder(
         future: Future<Recipe>(() => Recipe.getRecipe(widget.recipeId)),
         builder: (context, recipeData) {
@@ -58,7 +57,10 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
             }
-          } else {
+          } 
+          else 
+          {
+            print('Recipe data is ${recipeData.data.toString()}');
             recipe = recipeData.data!;
           }
 
@@ -85,13 +87,12 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
                       "Have a look at this recipe: ",
                       recipe.getUrl()),
                   action2:
-                      recipe.author.compareTo(AppState.currentUser!.username) ==
-                              0
+                      recipe.author.compareTo(AppState.currentUser?.username ?? '') == 0
                           ? PopupMenuAction.edit
                           : AppState.currentUser!.isModerator
                               ? PopupMenuAction.ban
                               : PopupMenuAction.report,
-                  onPressed2: () => recipe.author.compareTo(AppState.currentUser!.username) == 0
+                  onPressed2: () => recipe.author.compareTo(AppState.currentUser?.username ?? '') == 0
                       ? PopupMenuAction.editAction(context, recipe.id, recipeProvider!)
                       : null
                       //: AppState.currentUser!.isModerator

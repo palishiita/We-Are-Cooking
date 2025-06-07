@@ -26,7 +26,7 @@ class RecipeResponse {
   });
 
   factory RecipeResponse.fromJson(Map<String, dynamic> json) {
-    print('Json data: $json');
+    //print('Json data: $json');
     return RecipeResponse(
       data: (json['data'] as List)
           .map((item) => Recipe.fromJson(item))
@@ -233,8 +233,6 @@ class Recipe extends ChangeNotifier {
         'count': count.toString(),
         'page': page.toString(),
       };
-
-      print('Building query.');
 
       Map<String, String> requestHeaders = {
        'Content-type': 'application/json',

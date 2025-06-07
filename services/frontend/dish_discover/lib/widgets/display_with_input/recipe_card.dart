@@ -15,15 +15,15 @@ class RecipeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('Recipe card build start.');
+    //print('Recipe card build start.');
     Recipe recipe = ref.watch(recipeProvider);
-    print('Recipe on card: $recipe');
+    //print('Recipe on card: $recipe');
     
     // Updated to use new Recipe model properties
     String authorUsername = recipe.userData?.username ?? 'Unknown';
     String recipeTitle = recipe.name;
 
-    print('Recipe by $authorUsername named $recipeTitle');
+    //print('Recipe by $authorUsername named $recipeTitle');
 
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
@@ -63,17 +63,6 @@ class RecipeCard extends ConsumerWidget {
                             onPressed2: authorUsername == (AppState.currentUser?.username ?? '')
                                 ? () => PopupMenuAction.editAction(context, recipe.id, recipeProvider)
                                 : null)),
-                                  //: AppState.currentUser!.isModerator
-                                  //    ? PopupMenuAction.banAction(
-                                  //        context,
-                                  //        recipe.id,
-                                  //        recipeTitle,
-                                  //        null,
-                                  //        null,
-                                  //        () { // TODO
-                                  //          })
-                                  //    : PopupMenuAction.reportAction(
-                                  //        context, recipe.id, recipeTitle, null, null))),
                       const Divider(height: 1.0),
                       Flexible(child: RecipeCover(cover: recipe.image)),
                       // Removed like/save/tags section

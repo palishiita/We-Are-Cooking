@@ -10,7 +10,9 @@ import 'no_results_card.dart';
 class RecipeList extends StatefulWidget {
   // Updated to use RecipeResponse instead of List<Recipe>
   final Future<RecipeResponse> Function() getRecipes;
-  const RecipeList({super.key, required this.getRecipes});
+  final String? searchQuery;
+  const RecipeList({super.key, required this.getRecipes, this.searchQuery});
+  
 
   @override
   State<StatefulWidget> createState() => _RecipeListState();
@@ -18,17 +20,46 @@ class RecipeList extends StatefulWidget {
 
 class _RecipeListState extends State<RecipeList> {
   late ScrollController scrollController;
+  late Future<RecipeResponse> _recipesFuture;
+  bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
+    _recipesFuture = widget.getRecipes();
+  }
+
+  @override
+  void didUpdateWidget(RecipeList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_isDisposed && oldWidget.searchQuery != widget.searchQuery) {
+      // Refresh the recipes when search query changes
+      _refreshRecipes();
+    }
+  }
+
+  void _refreshRecipes() {
+    if (!_isDisposed) {
+      setState(() {
+        _recipesFuture = widget.getRecipes();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    if (scrollController.hasClients) {
+      scrollController.dispose();
+    }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<RecipeResponse>(
-        future: widget.getRecipes(),
+        future: _recipesFuture, // Use the stored future instead of calling getRecipes() again
         builder: (context, snapshot) {
           // Handle loading state
           if (snapshot.connectionState != ConnectionState.done) {
@@ -60,22 +91,19 @@ class _RecipeListState extends State<RecipeList> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Showing ${recipes.length} of $totalElements recipes (Page ${currentPage + 1} of $totalPages)',
+                      'Showing ${recipes.length} of $totalElements recipes (Page $currentPage of $totalPages)',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   // Recipe list
                   Expanded(
-                    child: ScrollToTop(
-                        btnColor: buttonColor,
-                        scrollController: scrollController,
-                        child: ListView.builder(
-                            controller: scrollController,
-                            itemCount: recipes.length,
-                            itemBuilder: (context, index) => RecipeCard(
-                                recipeProvider:
-                                    ChangeNotifierProvider<Recipe>(
-                                        (ref) => recipes[index])))),
+                    child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: recipes.length,
+                        itemBuilder: (context, index) => RecipeCard(
+                            recipeProvider:
+                                ChangeNotifierProvider<Recipe>(
+                                    (ref) => recipes[index]))),
                   ),
                 ],
               ));

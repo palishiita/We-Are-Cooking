@@ -1,72 +1,65 @@
-import 'package:dish_discover/widgets/dialogs/filter_side_menu.dart';
 import 'package:dish_discover/widgets/inputs/custom_search_bar.dart';
 import 'package:dish_discover/widgets/style/style.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/new_recipe.dart';
-import '../../entities/tag.dart';
 import '../display/recipe_list.dart';
 
 class SearchPage extends StatefulWidget {
   static const routeName = "/search";
   final String searchPhrase;
-  final List<Tag>? filter;
 
-  const SearchPage({super.key, required this.searchPhrase, this.filter});
+  const SearchPage({super.key, required this.searchPhrase});
 
   @override
   State<StatefulWidget> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late List<Tag> currentFilter;
   late String searchPhrase;
-
+  late String currentSearchTerm; // The term being typed
+  
   @override
   void initState() {
     super.initState();
-    currentFilter = widget.filter ?? [];
     searchPhrase = widget.searchPhrase;
+    currentSearchTerm = widget.searchPhrase;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
+  void _onSearchSubmitted(String submittedSearchPhrase) {
+    setState(() {
+      searchPhrase = submittedSearchPhrase;
+    });
+  }
 
+ @override
+  Widget build(BuildContext context) {
     return Scaffold(
-  key: scaffoldKey,
-  appBar: AppBar(
-    toolbarHeight: appBarHeight,
-    scrolledUnderElevation: 0.0,
-    title: const Text('Search'),
-    centerTitle: true,
-    leading: const BackButton(),
-    actions: [
-      IconButton(
-          onPressed: () => scaffoldKey.currentState!.openEndDrawer(),
-          icon: const Icon(Icons.tune_rounded))
-    ],
-  ),
-  body: Flex(
-      direction: Axis.vertical,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CustomSearchBar(
-            initialSearchPhrase: searchPhrase, 
-            goToSearchPage: false),
-        RecipeList(
-            getRecipes: () => Recipe.getRecipes(
-              query: searchPhrase.isEmpty ? null : searchPhrase,
-              count: 10,        // You can adjust this
-              page: 1,          // For pagination later
-              sortBy: null,     // Add sorting if needed
-              orderByAsc: true, // Default sort order
-            ))
-      ]),
-  endDrawer: FilterSideMenu(
-      filter: currentFilter,
-      onFilter: (newFilter) => setState(() {
-            currentFilter = newFilter;
-          })));
+      appBar: AppBar(
+        toolbarHeight: appBarHeight,
+        scrolledUnderElevation: 0.0,
+        title: const Text('Search'),
+        centerTitle: true,
+        leading: const BackButton(),
+      ),
+      body: Flex(
+          direction: Axis.vertical,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomSearchBar(
+                initialSearchPhrase: searchPhrase, 
+                goToSearchPage: false,
+                onSearch: _onSearchSubmitted), // Only rebuild on submit
+            RecipeList(
+                searchQuery: searchPhrase, // Pass search as parameter
+                getRecipes: () => Recipe.getRecipes(
+                  query: searchPhrase.isEmpty ? null : searchPhrase,
+                  count: 10,
+                  page: 1,
+                  sortBy: null,
+                  orderByAsc: true,
+                ))
+          ]),
+    );
   }
 }
