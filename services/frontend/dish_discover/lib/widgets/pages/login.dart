@@ -94,45 +94,45 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         appBar:
             AppBar(toolbarHeight: appBarHeight, scrolledUnderElevation: 0.0),
-        body: SingleChildScrollView(
+        body: Center(
             child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Flex(
-                    direction: Axis.vertical,
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Image.asset('assets/images/logo.png', scale: 0.7),
-                      SizedBox(height: 5),
-                      errorMessage == null
-                          ? Container()
-                          : ValidationMessage(message: errorMessage!),
-                      CustomTextField(
-                          controller: usernameController, hintText: 'Username'),
-                      CustomTextField(
-                          controller: passwordController,
-                          hintText: 'Password',
-                          obscure: true),
-                      Align(
-                          widthFactor: 200,
-                          alignment: Alignment.centerLeft,
-                          child: TextButton(
-                              onPressed: showRecoverPassword,
-                              child: Text('Recover password',
-                                  style: textStyle.merge(const TextStyle(
-                                      decoration: TextDecoration.underline))))),
-                      Align(
-                          widthFactor: 200,
-                          alignment: Alignment.bottomRight,
-                          child: OutlinedButton(
-                              onPressed: login,
-                              child: Text('Login', style: textStyle)))
-                    ]))),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Image.asset('assets/images/logo.png', height: 200),
+                        ),
+                        if (errorMessage != null)
+                          ValidationMessage(message: errorMessage!),
+                        CustomTextField(
+                            controller: usernameController, hintText: 'Username'),
+                        CustomTextField(
+                            controller: passwordController,
+                            hintText: 'Password',
+                            obscure: true),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextButton(
+                                onPressed: showRecoverPassword,
+                                child: Text('Recover password',
+                                    style: textStyle.merge(const TextStyle(
+                                        decoration: TextDecoration.underline))))),
+                        Align(
+                            alignment: Alignment.bottomRight,
+                            child: OutlinedButton(
+                                onPressed: login,
+                                child: Text('Login', style: textStyle))),
+                      ]),
+                ))),
         bottomNavigationBar: Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
-            child: Flex(
-                direction: Axis.vertical,
+            child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

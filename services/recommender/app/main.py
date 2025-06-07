@@ -57,6 +57,14 @@ def read_root():
 def health_check():
     return {"status": "ok"}
 
+@app.get("/recipes")
+def get_all_recipes():
+    return recipes_df.to_dict(orient='records')
+
+@app.get("/reviews")
+def get_all_reviews():
+    return reviews_df.to_dict(orient='records')
+
 @app.post("/recommend/content")
 def recommend_content(req: RecommendationRequest):
     ids = content_rec.recommend(req.user_id, req.top_n)

@@ -114,15 +114,18 @@ class _UserPageState extends ConsumerState<UserPage> {
                           : PopupMenuAction.reportAction(context, null,
                               user.username, null, user.username))
             ]),
-        body: Flex(
-            direction: Axis.vertical,
+        body: SingleChildScrollView(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Remove heart and saved buttons from UserHeader implementation if needed
               UserHeader(userProvider: userProvider!),
               RecipeList(
                   getRecipes: () =>
                       Future<List<Recipe>>(() => (user.addedRecipes)))
-            ]),
+            ],
+          ),
+        ),
         floatingActionButton: isCurrentUser
             ? FloatingActionButton(
                 shape: const CircleBorder(),

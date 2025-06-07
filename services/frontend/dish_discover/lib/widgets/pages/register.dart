@@ -101,35 +101,41 @@ class _RegisterPageState extends State<RegisterPage> {
             toolbarHeight: appBarHeight,
             scrolledUnderElevation: 0.0,
             leading: const BackButton()),
-        body: SingleChildScrollView(
+        body: Center(
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-                child: Flex(
-                    direction: Axis.vertical,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Image.asset('assets/images/logo.png', scale: 0.7),
-                      errorMessage == null
-                          ? Container()
-                          : ValidationMessage(message: errorMessage!),
-                      CustomTextField(
-                          controller: usernameController, hintText: 'Username'),
-                      CustomTextField(
-                          controller: emailController, hintText: 'Email'),
-                      CustomTextField(
-                          controller: passwordController,
-                          hintText: 'Password',
-                          obscure: true),
-                      CustomTextField(
-                          controller: repeatPasswordController,
-                          hintText: 'Repeat password',
-                          obscure: true),
-                      Align(
-                          alignment: Alignment.bottomRight,
-                          child: OutlinedButton(
-                              child: Text('Register', style: textStyle),
-                              onPressed: register))
-                    ]))),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Image.asset('assets/images/logo.png', height: 200),
+                        ),
+                        if (errorMessage != null)
+                          ValidationMessage(message: errorMessage!),
+                        CustomTextField(
+                            controller: usernameController, hintText: 'Username'),
+                        CustomTextField(
+                            controller: emailController, hintText: 'Email'),
+                        CustomTextField(
+                            controller: passwordController,
+                            hintText: 'Password',
+                            obscure: true),
+                        CustomTextField(
+                            controller: repeatPasswordController,
+                            hintText: 'Repeat password',
+                            obscure: true),
+                        Align(
+                            alignment: Alignment.bottomRight,
+                            child: OutlinedButton(
+                                child: Text('Register', style: textStyle),
+                                onPressed: register))
+                      ]),
+                ))),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: TextButton(
