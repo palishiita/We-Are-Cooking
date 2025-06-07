@@ -1,9 +1,11 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'models.dart';
 import 'reels_service.dart';
 import 'upload_dialog.dart';
 import 'reel_video_page.dart';
+import '../../style/style.dart';
 
 class ReelsPage extends StatefulWidget {
   const ReelsPage({super.key});
@@ -40,10 +42,9 @@ class _ReelsPageState extends State<ReelsPage> {
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Upload successful!')),
-          );
-          setState(() {
+          );          setState(() {
             _reelsFuture =
-                ReelsService.fetchReelsWithVideos(); // Refresh the list
+                ReelsService.fetchReelsWithVideos();
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -53,28 +54,35 @@ class _ReelsPageState extends State<ReelsPage> {
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: FutureBuilder<List<ReelWithVideo>>(
-        future: _reelsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(); // No loading indicator
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          final reelsWithVideos = snapshot.data ?? [];
-          if (reelsWithVideos.isEmpty) {
-            return const Center(child: Text('No reels yet. Upload one!'));
-          }
+      child: Stack(
+        fit: StackFit.expand,        children: [
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                color: Colors.black.withOpacity(0.3),
+              ),
+            ),
+          ),
+          
+          FutureBuilder<List<ReelWithVideo>>(
+            future: _reelsFuture,            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+              final reelsWithVideos = snapshot.data ?? [];
+              if (reelsWithVideos.isEmpty) {
+                return const Center(child: Text('No reels yet. Upload one!'));
+              }
 
-          return Stack(
-            children: [
-              PageView.builder(
+              return PageView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: reelsWithVideos.length,
                 itemBuilder: (context, index) {
@@ -87,23 +95,70 @@ class _ReelsPageState extends State<ReelsPage> {
                     video: video,
                   );
                 },
-              ),
-              // Floating upload button
-              Positioned(
-                top: 50,
-                right: 20,
-                child: SafeArea(
-                  child: FloatingActionButton(
-                    onPressed: _uploadReel,
-                    backgroundColor: Colors.white.withOpacity(0.8),
-                    child: const Icon(Icons.upload, color: Colors.black),
-                    tooltip: 'Upload Reel',
+              );
+            },          ),
+          
+          Positioned(
+            top: 50,
+            left: 20,
+            child: SafeArea(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: baseColor.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: baseColor.withOpacity(0.3),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 8,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 24,
                   ),
                 ),
               ),
-            ],
-          );
-        },
+            ),
+          ),
+          
+          Positioned(
+            top: 50,
+            right: 20,
+            child: SafeArea(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: baseColor.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: baseColor.withOpacity(0.3),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 8,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  onPressed: _uploadReel,
+                  icon: const Icon(Icons.upload, color: Colors.white),
+                  tooltip: 'Upload Reel',
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

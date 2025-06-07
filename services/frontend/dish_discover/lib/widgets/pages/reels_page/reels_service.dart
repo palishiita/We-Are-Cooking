@@ -21,11 +21,8 @@ class ReelsService {
         final List<dynamic> reelsData = responseData['reels'];
         final List<dynamic> videosData = responseData['videos'];
 
-        List<ReelWithVideo> reelsWithVideos = [];
-
-        for (var reelJson in reelsData) {
+        List<ReelWithVideo> reelsWithVideos = [];        for (var reelJson in reelsData) {
           final reel = Reel.fromJson(reelJson);
-          // Find the corresponding video by video_id
           final videoJson = videosData.firstWhere(
             (video) => video['id'] == reel.videoId,
             orElse: () => null,
@@ -53,27 +50,21 @@ class ReelsService {
     required String fileName,
     required Map<String, String> metadata,
   }) async {
-    try {
-      final uri = Uri.parse('$baseUrl/reel-video');
+    try {      final uri = Uri.parse('$baseUrl/reel-video');
       final request = http.MultipartRequest('POST', uri);
 
-      // Add the video file from bytes
       request.files.add(http.MultipartFile.fromBytes(
         'file',
         fileBytes,
-        filename: fileName,
-      ));
+        filename: fileName,      ));
 
-      // Add video metadata as JSON
-      final videoJson = json.encode({
-        'posting_user_id': metadata['userId'],
+      final videoJson = json.encode({        'posting_user_id': metadata['userId'],
         'title': metadata['videoTitle'],
         'description': metadata['videoDescription'],
-        'video_length_seconds': 0, // Will be calculated by backend
+        'video_length_seconds': 0,
       });
       request.fields['video'] = videoJson;
 
-      // Add reel metadata as JSON
       final reelJson = json.encode({
         'posting_user_id': metadata['userId'],
         'title': metadata['reelTitle'],

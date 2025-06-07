@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-import 'package:flutter/foundation.dart';
-import 'video_player_web.dart';
+import 'dart:html' as html;
+import 'dart:ui_web' as ui_web;
 
-class VideoPlayerWidget extends StatefulWidget {
+class VideoPlayerWeb extends StatefulWidget {
   final String url;
   final bool isFullScreen;
   final bool enableGestures;
 
-  const VideoPlayerWidget({
+  const VideoPlayerWeb({
     super.key,
     required this.url,
     this.isFullScreen = false,
@@ -16,75 +15,81 @@ class VideoPlayerWidget extends StatefulWidget {
   });
 
   @override
-  State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
+  State<VideoPlayerWeb> createState() => _VideoPlayerWebState();
 }
 
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  @override
-  Widget build(BuildContext context) {
-    if (kIsWeb) {
-      return VideoPlayerWeb(
-        url: widget.url,
-        isFullScreen: widget.isFullScreen,
-        enableGestures: widget.enableGestures,
-      );
-    } else {
-      return _VideoPlayerMobile(
-        url: widget.url,
-        isFullScreen: widget.isFullScreen,
-        enableGestures: widget.enableGestures,
-      );
-    }
-  }
-}
-
-class _VideoPlayerMobile extends StatefulWidget {
-  final String url;
-  final bool isFullScreen;
-  final bool enableGestures;
-
-  const _VideoPlayerMobile({
-    required this.url,
-    this.isFullScreen = false,
-    this.enableGestures = true,
-  });
-
-  @override
-  State<_VideoPlayerMobile> createState() => _VideoPlayerMobileState();
-}
-
-class _VideoPlayerMobileState extends State<_VideoPlayerMobile> {
-  late VideoPlayerController _controller;
+class _VideoPlayerWebState extends State<VideoPlayerWeb> {
+  html.VideoElement? _videoElement;
   bool _initialized = false;
   bool _showControls = false;
+  bool _isPlaying = false;
+  Duration _position = Duration.zero;
+  Duration _duration = Duration.zero;
+  String _viewId = '';
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url))
-      ..initialize().then((_) {
-        setState(() {
-          _initialized = true;
-        });
-        _controller.setLooping(true);
-        _controller.play();
-      });
+    _initializeVideo();
+  }
+
+  void _initializeVideo() {
+    _viewId = 'video-${DateTime.now().millisecondsSinceEpoch}';
     
-    _controller.addListener(() {
-      setState(() {});
+    _videoElement = html.VideoElement()
+      ..src = widget.url
+      ..autoplay = true
+      ..loop = true
+      ..muted = false
+      ..controls = false
+      ..style.width = '100%'
+      ..style.height = '100%'
+      ..style.objectFit = 'cover'
+      ..style.backgroundColor = 'black';
+
+    _videoElement!.onLoadedData.listen((_) {
+      setState(() {
+        _initialized = true;
+        _duration = Duration(seconds: _videoElement!.duration.toInt());
+      });
+    });
+
+    _videoElement!.onTimeUpdate.listen((_) {
+      setState(() {
+        _position = Duration(seconds: _videoElement!.currentTime.toInt());
+      });
+    });
+
+    _videoElement!.onPlay.listen((_) {
+      setState(() {
+        _isPlaying = true;
+      });
+    });
+
+    _videoElement!.onPause.listen((_) {
+      setState(() {
+        _isPlaying = false;
+      });
+    });    // Register the view
+    ui_web.platformViewRegistry.registerViewFactory(_viewId, (int viewId) {
+      return _videoElement!;
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _videoElement?.remove();
     super.dispose();
   }
 
   void _togglePlayPause() {
-    setState(() {
-      _controller.value.isPlaying ? _controller.pause() : _controller.play();
-    });
+    if (_videoElement != null) {
+      if (_isPlaying) {
+        _videoElement!.pause();
+      } else {
+        _videoElement!.play();
+      }
+    }
   }
 
   void _toggleControls() {
@@ -100,6 +105,12 @@ class _VideoPlayerMobileState extends State<_VideoPlayerMobile> {
           });
         }
       });
+    }
+  }
+
+  void _seekTo(double value) {
+    if (_videoElement != null) {
+      _videoElement!.currentTime = value;
     }
   }
 
@@ -121,28 +132,13 @@ class _VideoPlayerMobileState extends State<_VideoPlayerMobile> {
       );
     }
 
-    Widget videoPlayer = SizedBox.expand(
-      child: FittedBox(
-        fit: BoxFit.cover,
-        child: SizedBox(
-          width: _controller.value.size.width,
-          height: _controller.value.size.height,
-          child: VideoPlayer(_controller),
-        ),
-      ),
-    );
-
-    Widget content = widget.enableGestures
-        ? GestureDetector(
-            onTap: _toggleControls,
-            child: videoPlayer,
-          )
-        : videoPlayer;
-
     return Stack(
       fit: StackFit.expand,
       children: [
-        content,
+        GestureDetector(
+          onTap: widget.enableGestures ? _toggleControls : null,
+          child: HtmlElementView(viewType: _viewId),
+        ),
         if (_showControls && widget.enableGestures) ...[
           Container(
             color: Colors.black.withOpacity(0.3),
@@ -156,7 +152,7 @@ class _VideoPlayerMobileState extends State<_VideoPlayerMobile> {
               child: IconButton(
                 onPressed: _togglePlayPause,
                 icon: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  _isPlaying ? Icons.pause : Icons.play_arrow,
                   color: Colors.white,
                   size: 50,
                 ),
@@ -187,11 +183,11 @@ class _VideoPlayerMobileState extends State<_VideoPlayerMobile> {
                       overlayColor: Colors.white.withOpacity(0.2),
                     ),
                     child: Slider(
-                      value: _controller.value.position.inMilliseconds.toDouble(),
+                      value: _position.inSeconds.toDouble(),
                       min: 0.0,
-                      max: _controller.value.duration.inMilliseconds.toDouble(),
+                      max: _duration.inSeconds.toDouble(),
                       onChanged: (value) {
-                        _controller.seekTo(Duration(milliseconds: value.round()));
+                        _seekTo(value);
                       },
                     ),
                   ),
@@ -199,14 +195,14 @@ class _VideoPlayerMobileState extends State<_VideoPlayerMobile> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _formatDuration(_controller.value.position),
+                        _formatDuration(_position),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                         ),
                       ),
                       Text(
-                        _formatDuration(_controller.value.duration),
+                        _formatDuration(_duration),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,

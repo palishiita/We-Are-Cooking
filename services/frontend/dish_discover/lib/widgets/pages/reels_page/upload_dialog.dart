@@ -6,8 +6,7 @@ class UploadDialog {
     final reelDescriptionController = TextEditingController();
     final videoTitleController = TextEditingController();
     final videoDescriptionController = TextEditingController();
-    final userIdController =
-        TextEditingController(text: 'user-123');
+    final userIdController = TextEditingController(text: 'user-123');
     return showDialog<Map<String, String>>(
       context: context,
       builder: (BuildContext context) {
