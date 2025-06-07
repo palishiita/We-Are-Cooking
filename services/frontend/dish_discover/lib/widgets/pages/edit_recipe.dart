@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../entities/recipe.dart';
+import '../../entities/new_recipe.dart';
 import '../display/loading_indicator.dart';
 import '../display/recipe_cover.dart';
 import '../display_with_input/ingredients_box.dart';
@@ -17,7 +17,7 @@ import '../display_with_input/tags_box.dart';
 
 class EditRecipePage extends ConsumerStatefulWidget {
   static const routeName = "/edit";
-  final int recipeId;
+  final String recipeId;
   final ChangeNotifierProvider<Recipe>? recipeProvider;
 
   const EditRecipePage(
@@ -54,11 +54,9 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
             if (kDebugMode) {
               recipe = Recipe(
                   id: widget.recipeId,
-                  title: "recipe_${widget.recipeId}_debug",
-                  author: "debug",
-                  description:
-                      "Testing testing testing testing testing testing testing.",
-                  image: Image.asset("assets/images/logo.png"));
+                  name: "recipe_${widget.recipeId}_debug",
+                  userData: UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug'),
+                  description: "Testing testing testing testing testing testing testing.");
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
             }
@@ -81,14 +79,10 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
             scrolledUnderElevation: 0.0,
             leading: const BackButton(),
             actions: [
-              PopupMenu(
-                  action1: PopupMenuAction.boost,
-                  onPressed1: recipe.isBoosted
-                      ? null
-                      : () => PopupMenuAction.boostAction(context),
-                  action2: PopupMenuAction.delete,
-                  onPressed2: () =>
-                      PopupMenuAction.deleteAction(context, recipe.id))
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => PopupMenuAction.deleteAction(context, recipe.id),
+  )
             ],
             flexibleSpace: AspectRatio(
                 aspectRatio: 4 / 3,
@@ -120,8 +114,8 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
         body: ListView(children: [
           RecipeHeader(recipeProvider: recipeProvider!, forEditing: true),
           IngredientsBox(recipeProvider: recipeProvider!, forEditing: true),
-          StepsBox(recipeProvider: recipeProvider!, forEditing: true),
-          TagsBox(recipeProvider: recipeProvider!, forEditing: true)
+          //StepsBox(recipeProvider: recipeProvider!, forEditing: true),
+          //TagsBox(recipeProvider: recipeProvider!, forEditing: true)
         ]));
   }
 }

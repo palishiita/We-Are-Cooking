@@ -8,7 +8,7 @@ import '../../entities/app_state.dart';
 import '../../entities/user.dart';
 import '../display/loading_indicator.dart';
 import 'home_tabs/recommended_tab.dart';
-import 'home_tabs/fridge_tab.dart';
+//import 'home_tabs/fridge_tab.dart';
 import 'home_tabs/cookbook_tab.dart';
 import 'reels_page/reels_page.dart';
 import 'login.dart';
@@ -73,9 +73,9 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    // if (!AppState.userDataLoaded) {
-    //   return loading();
-    // }
+    if (!AppState.userDataLoaded) {
+      return loading();
+    }
 
     return done();
   }
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage>
                 controller: tabController,
                 children: const [
                   RecommendedTab(),
-                  FridgeTab(),
+                  //FridgeTab(),
                   CookbookTab(),
                 ],
               ))

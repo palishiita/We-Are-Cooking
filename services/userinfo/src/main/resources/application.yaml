@@ -11,3 +11,11 @@ spring.datasource:
   username: admin
   password: admin
   driver-class-name: org.postgresql.Driver
+
+#springdoc:
+#  swagger-ui:
+#    disable-swagger-default-url: true
+#    url: /api/profile
+
+  #  api-docs:
+#    path: /api/profile/v3/api-docs

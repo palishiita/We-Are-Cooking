@@ -40,10 +40,10 @@ class DishDiscoverApp extends StatelessWidget {
                   (ModalRoute.of(context)?.settings.arguments ?? '') as String),
           ViewRecipePage.routeName: (context) => ViewRecipePage(
               recipeId:
-                  (ModalRoute.of(context)?.settings.arguments ?? -1) as int),
+                  (ModalRoute.of(context)?.settings.arguments ?? -1) as String),
           EditRecipePage.routeName: (context) => EditRecipePage(
               recipeId:
-                  (ModalRoute.of(context)?.settings.arguments ?? -1) as int)
+                  (ModalRoute.of(context)?.settings.arguments ?? -1) as String)
         });
   }
 }

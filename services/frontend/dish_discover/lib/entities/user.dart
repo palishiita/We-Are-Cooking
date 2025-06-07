@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dish_discover/entities/comment.dart';
 import 'package:dish_discover/entities/ingredient.dart';
-import 'package:dish_discover/entities/recipe.dart';
-import 'package:dish_discover/entities/ticket.dart';
+import 'package:dish_discover/entities/new_recipe.dart';
+//import 'package:dish_discover/entities/ticket.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -12,9 +12,10 @@ import 'app_state.dart';
 
 class User extends ChangeNotifier {
   final String username;
+  final String userId;
   String password;
   String email;
-  bool isPremium;
+//  bool isPremium;
   Image? image;
   String description;
   DateTime? unbanDate;
@@ -22,8 +23,8 @@ class User extends ChangeNotifier {
   late List<Recipe> likedRecipes;
   late List<Recipe> savedRecipes;
   late List<Recipe> addedRecipes;
-  int likesTotal;
-  int savesTotal;
+//  int likesTotal;
+//  int savesTotal;
 
     // Fridge ingredients
   final List<Ingredient> _fridgeIngredients = [];
@@ -31,15 +32,17 @@ class User extends ChangeNotifier {
 
   User(
       {required this.username,
+      required this.userId,
       required this.password,
       required this.email,
-      this.isPremium = false,
+      //this.isPremium = false,
       this.image,
       this.description = '',
       this.unbanDate,
       this.isModerator = false,
-      this.likesTotal = 0,
-      this.savesTotal = 0})
+      //this.likesTotal = 0,
+      //this.savesTotal = 0
+      })
       : likedRecipes = [],
         savedRecipes = [],
         addedRecipes = [];
@@ -47,12 +50,13 @@ class User extends ChangeNotifier {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       username: json['username'],
+      userId: json['userId'],
       isModerator: json['has_mod_rights'],
       email: json['email'],
       password: json['password'],
       image: json['picture'] != null ? Image.network(json['picture']) : null,
       description: json['description'],
-      isPremium: json['is_premium'],
+      //isPremium: json['is_premium'],
       unbanDate: json['unban_date'] != null
           ? DateTime.parse(json['unban_date'])
           : null,
@@ -67,7 +71,7 @@ class User extends ChangeNotifier {
       'password': password,
       'picture': image?.toString(),
       'description': description,
-      'is_premium': isPremium,
+      //'is_premium': isPremium,
       'unban_date': unbanDate?.toIso8601String(),
     };
   }
@@ -76,22 +80,6 @@ class User extends ChangeNotifier {
     if (isModerator == true) {
       user.unbanDate = date;
     }
-    notifyListeners();
-  }
-
-  void switchLikeRecipe(Recipe recipe, bool add) {
-    add
-        ? likedRecipes.add(recipe)
-        : likedRecipes.removeWhere((e) => e.id == recipe.id);
-    recipe.updateLikeCount(add);
-    notifyListeners();
-  }
-
-  void switchSaveRecipe(Recipe recipe, bool add) {
-    add
-        ? savedRecipes.add(recipe)
-        : savedRecipes.removeWhere((e) => e.id == recipe.id);
-    recipe.updateSaveCount(add);
     notifyListeners();
   }
 
@@ -110,10 +98,10 @@ class User extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getPremium() {
-    isPremium = true;
-    notifyListeners();
-  }
+  //void getPremium() {
+  //  isPremium = true;
+  //  notifyListeners();
+  //}
 
   // Add ingredient to fridge
   void addFridgeIngredient(Ingredient ingredient) {
@@ -132,28 +120,28 @@ class User extends ChangeNotifier {
     addedRecipes.add(recipe);
     notifyListeners();
   }
+// not implemented
+//  Ticket reportUser(int reportId, Recipe? recipe, User issuer, User violator,
+//      Comment? comment, String reason) {
+//    Ticket ticket = Ticket(
+//        reportId: reportId,
+//        recipeId: recipe?.id,
+//        violatorId: violator.username,
+//        issuerId: issuer.username,
+//        commentId: comment?.id,
+//        reason: reason);
+//    notifyListeners();
+//    return ticket;
+//  }
 
-  Ticket reportUser(int reportId, Recipe? recipe, User issuer, User violator,
-      Comment? comment, String reason) {
-    Ticket ticket = Ticket(
-        reportId: reportId,
-        recipeId: recipe?.id,
-        violatorId: violator.username,
-        issuerId: issuer.username,
-        commentId: comment?.id,
-        reason: reason);
-    notifyListeners();
-    return ticket;
-  }
-
-  Comment addComment(int commentId, Recipe recipe, String content) {
-    Comment comment = Comment(
-        author: username, recipeId: recipe.id, id: commentId, content: content);
-    recipe.comments.add(comment);
-    notifyListeners();
-    recipe.notifyListeners();
-    return comment;
-  }
+//  Comment addComment(int commentId, Recipe recipe, String content) {
+//    Comment comment = Comment(
+//        author: username, recipeId: recipe.id, id: commentId, content: content);
+//    recipe.comments.add(comment);
+//    notifyListeners();
+//    recipe.notifyListeners();
+//    return comment;
+//  }
 
   void editComment(Comment comment, String content) {
     if (username == comment.author) {
@@ -161,9 +149,9 @@ class User extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+ 
   Future<List<Recipe>> getRecommendations() async {
-    // TODO
+    // TODO change List<Recipe> to RecipeResponse, or map it somehow idk
     return [];
   }
 
@@ -243,7 +231,7 @@ class User extends ChangeNotifier {
   static void logout() {
     AppState.currentUser = null;
     AppState.loginToken = null;
-    AppState.currentTicket = null;
+    //AppState.currentTicket = null;
     AppState.userDataLoaded = false;
   }
 
