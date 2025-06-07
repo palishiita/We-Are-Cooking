@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'models.dart';
 
 class ReelsService {
-  static const String baseUrl = 'http://localhost:7001';
+  static const String baseUrl = 'http://localhost:8000/api/reels';
 
   static Future<List<ReelWithVideo>> fetchReelsWithVideos() async {
     try {
@@ -62,7 +62,6 @@ class ReelsService {
       ));
 
       final videoJson = json.encode({
-        'posting_user_id': metadata['userId'],
         'title': metadata['videoTitle'],
         'description': metadata['videoDescription'],
         'video_length_seconds': 0,
@@ -70,7 +69,6 @@ class ReelsService {
       request.fields['video'] = videoJson;
 
       final reelJson = json.encode({
-        'posting_user_id': metadata['userId'],
         'title': metadata['reelTitle'],
         'description': metadata['reelDescription'],
       });

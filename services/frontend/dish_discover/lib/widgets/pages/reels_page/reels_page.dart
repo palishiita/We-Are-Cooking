@@ -30,14 +30,9 @@ class _ReelsPageState extends State<ReelsPage> {
     final fileBytes = result['fileBytes'] as List<int>;
     final fileName = result['fileName'] as String;
 
-    String userId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-    if (AppState.currentUser != null) {
-      userId =
-          '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-    }
+
 
     final metadata = <String, String>{
-      'userId': userId,
       'reelTitle': result['reelTitle'] as String,
       'reelDescription': result['reelDescription'] as String,
       'videoTitle': result['videoTitle'] as String,

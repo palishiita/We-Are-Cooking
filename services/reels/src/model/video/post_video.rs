@@ -1,4 +1,4 @@
-use actix_multipart::form::{MultipartForm, json::Json as MpJson, tempfile::TempFile};
+use actix_multipart::form::{json::Json as MpJson, tempfile::TempFile, MultipartForm};
 use utoipa::*;
 use uuid::Uuid;
 
@@ -13,7 +13,6 @@ pub struct VideoForm {
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug, ToSchema)]
 pub struct PostVideo {
-    pub posting_user_id: Uuid,
     pub title: String,
     pub description: String,
     pub video_length_seconds: i32,

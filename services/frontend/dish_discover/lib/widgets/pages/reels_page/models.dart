@@ -1,6 +1,5 @@
 class Video {
   final String id;
-  final String postingUserId;
   final String title;
   final String description;
   final int videoLengthSeconds;
@@ -8,7 +7,6 @@ class Video {
 
   Video({
     required this.id,
-    required this.postingUserId,
     required this.title,
     required this.description,
     required this.videoLengthSeconds,
@@ -18,7 +16,6 @@ class Video {
   factory Video.fromJson(Map<String, dynamic> json) {
     return Video(
       id: json['id'],
-      postingUserId: json['posting_user_id'],
       title: json['title'],
       description: json['description'],
       videoLengthSeconds: json['video_length_seconds'],
@@ -30,7 +27,6 @@ class Video {
 class Reel {
   final String id;
   final String videoId;
-  final String postingUserId;
   final String title;
   final String description;
   final String creationTimestamp;
@@ -38,7 +34,6 @@ class Reel {
   Reel({
     required this.id,
     required this.videoId,
-    required this.postingUserId,
     required this.title,
     required this.description,
     required this.creationTimestamp,
@@ -48,7 +43,6 @@ class Reel {
     return Reel(
       id: json['id'],
       videoId: json['video_id'],
-      postingUserId: json['posting_user_id'],
       title: json['title'],
       description: json['description'],
       creationTimestamp: json['creation_timestamp'],
