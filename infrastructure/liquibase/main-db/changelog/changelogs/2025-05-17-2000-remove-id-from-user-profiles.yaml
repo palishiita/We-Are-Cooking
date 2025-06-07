@@ -5,7 +5,16 @@ databaseChangeLog:
       changes:
         - dropColumn:
             tableName: user_profiles
+            columnName: user_id
+        - dropColumn:
+            tableName: user_profiles
             columnName: id
+        - addColumn:
+            tableName: user_profiles
+            columns:
+              - column:
+                  name: user_uuid
+                  type: UUID
         - addPrimaryKey:
             tableName: user_profiles
-            columnNames: user_id
+            columnNames: user_uuid

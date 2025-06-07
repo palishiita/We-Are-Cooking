@@ -19,7 +19,6 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/test/**").permitAll()
                         .pathMatchers("/test/private").authenticated()
@@ -28,7 +27,8 @@ public class SecurityConfig {
                         .anyExchange().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .authenticationSuccessHandler(authenticationSuccessHandler()));
+                        .authenticationSuccessHandler(authenticationSuccessHandler())
+                );
         return http.build();
     }
 

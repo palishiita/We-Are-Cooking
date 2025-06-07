@@ -13,7 +13,7 @@ spring:
       registration.techstructure-keycloak:
         redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         client-id: wearecooking-gateway
-        client-secret: ZzSeT4V53qCIITa16u4ssPOuUtYGkJNW
+        client-secret: yXuau0SJRl3QVDJopgQ9GxpmL7Mav1FM
         provider: techstructure-keycloak
         authorization-grant-type: authorization_code
         scope: openid,profile,email
@@ -56,6 +56,7 @@ spring:
           predicates:
             - Path=/front/**
           filters:
+            - PreserveHostHeader
             - RewritePath=/front/(?<segment>.*), /${segment}
 
 springdoc:

@@ -12,7 +12,7 @@ RUN flutter pub get --verbose
 COPY dish_discover .
 
 # Build the Flutter web app
-RUN flutter build web --release --verbose --dart-define=FLUTTER_WEB_USE_SKIA=true
+RUN flutter build web --debug --verbose --dart-define=FLUTTER_WEB_USE_SKIA=true --base-href=/front/
 
 # Use a lightweight web server to serve the app
 FROM nginx:alpine
