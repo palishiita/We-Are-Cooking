@@ -77,6 +77,7 @@ class _CustomSearchBar extends State<CustomSearchBar> {
             ],
             suggestionsBuilder: (context, controller) {
               return [
+                
                 // TODO suggestions?
                 'suggestions'
               ].map((suggestion) => ListTile(

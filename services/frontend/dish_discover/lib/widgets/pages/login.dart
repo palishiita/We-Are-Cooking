@@ -51,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
         error = null;
 
         AppState.currentUser = User(
+            userId: '00000000-0000-0000-0000-000000000000',
             username: "${usernameController.text}_debug",
             password: passwordController.text,
             email: '',

@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../entities/app_state.dart';
-import '../../entities/recipe.dart';
+import '../../entities/new_recipe.dart';
 import '../../entities/user.dart';
 import '../dialogs/custom_dialog.dart';
-import '../display/recipe_list.dart';
 import '../display/tab_title.dart';
 import '../display/user_header.dart';
 import '../inputs/custom_text_field.dart';
@@ -59,6 +58,7 @@ class _UserPageState extends ConsumerState<UserPage> {
           if (userData.data == null) {
             if (kDebugMode) {
               user = User(
+                  userId: '00000000-0000-0000-0000-000000000000',
                   username: "${widget.username}_debug",
                   description:
                       'Testing testing testing testing testing testing testing',
@@ -94,34 +94,41 @@ class _UserPageState extends ConsumerState<UserPage> {
                       icon: const Icon(Icons.settings),
                       onPressed: () =>
                           Navigator.of(context).pushNamed("/settings"))
-                  : PopupMenu(
-                      action1: PopupMenuAction.share,
-                      onPressed1: () => PopupMenuAction.shareAction(
-                          context,
-                          "Sharing user",
-                          "Have a look at this: ",
-                          user.getUrl()),
-                      action2: AppState.currentUser!.isModerator
-                          ? PopupMenuAction.ban
-                          : PopupMenuAction.report,
-                      onPressed2: () => AppState.currentUser!.isModerator
-                          ? PopupMenuAction.banAction(
-                              context, null, user.username, null, user.username,
-                              () {
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                            })
-                          : PopupMenuAction.reportAction(context, null,
-                              user.username, null, user.username))
+                  : IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () => PopupMenuAction.shareAction(
+                        context,
+                        "Sharing user",
+                        "Have a look at this: ",
+                        user.getUrl()))                    
+                      //PopupMenu(
+                    //  action1: PopupMenuAction.share,
+                    //  onPressed1: () => PopupMenuAction.shareAction(
+                    //      context,
+                    //      "Sharing user",
+                    //      "Have a look at this: ",
+                    //      user.getUrl()),
+                    //  action2: AppState.currentUser!.isModerator
+                    //      ? PopupMenuAction.ban
+                    //      : PopupMenuAction.report,
+                    //  onPressed2: () => AppState.currentUser!.isModerator
+                    //      ? PopupMenuAction.banAction(
+                    //          context, null, user.username, null, user.username,
+                    //          () {
+                    //          Navigator.of(context)
+                    //              .popUntil((route) => route.isFirst);
+                    //        })
+                    //      : PopupMenuAction.reportAction(context, null,
+                    //          user.username, null, user.username))
             ]),
         body: Flex(
             direction: Axis.vertical,
             mainAxisSize: MainAxisSize.min,
             children: [
               UserHeader(userProvider: userProvider!),
-              RecipeList(
-                  getRecipes: () =>
-                      Future<List<Recipe>>(() => (user.addedRecipes)))
+            //  RecipeList(
+            //      getRecipes: () =>
+            //          Future<List<Recipe>>(() => (user.addedRecipes))) // this is not implemented, sorry
             ]),
         floatingActionButton: isCurrentUser
             ? FloatingActionButton(
@@ -142,9 +149,9 @@ class _UserPageState extends ConsumerState<UserPage> {
                       'Create', () {
                     if (titleController.text.trim().isNotEmpty) {
                       Recipe newRecipe = Recipe(
-                          id: 0,
-                          title: titleController.text,
-                          author: AppState.currentUser!.username);
+                          id: '',
+                          name: titleController.text,
+                          userData: UserData(userId: '', username: AppState.currentUser!.username)); // this should be the user id got from token
                       AppState.currentUser!.addRecipe(newRecipe);
                       Future.microtask(() => Navigator.of(context).push(
                           MaterialPageRoute(
