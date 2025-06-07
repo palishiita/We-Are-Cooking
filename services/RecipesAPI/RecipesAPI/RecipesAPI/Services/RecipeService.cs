@@ -2,7 +2,6 @@
 using RecipesAPI.Database;
 using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
-using RecipesAPI.Exceptions.Duplicates;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
@@ -11,6 +10,7 @@ using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Model.Recipes.Update;
 using RecipesAPI.Services.Interfaces;
+using System.Net.NetworkInformation;
 
 namespace RecipesAPI.Services
 {
@@ -773,6 +773,44 @@ namespace RecipesAPI.Services
                 recipe.Description = recipeDTO.Description;
 
                 _recipes.Update(recipe);
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(UpdateRecipeNameById)}. Rollback.");
+                await transaction.RollbackAsync(ct);
+                throw;
+            }
+        }
+
+        public async Task UpdateRecipe(Guid userId, Guid recipeId, AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct)
+        {
+            var recipe = await _recipes
+                .Include(r => r.Ingredients)
+                .FirstOrDefaultAsync(x => x.Id == recipeId && x.PostingUserId == userId, ct)
+                ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found for user with id {userId}.");
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
+
+            try
+            {
+                var removedIngredients = recipe.Ingredients;
+
+                var newIngredients = recipeDTO.Ingredients.Select(i => new RecipeIngredient()
+                {
+                    IngredientId = i.IngredientId,
+                    Quantity = i.Quantity,
+                    RecipeId = recipeId,
+                    UnitId = i.UnitId,
+                });
+
+                _dbContext.RecipeIngredients.RemoveRange(removedIngredients);
+                _dbContext.RecipeIngredients.AddRange(newIngredients);
+                await _dbContext.SaveChangesAsync(ct);
+
+                recipe.Name = recipeDTO.Name;
+                recipe.Description = recipeDTO.Description;
                 await _dbContext.SaveChangesAsync(ct);
                 await transaction.CommitAsync(ct);
             }

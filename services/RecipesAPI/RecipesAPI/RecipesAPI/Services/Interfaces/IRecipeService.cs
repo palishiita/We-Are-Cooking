@@ -33,5 +33,7 @@ namespace RecipesAPI.Services.Interfaces
         Task RemoveIngredientsFromRecipe(Guid userId, Guid recipeId, IEnumerable<Guid> ingredientId, CancellationToken ct);
 
         Task RemoveRecipeById(Guid userId, Guid recipeId, CancellationToken ct);
+
+        Task UpdateRecipe(Guid userId, Guid recipeId, AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct);
     }
 }
