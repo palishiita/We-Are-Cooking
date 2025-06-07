@@ -7,7 +7,6 @@ import '../../inputs/custom_text_field.dart';
 import '../edit_recipe.dart';
 import '../../display/recipe_list.dart';
 import '../../display/tab_title.dart';
-import '../reels_page.dart';
 
 class FridgeTab extends StatefulWidget {
   const FridgeTab({super.key});
@@ -52,8 +51,8 @@ class _FridgeTabState extends State<FridgeTab> {
 
     return allRecipes.where((recipe) {
       return recipe.ingredients.every((ingredient) {
-        return fridgeIngredients.any((f) =>
-            f.name.toLowerCase() == ingredient.name.toLowerCase());
+        return fridgeIngredients
+            .any((f) => f.name.toLowerCase() == ingredient.name.toLowerCase());
       });
     }).toList();
   }
@@ -118,57 +117,41 @@ class _FridgeTabState extends State<FridgeTab> {
           ],
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            shape: const CircleBorder(),
-            mini: true,
-            child: const Icon(Icons.add),
-            onPressed: () {
-              TextEditingController titleController = TextEditingController();
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        mini: true,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          TextEditingController titleController = TextEditingController();
 
-              CustomDialog.callDialog(
-                context,
-                'Create recipe',
-                '',
-                null,
-                CustomTextField(controller: titleController, hintText: 'Title'),
-                'Create',
-                () {
-                  if (titleController.text.trim().isNotEmpty) {
-                    Recipe newRecipe = Recipe(
-                      id: 0,
-                      title: titleController.text,
-                      author: AppState.currentUser!.username,
-                    );
-                    AppState.currentUser!.addRecipe(newRecipe);
-                    Future.microtask(() => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                EditRecipePage(recipeId: newRecipe.id),
-                          ),
-                        ));
-                    return null;
-                  } else {
-                    return "Title cannot be empty";
-                  }
-                },
-              );
+          CustomDialog.callDialog(
+            context,
+            'Create recipe',
+            '',
+            null,
+            CustomTextField(controller: titleController, hintText: 'Title'),
+            'Create',
+            () {
+              if (titleController.text.trim().isNotEmpty) {
+                Recipe newRecipe = Recipe(
+                  id: 0,
+                  title: titleController.text,
+                  author: AppState.currentUser!.username,
+                );
+                AppState.currentUser!.addRecipe(newRecipe);
+                Future.microtask(() => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EditRecipePage(recipeId: newRecipe.id),
+                      ),
+                    ));
+                return null;
+              } else {
+                return "Title cannot be empty";
+              }
             },
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            shape: const CircleBorder(),
-            mini: true,
-            child: const Icon(Icons.video_library),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ReelsPage()),
-              );
-            },
-          ),
-        ],
+          );
+        },
       ),
     );
   }

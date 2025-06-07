@@ -392,19 +392,19 @@ class _RecommendedTabState extends State<RecommendedTab> {
             },
           ),
           const SizedBox(height: 8),
-          FloatingActionButton(
-            shape: const CircleBorder(),
-            mini: true,
-            child: const Icon(Icons.video_library),
-            onPressed: () {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                barrierColor: Colors.transparent,
-                builder: (context) => const ReelsPage(),
-              );
-            },
-          ),
+          // FloatingActionButton(
+          //   shape: const CircleBorder(),
+          //   mini: true,
+          //   child: const Icon(Icons.video_library),
+          //   onPressed: () {
+          //     showDialog(
+          //       context: context,
+          //       barrierDismissible: false,
+          //       barrierColor: Colors.transparent,
+          //       builder: (context) => const ReelsPage(),
+          //     );
+          //   },
+          // ),
         ],
       ),
     );

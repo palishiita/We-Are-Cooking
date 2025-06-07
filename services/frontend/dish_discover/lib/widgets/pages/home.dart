@@ -10,6 +10,7 @@ import '../display/loading_indicator.dart';
 import 'home_tabs/recommended_tab.dart';
 import 'home_tabs/fridge_tab.dart';
 import 'home_tabs/cookbook_tab.dart';
+import 'reels_page/reels_page.dart';
 import 'login.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,11 +27,48 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  int _previousIndex = 0;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(_handleTabSelection);
+  }
+
+  @override
+  void dispose() {
+    tabController.removeListener(_handleTabSelection);
+    tabController.dispose();
+    super.dispose();
+  }
+
+  void _handleTabSelection() {
+    if (tabController.indexIsChanging) {
+      if (tabController.index == 1) {
+        Future.microtask(() {
+          tabController.animateTo(_previousIndex);
+        });
+
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const ReelsPage(),
+            transitionDuration: const Duration(milliseconds: 300),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
+      } else {
+        _previousIndex = tabController.index;
+      }
+    }
   }
 
   @override
@@ -103,9 +141,7 @@ class _HomePageState extends State<HomePage>
             toolbarHeight: appBarHeight,
             scrolledUnderElevation: 0.0,
             title: Text('We Are Cooking',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium),
+                style: Theme.of(context).textTheme.headlineMedium),
             centerTitle: true,
             actions: [
               IconButton(
@@ -133,7 +169,7 @@ class _HomePageState extends State<HomePage>
           controller: tabController,
           tabs: const [
             Tab(text: 'Recommended'),
-            Tab(text: 'Fridge'),
+            Tab(text: 'Reels'),
             Tab(text: 'Cookbook'),
           ],
           indicatorColor: buttonColor,

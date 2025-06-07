@@ -21,7 +21,8 @@ class ReelVideoPage extends StatelessWidget {
     final verticalPadding = 40.0;
 
     return Stack(
-      fit: StackFit.expand,      children: [
+      fit: StackFit.expand,
+      children: [
         Center(
           child: Container(
             width: videoWidth,
@@ -45,14 +46,15 @@ class ReelVideoPage extends StatelessWidget {
                 enableGestures: true,
               ),
             ),
-          ),        ),
-
+          ),
+        ),
         Positioned(
           bottom: verticalPadding + 20,
           left: (screenWidth - videoWidth) / 2 + 16,
           right: (screenWidth - videoWidth) / 2 + 80,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
               color: baseColor.withOpacity(0.7),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
@@ -90,8 +92,8 @@ class ReelVideoPage extends StatelessWidget {
                 ),
               ],
             ),
-          ),        ),
-
+          ),
+        ),
         Positioned(
           bottom: verticalPadding + 20,
           right: (screenWidth - videoWidth) / 2 + 16,
@@ -126,7 +128,8 @@ class ReelVideoPage extends StatelessWidget {
     required VoidCallback onPressed,
     Color? color,
   }) {
-    final buttonBgColor = color ?? baseColor;    return Container(
+    final buttonBgColor = color ?? baseColor;
+    return Container(
       decoration: BoxDecoration(
         color: buttonBgColor.withOpacity(0.8),
         borderRadius: BorderRadius.circular(25),
