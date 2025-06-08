@@ -29,13 +29,13 @@
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "registrationEmailAsUsername": false,
-  "rememberMe": false,
+  "rememberMe": true,
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
-  "resetPasswordAllowed": false,
+  "resetPasswordAllowed": true,
   "editUsernameAllowed": false,
   "bruteForceProtected": false,
   "permanentLockout": false,
@@ -833,8 +833,9 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
-        "client.secret.creation.time": "1746674462",
+        "client.secret.creation.time": "1749036738",
         "client.introspection.response.allow.jwt.claim.enabled": "false",
+        "login_theme": "keycloak.v2",
         "frontchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "*",
         "oauth2.device.authorization.grant.enabled": "false",
@@ -903,7 +904,7 @@
       "attributes": {
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1748598146",
+        "client.secret.creation.time": "1749407029",
         "backchannel.logout.session.required": "true",
         "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "true",
@@ -1756,6 +1757,18 @@
         }
       }
     ],
+    "org.keycloak.userprofile.UserProfileProvider": [
+      {
+        "id": "31498420-ffec-4ede-a6d6-e048f0f2f00a",
+        "providerId": "declarative-user-profile",
+        "subComponents": {},
+        "config": {
+          "kc.user.profile.config": [
+            "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false}],\"groups\":[{\"name\":\"user-metadata\",\"displayHeader\":\"User metadata\",\"displayDescription\":\"Attributes, which refer to user metadata\"}]}"
+          ]
+        }
+      }
+    ],
     "org.keycloak.keys.KeyProvider": [
       {
         "id": "08b242e9-1cb2-429c-ae75-ef1a6b75b91a",
@@ -2543,7 +2556,7 @@
   "firstBrokerLoginFlow": "first broker login",
   "attributes": {
     "cibaBackchannelTokenDeliveryMode": "poll",
-    "de.adorsys.keycloak.config.import-checksum-default": "89962b798ef75004a3e3380891e52399b76e4b184d3f27746b3f41362227468d",
+    "de.adorsys.keycloak.config.import-checksum-default": "a5c5698a9026f7e979cb9debbffac0c7f7a46546198e2313a35f428282644792",
     "clientOfflineSessionIdleTimeout": "0",
     "de.adorsys.keycloak.config.state-default-roles-client-realm-management-0": "[\"manage-events\",\"query-groups\",\"view-events\",\"manage-authorization\",\"query-users\",\"view-clients\",\"query-clients\",\"view-users\",\"manage-users\",\"view-authorization\",\"manage-realm\",\"manage-clients\",\"realm-admin\",\"view-realm\",\"query-realms\",\"view-identit",
     "de.adorsys.keycloak.config.state-default-roles-client-realm-management-1": "y-providers\",\"impersonation\",\"manage-identity-providers\",\"create-client\"]",
@@ -2553,6 +2566,7 @@
     "frontendUrl": "",
     "de.adorsys.keycloak.config.state-default-components-1": "nerated-hs512\"]",
     "de.adorsys.keycloak.config.state-default-components-0": "[\"Consent Required\",\"Full Scope Disabled\",\"Max Clients Limit\",\"Allowed Protocol Mapper Types\",\"Allowed Client Scopes\",\"Allowed Protocol Mapper Types\",\"Allowed Client Scopes\",\"Trusted Hosts\",\"rsa-enc-generated\",\"aes-generated\",\"rsa-generated\",\"hmac-ge",
+    "de.adorsys.keycloak.config.state-default-roles-client-wrc-userinfo-0": "[]",
     "cibaAuthRequestedUserHint": "login_hint",
     "de.adorsys.keycloak.config.state-default-roles-client-broker-0": "[\"read-token\"]",
     "oauth2DevicePollingInterval": "5",
@@ -2567,7 +2581,7 @@
     "clientSessionMaxLifespan": "0",
     "de.adorsys.keycloak.config.state-default-roles-client-wearecooking-gateway-0": "[]",
     "acr.loa.map": "{}",
-    "de.adorsys.keycloak.config.state-default-clients-0": "[\"account\",\"account-console\",\"admin-cli\",\"broker\",\"realm-management\",\"security-admin-console\",\"wearecooking-gateway\"]",
+    "de.adorsys.keycloak.config.state-default-clients-0": "[\"account\",\"account-console\",\"admin-cli\",\"broker\",\"realm-management\",\"security-admin-console\",\"wearecooking-gateway\",\"wrc-userinfo\"]",
     "de.adorsys.keycloak.config.state-default-roles-client-account-0": "[\"view-consent\",\"manage-consent\",\"view-groups\",\"manage-account-links\",\"delete-account\",\"view-applications\",\"manage-account\",\"view-profile\"]"
   },
   "keycloakVersion": "26.1.5",

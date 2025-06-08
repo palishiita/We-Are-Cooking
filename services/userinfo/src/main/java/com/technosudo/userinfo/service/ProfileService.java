@@ -29,26 +29,26 @@ public class ProfileService {
 
     public ProfileDto getProfile(UUID userUuid, UUID principalUuid) {
 
-        ProfileEntity profile = profileRepository.findById(userUuid).orElseThrow();
         var user = keycloakService.getUserByUuid(userUuid);
+        ProfileEntity profile = profileRepository.findById(userUuid).orElse(register(userUuid));
 
         var builder = ProfileDto.builder()
-                .userUuid(profile.userUuid())
+                .userUuid(profile.getUserUuid())
                 .userName(user.getUsername())
                 .isBanned(false);
         if (false) // is banned
             return builder.build();
 
-        var url = imageRepository.findById(profile.imageUrlUuid()).orElseThrow();
-        var urlSmall = imageRepository.findById(profile.imageSmallUrlUuid()).orElseThrow();
+        var url = imageRepository.findById(profile.getImageUrlUuid()).orElseThrow();
+        var urlSmall = imageRepository.findById(profile.getImageSmallUrlUuid()).orElseThrow();
 
         builder = builder
                 .imageUrl(url.imageUrl())
                 .imageSmallUrl(urlSmall.imageUrl())
-                .isPrivate(profile.isPrivate());
+                .isPrivate(profile.getIsPrivate());
 
-        if (userUuid.equals(principalUuid) || !profile.isPrivate()) {
-            return builder.bio(profile.description())
+        if (userUuid.equals(principalUuid) || !profile.getIsPrivate()) {
+            return builder.bio(profile.getDescription())
                     .followers(Collections.emptyList())
                     .recipes(Collections.emptyList())
                     .reels(Collections.emptyList()).build();
@@ -62,14 +62,14 @@ public class ProfileService {
         var user = keycloakService.getUserByUuid(userUuid);
 
         var builder = ProfileSmallDto.builder()
-                .userUuid(profile.userUuid())
+                .userUuid(profile.getUserUuid())
                 .username(user.getUsername())
                 .isBanned(false);
         if (false) // is banned
             return builder.build();
 
-        var url = imageRepository.findById(profile.imageUrlUuid()).orElseThrow();
-        var urlSmall = imageRepository.findById(profile.imageSmallUrlUuid()).orElseThrow();
+        var url = imageRepository.findById(profile.getImageUrlUuid()).orElseThrow();
+        var urlSmall = imageRepository.findById(profile.getImageSmallUrlUuid()).orElseThrow();
 
         return builder
                 .imageUrl(url.imageUrl())
@@ -91,6 +91,16 @@ public class ProfileService {
 //                .isPrivate(profile.isPrivate())
 //                .isBanned(false).build();
         return Collections.emptyList();
+    }
+
+    ProfileEntity register(UUID userUuid) {
+        return profileRepository.save(ProfileEntity.builder()
+                .userUuid(userUuid)
+                .imageUrlUuid(UUID.fromString("847cd648-bcf5-4b5d-8905-e579a285b5e6"))
+                .imageSmallUrlUuid(UUID.fromString("847cd648-bcf5-4b5d-8905-e579a285b5e6"))
+                .isPrivate(false)
+                .description("New account")
+                .isNew(true).build());
     }
 
     public List<RecipeDto> getUserRecipes(UUID userUuid) {

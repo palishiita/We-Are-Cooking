@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-28-2400-user-profiles-mock.yaml
+      author: technosudo
+      changes:
+        - insert:
+            tableName: photo_urls
+            columns:
+              - column:
+                  name: id
+                  value: 847cd648-bcf5-4b5d-8905-e579a285b5e6
+              - column:
+                  name: photo_url
+                  value: "https://i.imgur.com/CFIbbVG.png"
