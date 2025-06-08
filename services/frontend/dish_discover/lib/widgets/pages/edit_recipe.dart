@@ -19,10 +19,11 @@ import '../display_with_input/tags_box.dart';
 class EditRecipePage extends ConsumerStatefulWidget {
   static const routeName = "/edit";
   final String recipeId;
+  final String? name;
   final ChangeNotifierProvider<Recipe>? recipeProvider;
 
   const EditRecipePage(
-      {super.key, required this.recipeId, this.recipeProvider});
+      {super.key, required this.recipeId, this.name, this.recipeProvider});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditRecipePageState();
@@ -107,7 +108,7 @@ Future<void> _saveRecipe() async {
             if (kDebugMode) {
               recipe = Recipe(
                   id: widget.recipeId,
-                  name: "recipe_${widget.recipeId}_debug",
+                  name: widget.name == null ? "recipe_${widget.recipeId}_debug" : widget.name!,
                   userData: AppState.currentUser == null 
                     ? UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug') 
                     : UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username),
