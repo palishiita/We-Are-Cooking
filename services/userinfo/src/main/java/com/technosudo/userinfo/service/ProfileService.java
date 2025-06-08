@@ -30,7 +30,7 @@ public class ProfileService {
     public ProfileDto getProfile(UUID userUuid, UUID principalUuid) {
 
         var user = keycloakService.getUserByUuid(userUuid);
-        ProfileEntity profile = profileRepository.findById(userUuid).orElse(register(userUuid));
+        ProfileEntity profile = profileRepository.findById(userUuid).orElseGet(() -> register(userUuid));
 
         var builder = ProfileDto.builder()
                 .userUuid(profile.getUserUuid())
