@@ -387,6 +387,23 @@ class Recipe extends ChangeNotifier {
   //  }
   //}
 
+  static Future<void> deleteRecipe(String recipeId) async {
+    try
+    {
+      var finalUrl = Uri.parse('http://localhost:7140/api/recipes/recipe/$recipeId');
+
+      await http.delete(
+        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
+        finalUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Uuid' : AppState.currentUser?.userId ?? '00000000-0000-0000-0000-000000000000'
+        });
+    } catch (e) {
+      print('Error deleting recipe: $e');
+    }
+  }
+
   static Future<bool> saveRecipe(Recipe recipe) async {
     try {
 

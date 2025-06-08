@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:async';
 
 import 'package:dish_discover/entities/ingredient.dart';
 import 'package:dish_discover/widgets/dialogs/custom_dialog.dart';
@@ -78,6 +79,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
   late TextEditingController nameController;
   late TextEditingController quantityController;
   late TextEditingController unitController;
+  late TextEditingController ingredientsController;
 
   
   // Database-driven options
@@ -89,6 +91,9 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
   UnitOption? selectedUnit;
   double selectedQuantity = 1.0;
 
+  // Debounce timers to prevent too many API calls
+  Timer? _ingredientSearchTimer;
+  
   @override
   void initState() {
     super.initState();
@@ -100,6 +105,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     nameController = TextEditingController();
     quantityController = TextEditingController();
     unitController = TextEditingController();
+    ingredientsController = TextEditingController();
     
     _loadDatabaseOptions();
   }
@@ -210,11 +216,23 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
 
   // Updated ingredient dialog with database-driven dropdowns and quantity picker
   void callIngredientDialog(bool add, Recipe recipe, int? index) {
+    
+  List<IngredientOption> searchedIngredients = [];
+  
+  // Loading state for ingredients only
+  bool isLoadingIngredients = false;
+
   if (add) {
     selectedIngredient = null;
     selectedUnit = null;
     selectedQuantity = 1.0;
-  } else {
+
+    _loadInitialIngredients().then((ingredients) {
+      searchedIngredients = ingredients;
+    });
+  } 
+  else 
+  {
     // Find the existing ingredient and unit from the database options
     selectedIngredient = availableIngredients.firstWhere(
       (ing) => ing.id == recipe.ingredients[index!].ingredientId,
@@ -242,6 +260,9 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     print('Selected unit: ${selectedUnit!.name} (ID: ${selectedUnit!.id})');
     print('Selected ingredient: ${selectedIngredient!.name} (ID: ${selectedIngredient!.id})');
     selectedQuantity = recipe.ingredients[index!].quantity;
+
+    ingredientsController.text = selectedIngredient!.name;
+    searchedIngredients = [selectedIngredient!];
   }
 
   // Make sure the selected ingredient/unit are in the dropdown lists
@@ -267,30 +288,67 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Ingredient Dropdown
-              DropdownButtonFormField<IngredientOption>(
-                value: selectedIngredient,
-                decoration: const InputDecoration(
-                  labelText: 'Ingredient',
-                  border: OutlineInputBorder(),
-                ),
-                items: availableIngredients.map((ingredient) {
-                  return DropdownMenuItem<IngredientOption>(
-                    value: ingredient,
-                    child: Text(ingredient.name),
-                  );
-                }).toList(),
-                onChanged: (IngredientOption? newValue) {
-                  setDialogState(() {
-                    selectedIngredient = newValue;
-                  });
-                },
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select an ingredient';
-                  }
-                  return null;
-                },
+              // Ingredient Search Field with Dropdown
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: ingredientsController,
+                    decoration: InputDecoration(
+                      labelText: 'Search Ingredient',
+                      border: const OutlineInputBorder(),
+                      suffixIcon: isLoadingIngredients 
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.search),
+                    ),
+                    onChanged: (value) {
+                      _debounceIngredientSearch(value, setDialogState, (ingredients) {
+                        searchedIngredients = ingredients;
+                        isLoadingIngredients = false;
+                      });
+                      setDialogState(() {
+                        isLoadingIngredients = true;
+                        selectedIngredient = null; // Clear selection when searching
+                      });
+                    },
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // Ingredient Dropdown (show only when there are results)
+                  if (searchedIngredients.isNotEmpty)
+                    DropdownButtonFormField<IngredientOption>(
+                      value: selectedIngredient,
+                      decoration: const InputDecoration(
+                        labelText: 'Select Ingredient',
+                        border: OutlineInputBorder(),
+                      ),
+                      items: searchedIngredients.map((ingredient) {
+                        return DropdownMenuItem<IngredientOption>(
+                          value: ingredient,
+                          child: Text(ingredient.name),
+                        );
+                      }).toList(),
+                      onChanged: (IngredientOption? newValue) {
+                        setDialogState(() {
+                          selectedIngredient = newValue;
+                          if (newValue != null) {
+                            ingredientsController.text = newValue.name;
+                          }
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select an ingredient';
+                        }
+                        return null;
+                      },
+                    ),
+                ],
               ),
               
               const SizedBox(height: 16),
@@ -365,7 +423,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     RecipeIngredient newIngredient = RecipeIngredient(
         ingredientId: selectedIngredient!.id,
         name: selectedIngredient!.name,
-        description: 'default description',
+        description: selectedIngredient?.description ?? 'no description',
         quantity: selectedQuantity,
         unit: selectedUnit!.name,
         unitId: selectedUnit!.id);
@@ -382,6 +440,23 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
 
     return null;
   });
+}
+
+// Debounced search for ingredients
+void _debounceIngredientSearch(String query, StateSetter setDialogState, Function(List<IngredientOption>) onResults) {
+  _ingredientSearchTimer?.cancel();
+  _ingredientSearchTimer = Timer(const Duration(milliseconds: 500), () {
+    IngredientService.getAvailableIngredients(query: query).then((ingredients) {
+      setDialogState(() {
+        onResults(ingredients);
+      });
+    });
+  });
+}
+
+Future<List<IngredientOption>> _loadInitialIngredients() async {
+  // Load first page of ingredients without search query
+  return await IngredientService.getAvailableIngredients();
 }
 
  @override

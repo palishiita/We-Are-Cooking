@@ -81,7 +81,7 @@ class _RecipeHeaderState extends ConsumerState<RecipeHeader> {
                   controller: titleController,
                   hintText: 'Title',
                   maxLength: 50,
-                  onChanged: (value) => recipe.editRecipe(description: value))),
+                  onChanged: (value) => recipe.editRecipe(title: value))),
           Padding(
               padding: const EdgeInsets.all(15),
               child: Center(
@@ -89,7 +89,7 @@ class _RecipeHeaderState extends ConsumerState<RecipeHeader> {
                 controller: descriptionController,
                 hintText: 'Description',
                 maxLength: 150,
-                onChanged: (value) => recipe.editRecipe(title: value),
+                onChanged: (value) => recipe.editRecipe(description: value),
               ))),
           const Divider(height: 2)
         ]);
