@@ -3,10 +3,10 @@ databaseChangeLog:
       id: 2025-05-020-2100-user-profiles.yaml
       author: technosudo
       changes:
-        - renameColumn:
-            tableName: user_profiles
-            oldColumnName: user_id
-            newColumnName: user_uuid
+        # - renameColumn:
+        #     tableName: user_profiles
+        #     oldColumnName: user_id
+        #     newColumnName: user_uuid
         - renameColumn:
             tableName: user_profiles
             oldColumnName: photo_url_id

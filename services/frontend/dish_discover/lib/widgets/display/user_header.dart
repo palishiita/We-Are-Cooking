@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dish_discover/widgets/display/user_avatar.dart';
-import 'package:dish_discover/widgets/display_with_input/like_save_indicator.dart';
 import 'package:dish_discover/widgets/inputs/custom_text_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

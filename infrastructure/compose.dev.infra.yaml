@@ -33,7 +33,7 @@ services:
   auth-db:
     container_name: "auth-db"
     image: postgres:17
-    ports:
+    ports:  
       - "$KEYClOAK_DB:5432"
     environment:
       POSTGRES_DB: keycloak

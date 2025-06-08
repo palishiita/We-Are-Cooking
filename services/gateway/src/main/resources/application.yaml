@@ -45,7 +45,7 @@ spring:
             - RewritePath=/api/recipesapi/(?<segment>.*), /${segment}
 
         - id: reels
-          uri: "http://wrc-reels:7001"
+          uri: "http://wrc-reels-api:7000"
           predicates:
             - Path=/api/reels/**
           filters:
@@ -56,6 +56,7 @@ spring:
           predicates:
             - Path=/front/**
           filters:
+            - PreserveHostHeader
             - RewritePath=/front/(?<segment>.*), /${segment}
 
 springdoc:

@@ -12,14 +12,14 @@ use crate::{
 pub trait VideoRepository<'a> {
     fn new(db: Arc<Database<'a>>) -> Self;
     async fn get_video_by_id(&self, video_id: Uuid) -> Result<Video, AppError>;
-    async fn get_video_by_reel_id(&self, reel_id: Uuid) -> Result<Video, AppError>;
-    async fn post_video(
+    async fn get_video_by_reel_id(&self, reel_id: Uuid) -> Result<Video, AppError>;    async fn post_video(
         &self,
         video: PostVideo,
+        posting_user_id: Uuid,
         temp_file: BytesMut,
         file_name: String,
     ) -> Result<Uuid, AppError>;
-    async fn put_video(&self, video_id: Uuid, video: PostVideo) -> Result<(), AppError>;
+    async fn put_video(&self, video_id: Uuid, video: PostVideo, posting_user_id: Uuid) -> Result<(), AppError>;
     async fn delete_video(&self, video_id: Uuid) -> Result<(), AppError>;
 }
 
@@ -45,11 +45,10 @@ impl<'a> VideoRepository<'a> for VideoService<'a> {
             Ok(video) => Ok(video),
             Err(e) => Err(AppError::InternalError(e.to_string())),
         }
-    }
-
-    async fn post_video(
+    }    async fn post_video(
         &self,
         video: PostVideo,
+        posting_user_id: Uuid,
         file_bytes: BytesMut,
         file_name: String,
     ) -> Result<Uuid, AppError> {
@@ -69,11 +68,9 @@ impl<'a> VideoRepository<'a> for VideoService<'a> {
         let mut file = File::create(&path).await.map_err(|e| AppError::InternalError(e.to_string()))?;
         file.write_all(&file_bytes).await.map_err(|e| AppError::InternalError(e.to_string()))?;
 
-        let video_url = format!("/static/videos/{}", unique_filename);
-
-        let video: Video = Video {
+        let video_url = format!("/static/videos/{}", unique_filename);        let video: Video = Video {
             id: video_id,
-            posting_user_id: video.posting_user_id,
+            posting_user_id: posting_user_id,
             description: video.description,
             title: video.title,
             video_length_seconds: video.video_length_seconds,
@@ -86,7 +83,7 @@ impl<'a> VideoRepository<'a> for VideoService<'a> {
         }
     }
 
-    async fn put_video(&self, video_id: Uuid, video: PostVideo) -> Result<(), AppError> {
+    async fn put_video(&self, video_id: Uuid, video: PostVideo, posting_user_id: Uuid) -> Result<(), AppError> {
         todo!();
         // let video: Video = Video {
         //     id: video_id,

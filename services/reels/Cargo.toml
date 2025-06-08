@@ -4,9 +4,10 @@ version = "0.1.0"
 edition = "2024"
 authors = ["Maciej Grzesik"]
 
-[dependencies] 
+[dependencies]
 actix-rt = "2.10.0"
 actix-web = "4.10.2"
+actix-cors = "0.7.0"
 config = "0.15.11"
 serde = "1.0.219"
 serde_json = "1.0.140"
@@ -19,7 +20,7 @@ sqlx = { version = "0.8", default-features = false, features = [
     "postgres",
     "uuid",
     "chrono",
-    "migrate"
+    "migrate",
 ] }
 env_logger = "0.11.8"
 actix-multipart = "0.7.2"
