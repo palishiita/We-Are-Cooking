@@ -40,7 +40,6 @@ namespace RecipesAPI.Controllers
         }
 #endif
 
-        // should add page count in the response
         [Route("recipes/full")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
@@ -85,17 +84,82 @@ namespace RecipesAPI.Controllers
             }
         }
 
+        [Route("recipes/full/{selectedUserId:guid}")]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipes with full ingredient data.")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRecipesFull([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid selectedUserId, [FromQuery] int? count, [FromQuery] int? page, CancellationToken ct)
+        {
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
+
+            try
+            {
+                var recipes = await _recipeService.GetUserFullRecipes(userId, selectedUserId, count.Value, page.Value, ct);
+
+                if (!recipes.Data.Any())
+                {
+                    return NotFound("No recipes matching the given query.");
+                }
+                return Ok(recipes);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Route("recipe")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader] Guid userId, [FromBody] AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct)
+        public async Task<IActionResult> AddNewRecipeWithIngredientsByIds([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct)
         {
             try
             {
                 var id = await _recipeService.CreateRecipeWithIngredientsByIds(userId, recipeDTO, ct);
                 return CreatedAtAction(nameof(AddNewRecipeWithIngredientsByIds), id);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [Route("recipe/{recipeId:guid}")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [HttpPut]
+        public async Task<IActionResult> SetRecipeIngredients([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, [FromBody] AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct)
+        {
+            try
+            {
+                await _recipeService.UpdateRecipe(userId, recipeId, recipeDTO, ct);
+                return Ok();
             }
             catch (OperationCanceledException ex)
             {
@@ -283,35 +347,35 @@ namespace RecipesAPI.Controllers
             }
         }
 
-        [Route("recipe/{recipeId:guid}")]
-        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        [HttpPut]
-        public async Task<IActionResult> UpdateRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, [FromBody] UpdateRecipeDTO recipeDTO, CancellationToken ct)
-        {
-            try
-            {
-                await _recipeService.UpdateRecipeNameById(userId, recipeId, recipeDTO, ct);
-                return Ok();
-            }
-            catch (OperationCanceledException ex)
-            {
-                _logger.LogInformation(ex, ex.Message);
-                return NoContent();
-            }
-            catch (RecipeNotFoundException ex)
-            {
-                _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception: {ex.Message}.");
-                return BadRequest(ex.Message);
-            }
-        }
+        //[Route("recipe/{recipeId:guid}")]
+        //[ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateRecipeById([FromHeader(Name = "X-Uuid")] Guid userId, [FromRoute] Guid recipeId, [FromBody] UpdateRecipeDTO recipeDTO, CancellationToken ct)
+        //{
+        //    try
+        //    {
+        //        await _recipeService.UpdateRecipeNameById(userId, recipeId, recipeDTO, ct);
+        //        return Ok();
+        //    }
+        //    catch (OperationCanceledException ex)
+        //    {
+        //        _logger.LogInformation(ex, ex.Message);
+        //        return NoContent();
+        //    }
+        //    catch (RecipeNotFoundException ex)
+        //    {
+        //        _logger.LogError(ex, $"Exception: {ex.Message}.");
+        //        return NotFound(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Exception: {ex.Message}.");
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [Route("recipe/{recipeId:guid}/ingredients")]
         [ProducesResponseType(typeof(IEnumerable<Guid>), StatusCodes.Status201Created)]
