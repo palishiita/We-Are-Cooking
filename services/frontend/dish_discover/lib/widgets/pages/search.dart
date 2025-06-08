@@ -18,6 +18,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   late String searchPhrase;
   late String currentSearchTerm; // The term being typed
+  DateTime lastRefresh = DateTime.now();
   
   @override
   void initState() {

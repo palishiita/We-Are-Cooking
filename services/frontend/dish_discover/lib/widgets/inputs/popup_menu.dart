@@ -1,3 +1,4 @@
+import 'package:dish_discover/widgets/pages/search.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,7 +128,9 @@ enum PopupMenuAction {
           obscure: true),
       'Delete',
       () {
-        // TODO delete recipe
+        Recipe.deleteRecipe(recipeId);
+        Navigator.of(context).pop(); // Close the dialog
+        Navigator.of(context).pop(); // go back I guess
       },
     );
   }

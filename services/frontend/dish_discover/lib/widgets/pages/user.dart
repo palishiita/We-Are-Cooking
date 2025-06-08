@@ -138,7 +138,7 @@ class _UserPageState extends ConsumerState<UserPage> {
                       Future.microtask(() => Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) =>
-                                  EditRecipePage(recipeId: newRecipe.id))));
+                                  EditRecipePage(recipeId: newRecipe.id, name: newRecipe.name))));
                       return null;
                     } else {
                       return "Title cannot be empty";

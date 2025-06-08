@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dish_discover/entities/app_state.dart';
 import 'package:dish_discover/widgets/inputs/popup_menu.dart';
 import 'package:dish_discover/widgets/style/style.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,10 +19,11 @@ import '../display_with_input/tags_box.dart';
 class EditRecipePage extends ConsumerStatefulWidget {
   static const routeName = "/edit";
   final String recipeId;
+  final String? name;
   final ChangeNotifierProvider<Recipe>? recipeProvider;
 
   const EditRecipePage(
-      {super.key, required this.recipeId, this.recipeProvider});
+      {super.key, required this.recipeId, this.name, this.recipeProvider});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditRecipePageState();
@@ -29,6 +31,58 @@ class EditRecipePage extends ConsumerStatefulWidget {
 
 class _EditRecipePageState extends ConsumerState<EditRecipePage> {
   ChangeNotifierProvider<Recipe>? recipeProvider;
+
+Future<void> _saveRecipe() async {
+  Recipe recipe = ref.read(recipeProvider!);
+  
+  if(recipe.id == null || recipe.id.isEmpty || recipe.id == '00000000-0000-0000-0000-000000000000') {
+    recipe.isReadFromDB = false;
+  }
+  else
+  {
+    print('Recipe id: ${recipe.id}');
+    recipe.isReadFromDB = true;
+  }
+  // Validate that recipe has required fields
+  if (recipe.name.trim().isEmpty) {
+    _showErrorDialog('Recipe name is required');
+    return;
+  }
+  
+  if (recipe.ingredients.isEmpty) {
+    _showErrorDialog('At least one ingredient is required');
+    return;
+  }
+  
+  // Show loading indicator
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
+  
+  try {
+      bool success = await Recipe.saveRecipe(recipe);
+      
+      // Close loading dialog
+      Navigator.of(context).pop();
+      
+      if (success) {
+        _showSuccessDialog('Recipe saved successfully!');
+      } else {
+        _showErrorDialog('Failed to save recipe. Please try again.');
+      }
+    } catch (e) {
+      // Close loading dialog
+      Navigator.of(context).pop();
+      _showErrorDialog('An error occurred while saving the recipe.');
+    }
+  }
+
 
   @override
   void initState() {
@@ -54,14 +108,20 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
             if (kDebugMode) {
               recipe = Recipe(
                   id: widget.recipeId,
-                  name: "recipe_${widget.recipeId}_debug",
-                  userData: UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug'),
-                  description: "Testing testing testing testing testing testing testing.");
+                  name: widget.name == null ? "recipe_${widget.recipeId}_debug" : widget.name!,
+                  userData: AppState.currentUser == null 
+                    ? UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug') 
+                    : UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username),
+                  description: "Testing testing testing testing testing testing testing.",
+                  isReadFromDB: false);
+            print('Recipe is NOT read from DB.');
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
             }
           } else {
             recipe = recipeData.data!;
+            recipe.isReadFromDB = true;
+            print('Recipe is read from DB.');
           }
 
           recipeProvider = ChangeNotifierProvider<Recipe>((ref) => recipe);
@@ -72,13 +132,17 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
 
   Widget done() {
     Recipe recipe = ref.read(recipeProvider!);
-
+    
     return Scaffold(
         appBar: AppBar(
             toolbarHeight: appBarHeight,
             scrolledUnderElevation: 0.0,
             leading: const BackButton(),
             actions: [
+              IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: _saveRecipe,  // Add this line
+              ),
               IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () => PopupMenuAction.deleteAction(context, recipe.id),
@@ -117,5 +181,44 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
           //StepsBox(recipeProvider: recipeProvider!, forEditing: true),
           //TagsBox(recipeProvider: recipeProvider!, forEditing: true)
         ]));
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Success'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop(); // Go back to previous screen
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
