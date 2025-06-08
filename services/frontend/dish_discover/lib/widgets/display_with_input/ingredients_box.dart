@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../entities/new_recipe.dart';
+import '../../entities/ingredient_helpers.dart';
 
 class MultiplierField extends StatelessWidget {
   final TextEditingController controller;
@@ -77,7 +78,16 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
   late TextEditingController nameController;
   late TextEditingController quantityController;
   late TextEditingController unitController;
-  late TextEditingController caloricDensityController;
+
+  
+  // Database-driven options
+  List<IngredientOption> availableIngredients = [];
+  List<UnitOption> availableUnits = [];
+  
+  // Selected values for the dialog
+  IngredientOption? selectedIngredient;
+  UnitOption? selectedUnit;
+  double selectedQuantity = 1.0;
 
   @override
   void initState() {
@@ -90,7 +100,22 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     nameController = TextEditingController();
     quantityController = TextEditingController();
     unitController = TextEditingController();
-    caloricDensityController = TextEditingController();
+    
+    _loadDatabaseOptions();
+  }
+  
+  // Load ingredients and units from database
+  Future<void> _loadDatabaseOptions() async {
+    try {
+      availableIngredients = await IngredientService.getAvailableIngredients();
+      // this should be constant, unit count stays the same
+      availableUnits = await IngredientService.getAvailableUnits(count: 20, page: 1);
+      setState(() {});
+    } catch (e) {
+      //if (kDebugMode) {
+        print('Error loading database options: $e');
+      //}
+    }
   }
 
   String doubleToString(double d) {
@@ -120,17 +145,88 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     return "${ingredient.name} #${index + 1} - $amount$units";
   }
 
-  // I guess its different now, at least should be
+  void _showQuantityPicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double tempQuantity = selectedQuantity;
+        return AlertDialog(
+          title: const Text('Select Quantity'),
+          content: SizedBox(
+            height: 250,
+            child: Column(
+              children: [
+                Text(
+                  tempQuantity.toStringAsFixed(1),
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListWheelScrollView.useDelegate(
+                    itemExtent: 50,
+                    physics: const FixedExtentScrollPhysics(),
+                    controller: FixedExtentScrollController(
+                      initialItem: ((selectedQuantity - 0.1) / 0.1).round(),
+                    ),
+                    onSelectedItemChanged: (index) {
+                      tempQuantity = (index * 0.1) + 0.1;
+                    },
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      builder: (context, index) {
+                        final value = (index * 0.1) + 0.1;
+                        return Center(
+                          child: Text(
+                            value.toStringAsFixed(1),
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        );
+                      },
+                      childCount: 1000, // Allows up to 100.0
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  selectedQuantity = tempQuantity;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Updated ingredient dialog with database-driven dropdowns and quantity picker
   void callIngredientDialog(bool add, Recipe recipe, int? index) {
     if (add) {
-      nameController.text = '';
-      quantityController.text = '';
-      unitController.text = '';
-      caloricDensityController.text = '';
+      selectedIngredient = null;
+      selectedUnit = null;
+      selectedQuantity = 1.0;
     } else {
-      nameController.text = recipe.ingredients[index!].name;
-      quantityController.text = recipe.ingredients[index].quantity.toString();
-      unitController.text = recipe.ingredients[index].unit;
+      // Find the existing ingredient and unit from the database options
+      selectedIngredient = availableIngredients.firstWhere(
+        (ing) => ing.id == recipe.ingredients[index!].ingredientId,
+        orElse: () => availableIngredients.isNotEmpty ? availableIngredients.first : IngredientOption(id: '', name: ''),
+      );
+      selectedUnit = availableUnits.firstWhere(
+        (unit) => unit.id == recipe.ingredients[index!].unitId,
+        orElse: () => availableUnits.isNotEmpty ? availableUnits.first : UnitOption(id: '', name: ''),
+      );
+      print('Selected unit: ${selectedUnit!.name}');
+      print('Selected ingredient: ${selectedIngredient!.name}');
+      selectedQuantity = recipe.ingredients[index!].quantity;
     }
 
     CustomDialog.callDialog(
@@ -138,27 +234,96 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
         add ? 'Add ingredient' : 'Edit ingredient',
         '',
         null,
-        Flex(
-          direction: Axis.vertical,
-          children: [
-            CustomTextField(controller: nameController, hintText: 'Name'),
-            CustomTextField(
-                controller: quantityController, hintText: 'Quantity'),
-            CustomTextField(controller: unitController, hintText: 'Units'),
-            CustomTextField(
-                controller: caloricDensityController,
-                hintText: 'Caloric density'),
-          ],
+        StatefulBuilder(
+          builder: (context, setDialogState) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Ingredient Dropdown
+                DropdownButtonFormField<IngredientOption>(
+                  value: selectedIngredient,
+                  decoration: const InputDecoration(
+                    labelText: 'Ingredient',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: availableIngredients.map((ingredient) {
+                    return DropdownMenuItem<IngredientOption>(
+                      value: ingredient,
+                      child: Text(ingredient.name),
+                    );
+                  }).toList(),
+                  onChanged: (IngredientOption? newValue) {
+                    setDialogState(() {
+                      selectedIngredient = newValue;
+                    });
+                  },
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Quantity Picker
+                InkWell(
+                  onTap: () {
+                    _showQuantityPicker();
+                    // Refresh dialog state after quantity picker closes
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      setDialogState(() {});
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Quantity: ${selectedQuantity.toStringAsFixed(1)}'),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Unit Dropdown
+                DropdownButtonFormField<UnitOption>(
+                  value: selectedUnit,
+                  decoration: const InputDecoration(
+                    labelText: 'Unit',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: availableUnits.map((unit) {
+                    return DropdownMenuItem<UnitOption>(
+                      value: unit,
+                      child: Text(unit.name),
+                    );
+                  }).toList(),
+                  onChanged: (UnitOption? newValue) {
+                    setDialogState(() {
+                      selectedUnit = newValue;
+                    });
+                  },
+                ),
+              ],
+            );
+          },
         ),
         add ? 'Add' : 'Save', () {
+      if (selectedIngredient == null || selectedUnit == null) {
+        // Show error or return without saving
+        return 'Please select both ingredient and unit';
+      }
+
       RecipeIngredient newIngredient = RecipeIngredient(
-          ingredientId: index == null ? '00000000-0000-0000-0000-000000000000' : recipe.ingredients[index].ingredientId,
-          name: nameController.text,
+          ingredientId: selectedIngredient!.id,
+          name: selectedIngredient!.name,
           description: 'default description',
-          quantity: double.tryParse(quantityController.text) ??
-              (index == null ? 1.0 : recipe.ingredients[index].quantity),
-          unit: unitController.text,
-          unitId: '00000000-0000-0000-0000-000000000000');
+          quantity: selectedQuantity,
+          unit: selectedUnit!.name,
+          unitId: selectedUnit!.id);
 
       if (add) {
         recipe.addIngredient(newIngredient);
@@ -170,7 +335,7 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
     });
   }
 
-@override
+ @override
   Widget build(BuildContext context) {
     Recipe recipe = ref.watch(widget.recipeProvider);
 

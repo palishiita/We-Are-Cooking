@@ -9,6 +9,47 @@ import 'app_state.dart';
 //import 'ingredient.dart';
 //import 'recipe_ingredient_data.dart';
 
+// DTO classes for saving
+class AddRecipeWithIngredientsDTO {
+  final String name;
+  final String description;
+  final List<AddIngredientToRecipeDTO> ingredients;
+
+  AddRecipeWithIngredientsDTO({
+    required this.name,
+    required this.description,
+    required this.ingredients,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'ingredients': ingredients.map((ingredient) => ingredient.toJson()).toList(),
+    };
+  }
+}
+
+class AddIngredientToRecipeDTO {
+  final String ingredientId;
+  final double quantity;
+  final String unitId;
+
+  AddIngredientToRecipeDTO({
+    required this.ingredientId,
+    required this.quantity,
+    required this.unitId,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ingredientId': ingredientId,
+      'quantity': quantity,
+      'unitId': unitId,
+    };
+  }
+}
+
 // Response wrapper for paginated recipe data
 class RecipeResponse {
   final List<Recipe> data;
@@ -116,12 +157,14 @@ class Recipe extends ChangeNotifier {
   Image? image;
   List<RecipeIngredient> ingredients;
   UserData? userData;
+  bool? isReadFromDB;
 
   Recipe({
     required this.id,
     this.name = '',
     this.description = '',
     this.userData,
+    this.isReadFromDB
   }) : ingredients = [];
 
   // Legacy getter for backward compatibility
@@ -137,9 +180,6 @@ class Recipe extends ChangeNotifier {
       'ingredients': ingredients.map((e) => e.toJson()).toList(),
       'userData': userData?.toJson(),
       // Legacy fields for backward compatibility
-      'recipe_id': id,
-      'recipe_name': name,
-      'author': userData?.username ?? '',
     };
   }
 
@@ -151,6 +191,7 @@ class Recipe extends ChangeNotifier {
       userData: json['userData'] != null 
           ? UserData.fromJson(json['userData']) 
           : UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'User not found'),
+      isReadFromDB: true
     );
     // Parse ingredients
     if (json['ingredients'] != null) {
@@ -294,7 +335,7 @@ class Recipe extends ChangeNotifier {
      };
 
       final response = await http.get(Uri.parse(
-          'http://localhost:7140/api/recipes/recipes/$recipeId'));
+          'http://localhost:7140/api/recipes/recipes/$recipeId/full'));
           //'http://${AppState.serverDomain}/api/recipes/recipes/$recipeId'));
 
       if (response.statusCode == 200) {
@@ -319,30 +360,71 @@ class Recipe extends ChangeNotifier {
     }
   }
 
-  static Future<void> saveRecipe(Recipe recipe) async {
+  //static Future<void> saveRecipe(Recipe recipe) async {
+  //  try {
+  //    final response = await http.post(
+  //      Uri.parse(
+  //          'http://${AppState.serverDomain}/api/recipes/recipes'),
+  //      headers: <String, String>{
+  //        'Content-Type': 'application/json; charset=UTF-8',
+  //      },
+  //      body: jsonEncode(recipe.toJson()),
+  //    );
+
+  //    if (response.statusCode == 201 || response.statusCode == 200) {
+  //      if (kDebugMode) {
+  //        print('Recipe saved successfully');
+  //      }
+  //    } else {
+  //      throw Exception(
+  //          'Failed to save recipe, status code: ${response.statusCode} - ${response.reasonPhrase}');
+  //    }
+  //  } catch (e) {
+  //    if (kDebugMode) {
+  //      print('Error saving recipe: $e');
+  //    }
+  //    throw Exception('Failed to save recipe: $e');
+  //  }
+  //}
+
+  static Future<bool> saveRecipe(Recipe recipe) async {
     try {
-      final response = await http.post(
-        Uri.parse(
-            'http://${AppState.serverDomain}/api/recipes/recipes'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(recipe.toJson()),
+      // Convert RecipeIngredients to AddIngredientToRecipeDTO
+      List<AddIngredientToRecipeDTO> ingredientDTOs = recipe.ingredients
+          .map((ingredient) => AddIngredientToRecipeDTO(
+                ingredientId: ingredient.ingredientId,
+                quantity: ingredient.quantity,
+                unitId: ingredient.unitId,
+              ))
+          .toList();
+
+      // Create the main DTO
+      AddRecipeWithIngredientsDTO recipeDTO = AddRecipeWithIngredientsDTO(
+        name: recipe.name,
+        description: recipe.description,
+        ingredients: ingredientDTOs,
       );
 
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        if (kDebugMode) {
-          print('Recipe saved successfully');
-        }
+      // Make the API call
+      final response = await http.post(
+        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
+        Uri.parse('http://localhost:7140/api/recipes/recipe'),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode(recipeDTO.toJson()),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
       } else {
-        throw Exception(
-            'Failed to save recipe, status code: ${response.statusCode} - ${response.reasonPhrase}');
+        print('Failed to save recipe: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        return false;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error saving recipe: $e');
-      }
-      throw Exception('Failed to save recipe: $e');
+      print('Error saving recipe: $e');
+      return false;
     }
   }
 }

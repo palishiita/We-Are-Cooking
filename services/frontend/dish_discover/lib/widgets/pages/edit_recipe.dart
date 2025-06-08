@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dish_discover/entities/app_state.dart';
 import 'package:dish_discover/widgets/inputs/popup_menu.dart';
 import 'package:dish_discover/widgets/style/style.dart';
 import 'package:file_picker/file_picker.dart';
@@ -30,6 +31,50 @@ class EditRecipePage extends ConsumerStatefulWidget {
 class _EditRecipePageState extends ConsumerState<EditRecipePage> {
   ChangeNotifierProvider<Recipe>? recipeProvider;
 
+Future<void> _saveRecipe() async {
+  Recipe recipe = ref.read(recipeProvider!);
+  
+  // Validate that recipe has required fields
+  if (recipe.name.trim().isEmpty) {
+    _showErrorDialog('Recipe name is required');
+    return;
+  }
+  
+  if (recipe.ingredients.isEmpty) {
+    _showErrorDialog('At least one ingredient is required');
+    return;
+  }
+  
+  // Show loading indicator
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
+  
+  try {
+      bool success = await Recipe.saveRecipe(recipe);
+      
+      // Close loading dialog
+      Navigator.of(context).pop();
+      
+      if (success) {
+        _showSuccessDialog('Recipe saved successfully!');
+      } else {
+        _showErrorDialog('Failed to save recipe. Please try again.');
+      }
+    } catch (e) {
+      // Close loading dialog
+      Navigator.of(context).pop();
+      _showErrorDialog('An error occurred while saving the recipe.');
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +100,9 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
               recipe = Recipe(
                   id: widget.recipeId,
                   name: "recipe_${widget.recipeId}_debug",
-                  userData: UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug'),
+                  userData: AppState.currentUser == null 
+                    ? UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug') 
+                    : UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username),
                   description: "Testing testing testing testing testing testing testing.");
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
@@ -79,6 +126,10 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
             scrolledUnderElevation: 0.0,
             leading: const BackButton(),
             actions: [
+              IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: _saveRecipe,  // Add this line
+              ),
               IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () => PopupMenuAction.deleteAction(context, recipe.id),
@@ -117,5 +168,44 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
           //StepsBox(recipeProvider: recipeProvider!, forEditing: true),
           //TagsBox(recipeProvider: recipeProvider!, forEditing: true)
         ]));
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Success'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop(); // Go back to previous screen
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
