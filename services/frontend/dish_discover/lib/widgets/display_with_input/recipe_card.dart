@@ -62,7 +62,7 @@ class RecipeCard extends ConsumerWidget {
                             action2: PopupMenuAction.edit,
                             onPressed2: authorUsername == (AppState.currentUser?.username ?? '')
                                 ? () => PopupMenuAction.editAction(context, recipe.id, recipeProvider)
-                                : null)),
+                                : () => print('Author is: $authorUsername and current user is: ${AppState.currentUser?.username}'))),
                       const Divider(height: 1.0),
                       Flexible(child: RecipeCover(cover: recipe.image)),
                       // Removed like/save/tags section

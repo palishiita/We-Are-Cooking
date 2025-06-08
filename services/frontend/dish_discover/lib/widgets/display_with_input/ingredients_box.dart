@@ -210,130 +210,179 @@ class _IngredientsBoxState extends ConsumerState<IngredientsBox> {
 
   // Updated ingredient dialog with database-driven dropdowns and quantity picker
   void callIngredientDialog(bool add, Recipe recipe, int? index) {
-    if (add) {
-      selectedIngredient = null;
-      selectedUnit = null;
-      selectedQuantity = 1.0;
-    } else {
-      // Find the existing ingredient and unit from the database options
-      selectedIngredient = availableIngredients.firstWhere(
-        (ing) => ing.id == recipe.ingredients[index!].ingredientId,
-        orElse: () => availableIngredients.isNotEmpty ? availableIngredients.first : IngredientOption(id: '', name: ''),
-      );
-      selectedUnit = availableUnits.firstWhere(
-        (unit) => unit.id == recipe.ingredients[index!].unitId,
-        orElse: () => availableUnits.isNotEmpty ? availableUnits.first : UnitOption(id: '', name: ''),
-      );
-      print('Selected unit: ${selectedUnit!.name}');
-      print('Selected ingredient: ${selectedIngredient!.name}');
-      selectedQuantity = recipe.ingredients[index!].quantity;
+  if (add) {
+    selectedIngredient = null;
+    selectedUnit = null;
+    selectedQuantity = 1.0;
+  } else {
+    // Find the existing ingredient and unit from the database options
+    selectedIngredient = availableIngredients.firstWhere(
+      (ing) => ing.id == recipe.ingredients[index!].ingredientId,
+      orElse: () {
+        // If not found in available ingredients, create a temporary one
+        // This happens when editing an ingredient that might not be in the current list
+        return IngredientOption(
+          id: recipe.ingredients[index!].ingredientId, 
+          name: recipe.ingredients[index!].name
+        );
+      },
+    );
+    
+    selectedUnit = availableUnits.firstWhere(
+      (unit) => unit.id == recipe.ingredients[index!].unitId,
+      orElse: () {
+        // If not found in available units, create a temporary one
+        return UnitOption(
+          id: recipe.ingredients[index!].unitId, 
+          name: recipe.ingredients[index!].unit
+        );
+      },
+    );
+    
+    print('Selected unit: ${selectedUnit!.name} (ID: ${selectedUnit!.id})');
+    print('Selected ingredient: ${selectedIngredient!.name} (ID: ${selectedIngredient!.id})');
+    selectedQuantity = recipe.ingredients[index!].quantity;
+  }
+
+  // Make sure the selected ingredient/unit are in the dropdown lists
+  if (!add) {
+    // Add current ingredient to available ingredients if not present
+    if (!availableIngredients.any((ing) => ing.id == selectedIngredient!.id)) {
+      availableIngredients.add(selectedIngredient!);
+    }
+    
+    // Add current unit to available units if not present
+    if (!availableUnits.any((unit) => unit.id == selectedUnit!.id)) {
+      availableUnits.add(selectedUnit!);
+    }
+  }
+
+  CustomDialog.callDialog(
+      context,
+      add ? 'Add ingredient' : 'Edit ingredient',
+      '',
+      null,
+      StatefulBuilder(
+        builder: (context, setDialogState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Ingredient Dropdown
+              DropdownButtonFormField<IngredientOption>(
+                value: selectedIngredient,
+                decoration: const InputDecoration(
+                  labelText: 'Ingredient',
+                  border: OutlineInputBorder(),
+                ),
+                items: availableIngredients.map((ingredient) {
+                  return DropdownMenuItem<IngredientOption>(
+                    value: ingredient,
+                    child: Text(ingredient.name),
+                  );
+                }).toList(),
+                onChanged: (IngredientOption? newValue) {
+                  setDialogState(() {
+                    selectedIngredient = newValue;
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select an ingredient';
+                  }
+                  return null;
+                },
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Quantity Picker
+              InkWell(
+                onTap: () {
+                  _showQuantityPicker();
+                  // Refresh dialog state after quantity picker closes
+                  Future.delayed(const Duration(milliseconds: 100), () {
+                    setDialogState(() {});
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Quantity: ${selectedQuantity.toStringAsFixed(1)}'),
+                      const Icon(Icons.arrow_drop_down),
+                    ],
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Unit Dropdown
+              DropdownButtonFormField<UnitOption>(
+                value: selectedUnit,
+                decoration: const InputDecoration(
+                  labelText: 'Unit',
+                  border: OutlineInputBorder(),
+                ),
+                items: availableUnits.map((unit) {
+                  return DropdownMenuItem<UnitOption>(
+                    value: unit,
+                    child: Text(unit.name),
+                  );
+                }).toList(),
+                onChanged: (UnitOption? newValue) {
+                  setDialogState(() {
+                    selectedUnit = newValue;
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a unit';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          );
+        },
+      ),
+      add ? 'Add' : 'Save', () {
+    // Validate selections
+    if (selectedIngredient == null || selectedUnit == null) {
+      return 'Please select both ingredient and unit';
+    }
+    
+    // Additional validation for empty IDs
+    if (selectedIngredient!.id.isEmpty || selectedUnit!.id.isEmpty) {
+      return 'Invalid ingredient or unit selection';
     }
 
-    CustomDialog.callDialog(
-        context,
-        add ? 'Add ingredient' : 'Edit ingredient',
-        '',
-        null,
-        StatefulBuilder(
-          builder: (context, setDialogState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Ingredient Dropdown
-                DropdownButtonFormField<IngredientOption>(
-                  value: selectedIngredient,
-                  decoration: const InputDecoration(
-                    labelText: 'Ingredient',
-                    border: OutlineInputBorder(),
-                  ),
-                  items: availableIngredients.map((ingredient) {
-                    return DropdownMenuItem<IngredientOption>(
-                      value: ingredient,
-                      child: Text(ingredient.name),
-                    );
-                  }).toList(),
-                  onChanged: (IngredientOption? newValue) {
-                    setDialogState(() {
-                      selectedIngredient = newValue;
-                    });
-                  },
-                ),
-                
-                const SizedBox(height: 16),
-                
-                // Quantity Picker
-                InkWell(
-                  onTap: () {
-                    _showQuantityPicker();
-                    // Refresh dialog state after quantity picker closes
-                    Future.delayed(const Duration(milliseconds: 100), () {
-                      setDialogState(() {});
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Quantity: ${selectedQuantity.toStringAsFixed(1)}'),
-                        const Icon(Icons.arrow_drop_down),
-                      ],
-                    ),
-                  ),
-                ),
-                
-                const SizedBox(height: 16),
-                
-                // Unit Dropdown
-                DropdownButtonFormField<UnitOption>(
-                  value: selectedUnit,
-                  decoration: const InputDecoration(
-                    labelText: 'Unit',
-                    border: OutlineInputBorder(),
-                  ),
-                  items: availableUnits.map((unit) {
-                    return DropdownMenuItem<UnitOption>(
-                      value: unit,
-                      child: Text(unit.name),
-                    );
-                  }).toList(),
-                  onChanged: (UnitOption? newValue) {
-                    setDialogState(() {
-                      selectedUnit = newValue;
-                    });
-                  },
-                ),
-              ],
-            );
-          },
-        ),
-        add ? 'Add' : 'Save', () {
-      if (selectedIngredient == null || selectedUnit == null) {
-        // Show error or return without saving
-        return 'Please select both ingredient and unit';
-      }
+    RecipeIngredient newIngredient = RecipeIngredient(
+        ingredientId: selectedIngredient!.id,
+        name: selectedIngredient!.name,
+        description: 'default description',
+        quantity: selectedQuantity,
+        unit: selectedUnit!.name,
+        unitId: selectedUnit!.id);
 
-      RecipeIngredient newIngredient = RecipeIngredient(
-          ingredientId: selectedIngredient!.id,
-          name: selectedIngredient!.name,
-          description: 'default description',
-          quantity: selectedQuantity,
-          unit: selectedUnit!.name,
-          unitId: selectedUnit!.id);
+    // Debug print to verify IDs are not empty
+    print('Creating ingredient with ID: ${selectedIngredient!.id}');
+    print('Creating ingredient with Unit ID: ${selectedUnit!.id}');
 
-      if (add) {
-        recipe.addIngredient(newIngredient);
-      } else {
-        recipe.updateIngredient(index!, newIngredient);
-      }
+    if (add) {
+      recipe.addIngredient(newIngredient);
+    } else {
+      recipe.updateIngredient(index!, newIngredient);
+    }
 
-      return null;
-    });
-  }
+    return null;
+  });
+}
 
  @override
   Widget build(BuildContext context) {

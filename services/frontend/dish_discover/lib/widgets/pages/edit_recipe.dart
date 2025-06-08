@@ -34,6 +34,14 @@ class _EditRecipePageState extends ConsumerState<EditRecipePage> {
 Future<void> _saveRecipe() async {
   Recipe recipe = ref.read(recipeProvider!);
   
+  if(recipe.id == null || recipe.id.isEmpty || recipe.id == '00000000-0000-0000-0000-000000000000') {
+    recipe.isReadFromDB = false;
+  }
+  else
+  {
+    print('Recipe id: ${recipe.id}');
+    recipe.isReadFromDB = true;
+  }
   // Validate that recipe has required fields
   if (recipe.name.trim().isEmpty) {
     _showErrorDialog('Recipe name is required');
@@ -103,12 +111,16 @@ Future<void> _saveRecipe() async {
                   userData: AppState.currentUser == null 
                     ? UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug') 
                     : UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username),
-                  description: "Testing testing testing testing testing testing testing.");
+                  description: "Testing testing testing testing testing testing testing.",
+                  isReadFromDB: false);
+            print('Recipe is NOT read from DB.');
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
             }
           } else {
             recipe = recipeData.data!;
+            recipe.isReadFromDB = true;
+            print('Recipe is read from DB.');
           }
 
           recipeProvider = ChangeNotifierProvider<Recipe>((ref) => recipe);
@@ -119,7 +131,7 @@ Future<void> _saveRecipe() async {
 
   Widget done() {
     Recipe recipe = ref.read(recipeProvider!);
-
+    
     return Scaffold(
         appBar: AppBar(
             toolbarHeight: appBarHeight,

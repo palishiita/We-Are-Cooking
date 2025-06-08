@@ -129,7 +129,7 @@ class RecipeIngredient {
 
   factory RecipeIngredient.fromJson(Map<String, dynamic> json) {
     return RecipeIngredient(
-      ingredientId: json['id'] ?? '',
+      ingredientId: json['ingredientId'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       quantity: (json['quantity'] ?? 0).toDouble(),
@@ -389,31 +389,21 @@ class Recipe extends ChangeNotifier {
 
   static Future<bool> saveRecipe(Recipe recipe) async {
     try {
-      // Convert RecipeIngredients to AddIngredientToRecipeDTO
-      List<AddIngredientToRecipeDTO> ingredientDTOs = recipe.ingredients
-          .map((ingredient) => AddIngredientToRecipeDTO(
-                ingredientId: ingredient.ingredientId,
-                quantity: ingredient.quantity,
-                unitId: ingredient.unitId,
-              ))
-          .toList();
 
-      // Create the main DTO
-      AddRecipeWithIngredientsDTO recipeDTO = AddRecipeWithIngredientsDTO(
-        name: recipe.name,
-        description: recipe.description,
-        ingredients: ingredientDTOs,
-      );
+      http.Response response;
 
-      // Make the API call
-      final response = await http.post(
-        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
-        Uri.parse('http://localhost:7140/api/recipes/recipe'),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(recipeDTO.toJson()),
-      );
+      if (recipe.isReadFromDB!){
+        print('Update recipe.');
+        // var finalUrl = Uri.parse('http://${AppState.serverDomain}/api/recipes/recipe/${recipe.id}'),
+        var finalUrl = Uri.parse('http://localhost:7140/api/recipes/recipe/${recipe.id}');
+        response = await _addRecipe(finalUrl, recipe, false);
+      }
+      else{
+        // var finalUrl = Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
+        print('Add recipe.');
+        var finalUrl = Uri.parse('http://localhost:7140/api/recipes/recipe');
+        response = await _addRecipe(finalUrl, recipe, true);
+      }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
@@ -427,4 +417,75 @@ class Recipe extends ChangeNotifier {
       return false;
     }
   }
+
+  // return status code
+  static Future<http.Response> _addRecipe(Uri finalUrl, Recipe recipe, bool isPost) async {
+    // Convert RecipeIngredients to AddIngredientToRecipeDTO
+    List<AddIngredientToRecipeDTO> ingredientDTOs = recipe.ingredients
+        .map((ingredient) => AddIngredientToRecipeDTO(
+              ingredientId: ingredient.ingredientId,
+              quantity: ingredient.quantity,
+              unitId: ingredient.unitId,
+            ))
+        .toList();
+
+    // Create the main DTO
+    AddRecipeWithIngredientsDTO recipeDTO = AddRecipeWithIngredientsDTO(
+      name: recipe.name,
+      description: recipe.description,
+      ingredients: ingredientDTOs,
+    );
+
+    // Make the API call
+    if (isPost){
+      return await http.post(
+        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
+        finalUrl,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode(recipeDTO.toJson()),
+      );
+    }else{
+      print('JSON sent to update: ${jsonEncode(recipeDTO.toJson())}');
+      return await http.put(
+        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
+        finalUrl,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode(recipeDTO.toJson()),
+      );
+    }
+
+  }
+
+  //static Future<http.Response> _editRecipe(Uri finalUrl, Recipe recipe) async {
+  //  // Convert RecipeIngredients to AddIngredientToRecipeDTO
+  //  List<AddIngredientToRecipeDTO> ingredientDTOs = recipe.ingredients
+  //      .map((ingredient) => AddIngredientToRecipeDTO(
+  //            ingredientId: ingredient.ingredientId,
+  //            quantity: ingredient.quantity,
+  //            unitId: ingredient.unitId,
+  //          ))
+  //      .toList();
+//
+  //  // Create the main DTO
+  //  AddRecipeWithIngredientsDTO recipeDTO = AddRecipeWithIngredientsDTO(
+  //    name: recipe.name,
+  //    description: recipe.description,
+  //    ingredients: ingredientDTOs,
+  //  );
+//
+  //  // Make the API call
+  //  final response = await http.post(
+  //    finalUrl,
+  //    headers: {
+  //      'Content-Type': 'application/json'
+  //    },
+  //    body: jsonEncode(recipeDTO.toJson()),
+  //  );
+//
+  //  return response;
+  //}
 }
