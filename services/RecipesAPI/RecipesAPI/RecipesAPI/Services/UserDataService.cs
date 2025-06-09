@@ -99,6 +99,14 @@ namespace RecipesAPI.Services
 
         }
 
+        public IEnumerable<Guid> GetIdsOfPresentRecipesInCookbook(Guid userId, IEnumerable<Guid> recipeIds, CancellationToken ct)
+        {
+            return _cookbookRecipes
+                .Where(x => x.UserId == userId)
+                .Where(x => recipeIds.Contains(x.RecipeId))
+                .Select(x => x.RecipeId);
+        }
+
         public async Task ChangeRecipeFavoriteStatus(Guid userId, ChangeRecipeFavoriteStatusDTO statusDTO, CancellationToken ct)
         {
             var cookbookRecipe = _cookbookRecipes

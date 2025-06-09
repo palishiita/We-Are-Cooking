@@ -51,22 +51,22 @@ class AddIngredientToRecipeDTO {
 }
 
 
-  class AddRecipeToCookbookDTO {
-    final String recipeId;
-    bool? setAsFavorite = false;
+class AddRecipeToCookbookDTO {
+  final String recipeId;
+  bool? setAsFavorite = false;
 
-    AddRecipeToCookbookDTO({
-      required this.recipeId,
-      this.setAsFavorite,
-    });
+  AddRecipeToCookbookDTO({
+    required this.recipeId,
+    this.setAsFavorite,
+  });
 
-    Map<String, dynamic> toJson() {
-      return {
+  Map<String, dynamic> toJson() {
+    return { // Wrap in recipeDTO as expected by API
         'recipeId': recipeId,
-        'setAsFavorite': setAsFavorite.toString(),
-      };
-    }
+        'setAsFavorite': setAsFavorite, // Keep as boolean, not string
+    };
   }
+}
 
 // Response wrapper for paginated recipe data
 class RecipeResponse {
@@ -290,6 +290,7 @@ class Recipe extends ChangeNotifier {
       Map<String, String> requestHeaders = {
        'Content-type': 'application/json',
        'Accept': 'application/json',
+       //'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
        'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
      };
 
@@ -307,7 +308,8 @@ class Recipe extends ChangeNotifier {
       //);
 
       final uri = Uri.http(
-        AppState.serverDomain,
+        //AppState.serverDomain,
+        'localhost:7140',
         '/api/recipes/recipes/full',
         queryParams
       );
@@ -341,9 +343,10 @@ class Recipe extends ChangeNotifier {
 
     try {
     var response = await http.post(
-        Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
+        //Uri.parse('http://${AppState.serverDomain}/api/userdata/cookbook/recipe'),
+        Uri.parse('http://localhost:7140/api/userdata/cookbook/recipe'),
         headers: requestHeaders,
-        body: jsonEncode(jsonEncode(dto.toJson())));
+        body: jsonEncode(dto.toJson()));
 
     if (response.statusCode == 201){
       if (kDebugMode){
