@@ -14,3 +14,6 @@ scikit-surprise
 
 # Implicit feedback library for ALS
 implicit
+
+# PostgreSQL support
+psycopg2-binary
