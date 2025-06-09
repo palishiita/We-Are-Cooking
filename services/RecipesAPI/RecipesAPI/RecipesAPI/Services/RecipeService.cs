@@ -2,7 +2,6 @@
 using RecipesAPI.Database;
 using RecipesAPI.Entities.Ingredients;
 using RecipesAPI.Entities.Recipes;
-using RecipesAPI.Exceptions.Duplicates;
 using RecipesAPI.Exceptions.NotFound;
 using RecipesAPI.Extensions;
 using RecipesAPI.Model.Common;
@@ -11,6 +10,9 @@ using RecipesAPI.Model.Recipes.Add;
 using RecipesAPI.Model.Recipes.Get;
 using RecipesAPI.Model.Recipes.Update;
 using RecipesAPI.Services.Interfaces;
+using System.Globalization;
+using System.Net.NetworkInformation;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RecipesAPI.Services
 {
@@ -169,6 +171,62 @@ namespace RecipesAPI.Services
 
             return new PaginatedResult<IEnumerable<GetFullRecipeDTO>> 
             { 
+                Data = data,
+                TotalElements = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / count),
+                Page = page,
+                PageSize = count
+            };
+        }
+
+        public async Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetUserFullRecipes(Guid userId, Guid selectedUserId, int count, int page, CancellationToken ct)
+        {
+            IQueryable<Recipe> recipes = _recipes.Where(r => r.PostingUserId == selectedUserId);
+
+            // count
+            var totalCount = await recipes.CountAsync(ct);
+
+            // project
+            var recipeDTOs = await recipes
+                .Skip((page - 1) * count)
+                .Take(count)
+                .Include(recipe => recipe.Ingredients)
+                    .ThenInclude(ing => ing.Ingredient)
+                .Include(recipe => recipe.Ingredients)
+                    .ThenInclude(ing => ing.Unit)
+                .Select(recipe => new
+                {
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    Ingredients = recipe.Ingredients
+                        .Select(ingredient => new GetRecipeIngredientDTO(
+                        ingredient.Ingredient.Id,
+                        ingredient.Ingredient.Name,
+                        ingredient.Ingredient.Description ?? "",
+                        ingredient.Quantity,
+                        ingredient.UnitId,
+                        ingredient.Unit.Name)).ToArray(),
+                    recipe.PostingUserId
+                })
+                .ToListAsync(ct);
+
+            var userData = await _userInfoService.GetUserById(selectedUserId, userId);
+
+            var data = recipeDTOs
+                .Select(recipe => new GetFullRecipeDTO(
+                    recipe.Id,
+                    recipe.Name,
+                    recipe.Description,
+                    recipe.Ingredients,
+                    new CommonUserDataDTO(
+                        recipe.PostingUserId,
+                        userData.Username,
+                        userData.ImageUrl)))
+                .ToList();
+
+            return new PaginatedResult<IEnumerable<GetFullRecipeDTO>>
+            {
                 Data = data,
                 TotalElements = totalCount,
                 TotalPages = (int)Math.Ceiling((double)totalCount / count),
@@ -783,5 +841,44 @@ namespace RecipesAPI.Services
                 throw;
             }
         }
+
+        public async Task UpdateRecipe(Guid userId, Guid recipeId, AddRecipeWithIngredientsDTO recipeDTO, CancellationToken ct)
+        {
+            var recipe = await _recipes
+                .Include(r => r.Ingredients)
+                .FirstOrDefaultAsync(x => x.Id == recipeId && x.PostingUserId == userId, ct)
+                ?? throw new RecipeNotFoundException($"Recipe with id {recipeId} not found for user with id {userId}.");
+
+            using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
+
+            try
+            {
+                var removedIngredients = recipe.Ingredients;
+
+                var newIngredients = recipeDTO.Ingredients.Select(i => new RecipeIngredient()
+                {
+                    IngredientId = i.IngredientId,
+                    Quantity = i.Quantity,
+                    RecipeId = recipeId,
+                    UnitId = i.UnitId,
+                });
+
+                _dbContext.RecipeIngredients.RemoveRange(removedIngredients);
+                _dbContext.RecipeIngredients.AddRange(newIngredients);
+                await _dbContext.SaveChangesAsync(ct);
+
+                recipe.Name = recipeDTO.Name;
+                recipe.Description = recipeDTO.Description;
+                await _dbContext.SaveChangesAsync(ct);
+                await transaction.CommitAsync(ct);
+            }
+            catch
+            {
+                _logger.LogError($"Issue with transaction {transaction.TransactionId} at action {nameof(UpdateRecipeNameById)}. Rollback.");
+                await transaction.RollbackAsync(ct);
+                throw;
+            }
+        }
+
     }
 }

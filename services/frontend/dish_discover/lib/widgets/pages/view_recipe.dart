@@ -52,8 +52,11 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
               recipe = Recipe(
                   id: widget.recipeId,
                   name: "recipe_${widget.recipeId}_debug",
-                  userData: UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug'),
-                  description: "Testing testing testing testing testing testing testing.");
+                  userData: AppState.currentUser == null 
+                    ? UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'Debug') 
+                    : UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username),
+                  description: "Testing testing testing testing testing testing testing.",
+                  isReadFromDB: false);
             } else {
               return LoadingErrorIndicator(title: "Recipe #${widget.recipeId}");
             }
@@ -62,6 +65,7 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
           {
             print('Recipe data is ${recipeData.data.toString()}');
             recipe = recipeData.data!;
+            recipe.isReadFromDB = true;
           }
 
           recipeProvider = ChangeNotifierProvider<Recipe>((ref) => recipe);

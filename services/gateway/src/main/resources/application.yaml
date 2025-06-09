@@ -13,19 +13,24 @@ spring:
       registration.techstructure-keycloak:
         redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         client-id: wearecooking-gateway
-        client-secret: ZzSeT4V53qCIITa16u4ssPOuUtYGkJNW
+        client-secret: zyAzqfbaeAkhDcE9MiGWPN3n1lB3xelk
         provider: techstructure-keycloak
         authorization-grant-type: authorization_code
         scope: openid,profile,email
   cloud:
     gateway:
       routes:
+#        - id: swagger
+#          uri: no://op
+#          predicates:
+#            - Path=/swagger-ui/**, /v3/api-docs/**, /v2/api-docs/**, /webjars/**, /favicon.ico, /swagger-resources/**
+
         - id: test
           uri: "http://wrc-test:8030"
           predicates:
             - Path=/api/test/**
-        #          filters:
-        #            - AuthFilter
+          #          filters:
+          #            - AuthFilter
           filters:
             - RewritePath=/api/test/(?<segment>.*), /${segment}
 
@@ -45,7 +50,7 @@ spring:
             - RewritePath=/api/recipesapi/(?<segment>.*), /${segment}
 
         - id: reels
-          uri: "http://wrc-reels-api:7000"
+          uri: "http://wrc-reels:7001"
           predicates:
             - Path=/api/reels/**
           filters:
@@ -54,10 +59,8 @@ spring:
         - id: frontend
           uri: "http://wrc-frontend:80"
           predicates:
-            - Path=/front/**
-          filters:
-            - PreserveHostHeader
-            - RewritePath=/front/(?<segment>.*), /${segment}
+            - Path=/**
+          order: 11
 
 springdoc:
   api-docs:
