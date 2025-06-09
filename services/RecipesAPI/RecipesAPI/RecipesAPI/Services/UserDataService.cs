@@ -158,15 +158,21 @@ namespace RecipesAPI.Services
                 .Include(cr => cr.Recipe)
                     .ThenInclude(r => r.Ingredients)
                         .ThenInclude(ri => ri.Ingredient)
+                .Include(cr => cr.Recipe)
+                    .ThenInclude(r => r.Ingredients)
+                        .ThenInclude(ri => ri.Unit)
                 .Select(cr => new
                 {
                     cr.RecipeId,
                     cr.Recipe.Name,
                     cr.Recipe.Description,
-                    Ingredients = cr.Recipe.Ingredients.Select(i => new GetIngredientDTO(
+                    Ingredients = cr.Recipe.Ingredients.Select(i => new GetRecipeIngredientDTO(
                         i.IngredientId,
                         i.Ingredient.Name,
-                        i.Ingredient.Description ?? "")),
+                        i.Ingredient.Description ?? "",
+                        i.Quantity,
+                        i.UnitId,
+                        i.Unit.Name)),
                     cr.IsFavorite,
                     cr.Recipe.PostingUserId
                 })

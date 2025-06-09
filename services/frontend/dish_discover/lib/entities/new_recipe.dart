@@ -50,6 +50,24 @@ class AddIngredientToRecipeDTO {
   }
 }
 
+
+  class AddRecipeToCookbookDTO {
+    final String recipeId;
+    bool? setAsFavorite = false;
+
+    AddRecipeToCookbookDTO({
+      required this.recipeId,
+      this.setAsFavorite,
+    });
+
+    Map<String, dynamic> toJson() {
+      return {
+        'recipeId': recipeId,
+        'setAsFavorite': setAsFavorite.toString(),
+      };
+    }
+  }
+
 // Response wrapper for paginated recipe data
 class RecipeResponse {
   final List<Recipe> data;
@@ -158,13 +176,15 @@ class Recipe extends ChangeNotifier {
   List<RecipeIngredient> ingredients;
   UserData? userData;
   bool? isReadFromDB;
+  bool? isFavorite;
 
   Recipe({
     required this.id,
     this.name = '',
     this.description = '',
     this.userData,
-    this.isReadFromDB
+    this.isReadFromDB,
+    this.isFavorite
   }) : ingredients = [];
 
   // Legacy getter for backward compatibility
@@ -179,7 +199,7 @@ class Recipe extends ChangeNotifier {
       'description': description,
       'ingredients': ingredients.map((e) => e.toJson()).toList(),
       'userData': userData?.toJson(),
-      // Legacy fields for backward compatibility
+      'isFavorite' : isFavorite
     };
   }
 
@@ -191,22 +211,14 @@ class Recipe extends ChangeNotifier {
       userData: json['userData'] != null 
           ? UserData.fromJson(json['userData']) 
           : UserData(userId: '00000000-0000-0000-0000-000000000000', username: 'User not found'),
-      isReadFromDB: true
+      isReadFromDB: true,
+      isFavorite: json['isFavorite']
     );
     // Parse ingredients
     if (json['ingredients'] != null) {
       recipe.ingredients = (json['ingredients'] as List)
           .map((item) => RecipeIngredient.fromJson(item))
           .toList();
-      
-      // Auto-generate ingredient tags
-      //for (var ingredient in recipe.ingredients) {
-      //  recipe.tags.add(Tag(
-      //    isPredefined: false,
-      //    name: ingredient.name,
-      //    category: TagCategory.ingredient,
-      //  ));
-      //}
     }
 
     return recipe;
@@ -295,13 +307,13 @@ class Recipe extends ChangeNotifier {
       //);
 
       final uri = Uri.http(
-        'localhost:7140',
+        AppState.serverDomain,
         '/api/recipes/recipes/full',
         queryParams
       );
 
-      final response = await http.get(uri);
-      //final response = await http.get(uri, headers: requestHeaders);
+      //final response = await http.get(uri);
+      final response = await http.get(uri, headers: requestHeaders);
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
@@ -315,6 +327,136 @@ class Recipe extends ChangeNotifier {
         print('Error fetching recipes: $e');
       }
       throw Exception('Failed to load recipes: $e');
+    }
+  }
+
+  static Future<bool> addRecipeToCookbook(String recipeId, {bool setAsFavorite = false}) async {
+      AddRecipeToCookbookDTO dto = AddRecipeToCookbookDTO(recipeId: recipeId, setAsFavorite: setAsFavorite);
+
+      Map<String, String> requestHeaders = {
+       'Content-type': 'application/json',
+       'Accept': 'application/json',
+       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+      };
+
+    try {
+    var response = await http.post(
+        Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
+        headers: requestHeaders,
+        body: jsonEncode(jsonEncode(dto.toJson())));
+
+    if (response.statusCode == 201){
+      if (kDebugMode){
+        final jsonData = json.decode(response.body);
+        print(jsonData.toString());
+      }      
+      return true;
+    }}
+    catch (e){
+      if (kDebugMode) {
+        print('Error fetching recipes: $e');
+      }
+      return false;
+    }
+    return false;
+  }
+
+    // Remove recipes from cookbook
+  static Future<bool> removeRecipesFromCookbook(List<String> recipeIds) async {
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'X-Uuid': AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+    };
+
+    try {
+      var response = await http.delete(
+        Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
+        headers: requestHeaders,
+        body: jsonEncode(recipeIds)
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        if (kDebugMode) {
+          print('Recipes removed from cookbook successfully');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          print('Failed to remove recipes from cookbook. Status: ${response.statusCode}, Body: ${response.body}');
+        }
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error removing recipes from cookbook: $e');
+      }
+      return false;
+    }
+  }
+
+  static Future<bool> removeRecipeFromCookbook(String recipeId) async {
+    return removeRecipesFromCookbook([recipeId]);
+  }
+  
+  // Enhanced getRecipes method with proper parameter handling
+  static Future<RecipeResponse> getCookbookRecipes({
+    String? query,
+    int count = 10,
+    int page = 0,
+    String? sortBy,
+    bool orderByAsc = true,
+    bool? favoritesOnly = false, // this may be too much to be fair
+  }) async {
+    try {
+      // Build query parameters
+      final Map<String, String> queryParams = {
+        'count': count.toString(),
+        'page': page.toString(),
+      };
+
+      Map<String, String> requestHeaders = {
+       'Content-type': 'application/json',
+       'Accept': 'application/json',
+       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+     };
+
+      if (query != null && query.isNotEmpty) {
+        queryParams['query'] = query;
+      }
+      if (sortBy != null && sortBy.isNotEmpty) {
+        queryParams['sortBy'] = sortBy;
+      }
+      if (favoritesOnly != null) {
+        queryParams['showOnlyFavorites'] = favoritesOnly.toString();
+      }
+      queryParams['orderByAsc'] = orderByAsc.toString();
+      //final uri = Uri.http(
+      //  AppState.serverDomain,
+      //  '/api/recipes/recipes/full',
+      //  queryParams
+      //);
+
+      final uri = Uri.http(
+        'localhost:7140',
+        '/api/userdata/cookbook',
+        queryParams
+      );
+
+      final response = await http.get(uri, headers: requestHeaders);
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        return RecipeResponse.fromJson(jsonData);
+      } else {
+        throw Exception(
+            'Failed to load cookbook recipes, status code: ${response.statusCode} - ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching cookbook recipes: $e');
+      }
+      throw Exception('Failed to load cookbook recipes: $e');
     }
   }
 
