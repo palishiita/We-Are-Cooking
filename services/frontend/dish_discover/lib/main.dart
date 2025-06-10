@@ -26,6 +26,7 @@ class DishDiscoverApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'DishDiscover',
         theme: appThemeLight,
+        home: HomePage(), 
         routes: {
           LoginPage.routeName: (context) => const LoginPage(),
           RegisterPage.routeName: (context) => const RegisterPage(),

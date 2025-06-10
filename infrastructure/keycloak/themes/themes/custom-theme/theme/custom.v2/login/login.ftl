@@ -70,21 +70,20 @@
                         <div id="kc-form-options">
                             <#if realm.rememberMe && !usernameHidden??>
                                 <div class="checkbox">
-                                    <label>
-                                        <span class="pf-v5-c-form__label-text">
+                                    <label class="rememberMe-label">
                                         <#if login.rememberMe??>
-                                            <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" checked> ${msg("rememberMe")}
+                                        <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" checked>
                                         <#else>
-                                            <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox"> ${msg("rememberMe")}
+                                        <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox">
                                         </#if>
-                                        </span>
+                                        <span>${msg("rememberMe")}</span>
                                     </label>
                                 </div>
                             </#if>
                             </div>
                             <div class="${properties.kcFormOptionsWrapperClass!}">
                                 <#if realm.resetPasswordAllowed>
-                                    <span><a tabindex="5" href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></span>
+                                    <span><a class="get_me_out" tabindex="5" href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></span>
                                 </#if>
                             </div>
 
@@ -103,7 +102,7 @@
         <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
             <div id="kc-registration-container" class="pf-v5-c-login__main-footer-band">
                 <div id="kc-registration" class="pf-v5-c-login__main-footer-band-item">
-                    <span>${msg("noAccount")} <a tabindex="6"
+                    <span>${msg("noAccount")} <a class="tf_is_this" tabindex="6"
                                                  href="${url.registrationUrl}">${msg("doRegister")}</a></span>
                 </div>
             </div>

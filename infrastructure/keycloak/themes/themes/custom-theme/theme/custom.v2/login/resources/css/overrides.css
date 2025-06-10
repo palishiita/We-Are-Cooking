@@ -1,39 +1,178 @@
+/*
+================================================================================
+                    WE ARE COOKING - PATTERNFLY OVERRIDES
+================================================================================
+Description: Custom overrides for PatternFly v5 components used in Keycloak
+This file contains CSS custom properties and component-specific styling
+================================================================================
+*/
+
+/*
+================================================================================
+                              CSS CUSTOM PROPERTIES
+================================================================================
+*/
+
+/* 
+ * ROOT VARIABLES DECLARATION
+ * Target: :root
+ * Element: Global CSS custom properties container
+ * Usage: Defines theme-wide color palette, typography, and component variables
+ * Notes: These variables are used throughout PatternFly components for consistent theming
+ */
 :root {
+  /* 
+   * PRIMARY COLOR PALETTE
+   * Usage: Main brand colors for primary UI elements
+   */
   --pf-v5-global--primary-color--100:#30302e;
   --pf-v5-global--primary-color--200:#242424;
 
+  /* 
+   * FORM TYPOGRAPHY VARIABLES
+   * Usage: Controls font styling for form labels and inputs
+   */
   --pf-c-form__label-text--FontWeight: 400;
   --pf-c-form__label--FontSize: 14px;
+  
+  /* 
+   * LINK COLOR SCHEME
+   * Usage: Default and hover states for clickable links
+   */
   --pf-global--link--Color: rgb(17, 37, 56);
   --pf-global--link--Color--hover: #556a7e;
 
+  /* 
+   * TYPOGRAPHY FONT FAMILIES
+   * Usage: Applies Space Grotesk font to headings and body text
+   */
   --pf-v5-c-title--m-3xl--FontWeight: var(--pf-v5-global--FontWeight--bold) !important;
   --pf-v5-global--FontFamily--heading: "Space Grotesk", Helvetica, Arial, sans-serif;
   --pf-v5-global--FontFamily--text:"Space Grotesk", Helvetica, Arial, sans-serif;
 }
 
+/*
+================================================================================
+                              FORM ELEMENTS
+================================================================================
+*/
+
+/* 
+ * INPUT PLACEHOLDER STYLING
+ * Target: ::placeholder
+ * Element: Placeholder text inside form input fields
+ * Usage: Styles the placeholder text in username/password inputs
+ * Notes: Uses the form label font size for consistency
+ */
 ::placeholder {
   /* Most modern browsers support this now. */
   font-size: var(--pf-c-form__label--FontSize);
 }
+
+/* 
+ * FORM CONTROL BORDER STYLING
+ * Target: .pf-c-form-control
+ * Element: Input fields (username, password, etc.)
+ * Usage: Controls the border appearance of form input elements
+ * Notes: Uses PatternFly's border color variable for consistency
+ */
+.pf-c-form-control {
+  border-color: var(--pf-global--BorderColor--300);
+}
+
+/* 
+ * FORM LABEL SPACING
+ * Target: .pf-c-form__label
+ * Element: Labels above form inputs ("Username", "Password", etc.)
+ * Usage: Adds bottom padding to create space between label and input
+ * Notes: Improves visual separation between label and input field
+ */
+.pf-c-form__label {
+  padding-bottom: 8px;
+}
+
+/*
+================================================================================
+                              HEADER COMPONENTS
+================================================================================
+*/
+
+/* 
+ * LOGIN MAIN HEADER ALIGNMENT
+ * Target: .pf-v5-c-login__main-header
+ * Element: Header section containing the page title (e.g., "Sign in to your account")
+ * Usage: Centers the main login page title
+ * Notes: This is where the nested "header" content from template.ftl appears
+ */
 .pf-v5-c-login__main-header{
   text-align: center;
 }
 
+/*
+================================================================================
+                              BUTTON COMPONENTS
+================================================================================
+*/
+
+/* 
+ * PRIMARY BUTTON STYLING
+ * Target: .pf-c-button.pf-m-primary
+ * Element: Primary action buttons (Sign In, Submit, etc.)
+ * Usage: Main call-to-action buttons throughout the login flow
+ * Notes: Uses dark background color for prominent button appearance
+ */
 .pf-c-button.pf-m-primary {
   color: var(--pf-c-button--m-primary--Color);
   background-color: var(--pf-global--palette--black-900);
 }
 
+/* 
+ * LARGE BUTTON VARIANT
+ * Target: .btn-lg
+ * Element: Larger sized buttons for prominent actions
+ * Usage: Used for primary actions that need more visual weight
+ * Notes: Provides increased padding for better touch targets
+ */
 .btn-lg {
   padding: 8px 10px;
 }
 
+/* 
+ * GENERAL BUTTON FONT WEIGHT
+ * Target: .pf-c-button
+ * Element: All button elements
+ * Usage: Ensures consistent font weight across all button types
+ * Notes: Makes button text more prominent and readable
+ */
+.pf-c-button {
+  font-weight: 600;
+}
+
+/*
+================================================================================
+                              LAYOUT CONTAINERS
+================================================================================
+*/
+
+/* 
+ * LOGIN SETTINGS ROW
+ * Target: .login-pf-settings
+ * Element: Container for "Remember me" checkbox and "Forgot password" link
+ * Usage: Horizontal layout for login options below the form
+ * Notes: Creates space-between layout for login auxiliary options
+ */
 .login-pf-settings{
   display: flex;
   justify-content: space-between;
 }
 
+/* 
+ * MAIN PAGE CONTAINER
+ * Target: .login-page-container
+ * Element: Overall page layout container
+ * Usage: Creates the main viewport layout for the entire login page
+ * Notes: Full viewport height container with centered content
+ */
 .login-page-container {
   display: flex;
   /* justify-content: center; */
@@ -42,6 +181,13 @@
   min-height: 100vh;
 }
 
+/* 
+ * LOGIN PAGE CONTENT AREA
+ * Target: .login-pf-page
+ * Element: Main content area containing the login form
+ * Usage: Defines the white content area where the form appears
+ * Notes: Fixed width at 33% of viewport width with white background
+ */
 .login-pf-page {
   width: 33vw;
   /* display: flex; */
@@ -51,33 +197,61 @@
   min-height: 100vh;
 }
 
+/* 
+ * LOGIN FORM CARD CONTAINER
+ * Target: .login-pf-page .card-pf
+ * Element: Card container that wraps the actual login form
+ * Usage: Provides spacing and background for the form elements
+ * Notes: Positioned with top margin and no shadow for clean appearance
+ */
 .login-pf-page .card-pf {
   margin-top: 10rem;
   box-shadow: none;
 }
 
+/* 
+ * CARD BACKGROUND OVERRIDE
+ * Target: .login-pf-page .card-pf
+ * Element: Ensures white background for the form card
+ * Usage: Overrides any default card background styling
+ * Notes: Provides clean white background for form readability
+ */
+.login-pf-page .card-pf {
+  background-color: #fff;
+}
 
+/*
+================================================================================
+                              COMPONENT SHAPE STYLING
+================================================================================
+*/
+
+/* 
+ * BORDER RADIUS CONSISTENCY
+ * Target: .card-pf, .pf-c-form-control, .pf-c-button
+ * Element: Cards, form inputs, and buttons
+ * Usage: Provides consistent rounded corners across UI elements
+ * Notes: Creates visual cohesion with uniform border radius
+ */
 .card-pf,
 .pf-c-form-control,
 .pf-c-button {
   border-radius: 4px;
 }
 
+/*
+================================================================================
+                              SOCIAL LOGIN COMPONENTS
+================================================================================
+*/
+
+/* 
+ * SOCIAL LINKS LAYOUT
+ * Target: .kc-social-links
+ * Element: Container for social login buttons (Google, Facebook, etc.)
+ * Usage: Arranges social login options in vertical column layout
+ * Notes: Changes default horizontal layout to vertical for better mobile experience
+ */
 .kc-social-links {
   flex-direction: column;
-}
-
-.pf-c-button {
-  font-weight: 600;
-}
-
-.pf-c-form-control {
-  border-color: var(--pf-global--BorderColor--300);
-}
-.pf-c-form__label {
-  padding-bottom: 8px;
-}
-
-.login-pf-page .card-pf {
-  background-color: #fff;
 }

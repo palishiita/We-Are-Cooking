@@ -73,9 +73,9 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    if (!AppState.userDataLoaded) {
-      return loading();
-    }
+    // if (!AppState.userDataLoaded) {
+    //   return loading();
+    // }
 
     return done();
   }
