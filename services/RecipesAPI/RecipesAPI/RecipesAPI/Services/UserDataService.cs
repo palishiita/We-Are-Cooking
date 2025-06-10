@@ -99,7 +99,7 @@ namespace RecipesAPI.Services
 
         }
 
-        public IEnumerable<Guid> GetIdsOfPresentRecipesInCookbook(Guid userId, IEnumerable<Guid> recipeIds, CancellationToken ct)
+        public IEnumerable<Guid> GetIdsOfPresentRecipesInCookbook(Guid userId, IEnumerable<Guid> recipeIds)
         {
             return _cookbookRecipes
                 .Where(x => x.UserId == userId)
