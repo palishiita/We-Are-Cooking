@@ -4,111 +4,37 @@ import 'package:flutter/material.dart';
 
 import '../../../entities/app_state.dart';
 import '../../../entities/new_recipe.dart';
-//import '../../../entities/tag.dart';
-import '../../dialogs/custom_dialog.dart';
-import '../../inputs/custom_text_field.dart';
-import '../edit_recipe.dart';
-//import '../../display/recipe_list.dart';
-import '../reels_page.dart';
+import '../../../widgets/display/recipe_list.dart';
 
-class CookbookTab extends StatelessWidget {
+class CookbookTab extends StatefulWidget {
   const CookbookTab({super.key});
+
+  @override
+  State<CookbookTab> createState() => _CookbookTabState();
+}
+
+class _CookbookTabState extends State<CookbookTab> {
+  final double appBarHeight = 56.0; // Adjust as needed
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DefaultTabController(
-        length: 2, // 2 tabs: Saved and Liked
-        child: Column(
-          children: [
-            const TabBar(
-              labelColor: Colors.brown, // optional styling
-              tabs: [
-                Tab(text: 'Saved'),
-                Tab(text: 'Liked'),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  // those are the same, just a flag should be displayed, flag isFavorite
-                  // --- Saved Recipes ---
-                  //RecipeList(
-                  //  getRecipes: () => Future<List<Recipe>>(() {
-                  //    List<Recipe> recipes = AppState.currentUser!.savedRecipes;
-                  //    if (kDebugMode && recipes.isEmpty) {
-                  //      recipes = _generateDummyRecipes();
-                  //    }
-                  //    return recipes;
-                  //  }),
-                  //),
-//
-                  //// --- Liked Recipes ---
-                  //RecipeList(
-                  //  getRecipes: () => Future<List<Recipe>>(() {
-                  //    List<Recipe> recipes = AppState.currentUser!.likedRecipes;
-                  //    if (kDebugMode && recipes.isEmpty) {
-                  //      recipes = _generateDummyRecipes();
-                  //    }
-                  //    return recipes;
-                  //  }),
-                  //),
-                ],
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        toolbarHeight: appBarHeight,
+        scrolledUnderElevation: 0.0,
+        title: const Text('Search'),
+        centerTitle: true,
+        leading: const BackButton(),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            shape: const CircleBorder(),
-            mini: true,
-            child: const Icon(Icons.add),
-            onPressed: () {
-              TextEditingController titleController = TextEditingController();
-
-              CustomDialog.callDialog(
-                  context,
-                  'Create recipe',
-                  '',
-                  null,
-                  CustomTextField(
-                      controller: titleController, hintText: 'Title'),
-                  'Create', () {
-                if (titleController.text.trim().isNotEmpty) {
-                  Recipe newRecipe = Recipe(
-                      id: '',
-                      name: titleController.text,
-                      userData: UserData(userId: AppState.currentUser!.userId, username: AppState.currentUser!.username));
-                  AppState.currentUser!.addRecipe(newRecipe);
-                  Future.microtask(() => Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              EditRecipePage(recipeId: newRecipe.id))));
-                  return null;
-                } else {
-                  return "Title cannot be empty";
-                }
-              });
-            },
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            shape: const CircleBorder(),
-            mini: true,
-            child: const Icon(Icons.video_library),
-            onPressed: () {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                barrierColor: Colors.transparent,
-                builder: (context) => const ReelsPage(),
-              );
-            },
-          ),
-        ],
+      body: RecipeList(
+        searchQuery: null,
+        getRecipes: (page) => Recipe.getCookbookRecipes(
+          query: null,
+          count: 10,
+          page: page,
+          sortBy: null,
+          orderByAsc: true,
+        ),
       ),
     );
   }

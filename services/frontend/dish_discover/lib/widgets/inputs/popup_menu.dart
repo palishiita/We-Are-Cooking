@@ -19,7 +19,9 @@ enum PopupMenuAction {
   report(name: 'Report'),
   ban(name: 'Ban'),
   delete(name: 'Delete'),
-  boost(name: 'Boost visibility');
+  boost(name: 'Boost visibility'),
+  addToCookbook(name: 'Add to cookbook'),
+  removeFromCookbook(name: 'Remove from cookbook');
 
   const PopupMenuAction({required this.name});
   final String name;
@@ -138,6 +140,14 @@ enum PopupMenuAction {
   static void boostAction(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const PaymentPage(buyingPremium: false)));
+  }
+
+  static void addToCookbookAction(BuildContext context, String recipeId) async{
+    Recipe.addRecipeToCookbook(recipeId);
+  }
+
+  static void removeFromCookbookAction(BuildContext context, String recipeId) async{
+    Recipe.removeRecipeFromCookbook(recipeId);
   }
 }
 

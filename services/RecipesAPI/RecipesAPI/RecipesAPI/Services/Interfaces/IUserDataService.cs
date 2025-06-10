@@ -16,6 +16,7 @@ namespace RecipesAPI.Services.Interfaces
         Task<PaginatedResult<IEnumerable<GetFullRecipeForCookbookDTO>>> GetFullUserCookbook(Guid userId, int count, int page, bool orderByAsc, string sortBy, string query, bool showOnlyFavorites, CancellationToken ct);
 
         Task AddRecipeToCookbook(Guid userId, AddRecipeToCookbookDTO recipeDTO, CancellationToken ct);
+        IEnumerable<Guid> GetIdsOfPresentRecipesInCookbook(Guid userId, IEnumerable<Guid> recipeIds);
         Task ChangeRecipeFavoriteStatus(Guid userId, ChangeRecipeFavoriteStatusDTO statusDTO, CancellationToken ct);
         Task RemoveRecipesFromCookbook(Guid userId, IEnumerable<Guid> recipeIds, CancellationToken ct);
 
