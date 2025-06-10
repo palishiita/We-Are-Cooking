@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scroll_to_top/scroll_to_top.dart';
 
 import '../../entities/new_recipe.dart';
 import '../display_with_input/recipe_card.dart';
-import '../style/style.dart';
 import 'no_results_card.dart';
 
 class RecipeList extends StatefulWidget {
   // Updated to use RecipeResponse instead of List<Recipe>
-  final Future<RecipeResponse> Function() getRecipes;
+  final Future<RecipeResponse> Function(int page) getRecipes;
   final String? searchQuery;
   const RecipeList({super.key, required this.getRecipes, this.searchQuery});
   
@@ -22,12 +20,13 @@ class _RecipeListState extends State<RecipeList> {
   late ScrollController scrollController;
   late Future<RecipeResponse> _recipesFuture;
   bool _isDisposed = false;
+  int currentPage = 1;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
-    _recipesFuture = widget.getRecipes();
+    _recipesFuture = widget.getRecipes(currentPage);
   }
 
   @override
@@ -35,6 +34,7 @@ class _RecipeListState extends State<RecipeList> {
     super.didUpdateWidget(oldWidget);
     if (!_isDisposed && oldWidget.searchQuery != widget.searchQuery) {
       // Refresh the recipes when search query changes
+      currentPage = 1;
       _refreshRecipes();
     }
   }
@@ -42,7 +42,39 @@ class _RecipeListState extends State<RecipeList> {
   void _refreshRecipes() {
     if (!_isDisposed) {
       setState(() {
-        _recipesFuture = widget.getRecipes();
+        _recipesFuture = widget.getRecipes(currentPage);
+      });
+    }
+  }
+  
+  void _goToNextPage() {
+    setState(() {
+      currentPage++;
+      _refreshRecipes();
+      // Scroll to top when changing pages
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  void _goToPreviousPage() {
+    if (currentPage > 1) {
+      setState(() {
+        currentPage--;
+        _refreshRecipes();
+        // Scroll to top when changing pages
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
       });
     }
   }
@@ -105,8 +137,44 @@ class _RecipeListState extends State<RecipeList> {
                                 ChangeNotifierProvider<Recipe>(
                                     (ref) => recipes[index]))),
                   ),
+                  // Pagination controls
+                  if (totalPages > 1)
+                    Container(
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 4,
+                            offset: const Offset(0, -2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: currentPage > 1 ? _goToPreviousPage : null,
+                            icon: const Icon(Icons.arrow_back),
+                            label: const Text('Previous'),
+                          ),
+                          Text(
+                            'Page $currentPage of $totalPages',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: currentPage < totalPages ? _goToNextPage : null,
+                            icon: const Icon(Icons.arrow_forward),
+                            label: const Text('Next'),
+                          ),
+                        ],
+                      ),
+                      )
                 ],
-              ));
+              )
+            );
         });
   }
 }

@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage>
                 controller: tabController,
                 children: const [
                   RecommendedTab(),
-                  //FridgeTab(),
+                  SizedBox.shrink(),
                   CookbookTab(),
                 ],
               ))
