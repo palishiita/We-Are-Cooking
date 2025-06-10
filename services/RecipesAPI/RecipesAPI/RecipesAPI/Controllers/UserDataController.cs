@@ -401,11 +401,12 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add the categories to restricted categories of the user.")]
-        public async Task<IActionResult> AddUserRestrictedCategories([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
+        public async Task<IActionResult> AddUserRestrictedCategories([FromHeader(Name = "X-Uuid")] string userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
             try
             {
-                await _userDataService.AddUserRestrictedCategories(userId, categoryIds, ct);
+                var parsedId = new Guid(userId);
+                await _userDataService.AddUserRestrictedCategories(parsedId, categoryIds, ct);
                 return Ok();
             }
             catch (OperationCanceledException ex)
@@ -426,11 +427,12 @@ namespace RecipesAPI.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [EndpointDescription("Add the categories to restricted categories of the user.")]
-        public async Task<IActionResult> RemoveUserRestrictedCategories([FromHeader(Name = "X-Uuid")] Guid userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
+        public async Task<IActionResult> RemoveUserRestrictedCategories([FromHeader(Name = "X-Uuid")] string userId, [FromBody] IEnumerable<Guid> categoryIds, CancellationToken ct)
         {
             try
             {
-                await _userDataService.RemoveUserRestrictedCategories(userId, categoryIds, ct);
+                var parsedId = new Guid(userId);
+                await _userDataService.RemoveUserRestrictedCategories(parsedId, categoryIds, ct);
                 return NoContent();
             }
             catch (OperationCanceledException ex)
