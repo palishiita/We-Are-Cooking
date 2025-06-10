@@ -11,7 +11,7 @@ import '../../entities/user.dart';
 import '../dialogs/custom_dialog.dart';
 
 class LoginPage extends StatefulWidget {
-  static const routeName = "/";
+  static const routeName = "/login";
 
   const LoginPage({super.key});
 

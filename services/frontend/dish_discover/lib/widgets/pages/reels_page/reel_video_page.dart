@@ -18,7 +18,7 @@ class ReelVideoPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final videoWidth = screenWidth * 0.7;
-    final verticalPadding = 40.0;
+    const verticalPadding = 40.0;
 
     return Stack(
       fit: StackFit.expand,
@@ -27,7 +27,7 @@ class ReelVideoPage extends StatelessWidget {
           child: Container(
             width: videoWidth,
             height: screenHeight - (verticalPadding * 2),
-            margin: EdgeInsets.symmetric(vertical: verticalPadding),
+            margin: const EdgeInsets.symmetric(vertical: verticalPadding),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
@@ -41,7 +41,7 @@ class ReelVideoPage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: VideoPlayerWidget(
-                url: 'http://localhost:7001${video.videoUrl}',
+                url: 'http://localhost:7000${video.videoUrl}',
                 isFullScreen: false,
                 enableGestures: true,
               ),

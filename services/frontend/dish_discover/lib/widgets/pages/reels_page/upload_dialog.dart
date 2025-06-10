@@ -24,6 +24,24 @@ class UploadDialog {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (context, setState) {
+            // Listenery muszą być zadeklarowane przed użyciem
+            void _reelTitleListener() => setState(() {});
+            void _videoTitleListener() => setState(() {});
+            void _reelDescListener() => setState(() {});
+            void _videoDescListener() => setState(() {});
+            void addListeners() {
+              reelTitleController.removeListener(_reelTitleListener);
+              videoTitleController.removeListener(_videoTitleListener);
+              reelDescriptionController.removeListener(_reelDescListener);
+              videoDescriptionController.removeListener(_videoDescListener);
+              reelTitleController.addListener(_reelTitleListener);
+              videoTitleController.addListener(_videoTitleListener);
+              reelDescriptionController.addListener(_reelDescListener);
+              videoDescriptionController.addListener(_videoDescListener);
+            }
+
+            addListeners();
+
             return AlertDialog(
               title: const Text('Upload Reel'),
               content: SizedBox(

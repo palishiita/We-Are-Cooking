@@ -71,7 +71,7 @@ spring:
             - RewritePath=/api/reviews/(?<segment>.*), /${segment}            
 
         - id: reels
-          uri: "http://wrc-reels:7001"
+          uri: "http://wrc-reels-api:7000"
           predicates:
             - Path=/api/reels/**
           filters:
