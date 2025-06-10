@@ -45,9 +45,30 @@ spring:
         - id: recipes
           uri: "http://wrc-recipesapi:8080"
           predicates:
-            - Path=/api/recipesapi/**
+            - Path=/api/recipes/**
           filters:
-            - RewritePath=/api/recipesapi/(?<segment>.*), /${segment}
+            - RewritePath=/api/recipes/(?<segment>.*), /${segment}
+            
+        - id: ingredients
+          uri: "http://wrc-recipesapi:8080"
+          predicates:
+            - Path=/api/ingredients/**
+          filters:
+            - RewritePath=/api/ingredients/(?<segment>.*), /${segment}
+            
+        - id: userdata
+          uri: "http://wrc-recipesapi:8080"
+          predicates:
+            - Path=/api/userdata/**
+          filters:
+            - RewritePath=/api/userdata/(?<segment>.*), /${segment}
+            
+        - id: reviews
+          uri: "http://wrc-recipesapi:8080"
+          predicates:
+            - Path=/api/reviews/**
+          filters:
+            - RewritePath=/api/reviews/(?<segment>.*), /${segment}            
 
         - id: reels
           uri: "http://wrc-reels:7001"
