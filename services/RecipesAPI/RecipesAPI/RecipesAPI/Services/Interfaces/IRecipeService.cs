@@ -14,7 +14,7 @@ namespace RecipesAPI.Services.Interfaces
         //Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetFullRecipesByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
         Task<GetFullRecipeDTO> GetFullRecipeById(Guid userId, Guid recipeId, CancellationToken ct);
 
-        //Task<PaginatedResult<IEnumerable<GetRecipeWithIngredientIdsDTO>>> GetRecipesWithIngredientIdsByIds(IEnumerable<Guid> recipeIds, int count, int page, bool orderByAsc, string sortBy, CancellationToken ct);
+        Task<PaginatedResult<IEnumerable<GetFullRecipeDTO>>> GetRecipesWithIngredientIdsByIds(Guid userId, IEnumerable<Guid> recipeIds, int count, int page, CancellationToken ct);
 
         Task<GetRecipeWithIngredientsAndCategoriesDTO> GetRecipeWithIngredientsAndCategories(Guid userId, Guid recipeId, CancellationToken ct);
 

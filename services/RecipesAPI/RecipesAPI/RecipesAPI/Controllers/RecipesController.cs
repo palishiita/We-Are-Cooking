@@ -85,6 +85,49 @@ namespace RecipesAPI.Controllers
             }
         }
 
+
+        [Route("recipes/full/by_ids")]
+        [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [EndpointDescription("Recipes with full ingredient data.")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRecipesFullFromIds([FromHeader(Name = "X-Uuid")] string userId, [FromQuery] int? count, [FromQuery] int? page, [FromBody] IEnumerable<Guid> recipeIds, CancellationToken ct)
+        {
+            if (count == null || count < 1)
+            {
+                count = 10;
+            }
+            if (page == null || page < 1)
+            {
+                page = 1;
+            }
+
+            try
+            {
+                var parsedId = new Guid(userId);
+                var recipes = await _recipeService.GetRecipesWithIngredientIdsByIds(parsedId, recipeIds, count.Value, page.Value, ct);
+
+                if (!recipes.Data.Any())
+                {
+                    return NotFound("No recipes matching the given query.");
+                }
+                return Ok(recipes);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogInformation(ex, ex.Message);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception: {ex.Message}.");
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [Route("recipes/full/{selectedUserId:guid}")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetFullRecipeDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
