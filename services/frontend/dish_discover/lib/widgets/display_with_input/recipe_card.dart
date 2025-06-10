@@ -19,6 +19,103 @@ class RecipeCard extends ConsumerStatefulWidget {
 
 class _RecipeCardState extends ConsumerState<RecipeCard> {
   bool _isAddingToCookbook = false;
+  bool _isInCookbook = false;
+  bool _isLoadingCookbook = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check cookbook status when the card is created
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkCookbookStatus();
+    });
+  }
+
+  Future<void> _checkCookbookStatus() async {
+    if (!mounted) return;
+    
+    print('Checking if in cookbook.');
+
+    setState(() {
+      _isLoadingCookbook = true;
+    });
+
+    try {
+      Recipe recipe = ref.read(widget.recipeProvider);
+      print('Checking if recipe ${recipe.name} in cookbook.');
+      List<String> idsInCookbook = await Recipe.getPresentRecipeIdsForGivenIdsCookbook([recipe.id]);
+      
+
+      if (mounted) {
+        setState(() {
+          _isInCookbook = idsInCookbook.contains(recipe.id);
+          print('The recipe ${recipe.name} ${_isInCookbook ? 'IS' : 'IS NOT'} in cookbook.');
+          _isLoadingCookbook = false;
+        });
+      }
+    } catch (e) {
+      print('Error checking cookbook status: $e');
+      if (mounted) {
+        setState(() {
+          _isLoadingCookbook = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _removeFromCookbook(String recipeId) async {
+    try {
+      bool success = await Recipe.removeRecipeFromCookbook(recipeId);
+      if (success){
+        await _checkCookbookStatus();
+      }
+
+      setState(() {
+        _isAddingToCookbook = true;
+      });
+
+      if (mounted) {
+        if (success) {
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Recipe removed from cookbook!'),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        } 
+        else {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to remove recipe from cookbook'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } 
+    catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error removing recipe from cookbook'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } 
+    finally {
+      if (mounted) {
+        setState(() {
+          _isAddingToCookbook = false;
+        });
+      }
+    }
+  }
 
   Future<void> _addToCookbook(Recipe recipe) async {
     if (_isAddingToCookbook) return; // Prevent multiple simultaneous calls
@@ -29,6 +126,9 @@ class _RecipeCardState extends ConsumerState<RecipeCard> {
 
     try {
       bool success = await Recipe.addRecipeToCookbook(recipe.id);
+      if (success){
+        await _checkCookbookStatus();
+      }
       
       if (mounted) {
         if (success) {
@@ -124,8 +224,12 @@ class _RecipeCardState extends ConsumerState<RecipeCard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             IconButton(
-                              onPressed: _isAddingToCookbook ? null : () => _addToCookbook(recipe),
-                              icon: _isAddingToCookbook 
+                              onPressed: (_isAddingToCookbook || _isLoadingCookbook) 
+                                ? null // Disable button while loading
+                                : _isInCookbook 
+                                  ? () => _removeFromCookbook(recipe.id)
+                                  : () => _addToCookbook(recipe),
+                              icon: _isAddingToCookbook || _isLoadingCookbook
                                 ? SizedBox(
                                     width: 20,
                                     height: 20,
@@ -137,12 +241,20 @@ class _RecipeCardState extends ConsumerState<RecipeCard> {
                                     ),
                                   )
                                 : Icon(
-                                    Icons.bookmark_add,
-                                    color: Theme.of(context).primaryColor,
+                                    _isInCookbook ? Icons.bookmark : Icons.bookmark_add,
+                                    color: _isInCookbook 
+                                      ? Theme.of(context).primaryColor 
+                                      : Theme.of(context).primaryColor,
                                   ),
-                              tooltip: _isAddingToCookbook ? 'Adding to cookbook...' : 'Add to cookbook',
+                              tooltip: _isAddingToCookbook 
+                                ? 'Processing...' 
+                                : _isLoadingCookbook
+                                  ? 'Loading...'
+                                  : _isInCookbook 
+                                    ? 'Remove from cookbook' 
+                                    : 'Add to cookbook',
                               iconSize: 24,
-                            ),
+                            )
                           ],
                         ),
                       ),

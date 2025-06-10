@@ -332,6 +332,31 @@ class Recipe extends ChangeNotifier {
     }
   }
 
+  static Future<List<String>> getPresentRecipeIdsForGivenIdsCookbook(List<String> recipeIds) async {
+    Map<String, String> requestHeaders = {
+       'Content-type': 'application/json',
+       'Accept': 'application/json',
+       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+      };
+    
+    var response = await http.post(
+        //Uri.parse('http://${AppState.serverDomain}/api/userdata/cookbook/recipe'),
+        Uri.parse('http://localhost:7140/api/userdata/cookbook/recipes/check'),
+        headers: requestHeaders,
+        body: jsonEncode(recipeIds),);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = jsonDecode(response.body);
+      return jsonList.cast<String>();
+    }
+    if (recipeIds.length < 2 && response.statusCode == 404){
+      return List<String>.empty();
+    }
+    else {
+      throw Exception('Failed to check recipes in cookbook: ${response.statusCode}');
+    }
+  }
+
   static Future<bool> addRecipeToCookbook(String recipeId, {bool setAsFavorite = false}) async {
       AddRecipeToCookbookDTO dto = AddRecipeToCookbookDTO(recipeId: recipeId, setAsFavorite: setAsFavorite);
 
@@ -374,7 +399,8 @@ class Recipe extends ChangeNotifier {
 
     try {
       var response = await http.delete(
-        Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
+        //Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
+        Uri.parse('http://localhost:7140/api/userdata/cookbook/recipe'),
         headers: requestHeaders,
         body: jsonEncode(recipeIds)
       );
