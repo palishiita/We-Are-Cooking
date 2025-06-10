@@ -12,7 +12,7 @@
             <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
         </#list>
     </#if>
-    <title>${msg("loginTitle",(realm.displayName!''))}</title>
+    <title>We Are Cooking - Sign In</title>
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
     <#if properties.stylesCommon?has_content>
         <#list properties.stylesCommon?split(' ') as style>
@@ -55,11 +55,13 @@
 </head>
 
 <body id="keycloak-bg" class="${properties.kcBodyClass!}">
+<!--
 <div id="kc-header" class="${properties.kcHeaderClass!}">
     <div id="kc-header-wrapper"
-             class="${properties.kcHeaderWrapperClass!}">${kcSanitize(msg("loginTitleHtml",(realm.displayNameHtml!'')))?no_esc}</div>
+             class="${properties.kcHeaderWrapperClass!}">We Are Cooking</div>
     </div>
 </div>
+-->
 <div class="pf-v5-c-login"
     x-data="{
         open: false,
@@ -86,6 +88,10 @@
 >
   <div class="pf-v5-c-login__container">
     <main class="pf-v5-c-login__main">
+      <div class="kc-logo-text">
+        <img src="${url.resourcesPath}/img/logo.png">
+      </div>
+      
       <header class="pf-v5-c-login__main-header">
           <h1 class="pf-v5-c-title pf-m-3xl"><#nested "header"></h1>
           <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
@@ -204,7 +210,7 @@
         </#if>
       </div>
       <footer class="pf-v5-c-login__main-footer">
-        <#nested "socialProviders">
+        
       </footer>
     </main>
   </div>

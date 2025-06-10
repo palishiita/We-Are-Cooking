@@ -1,42 +1,86 @@
-/** Fonts **/
-/* space-grotesk-300 - latin */
+/*
+================================================================================
+                        WE ARE COOKING - CUSTOM FONTS
+================================================================================
+Description: Font face declarations for Space Grotesk font family
+This file defines all font weights used throughout the We Are Cooking interface
+Font Source: Google Fonts - Space Grotesk v15
+================================================================================
+*/
+
+/*
+================================================================================
+                              FONT FACE DECLARATIONS
+================================================================================
+*/
+
+/* 
+ * SPACE GROTESK LIGHT (300)
+ * Usage: Light text elements, subtle headings, secondary information
+ * Elements: May be used for captions, light emphasis text
+ * Browser Support: Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+
+ */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-display: swap; /* Ensures text remains visible during font swap */
     font-family: "Space Grotesk";
     font-style: normal;
     font-weight: 300;
-    src: url("../fonts/space-grotesk-v15-latin-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-  /* space-grotesk-regular - latin */
-  @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    src: url("../fonts/space-grotesk-v15-latin-300.woff2") format("woff2");
+}
+
+/* 
+ * SPACE GROTESK REGULAR (400)
+ * Usage: Body text, form labels, standard text content
+ * Elements: Input placeholders, form labels, paragraph text, links
+ * Browser Support: Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+
+ */
+@font-face {
+    font-display: swap; /* Ensures text remains visible during font swap */
     font-family: "Space Grotesk";
     font-style: normal;
     font-weight: 400;
-    src: url("../fonts/space-grotesk-v15-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-  /* space-grotesk-500 - latin */
-  @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    src: url("../fonts/space-grotesk-v15-latin-regular.woff2") format("woff2");
+}
+
+/* 
+ * SPACE GROTESK MEDIUM (500)
+ * Usage: Medium emphasis text, form labels, important information
+ * Elements: Enhanced form labels, emphasized text, medium-weight buttons
+ * Browser Support: Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+
+ */
+@font-face {
+    font-display: swap; /* Ensures text remains visible during font swap */
     font-family: "Space Grotesk";
     font-style: normal;
     font-weight: 500;
-    src: url("../fonts/space-grotesk-v15-latin-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-  /* space-grotesk-600 - latin */
-  @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    src: url("../fonts/space-grotesk-v15-latin-500.woff2") format("woff2");
+}
+
+/* 
+ * SPACE GROTESK SEMI-BOLD (600)
+ * Usage: Button text, important labels, call-to-action elements
+ * Elements: Primary buttons (.pf-c-button), important form elements
+ * Browser Support: Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+
+ */
+@font-face {
+    font-display: swap; /* Ensures text remains visible during font swap */
     font-family: "Space Grotesk";
     font-style: normal;
     font-weight: 600;
-    src: url("../fonts/space-grotesk-v15-latin-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-  /* space-grotesk-700 - latin */
-  @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    src: url("../fonts/space-grotesk-v15-latin-600.woff2") format("woff2");
+}
+
+/* 
+ * SPACE GROTESK BOLD (700)
+ * Usage: Main headings, page titles, prominent branding text
+ * Elements: #kc-header-wrapper ("We Are Cooking"), main page titles, .pf-v5-c-title
+ * Browser Support: Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+
+ */
+@font-face {
+    font-display: swap; /* Ensures text remains visible during font swap */
     font-family: "Space Grotesk";
     font-style: normal;
     font-weight: 700;
-    src: url("../fonts/space-grotesk-v15-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
+    src: url("../fonts/space-grotesk-v15-latin-700.woff2") format("woff2");
+}
   

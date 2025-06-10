@@ -130,7 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: login,
                                 child: Text('Login', style: textStyle))),
                       ]),
-                ))),
+                ),
+              ),
+            ),
         bottomNavigationBar: Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Column(
