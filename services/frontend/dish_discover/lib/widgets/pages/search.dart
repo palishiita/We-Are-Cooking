@@ -53,10 +53,10 @@ class _SearchPageState extends State<SearchPage> {
                 onSearch: _onSearchSubmitted), // Only rebuild on submit
             RecipeList(
                 searchQuery: searchPhrase, // Pass search as parameter
-                getRecipes: () => Recipe.getRecipes(
+                getRecipes: (page) => Recipe.getRecipes(
                   query: searchPhrase.isEmpty ? null : searchPhrase,
                   count: 10,
-                  page: 1,
+                  page: page,
                   sortBy: null,
                   orderByAsc: true,
                 ))
