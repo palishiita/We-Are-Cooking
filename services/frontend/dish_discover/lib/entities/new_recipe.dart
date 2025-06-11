@@ -648,6 +648,67 @@ class Recipe extends ChangeNotifier {
 
   }
 
+  static Future<RecipeResponse> getRecommendedRecipesForUser({
+    required String userId,
+    int topN = 5,
+  }) async {
+    try {
+      // Try hybrid recommendation
+      final hybridResponse = await http.post(
+        Uri.parse('http://localhost:8069/recommend/hybrid'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'user_id': userId, 'top_n': topN}),
+      );
+
+      List<dynamic> recipeIdList = [];
+      if (hybridResponse.statusCode == 200) {
+        recipeIdList = jsonDecode(hybridResponse.body);
+      }
+
+      // Fallback to popularity if hybrid is empty
+      if (recipeIdList.isEmpty) {
+        final popularityResponse = await http.post(
+          Uri.parse('http://localhost:8069/recommend/popularity'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'user_id': userId, 'top_n': topN}),
+        );
+
+        if (popularityResponse.statusCode == 200) {
+          recipeIdList = jsonDecode(popularityResponse.body);
+        } else {
+          throw Exception('Fallback to popularity failed: ${popularityResponse.body}');
+        }
+      }
+
+      if (recipeIdList.isEmpty) {
+        return RecipeResponse(
+          data: [],
+          totalElements: 0,
+          totalPages: 1,
+          page: 0,
+          pageSize: topN,
+        );
+      }
+
+      // Get full recipe details
+      final recipeResponse = await http.post(
+        Uri.parse('http://localhost:7140/api/recipes/recipes/full/by_ids'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'ids': recipeIdList}),
+      );
+
+      if (recipeResponse.statusCode != 200) {
+        throw Exception('Failed to fetch recipe details: ${recipeResponse.body}');
+      }
+
+      final data = jsonDecode(recipeResponse.body);
+      return RecipeResponse.fromJson(data);
+    } catch (e) {
+      throw Exception('Error fetching recommended recipes: $e');
+    }
+  }
+
+
   //static Future<http.Response> _editRecipe(Uri finalUrl, Recipe recipe) async {
   //  // Convert RecipeIngredients to AddIngredientToRecipeDTO
   //  List<AddIngredientToRecipeDTO> ingredientDTOs = recipe.ingredients
