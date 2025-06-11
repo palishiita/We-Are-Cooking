@@ -1,6 +1,5 @@
 package com.technosudo.gateway.config;
 
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -15,6 +14,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import lombok.AllArgsConstructor;
+
 @Configuration
 @EnableWebFluxSecurity
 @AllArgsConstructor
@@ -26,19 +27,17 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/test/**").permitAll()
                         .pathMatchers("/test/private").authenticated()
                         .pathMatchers("/login/**", "/oauth2/**").permitAll()
                         .pathMatchers("/front/**").permitAll()
-                        .anyExchange().authenticated()
-                )
+                        .anyExchange().authenticated())
                 .oauth2Login(oauth2 -> oauth2
-                        .authenticationSuccessHandler(authenticationSuccessHandler())
-                )
+                        .authenticationSuccessHandler(authenticationSuccessHandler()))
                 .logout((logout) -> logout
-                        .logoutSuccessHandler(oidcLogoutSuccessHandler())
-                );
+                        .logoutSuccessHandler(oidcLogoutSuccessHandler()));
         return http.build();
     }
 
@@ -48,8 +47,8 @@ public class SecurityConfig {
     }
 
     private ServerLogoutSuccessHandler oidcLogoutSuccessHandler() {
-        OidcClientInitiatedServerLogoutSuccessHandler oidcLogoutSuccessHandler =
-                new OidcClientInitiatedServerLogoutSuccessHandler(this.clientRegistrationRepository);
+        OidcClientInitiatedServerLogoutSuccessHandler oidcLogoutSuccessHandler = new OidcClientInitiatedServerLogoutSuccessHandler(
+                this.clientRegistrationRepository);
 
         // Sets the location that the End-User's User Agent will be redirected to
         // after the logout has been performed at the Provider

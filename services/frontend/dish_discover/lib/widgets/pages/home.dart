@@ -16,9 +16,7 @@ import 'login.dart';
 class HomePage extends StatefulWidget {
   static const routeName = "/home";
 
-  HomePage({super.key}) {
-    assert(AppState.currentUser != null);
-  }
+  HomePage({super.key});
 
   @override
   State<StatefulWidget> createState() => _HomePageState();

@@ -1,37 +1,78 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:file_picker/file_picker.dart';
+
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'models.dart';
+import '../../../services/api_client.dart';
 
 class ReelsService {
-  static const String baseUrl = 'http://localhost:8000/api/reels';
+  static final ApiClient _apiClient = ApiClient();
+
+  static Map<String, Map<String, dynamic>> _createVideoMap(
+      List<dynamic> videosData) {
+    final Map<String, Map<String, dynamic>> videoMap = {};
+
+    for (final videoData in videosData) {
+      if (videoData != null &&
+          videoData is Map<String, dynamic> &&
+          videoData.containsKey('id')) {
+        videoMap[videoData['id'].toString()] = videoData;
+      }
+    }
+
+    return videoMap;
+  }
 
   static Future<List<ReelWithVideo>> fetchReelsWithVideos() async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/reel-videos'),
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      final response = await _apiClient.get('/api/reels/reel-videos');
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
+        if (response.data is! Map<String, dynamic>) {
+          throw Exception(
+              'Invalid response format: expected Map but got ${response.data.runtimeType}');
+        }
+
+        final Map<String, dynamic> responseData = response.data;
+        if (!responseData.containsKey('reels') ||
+            responseData['reels'] is! List) {
+          throw Exception('Missing or invalid "reels" key in response');
+        }
+
+        if (!responseData.containsKey('videos') ||
+            responseData['videos'] is! List) {
+          throw Exception('Missing or invalid "videos" key in response');
+        }
         final List<dynamic> reelsData = responseData['reels'];
         final List<dynamic> videosData = responseData['videos'];
 
+        final videoMap = _createVideoMap(videosData);
         List<ReelWithVideo> reelsWithVideos = [];
-        for (var reelJson in reelsData) {
-          final reel = Reel.fromJson(reelJson);
-          final videoJson = videosData.firstWhere(
-            (video) => video['id'] == reel.videoId,
-            orElse: () => null,
-          );
+        for (int i = 0; i < reelsData.length; i++) {
+          final reelJson = reelsData[i];
 
-          if (videoJson != null) {
-            final video = Video.fromJson(videoJson);
-            reelsWithVideos.add(ReelWithVideo(reel: reel, video: video));
+          if (reelJson == null || reelJson is! Map<String, dynamic>) {
+            continue;
+          }
+
+          try {
+            final reel = Reel.fromJson(reelJson);
+            final videoJson = videoMap[reel.videoId];
+
+            if (videoJson != null) {
+              try {
+                final video = Video.fromJson(videoJson);
+                final reelWithVideo = ReelWithVideo(reel: reel, video: video);
+
+                if (reelWithVideo.isValid) {
+                  reelsWithVideos.add(reelWithVideo);
+                }
+              } catch (videoError) {
+                // Skip invalid videos
+              }
+            }
+          } catch (reelError) {
+            // Skip invalid reels
           }
         }
 
@@ -41,7 +82,6 @@ class ReelsService {
             'Failed to load reels with videos: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching reels with videos: $e');
       throw Exception('Failed to load reels with videos: $e');
     }
   }
@@ -52,33 +92,75 @@ class ReelsService {
     required Map<String, String> metadata,
   }) async {
     try {
-      final uri = Uri.parse('$baseUrl/reel-video');
-      final request = http.MultipartRequest('POST', uri);
+      if (fileBytes.isEmpty) {
+        return false;
+      }
 
-      request.files.add(http.MultipartFile.fromBytes(
-        'file',
-        fileBytes,
-        filename: fileName,
-      ));
+      if (fileName.isEmpty) {
+        return false;
+      }
 
-      final videoJson = json.encode({
-        'title': metadata['videoTitle'],
-        'description': metadata['videoDescription'],
-        'video_length_seconds': 0,
+      final requiredFields = [
+        'videoTitle',
+        'videoDescription',
+        'reelTitle',
+        'reelDescription'
+      ];
+      for (final field in requiredFields) {
+        if (!metadata.containsKey(field) || metadata[field]!.isEmpty) {
+          return false;
+        }
+      }
+
+      final contentType = _getContentType(fileName);
+      if (contentType == null) {
+        return false;
+      }
+
+      final formData = FormData.fromMap({
+        'file': MultipartFile.fromStream(
+          () => Stream.fromIterable([fileBytes]),
+          fileBytes.length,
+          filename: fileName,
+          contentType: contentType,
+        ),
+        'video': json.encode({
+          'title': metadata['videoTitle'],
+          'description': metadata['videoDescription'],
+          'video_length_seconds': 0,
+        }),
+        'reel': json.encode({
+          'title': metadata['reelTitle'],
+          'description': metadata['reelDescription'],
+        }),
       });
-      request.fields['video'] = videoJson;
 
-      final reelJson = json.encode({
-        'title': metadata['reelTitle'],
-        'description': metadata['reelDescription'],
-      });
-      request.fields['reel'] = reelJson;
+      final response = await _apiClient.uploadMultipart('/api/reels/reel-video',
+          formData: formData);
 
-      final response = await request.send();
       return response.statusCode == 200;
     } catch (e) {
-      print('Upload error: $e');
       return false;
+    }
+  }
+
+  static MediaType? _getContentType(String fileName) {
+    if (fileName.isEmpty) return null;
+
+    final extension = fileName.split('.').last.toLowerCase();
+    switch (extension) {
+      case 'mp4':
+        return MediaType('video', 'mp4');
+      case 'mov':
+        return MediaType('video', 'quicktime');
+      case 'avi':
+        return MediaType('video', 'x-msvideo');
+      case 'webm':
+        return MediaType('video', 'webm');
+      case 'mkv':
+        return MediaType('video', 'x-matroska');
+      default:
+        return null;
     }
   }
 }
