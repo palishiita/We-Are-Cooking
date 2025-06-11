@@ -24,7 +24,12 @@ namespace RecipesAPI.Services
 
         public async Task<CommonUserDataDTO> GetUserById(Guid id, Guid requestingUserId)
         {
-            var requestUrl = $"{_baseRequestUrl}/profile/{id}";
+            if(id == Guid.Empty)
+            {
+                return new CommonUserDataDTO(id, "Not Found", string.Empty);
+            }
+
+            var requestUrl = $"{_baseRequestUrl}/{id}";
             _logger.LogInformation("Sending request to: {RequestUrl}", requestUrl);
 
             try

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dish_discover/services/api_client.dart';
 import 'package:dish_discover/widgets/inputs/custom_search_bar.dart';
 import 'package:dish_discover/widgets/pages/user.dart';
 import 'package:dish_discover/widgets/style/style.dart';
@@ -13,6 +16,33 @@ import 'home_tabs/cookbook_tab.dart';
 import 'reels_page/reels_page.dart';
 import 'login.dart';
 
+// HELPER CLASS
+class ProfileDto {
+    String userUuid;
+    String userName;
+    String? imageUrl;
+    String? imageSmallUrl;
+
+    bool? isPrivate;
+    bool? isBanned;
+
+    String? bio;
+
+    ProfileDto({required this.userUuid, required this.userName, this.imageUrl, this.imageSmallUrl, this.isPrivate, this.isBanned, this.bio});
+
+    factory ProfileDto.fromJson(Map<String, dynamic> json) {
+    return ProfileDto(
+      userUuid: json['userUuid'] ?? '',
+      userName: json['userName'] ?? '',
+      imageUrl: json['imageUrl'],
+      imageSmallUrl: json['imageSmallUrl'],
+      isPrivate: json['isPrivate'],
+      isBanned: json['isBanned'],
+      bio: json['bio'],
+    );
+  }
+}
+
 class HomePage extends StatefulWidget {
   static const routeName = "/home";
 
@@ -26,12 +56,33 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int _previousIndex = 0;
+  static final ApiClient _apiClient = ApiClient();
+  bool _isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(_handleTabSelection);
+    
+    init();
+  }
+
+  void init() async {
+    var userData = await _apiClient.get('/api/profile/me');
+
+    if(userData.statusCode != 200){
+      AppState.currentUser = User(username: 'Not Found', userId: '00000000-0000-0000-0000-000000000000', password: '', email: '');
+      _isLoggedIn = true;
+    }
+    else{
+      final Map<String, dynamic> jsonData = userData.data as Map<String, dynamic>;
+
+      // Now use jsonData to create your objects
+      final decoded = ProfileDto.fromJson(jsonData);
+      AppState.currentUser = User(username: decoded.userName, userId: decoded.userUuid, password: '', email: '');
+      _isLoggedIn = true;
+    }
   }
 
   @override
@@ -74,6 +125,7 @@ class _HomePageState extends State<HomePage>
     // if (!AppState.userDataLoaded) {
     //   return loading();
     // }
+
 
     return done();
   }
