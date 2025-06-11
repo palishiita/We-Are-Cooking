@@ -9,7 +9,7 @@ using RecipesAPI.Services.Interfaces;
 namespace RecipesAPI.Controllers
 {
     [ApiController]
-    [Route("api/reviews")]
+    //[Route("api/reviews")]
     [Produces("application/json")]
     public class ReviewsController : ControllerBase
     {
@@ -96,7 +96,7 @@ namespace RecipesAPI.Controllers
             }
         }
 
-        [HttpGet("recipe/{recipeId}")]
+        [HttpGet("recipe/{recipeId}/reviews")]
         [ProducesResponseType(typeof(PaginatedResult<IEnumerable<GetReviewDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -140,7 +140,7 @@ namespace RecipesAPI.Controllers
             }
         }
 
-        [HttpPost("recipe/{recipeId}")]
+        [HttpPost("recipe/{recipeId}/review")]
         [ProducesResponseType(typeof(object), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -183,8 +183,7 @@ namespace RecipesAPI.Controllers
             }
         }
 
-
-        [HttpDelete("recipe/{recipeId}")]
+        [HttpDelete("recipe/{recipeId}/review")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
