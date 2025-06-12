@@ -76,6 +76,22 @@ recipe_id_to_title = recipes_df.set_index('id')['name'].to_dict()
 def map_ids_to_titles(recipe_ids):
     return [recipe_id_to_title.get(rid, f"(missing title: {rid})") for rid in recipe_ids]
 
+def map_ids_to_details(recipe_ids):
+    # Returns a list of dicts with id, title, and author for each recipe
+    details = []
+    for rid in recipe_ids:
+        title = recipe_id_to_title.get(rid, f"(missing title: {rid})")
+        # Try to get author from recipes_df
+        author = None
+        if rid in recipes_df['id'].values:
+            author = recipes_df.loc[recipes_df['id'] == rid, 'posting_user_id'].values[0]
+        details.append({
+            'id': rid,
+            'title': title,
+            'author': author
+        })
+    return details
+
 # FastAPI app setup
 app = FastAPI()
 
@@ -129,20 +145,20 @@ def recommend_collaborative(req: RecommendationRequest):
 @app.get("/recommend/popularity")
 def recommend_popularity(top_n: int = 5):
     ids = pop_rec.recommend(top_n)
-    titles = map_ids_to_titles(ids)
-    logger.info(f"[RECOMMENDER OUTPUT] Popularity-based: {titles}")
-    return {"recipes": titles}
+    details = map_ids_to_details(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Popularity-based: {details}")
+    return {"recipes": details}
 
 @app.post("/recommend/hybrid")
 def recommend_hybrid(req: RecommendationRequest):
     ids = hybrid_rec.recommend(req.user_id, req.top_n)
-    titles = map_ids_to_titles(ids)
-    logger.info(f"[RECOMMENDER OUTPUT] Hybrid: {titles}")
-    return {"recipes": titles}
+    details = map_ids_to_details(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Hybrid: {details}")
+    return {"recipes": details}
 
 @app.post("/recommend/fridge")
 def recommend_fridge(req: RecommendationRequest):
     ids = fridge_rec.recommend(req.user_id, req.top_n)
-    titles = map_ids_to_titles(ids)
-    logger.info(f"[RECOMMENDER OUTPUT] Fridge-based: {titles}")
-    return {"recipes": titles}
+    details = map_ids_to_details(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Fridge-based: {details}")
+    return {"recipes": details}

@@ -2,6 +2,8 @@ import 'package:dish_discover/widgets/inputs/popup_menu.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../../entities/app_state.dart';
 import '../../entities/new_recipe.dart';
@@ -40,7 +42,7 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
   Widget loading() {
     print('Loading recipe view.');
     return FutureBuilder(
-        future: Future<Recipe>(() => Recipe.getRecipe(widget.recipeId)),
+        future: fetchRecipeFromApi(widget.recipeId),
         builder: (context, recipeData) {
           if (recipeData.connectionState != ConnectionState.done) {
             return LoadingIndicator(title: "Recipe #${widget.recipeId}");
@@ -63,7 +65,7 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
           } 
           else 
           {
-            print('Recipe data is ${recipeData.data.toString()}');
+            print('Recipe data is [32m${recipeData.data.toString()}[0m');
             recipe = recipeData.data!;
             recipe.isReadFromDB = true;
           }
@@ -77,6 +79,18 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
 
           return const SizedBox.shrink(); // Return an empty widget while setState triggers rebuild
         });
+  }
+
+  Future<Recipe> fetchRecipeFromApi(String recipeId) async {
+    final userId = AppState.currentUser?.userId ?? '00000000-0000-0000-0000-000000000000';
+    final url = Uri.parse('http://localhost:7140/api/recipes/recipe/$recipeId/full');
+    final response = await http.get(url, headers: {'X-Uuid': userId});
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return Recipe.fromJson(data);
+    } else {
+      throw Exception('Failed to load recipe from API');
+    }
   }
 
   Widget done() {

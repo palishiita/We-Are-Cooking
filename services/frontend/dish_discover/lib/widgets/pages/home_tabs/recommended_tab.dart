@@ -11,7 +11,7 @@ class RecommendedTab extends StatefulWidget {
 }
 
 class _RecommendedTabState extends State<RecommendedTab> {
-  late Future<List<String>> _recipesFuture;
+  late Future<List<Map<String, dynamic>>> _recipesFuture;
   final String userId = AppState.currentUser?.userId ?? '9aff0c98-1b53-4659-97d0-1b15027bde69';
   final Map<String, int> _likes = {};
   final Map<String, bool> _saved = {};
@@ -19,7 +19,7 @@ class _RecommendedTabState extends State<RecommendedTab> {
   @override
   void initState() {
     super.initState();
-    _recipesFuture = RecommendationService.getRecommendedRecipeTitles(userId: userId, topN: 10);
+    _recipesFuture = RecommendationService.getRecommendedRecipeDetails(userId: userId, topN: 10);
   }
 
   @override
@@ -29,13 +29,13 @@ class _RecommendedTabState extends State<RecommendedTab> {
         title: const Text('Recommended Recipes'),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<String>>(
+      body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _recipesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Error: [31m${snapshot.error}[0m'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No recommendations found.'));
           }
@@ -45,7 +45,10 @@ class _RecommendedTabState extends State<RecommendedTab> {
           return ListView.builder(
             itemCount: recipes.length,
             itemBuilder: (context, index) {
-              final title = recipes[index];
+              final recipe = recipes[index];
+              final title = recipe['title'] ?? '';
+              final author = recipe['author'] ?? 'Unknown';
+              final recipeId = recipe['id'] ?? title;
               _likes.putIfAbsent(title, () => 0);
               _saved.putIfAbsent(title, () => false);
               return Card(
@@ -54,7 +57,7 @@ class _RecommendedTabState extends State<RecommendedTab> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ViewRecipePage(recipeId: title),
+                        builder: (context) => ViewRecipePage(recipeId: recipeId),
                       ),
                     );
                   },
@@ -67,7 +70,7 @@ class _RecommendedTabState extends State<RecommendedTab> {
                           child: Icon(Icons.person, color: Colors.white),
                         ),
                         title: Text(title),
-                        //subtitle: const Text('Author: Placeholder'),
+                        subtitle: Text('Author: $author'),
                       ),
                       Image.asset(
                         'assets/images/image.png',

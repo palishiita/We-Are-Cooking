@@ -45,4 +45,42 @@ class RecommendationService {
       return [];
     }
   }
+
+  /// Fetches recipe details (id, title, author) from the hybrid recommender.
+  static Future<List<Map<String, dynamic>>> getRecommendedRecipeDetails({
+    required String userId,
+    int topN = 5,
+  }) async {
+    try {
+      // Try hybrid recommender (POST)
+      final Response hybridRes = await _client.post(
+        'recommend/hybrid',
+        data: {'user_id': userId, 'top_n': topN},
+      );
+      final hybridRecipes = (hybridRes.statusCode == 200 &&
+              hybridRes.data != null &&
+              hybridRes.data['recipes'] is List)
+          ? List<Map<String, dynamic>>.from(hybridRes.data['recipes'])
+          : [];
+      if (hybridRecipes.isNotEmpty) {
+        return hybridRecipes.map((e) => Map<String, dynamic>.from(e)).toList();
+      }
+      // Fallback to popularity recommender (GET)
+      final Response popRes = await _client.get(
+        'recommend/popularity',
+        queryParameters: {'top_n': topN},
+      );
+      if (popRes.statusCode == 200 &&
+          popRes.data != null &&
+          popRes.data['recipes'] is List) {
+        return List<Map<String, dynamic>>.from(
+          (popRes.data['recipes'] as List).map((e) => Map<String, dynamic>.from(e)),
+        );
+      }
+      return [];
+    } catch (e) {
+      print('Recommendation error: $e');
+      return [];
+    }
+  }
 }
