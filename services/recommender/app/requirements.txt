@@ -1,0 +1,19 @@
+# Core data tools
+pandas
+numpy==1.26.4
+
+# Machine learning utilities
+scikit-learn
+
+# FastAPI + ASGI server
+fastapi
+uvicorn[standard]
+
+# Surprise library for SVD
+scikit-surprise
+
+# Implicit feedback library for ALS
+implicit
+
+# PostgreSQL support
+psycopg2-binary

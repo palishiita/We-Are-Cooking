@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1704-mock-data-csv-recipe-ingredients
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/recipe_ingredients.csv
+            separator: ","
+            quotchar: "\""
+            tableName: recipe_ingredients
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'recipe_id'
+                  name: recipe_id
+                  type: UUID
+              - column:
+                  header: 'ingredient_id'
+                  name: ingredient_id
+                  type: UUID
+              - column:
+                  header: 'quantity'
+                  name: quantity
+                  type: double
+              - column:
+                  header: 'unit_id'
+                  name: unit_id
+                  type: UUID
+
+
+

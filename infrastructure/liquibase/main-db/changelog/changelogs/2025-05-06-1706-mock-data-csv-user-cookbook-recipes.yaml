@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1706-mock-data-csv-user-cookbook-recipes
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/user_cookbook_recipes.csv
+            separator: ","
+            quotchar: "\""
+            tableName: user_cookbook_recipes
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'user_id'
+                  name: user_id
+                  type: UUID
+              - column:
+                  header: 'recipe_id'
+                  name: recipe_id
+                  type: UUID
+              - column:
+                    header: 'is_favorite'
+                    name: is_favorite
+                    type: BOOLEAN
+
+
+

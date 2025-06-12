@@ -1,0 +1,68 @@
+name: dish_discover
+description: "Recipe sharing app"
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  scroll_to_top: ^0.0.5
+  path_provider: ^2.1.2
+  riverpod: ^2.4.9
+  flutter_launcher_icons: ^0.13.1
+  file_picker: ^10.1.9
+  flutter_share: ^2.0.0
+  flutter_riverpod: ^2.4.9
+  flutter_markdown: ^0.7.1
+  flutter_popup: ^3.1.8
+  http: ^0.13.6
+  # web: ^1.0.0
+  flutter_dropzone: ^4.2.1
+  dio: ^5.4.3+1
+  dio_cookie_manager: ^3.2.0
+  cookie_jar: ^4.0.8
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/launcher_icon.jpg"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/images/launcher_icon.jpg"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/launcher_icon.jpg"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/images/launcher_icon.jpg"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/launcher_icon.jpg
+    - assets/images/logo.png
+    - assets/images/default_avatar.jpg
+    - assets/images/missing_cover.jpg
+    - assets/images/tutorial_1.png
+    - assets/images/event_italian.jpg
+    - assets/images/event_sushi.jpg
+    - assets/images/event_vegan.jpg
+    - assets/images/image.png
+
+dependency_overrides:
+  web: ^0.5.0

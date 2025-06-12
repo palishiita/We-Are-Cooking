@@ -1,0 +1,21 @@
+spring.application.name: userinfo
+
+server.port: 8032
+
+#spring:
+#  security.oauth2.client.provider.techstructure-keycloak:
+#        issuer-uri: "http://login.techstructure.com:8080/realms/Techstructure"
+
+spring.datasource:
+  url: jdbc:postgresql://wrc-db:5432/wrc
+  username: admin
+  password: admin
+  driver-class-name: org.postgresql.Driver
+
+#springdoc:
+#  swagger-ui:
+#    disable-swagger-default-url: true
+#    url: /api/profile
+
+  #  api-docs:
+#    path: /api/profile/v3/api-docs

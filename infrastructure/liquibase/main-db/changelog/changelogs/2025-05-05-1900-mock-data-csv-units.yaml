@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-05-1900-mock-data-csv-units
+      author: czechjan
+      changes:
+        - loadData:
+            file: ../data/units.csv
+            separator: ","
+            quotchar: "\""
+            tableName: units
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'id'
+                  name: id
+                  type: UUID
+              - column:
+                  header: 'name'
+                  name: name
+                  type: STRING
+
+
+

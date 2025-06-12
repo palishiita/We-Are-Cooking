@@ -1,13 +1,107 @@
 services:
 
-  test:
-    container_name: "wrc-test"
-    image: wearecooking-rest-test:latest
+  # test:
+  #   container_name: "wrc-test"
+  #   build:
+  #     context: ../services/test
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "$BACKEND_TEST_PORT:8030"
+  #   networks:
+  #     - wrcNetwork
+
+
+  wrc-gateway:
+    container_name: "wrc-gateway"
+    build:
+      context: ../services/gateway
+      dockerfile: Dockerfile
     ports:
-      - "$BACKEND_TEST_PORT:8080"
+      - "$GATEWAY_PORT:8000"
+    networks:
+      - wrcNetwork
+      - authNetwork
+    external_links:
+      - "auth-keycloak:login.techstructure.com"
+
+  wrc-userinfo:
+    container_name: "wrc-userinfo"
+    build:
+      context: ../services/userinfo
+      dockerfile: Dockerfile
+    ports:
+      - "$BACKEND_USERINFO_PORT:8032"
+    networks:
+      - wrcNetwork
+      - authNetwork
+    external_links:
+      - "auth-keycloak:login.techstructure.com"
+
+  reels_api:
+    container_name: "wrc-reels-api"
+    build:
+      context: ../services/reels
+      dockerfile: Dockerfile
+      args:
+        BUILDKIT_PROGRESS: plain
+    ports:
+      - "7001:7000"
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://localhost:7000/health" ]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     networks:
       - wrcNetwork
 
+
+  recipesapi:
+    container_name: "wrc-recipesapi"
+    build:
+      context: ../services/RecipesAPI/RecipesAPI
+      dockerfile: RecipesAPI/Dockerfile
+    ports:
+      - "7140:8080" # external:internal
+      #- "7141:8081"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      # ;https://+:8081
+      #- ASPNETCORE_Kestrel__Endpoints__Https__Url=https://+:8081
+      #- ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Path=${CERT_PATH}
+      #- ASPNETCORE_Kestrel__Endpoints__Https__Certificate__Password=${CERT_PASSWORD}
+      #- ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Release
+      - USER_INFO_SERVICE_URL=http:/localhost:8080/api
+    volumes:
+      - ./https-recipesapi:/https-recipesapi:ro
+      - ../services/RecipesAPI/RecipesAPI/RecipesAPI/Database:/app/Database:ro
+    networks:
+      - wrcNetwork
+
+
+  wrc-recommender:
+    container_name: "wrc-recommender"
+    build:
+      context: ../services/recommender/app
+      dockerfile: Dockerfile
+    ports:
+      - "8069:8000"
+    networks:
+      - wrcNetwork
+
+  wrc-frontend:
+    container_name: "wrc-frontend"
+    build:
+      context: ../services/frontend
+      dockerfile: Dockerfile
+      args:
+        BUILDKIT_PROGRESS: plain
+    ports:
+      - "8020:80"
+    networks:
+      - wrcNetwork
+      
 networks:
   wrcNetwork:
     name: wrcNetwork
@@ -15,3 +109,9 @@ networks:
     ipam:
       config:
         - subnet: 10.0.2.0/24
+  authNetwork:
+    name: authenticationNetwork
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24

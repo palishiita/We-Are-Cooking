@@ -8,6 +8,6 @@
 #build_image "services/userinfo" "wearecooking-userinfo:latest"
 #build_image "services/test" "wearecooking-rest-test:latest"
 
-docker build -f services/gateway/Dockerfile . -t wearecooking-gateway:latest
-docker build -f services/userinfo/Dockerfile . -t wearecooking-userinfo:latest
 docker build -f services/test/Dockerfile . -t wearecooking-rest-test:latest
+docker build -f services/ . -t wearecooking-userinfo:latest
+docker build -f services/userinfo/Dockerfile . -t wearecooking-userinfo:latest

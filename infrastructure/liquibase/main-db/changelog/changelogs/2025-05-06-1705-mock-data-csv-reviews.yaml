@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1705-mock-data-csv-reviews
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/reviews.csv
+            separator: ","
+            quotchar: "\""
+            tableName: reviews
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'id'
+                  name: id
+                  type: UUID
+              - column:
+                  header: 'recipe_id'
+                  name: recipe_id
+                  type: UUID
+              - column:
+                    header: 'user_id'
+                    name: user_id
+                    type: UUID
+              - column:
+                    header: 'description'
+                    name: description
+                    type: STRING
+
+
+

@@ -1,15 +1,49 @@
 services:
+
   wrc-db:
     container_name: "wrc-db"
     image: postgres:17
     ports:
-      - "$KEYClOAK_DB:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: wrc
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     volumes:
-      - ./wrc-db-data:/var/lib/postgresql/data
+      - ./db-volumes/wrc:/var/lib/postgresql/data
+    networks:
+      - wrcNetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d wrc"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  wrc-liquibase-db-main:
+    container_name: "wrc-liquibase-db-main"
+    image: liquibase/liquibase:4.25
+    command: update
+    environment:
+      LIQUIBASE_COMMAND_DRIVER: org.postgresql.Driver
+      LIQUIBASE_COMMAND_URL: jdbc:postgresql://wrc-db:5432/wrc
+      LIQUIBASE_COMMAND_USERNAME: admin
+      LIQUIBASE_COMMAND_PASSWORD: admin
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: db.changelog.yaml
+      LIQUIBASE_SEARCH_PATH: /liquibase/changelog
+    depends_on:
+      wrc-db:
+        condition: service_healthy
+    volumes:
+      - ./liquibase/main-db/changelog:/liquibase/changelog
+    networks:
+      - wrcNetwork
+
+  redis:
+    container_name: "wrc-redis"
+    build:
+      context: ../services/redis
+    ports:
+      - "6379:6379"
     networks:
       - wrcNetwork
 

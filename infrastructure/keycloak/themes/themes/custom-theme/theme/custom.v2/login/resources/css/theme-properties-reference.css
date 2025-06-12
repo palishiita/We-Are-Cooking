@@ -1,0 +1,255 @@
+/*
+================================================================================
+                    WE ARE COOKING - THEME PROPERTIES MAPPING
+================================================================================
+Description: Reference mapping between Keycloak theme properties and CSS classes
+This file documents the relationship between theme.properties and actual CSS targets
+Use this as a reference when styling specific Keycloak components
+================================================================================
+*/
+
+/*
+================================================================================
+                              THEME PROPERTY MAPPINGS
+================================================================================
+Based on theme.properties file configuration
+*/
+
+/*
+ * FORM STRUCTURE CLASSES
+ * These properties define the main form layout and organization
+ */
+
+/* 
+ * kcFormGroupClass=pf-v5-c-form__group
+ * Target: .pf-v5-c-form__group
+ * Usage: Wraps each form field group (label + input + error message)
+ * Template Usage: Used in login.ftl for username and password containers
+ * Styling: Currently styled in overrides.css with animation timing
+ */
+
+/* 
+ * kcLabelClass=pf-v5-c-form__label
+ * Target: .pf-v5-c-form__label
+ * Usage: Form field labels ("Username", "Password", etc.)
+ * Template Usage: Applied to label elements above form inputs
+ * Styling: Currently styled in overrides.css with padding-bottom: 8px
+ */
+
+/* 
+ * kcInputClass=pf-v5-c-form-control
+ * Target: .pf-v5-c-form-control
+ * Usage: All form input fields (text, password, etc.)
+ * Template Usage: Applied to username and password input elements
+ * Styling: Styled in overrides.css with border-color and border-radius
+ */
+
+/* 
+ * kcInputGroup=pf-v5-c-input-group
+ * Target: .pf-v5-c-input-group
+ * Usage: Groups input with associated controls (like password visibility toggle)
+ * Template Usage: Used for password field container with toggle button
+ * Styling: Currently inherits PatternFly styles
+ */
+
+/*
+================================================================================
+                              ERROR HANDLING CLASSES
+================================================================================
+*/
+
+/* 
+ * kcInputErrorMessageClass=pf-v5-c-helper-text__item pf-m-error pf-v5-c-form__label-required kc-feedback-text
+ * Target: .pf-v5-c-helper-text__item.pf-m-error.pf-v5-c-form__label-required.kc-feedback-text
+ * Usage: Error messages displayed below form fields
+ * Template Usage: Shows validation errors for username/password fields
+ * Styling: Inherits PatternFly error styling (red color, error icon)
+ */
+
+/* 
+ * kcAlertClass=pf-v5-c-alert pf-m-inline
+ * Target: .pf-v5-c-alert.pf-m-inline
+ * Usage: General alert messages (login errors, success messages, etc.)
+ * Template Usage: Used in template.ftl for displaying system messages
+ * Styling: Inherits PatternFly alert styling
+ */
+
+/* 
+ * kcAlertTitleClass=pf-v5-c-alert__title
+ * Target: .pf-v5-c-alert__title
+ * Usage: Title text within alert messages
+ * Template Usage: Contains the actual alert message text
+ * Styling: Inherits PatternFly alert title styling
+ */
+
+/*
+================================================================================
+                              BUTTON CLASSES
+================================================================================
+*/
+
+/* 
+ * kcButtonClass=pf-v5-c-button
+ * Target: .pf-v5-c-button
+ * Usage: Base class for all buttons
+ * Template Usage: Applied to submit buttons, secondary actions
+ * Styling: Styled in overrides.css with font-weight: 600 and border-radius
+ */
+
+/* 
+ * kcFormPasswordVisibilityButtonClass=pf-v5-c-button pf-m-control
+ * Target: .pf-v5-c-button.pf-m-control
+ * Usage: Password visibility toggle button (eye icon)
+ * Template Usage: Button that shows/hides password text
+ * Styling: Inherits PatternFly control button styling
+ */
+
+/*
+================================================================================
+                              LAYOUT CLASSES
+================================================================================
+*/
+
+/* 
+ * kcLoginClass=pf-v5-c-login__main
+ * Target: .pf-v5-c-login__main
+ * Usage: Main login content container
+ * Template Usage: Wraps the entire login form area
+ * Styling: Enhanced in cooking-theme.css (if created) for branded appearance
+ */
+
+/* 
+ * kcFormClass=pf-v5-c-form
+ * Target: .pf-v5-c-form
+ * Usage: Main form element container
+ * Template Usage: Applied to the HTML form element
+ * Styling: Inherits PatternFly form styling
+ */
+
+/* 
+ * kcFormCardClass=card-pf
+ * Target: .card-pf
+ * Usage: Card container for form content
+ * Template Usage: Wraps form content in a card layout
+ * Styling: Styled in overrides.css with border-radius and background
+ */
+
+/*
+================================================================================
+                              SOCIAL LOGIN CLASSES
+================================================================================
+*/
+
+/* 
+ * kcCommonLogoIdP=pf-v5-c-login__main-footer-links-item
+ * Target: .pf-v5-c-login__main-footer-links-item
+ * Usage: Individual social login provider items
+ * Template Usage: Applied to each social login button container
+ * Styling: Inherits PatternFly footer link item styling
+ */
+
+/* 
+ * kcFormSocialAccountListClass=pf-v5-c-login__main-footer-links
+ * Target: .pf-v5-c-login__main-footer-links
+ * Usage: Container for all social login options
+ * Template Usage: Wraps the list of social login providers
+ * Styling: Inherits PatternFly footer links container styling
+ */
+
+/* 
+ * kcFormSocialAccountListItemClass=pf-v5-c-login__main-footer-links-item
+ * Target: .pf-v5-c-login__main-footer-links-item
+ * Usage: Individual social login provider list item
+ * Template Usage: Each social login option (Google, Facebook, etc.)
+ * Styling: Inherits PatternFly footer link item styling
+ */
+
+/* 
+ * kcFormSocialAccountListButtonClass=pf-v5-c-login__main-footer-links-item-link
+ * Target: .pf-v5-c-login__main-footer-links-item-link
+ * Usage: Clickable social login buttons
+ * Template Usage: The actual clickable social login elements
+ * Styling: Inherits PatternFly link styling
+ */
+
+/*
+================================================================================
+                              SOCIAL PROVIDER ICONS
+================================================================================
+*/
+
+/* 
+ * kcLogoIdP-linkedin-openid-connect=fa fa-linkedin
+ * Target: .fa.fa-linkedin
+ * Usage: LinkedIn social login icon
+ * Template Usage: Icon displayed on LinkedIn login button
+ * Styling: Uses FontAwesome icon classes
+ */
+
+/*
+================================================================================
+                              ADDITIONAL KEYCLOAK ELEMENTS
+================================================================================
+Not defined in theme.properties but commonly used in Keycloak templates:
+*/
+
+/* 
+ * COMMONLY USED KEYCLOAK SELECTORS
+ * These are standard Keycloak elements that may need custom styling:
+ */
+
+/* 
+ * #kc-form-login
+ * Usage: The main login form element
+ * Contains: Username field, password field, submit button
+ * Parent: #kc-form-wrapper
+ */
+
+/* 
+ * #kc-form-wrapper  
+ * Usage: Wrapper around the login form
+ * Contains: #kc-form-login and any form-related messages
+ * Parent: #kc-form
+ */
+
+/* 
+ * .kc-social-links
+ * Usage: Container for social login links
+ * Styling: Currently styled in overrides.css with flex-direction: column
+ * Contains: Social provider buttons and links
+ */
+
+/* 
+ * .login-pf-settings
+ * Usage: Container for "Remember me" and "Forgot password" elements
+ * Styling: Currently styled in overrides.css with flexbox layout
+ * Contains: Checkbox, links, and secondary actions
+ */
+
+/*
+================================================================================
+                              STYLING PRIORITY NOTES
+================================================================================
+*/
+
+/* 
+ * CSS FILE LOADING ORDER:
+ * 1. PatternFly core CSS (from stylesCommon)
+ * 2. custom-font.css (font definitions)
+ * 3. overrides.css (PatternFly component overrides)
+ * 4. styles.css (main theme styles)
+ * 
+ * This means:
+ * - overrides.css can override PatternFly defaults
+ * - styles.css can override both PatternFly and overrides.css
+ * - Use !important sparingly and only when necessary
+ */
+
+/* 
+ * RESPONSIVE DESIGN CONSIDERATIONS:
+ * Most Keycloak elements should be styled responsively
+ * Key breakpoints to consider:
+ * - Mobile: max-width: 768px
+ * - Tablet: max-width: 1024px
+ * - Desktop: min-width: 1025px
+ */

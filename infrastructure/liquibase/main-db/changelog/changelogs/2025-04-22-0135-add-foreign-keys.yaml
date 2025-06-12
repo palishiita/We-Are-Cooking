@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-foreign-keys
+      author: wojciakjakub
+      changes:
+      
+        # Tables changes
+        - renameColumn:
+            tableName: ingredients_categories_connection
+            oldColumnName: tag_id
+            newColumnName: category_id
+            columnDataType: uuid
+
+        - renameColumn:
+            tableName: user_dietary_restrictions
+            oldColumnName: ingredient_tags_id
+            newColumnName: ingredient_category_id
+            columnDataType: uuid
+
+        # Foreign keys changes
+        - addForeignKeyConstraint:
+            constraintName: fk_recipe_ingredients_ingredient
+            baseTableName: recipe_ingredients
+            baseColumnNames: ingredient_id
+            referencedTableName: ingredients
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_recipe_ingredients_recipe
+            baseTableName: recipe_ingredients
+            baseColumnNames: recipe_id
+            referencedTableName: recipes
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_user_fridge_ingredients_user
+            baseTableName: user_fridge_ingredients
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_user_fridge_ingredients_ingredient
+            baseTableName: user_fridge_ingredients
+            baseColumnNames: ingredient_id
+            referencedTableName: ingredients
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_review_recipe
+            baseTableName: review
+            baseColumnNames: recipe_id
+            referencedTableName: recipes
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_review_user
+            baseTableName: review
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id

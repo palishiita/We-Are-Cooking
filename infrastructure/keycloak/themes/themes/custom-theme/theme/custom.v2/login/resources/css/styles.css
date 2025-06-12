@@ -1,0 +1,234 @@
+/*
+================================================================================
+                        WE ARE COOKING - KEYCLOAK LOGIN THEME
+================================================================================
+Description: Main stylesheet for the Keycloak login page customization
+This file contains the core styling for the We Are Cooking brand login interface
+================================================================================
+*/
+
+/** 
+ * FONT IMPORTS
+ * Imports custom font definitions (Space Grotesk family)
+ */
+@import url('./custom-font.css');
+
+/** 
+ * COMPONENT OVERRIDES
+ * Imports PatternFly component overrides and custom styling
+ */
+@import url('./overrides.css');
+
+/* 
+================================================================================
+                            MAIN LAYOUT CONTAINER
+================================================================================
+*/
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* 
+ * LOGIN CONTAINER GRID
+ * Target: .pf-v5-c-login__container
+ * Element: Main grid container that holds the entire login page layout
+ * Usage: Controls the overall layout structure and positioning of login elements
+ * Notes: This is the primary container for the login page grid system
+ */
+.pf-v5-c-login__container {
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+  height: 100vh;
+}
+
+.pf-v5-c-login__main {
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#kc-form-wrapper {
+
+}
+#kc-form {
+  
+}
+
+#username, #password, #email, #password-confirm {
+  margin-top: 0.3rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  padding-left: 1rem; 
+  padding-right: 0rem; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pf-v5-c-form__group {
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.rememberMe-label, .policy-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  gap: 0.6em;
+  user-select: none;
+  color: #333;
+}
+
+#rememberMe, #exl-agree-tos {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff9800;
+  border-radius: 5px;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+}
+
+#rememberMe:checked, #exl-agree-tos:checked {
+  background-color: #ff9800;
+  border-color: #e65100;
+}
+
+#rememberMe:focus, #exl-agree-tos:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ffe0b2;
+}
+
+.get_me_out, .tf_is_this {
+  text-decoration: none;
+  color: rgba(255, 152, 0, 1);
+}
+.get_me_out:hover, .tf_is_this:hover {
+  text-decoration: underline;
+
+}
+
+.pf-v5-c-button {
+  font-weight: 600;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 152, 0, 1);
+}
+
+.pf-v5-c-button:hover {
+  background-color: rgba(230, 81, 0, 0.9);
+  color: white;
+  scale: 1.05;
+  transition: all 0.2s ease-in-out;
+}
+
+.pf-v5-c-button:active {
+  background-color: rgba(230, 81, 0, 0.9);
+  color: white;
+  scale: 0.95;
+  transition: all 0.1s ease-in-out;
+}
+
+.pf-v5-c-login__main-footer-band{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.privacy-policy {
+  margin-top: 0.5rem;
+  
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+#kc-form-options {
+  margin-top: 1rem;
+}
+
+/*
+================================================================================
+                              HEADER SECTION
+================================================================================
+*/
+
+/* 
+ * HEADER WRAPPER POSITIONING
+ * Target: #kc-header-wrapper  
+ * Element: Header container that displays "We Are Cooking" title
+ * Usage: Contains the main branding/title text at the top of the login page
+ * Notes: Currently positioned absolutely and centered horizontally
+ * Related: Contains the text set in template.ftl line 58
+ */
+/* #kc-header-wrapper {
+  padding: 62px 10px 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+} */
+
+/*
+================================================================================
+                              PAGE BACKGROUND
+================================================================================
+*/
+
+/* 
+ * BODY BACKGROUND STYLING
+ * Target: .login-pf body
+ * Element: Main body background for the entire login page
+ * Usage: Sets the overall visual background and base styling
+ * Notes: Currently using a light gray background (#e1e1e1)
+ */
+.login-pf body {
+  
+}
+
+/*
+================================================================================
+                              LOGO COMPONENTS
+================================================================================
+*/
+
+/* 
+ * LOGO CONTAINER
+ * Target: div.kc-logo-text
+ * Element: Container for logo/branding imagery (currently unused)
+ * Usage: Reserved for future logo implementation
+ * Notes: Currently configured but not visible in the current design
+ */
+div.kc-logo-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  /* height: 63px;
+  width: 300px; */
+}
+
+/* 
+ * HIDDEN LOGO TEXT
+ * Target: div.kc-logo-text span
+ * Element: Text content within logo container
+ * Usage: Hidden text that could be used for accessibility or fallback
+ * Notes: Currently hidden with display: none
+ */
+div.kc-logo-text span {
+  /* display: none; */
+}

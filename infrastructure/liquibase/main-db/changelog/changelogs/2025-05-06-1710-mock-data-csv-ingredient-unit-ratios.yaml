@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1710-mock-data-csv-ingredient-unit-ratios
+      author: czechjan
+      changes:
+        - loadData:
+            file: ../data/ingredient_units_ratios.csv
+            separator: ","
+            quotchar: "\""
+            tableName: ingredient_units_ratios
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'ingredient_id'
+                  name: ingredient_id
+                  type: UUID
+              - column:
+                  header: 'unit_one_id'
+                  name: unit_one_id
+                  type: UUID
+              - column:
+                  header: 'unit_two_id'
+                  name: unit_two_id
+                  type: UUID
+              - column:
+                  header: 'ratio'
+                  name: one_to_two_ratio
+                  type: double
+
+
+

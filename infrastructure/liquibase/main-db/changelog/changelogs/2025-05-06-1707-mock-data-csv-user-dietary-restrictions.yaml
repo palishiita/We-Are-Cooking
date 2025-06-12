@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1707-mock-data-csv-user-dietary-restrictions
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/user_dietary_restrictions.csv
+            separator: ","
+            quotchar: "\""
+            tableName: user_dietary_restrictions
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'user_id'
+                  name: user_id
+                  type: UUID
+              - column:
+                  header: 'ingredient_category_id'
+                  name: ingredient_category_id
+                  type: UUID
+
+
+

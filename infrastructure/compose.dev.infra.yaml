@@ -1,0 +1,82 @@
+services:
+
+  auth-keycloak:
+    container_name: "auth-keycloak"
+    image: quay.io/keycloak/keycloak:26.1
+    ports:
+      - "$KEYCLOAK_PORT:8080"
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://auth-db:5432/keycloak
+      - KC_HEALTH_ENABLED=true
+      - KC_DB_USERNAME=admin
+      - KC_DB_PASSWORD=admin
+    volumes:
+      # Providers
+      - './keycloak/themes/providers:/opt/keycloak/providers'
+      # Development theme folder
+      - './keycloak/themes/themes/custom-theme/theme:/opt/keycloak/themes'
+      - ./keycloak/realms:/opt/keycloak/conf
+    depends_on:
+      auth-db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'exec 3<>/dev/tcp/localhost/9000; echo -e "GET /health/ready HTTP/1.1\nhost: localhost:9000\n" >&3; timeout --preserve-status 1 cat <&3 | grep -m 1 status | grep -m 1 UP; ERROR=$?; exec 3<&-; exec 3>&-; exit $ERROR'
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: "start-dev --health-enabled=true --metrics-enabled=true"
+    networks:
+      - authNetwork
+
+  auth-db:
+    container_name: "auth-db"
+    image: postgres:17
+    ports:  
+      - "$KEYCLOAK_DB:5432"
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./db-volumes/auth:/var/lib/postgresql/data
+    networks:
+      - authNetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  auth-keycloak-config-cli:
+    container_name: "auth-keycloak-config-cli"
+    image: adorsys/keycloak-config-cli:latest
+    depends_on:
+      auth-keycloak:
+        condition: service_healthy
+    volumes:
+      - ./keycloak/realms:/config
+    environment:
+      - KEYCLOAK_URL=http://auth-keycloak:8080
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_AVAILABILITYCHECK_ENABLED
+      - SPRING_PROFILES_ACTIVE=dev
+      - DEBUG=true
+      - IMPORT_FILES_LOCATIONS=/config/*
+    networks:
+      - authNetwork
+
+networks:
+  authNetwork:
+    name: authenticationNetwork
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24

@@ -1,0 +1,352 @@
+/*
+================================================================================
+                    WE ARE COOKING - ADDITIONAL ELEMENT REFERENCE
+================================================================================
+Description: Comprehensive reference for HTML elements and CSS targets 
+that may not have styling yet but are present in the Keycloak login template
+Use this file as a reference when adding custom styles
+================================================================================
+*/
+
+/*
+================================================================================
+                              FORM STRUCTURE ELEMENTS
+================================================================================
+*/
+
+/* 
+ * MAIN FORM CONTAINER
+ * Target: #kc-form
+ * Element: Main container wrapping the entire login form
+ * Usage: Contains all form elements including inputs and buttons
+ * Template Location: login.ftl line 7
+ * Notes: Direct child of the login body section
+ */
+
+/* 
+ * FORM WRAPPER
+ * Target: #kc-form-wrapper  
+ * Element: Inner wrapper for form content
+ * Usage: Additional container for form layout control
+ * Template Location: login.ftl line 8
+ * Notes: Nested inside #kc-form
+ */
+
+/* 
+ * LOGIN FORM ELEMENT
+ * Target: #kc-form-login
+ * Element: The actual HTML form element that submits login data
+ * Usage: Contains username/password inputs and submit button
+ * Template Location: login.ftl line 10
+ * Notes: Uses kcFormClass property, submits to url.loginAction
+ */
+
+/*
+================================================================================
+                              INPUT FIELD ELEMENTS
+================================================================================
+*/
+
+/* 
+ * USERNAME INPUT FIELD
+ * Target: #username
+ * Element: Text input for username/email entry
+ * Usage: Primary identification field for user login
+ * Template Location: login.ftl line 19
+ * Notes: Has placeholder text, autofocus, tabindex="1"
+ */
+
+/* 
+ * PASSWORD INPUT FIELD
+ * Target: #password
+ * Element: Password input field for user authentication
+ * Usage: Secure password entry field
+ * Template Location: login.ftl line 45
+ * Notes: Has placeholder text, tabindex="2", type="password"
+ */
+
+/* 
+ * PASSWORD VISIBILITY TOGGLE
+ * Target: .pf-v5-c-button.pf-m-control (inside password group)
+ * Element: Button to show/hide password text
+ * Usage: Allows users to toggle password visibility
+ * Template Location: login.ftl (in password input group)
+ * Notes: Contains eye icon, toggles password field type
+ */
+
+/*
+================================================================================
+                              ERROR HANDLING ELEMENTS
+================================================================================
+*/
+
+/* 
+ * FORM CONTROL ERROR STATE
+ * Target: .pf-v5-c-form-control.pf-m-error
+ * Element: Input fields with validation errors
+ * Usage: Applied to inputs when login fails or validation errors occur
+ * Template Location: Applied dynamically via messagesPerField.existsError
+ * Notes: Triggered by failed login attempts or validation
+ */
+
+/* 
+ * ERROR ICON CONTAINER
+ * Target: .pf-v5-c-form-control__utilities
+ * Element: Container for error/status icons next to inputs
+ * Usage: Holds validation status icons
+ * Template Location: login.ftl line 24
+ * Notes: Only appears when there are field errors
+ */
+
+/* 
+ * ERROR STATUS ICON
+ * Target: .pf-v5-c-form-control__icon.pf-m-status
+ * Element: Actual error icon (exclamation mark)
+ * Usage: Visual indicator of field validation error
+ * Template Location: login.ftl line 25
+ * Notes: Contains FontAwesome exclamation-circle icon
+ */
+
+/* 
+ * ERROR MESSAGE TEXT
+ * Target: #input-error, .pf-v5-c-helper-text__item.pf-m-error
+ * Element: Text describing the validation error
+ * Usage: Displays specific error messages to user
+ * Template Location: login.ftl line 30
+ * Notes: Uses kcInputErrorMessageClass, has aria-live="polite"
+ */
+
+/*
+================================================================================
+                              FORM GROUP CONTAINERS
+================================================================================
+*/
+
+/* 
+ * FORM GROUP WRAPPER
+ * Target: .pf-v5-c-form__group (from kcFormGroupClass)
+ * Element: Container wrapping each form field (label + input + error)
+ * Usage: Groups related form elements together
+ * Template Location: login.ftl lines 12, 37
+ * Notes: Used for both username and password field groups
+ */
+
+/* 
+ * INPUT GROUP CONTAINER  
+ * Target: .pf-v5-c-input-group (from kcInputGroup)
+ * Element: Container for input field and related controls
+ * Usage: Groups input with buttons/icons (like password toggle)
+ * Template Location: login.ftl line 42
+ * Notes: Used specifically for password field with visibility toggle
+ */
+
+/*
+================================================================================
+                              FORM CONTROLS & BUTTONS
+================================================================================
+*/
+
+/* 
+ * SUBMIT BUTTON
+ * Target: input[type="submit"], button[type="submit"]
+ * Element: Main form submission button ("Sign In")
+ * Usage: Submits the login form
+ * Template Location: Likely in login.ftl after password field
+ * Notes: May use kcButtonClass property styling
+ */
+
+/* 
+ * REMEMBER ME CHECKBOX
+ * Target: input[name="rememberMe"]
+ * Element: Checkbox for "Remember me" functionality
+ * Usage: Allows users to stay logged in
+ * Template Location: May be in login settings section
+ * Notes: Part of .login-pf-settings layout
+ */
+
+/*
+================================================================================
+                              NAVIGATION & LINKS
+================================================================================
+*/
+
+/* 
+ * FORGOT PASSWORD LINK
+ * Target: Links within .login-pf-settings
+ * Element: Link to password reset functionality
+ * Usage: Allows users to reset forgotten passwords
+ * Template Location: Part of login settings section
+ * Notes: Uses link color variables from overrides.css
+ */
+
+/* 
+ * TRY ANOTHER WAY FORM
+ * Target: #kc-select-try-another-way-form
+ * Element: Form for alternative authentication methods
+ * Usage: Allows switching between different login methods
+ * Template Location: template.ftl line 184
+ * Notes: Hidden form with tryAnotherWay input
+ */
+
+/* 
+ * TRY ANOTHER WAY LINK
+ * Target: #try-another-way
+ * Element: Link to show alternative authentication options
+ * Usage: Reveals alternative login methods
+ * Template Location: template.ftl line 187
+ * Notes: Submits try-another-way form via JavaScript
+ */
+
+/*
+================================================================================
+                              INFO & HELP SECTIONS
+================================================================================
+*/
+
+/* 
+ * INFO SECTION CONTAINER
+ * Target: #kc-info
+ * Element: Container for informational content
+ * Usage: Displays additional information or help text
+ * Template Location: template.ftl line 194
+ * Notes: Uses kcSignUpClass property, conditional display
+ */
+
+/* 
+ * INFO WRAPPER
+ * Target: #kc-info-wrapper
+ * Element: Inner wrapper for info content
+ * Usage: Contains the actual informational content
+ * Template Location: template.ftl line 195
+ * Notes: Uses kcInfoAreaWrapperClass property
+ */
+
+/*
+================================================================================
+                              USERNAME DISPLAY (MULTI-STEP)
+================================================================================
+*/
+
+/* 
+ * USERNAME DISPLAY CONTAINER
+ * Target: #kc-username
+ * Element: Container showing the attempted username in multi-step flows
+ * Usage: Displays username when in password-only step
+ * Template Location: template.ftl lines 132, 145
+ * Notes: Uses kcFormGroupClass, shown when auth.showUsername() is true
+ */
+
+/* 
+ * ATTEMPTED USERNAME LABEL
+ * Target: #kc-attempted-username
+ * Element: Label showing the username being used
+ * Usage: Displays the current username in multi-step login
+ * Template Location: template.ftl lines 133, 146
+ * Notes: Shows auth.attemptedUsername value
+ */
+
+/* 
+ * RESET LOGIN LINK
+ * Target: #reset-login
+ * Element: Link to restart the login process
+ * Usage: Allows user to change username and start over
+ * Template Location: template.ftl lines 134, 147
+ * Notes: Links to url.loginRestartFlowUrl
+ */
+
+/*
+================================================================================
+                              TOOLTIP ELEMENTS
+================================================================================
+*/
+
+/* 
+ * LOGIN TOOLTIP CONTAINER
+ * Target: .kc-login-tooltip
+ * Element: Container for tooltip elements
+ * Usage: Wraps tooltip triggers and content
+ * Template Location: template.ftl lines 135, 148
+ * Notes: Contains tooltip icon and hidden text
+ */
+
+/* 
+ * TOOLTIP TEXT
+ * Target: .kc-tooltip-text
+ * Element: Hidden tooltip text content
+ * Usage: Shows on hover of tooltip trigger
+ * Template Location: template.ftl lines 136, 149
+ * Notes: Uses msg("restartLoginTooltip") for text content
+ */
+
+/*
+================================================================================
+                              LANGUAGE SELECTION
+================================================================================
+*/
+
+/* 
+ * LANGUAGE SELECT DROPDOWN
+ * Target: #login-select-toggle
+ * Element: Dropdown for language selection
+ * Usage: Allows users to change interface language
+ * Template Location: template.ftl line 91
+ * Notes: Only appears if internationalization is enabled
+ */
+
+/* 
+ * LANGUAGE UTILITIES CONTAINER
+ * Target: .pf-v5-c-login__main-header-utilities
+ * Element: Container for header utilities (language selector)
+ * Usage: Positions language selector in header
+ * Template Location: template.ftl line 88
+ * Notes: Positioned in main header section
+ */
+
+/*
+================================================================================
+                              FOOTER ELEMENTS
+================================================================================
+*/
+
+/* 
+ * MAIN FOOTER
+ * Target: .pf-v5-c-login__main-footer
+ * Element: Footer section of the login page
+ * Usage: Contains social providers and additional links
+ * Template Location: template.ftl line 202
+ * Notes: Currently empty in template, may contain social login buttons
+ */
+
+/*
+================================================================================
+                              RESPONSIVE CONSIDERATIONS
+================================================================================
+*/
+
+/* 
+ * MOBILE VIEWPORT ADJUSTMENTS
+ * Consider these elements for mobile responsive design:
+ * - .pf-v5-c-login__container (main grid)
+ * - .login-pf-page (content area width)
+ * - #kc-header-wrapper (header positioning)
+ * - .pf-v5-c-login__main-header-utilities (language selector)
+ * - Form input sizing and touch targets
+ * - Button sizes for touch interaction
+ */
+
+/*
+================================================================================
+                              ACCESSIBILITY NOTES
+================================================================================
+*/
+
+/* 
+ * ARIA AND ACCESSIBILITY TARGETS
+ * Elements with accessibility considerations:
+ * - Input fields have aria-invalid attributes
+ * - Error messages have aria-live="polite"
+ * - Language selector has aria-label
+ * - Reset login link has aria-label
+ * - Form elements should maintain proper focus order
+ * - Color contrast should meet WCAG guidelines
+ */

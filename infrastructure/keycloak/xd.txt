@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ "$OSTYPE" == "msys"* || "$OSTYPE" == "cygwin"* ]]; then
+    SCRIPT_DIR="$(cygpath -m "$(dirname "$0")")"
+elif [[ "$OSTYPE" == "win32"* ]]; then
+    SCRIPT_DIR="$(dirname "$0")"
+else
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fi
+
+echo $SCRIPT_DIR

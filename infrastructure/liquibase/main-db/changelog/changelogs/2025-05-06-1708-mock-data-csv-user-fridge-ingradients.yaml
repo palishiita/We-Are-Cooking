@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-05-06-1708-mock-data-csv-user-fridge-ingradients
+      author: technosudo
+      changes:
+        - loadData:
+            file: ../data/user_fridge_ingredients.csv
+            separator: ","
+            quotchar: "\""
+            tableName: user_fridge_ingredients
+            usePreparedStatements: false
+            relativeToChangelogFile: true
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: 'user_id'
+                  name: user_id
+                  type: UUID
+              - column:
+                  header: 'ingredient_id'
+                  name: ingredient_id
+                  type: UUID
+              - column:
+                  header: 'quantity'
+                  name: quantity
+                  type: double
+              - column:
+                  header: 'unit_id'
+                  name: unit_id
+                  type: UUID
+
+
+
