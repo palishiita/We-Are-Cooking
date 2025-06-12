@@ -41,7 +41,7 @@ class ReelVideoPage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: VideoPlayerWidget(
-                url: 'http://localhost:7000${video.videoUrl}',
+                url: 'http://localhost:7001${video.videoUrl}',
                 isFullScreen: false,
                 enableGestures: true,
               ),

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace RecipesAPI.Controllers
 {
-    [Route("api/userdata")]
+    //[Route("api/userdata")]
     [ApiController]
     public class UserDataController : ControllerBase
     {
@@ -127,9 +127,6 @@ namespace RecipesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
 
         [HttpDelete]
         [Route("cookbook/recipe")]

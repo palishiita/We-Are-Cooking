@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:dish_discover/entities/tag.dart';
+import 'package:dish_discover/services/api_client.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -178,6 +180,8 @@ class Recipe extends ChangeNotifier {
   bool? isReadFromDB;
   bool? isFavorite;
 
+  static final ApiClient _apiClient = ApiClient();
+
   Recipe({
     required this.id,
     this.name = '',
@@ -315,14 +319,20 @@ class Recipe extends ChangeNotifier {
       );
 
       //final response = await http.get(uri);
-      final response = await http.get(uri, headers: requestHeaders);
+      final response = await _apiClient.get('/api/recipes/recipes/full', queryParameters: queryParams);
+
+      //final response = await http.get(uri, headers: requestHeaders);
 
       if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        return RecipeResponse.fromJson(jsonData);
+        
+        final Map<String, dynamic> jsonData = response.data as Map<String, dynamic>;
+
+        // Now use jsonData to create your objects
+        final recipeResponse = RecipeResponse.fromJson(jsonData);
+        return recipeResponse;
       } else {
         throw Exception(
-            'Failed to load recipes, status code: ${response.statusCode} - ${response.reasonPhrase}');
+            'Failed to load recipes, status code: ${response.statusCode} - ${response.statusMessage}');
       }
     } catch (e) {
       if (kDebugMode) {
@@ -333,50 +343,52 @@ class Recipe extends ChangeNotifier {
   }
 
   static Future<List<String>> getPresentRecipeIdsForGivenIdsCookbook(List<String> recipeIds) async {
-    Map<String, String> requestHeaders = {
-       'Content-type': 'application/json',
-       'Accept': 'application/json',
-       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
-      };
+    //Map<String, String> requestHeaders = {
+    //   'Content-type': 'application/json',
+    //   'Accept': 'application/json',
+    //   'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
+    //  };
     
-    var response = await http.post(
-        //Uri.parse('http://${AppState.serverDomain}/api/userdata/cookbook/recipe'),
-        Uri.parse('http://localhost:7140/api/userdata/cookbook/recipes/check'),
-        headers: requestHeaders,
-        body: jsonEncode(recipeIds),);
+    //var response = await http.post(
+    //    //Uri.parse('http://${AppState.serverDomain}/api/userdata/cookbook/recipe'),
+    //    Uri.parse('http://localhost:7140/api/userdata/cookbook/recipes/check'),
+    //    headers: requestHeaders,
+    //    body: jsonEncode(recipeIds),);
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonList = jsonDecode(response.body);
-      return jsonList.cast<String>();
+    try{
+      var response = await _apiClient.post('/api/userdata/cookbook/recipes/check', data: jsonEncode(recipeIds));
+
+      if (response.statusCode == 200) {
+        
+        final List<dynamic> jsonList = response.data as List<dynamic>;
+        return jsonList.cast<String>();
+      }
+      if (recipeIds.length < 2 && response.statusCode == 404){
+        return List<String>.empty();
+      }
     }
-    if (recipeIds.length < 2 && response.statusCode == 404){
+    catch(e){
+      print('Recipe seems not to be in the cookbook.');
       return List<String>.empty();
     }
-    else {
-      throw Exception('Failed to check recipes in cookbook: ${response.statusCode}');
-    }
+    return List<String>.empty();
   }
 
   static Future<bool> addRecipeToCookbook(String recipeId, {bool setAsFavorite = false}) async {
       AddRecipeToCookbookDTO dto = AddRecipeToCookbookDTO(recipeId: recipeId, setAsFavorite: setAsFavorite);
-
-      Map<String, String> requestHeaders = {
-       'Content-type': 'application/json',
-       'Accept': 'application/json',
-       'X-Uuid' : AppState.currentUser == null ? '00000000-0000-0000-0000-000000000000' : AppState.currentUser!.userId
-      };
-
     try {
-    var response = await http.post(
-        //Uri.parse('http://${AppState.serverDomain}/api/userdata/cookbook/recipe'),
-        Uri.parse('http://localhost:7140/api/userdata/cookbook/recipe'),
-        headers: requestHeaders,
-        body: jsonEncode(dto.toJson()));
+      
+    var response = await _apiClient.post('/api/userdata/cookbook/recipe', data: jsonEncode(dto.toJson()));
+    //var response = await http.post(
+    //    //Uri.parse('http://${AppState.serverDomain}/api/userdata/cookbook/recipe'),
+    //    Uri.parse('http://localhost:7140/api/userdata/cookbook/recipe'),
+    //    headers: requestHeaders,
+    //    body: jsonEncode(dto.toJson()));
 
     if (response.statusCode == 201){
       if (kDebugMode){
-        final jsonData = json.decode(response.body);
-        print(jsonData.toString());
+        //final jsonData = json.decode(response.body);
+        //print(jsonData.toString());
       }      
       return true;
     }}
@@ -398,12 +410,14 @@ class Recipe extends ChangeNotifier {
     };
 
     try {
-      var response = await http.delete(
-        //Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
-        Uri.parse('http://localhost:7140/api/userdata/cookbook/recipe'),
-        headers: requestHeaders,
-        body: jsonEncode(recipeIds)
-      );
+      //var response = await http.delete(
+      //  //Uri.parse('http://${AppState.serverDomain}/api/cookbook/recipe'),
+      //  Uri.parse('http://localhost:7140/api/userdata/cookbook/recipe'),
+      //  headers: requestHeaders,
+      //  body: jsonEncode(recipeIds)
+      //);
+
+      var response = await _apiClient.delete('/api/userdata/cookbook/recipe', data: jsonEncode(recipeIds));
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         if (kDebugMode) {
@@ -412,7 +426,7 @@ class Recipe extends ChangeNotifier {
         return true;
       } else {
         if (kDebugMode) {
-          print('Failed to remove recipes from cookbook. Status: ${response.statusCode}, Body: ${response.body}');
+          print('Failed to remove recipes from cookbook. Status: ${response.statusCode}, Body: ${response.data.toString()}');
         }
         return false;
       }
@@ -460,26 +474,16 @@ class Recipe extends ChangeNotifier {
         queryParams['showOnlyFavorites'] = favoritesOnly.toString();
       }
       queryParams['orderByAsc'] = orderByAsc.toString();
-      //final uri = Uri.http(
-      //  AppState.serverDomain,
-      //  '/api/recipes/recipes/full',
-      //  queryParams
-      //);
 
-      final uri = Uri.http(
-        'localhost:7140',
-        '/api/userdata/cookbook',
-        queryParams
-      );
-
-      final response = await http.get(uri, headers: requestHeaders);
+      final response = await _apiClient.get('/api/userdata/cookbook', queryParameters: queryParams); //await http.get(uri, headers: requestHeaders);
 
       if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
+        
+        final Map<String, dynamic> jsonData = response.data as Map<String, dynamic>;
         return RecipeResponse.fromJson(jsonData);
       } else {
         throw Exception(
-            'Failed to load cookbook recipes, status code: ${response.statusCode} - ${response.reasonPhrase}');
+            'Failed to load cookbook recipes, status code: ${response.statusCode} - ${response.statusMessage}');
       }
     } catch (e) {
       if (kDebugMode) {
@@ -558,18 +562,13 @@ class Recipe extends ChangeNotifier {
   //  }
   //}
 
+  // should return true or false, eh
   static Future<void> deleteRecipe(String recipeId) async {
     try
     {
       var finalUrl = Uri.parse('http://localhost:7140/api/recipes/recipe/$recipeId');
 
-      await http.delete(
-        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
-        finalUrl,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Uuid' : AppState.currentUser?.userId ?? '00000000-0000-0000-0000-000000000000'
-        });
+      await _apiClient.delete('/api/recipes/recipe/$recipeId');
     } catch (e) {
       print('Error deleting recipe: $e');
     }
@@ -578,26 +577,22 @@ class Recipe extends ChangeNotifier {
   static Future<bool> saveRecipe(Recipe recipe) async {
     try {
 
-      http.Response response;
+      Response response;
 
       if (recipe.isReadFromDB!){
         print('Update recipe.');
-        // var finalUrl = Uri.parse('http://${AppState.serverDomain}/api/recipes/recipe/${recipe.id}'),
-        var finalUrl = Uri.parse('http://localhost:7140/api/recipes/recipe/${recipe.id}');
-        response = await _addRecipe(finalUrl, recipe, false);
+        response = await _addRecipe('/api/recipes/recipe/${recipe.id}', recipe, false);
       }
       else{
-        // var finalUrl = Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
         print('Add recipe.');
-        var finalUrl = Uri.parse('http://localhost:7140/api/recipes/recipe');
-        response = await _addRecipe(finalUrl, recipe, true);
+        response = await _addRecipe('/api/recipes/recipe', recipe, true);
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       } else {
         print('Failed to save recipe: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        print('Response body: ${response.data.toString()}');
         return false;
       }
     } catch (e) {
@@ -607,7 +602,7 @@ class Recipe extends ChangeNotifier {
   }
 
   // return status code
-  static Future<http.Response> _addRecipe(Uri finalUrl, Recipe recipe, bool isPost) async {
+  static Future<Response<dynamic>> _addRecipe(String finalUrl, Recipe recipe, bool isPost) async {
     // Convert RecipeIngredients to AddIngredientToRecipeDTO
     List<AddIngredientToRecipeDTO> ingredientDTOs = recipe.ingredients
         .map((ingredient) => AddIngredientToRecipeDTO(
@@ -626,26 +621,12 @@ class Recipe extends ChangeNotifier {
 
     // Make the API call
     if (isPost){
-      return await http.post(
-        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
-        finalUrl,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(recipeDTO.toJson()),
-      );
+      print('JSON sent to post: ${jsonEncode(recipeDTO.toJson())}');
+      return await _apiClient.post(finalUrl, data: jsonEncode(recipeDTO.toJson()));
     }else{
-      print('JSON sent to update: ${jsonEncode(recipeDTO.toJson())}');
-      return await http.put(
-        //Uri.parse('http://${AppState.serverDomain}/api/recipes/recipes'),
-        finalUrl,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(recipeDTO.toJson()),
-      );
+      print('JSON sent to put: ${jsonEncode(recipeDTO.toJson())}');
+      return await _apiClient.put(finalUrl, data: jsonEncode(recipeDTO.toJson()));
     }
-
   }
 
   static Future<RecipeResponse> getRecommendedRecipesForUser({
