@@ -653,6 +653,8 @@ class Recipe extends ChangeNotifier {
     int topN = 5,
   }) async {
     try {
+      List<dynamic> recipeIdList = [];
+
       // Try hybrid recommendation
       final hybridResponse = await http.post(
         Uri.parse('http://localhost:8069/recommend/hybrid'),
@@ -660,21 +662,24 @@ class Recipe extends ChangeNotifier {
         body: jsonEncode({'user_id': userId, 'top_n': topN}),
       );
 
-      List<dynamic> recipeIdList = [];
       if (hybridResponse.statusCode == 200) {
-        recipeIdList = jsonDecode(hybridResponse.body);
+        final decoded = jsonDecode(hybridResponse.body);
+        if (decoded is Map && decoded.containsKey('recipes')) {
+          recipeIdList = decoded['recipes'];
+        }
       }
 
       // Fallback to popularity if hybrid is empty
       if (recipeIdList.isEmpty) {
-        final popularityResponse = await http.post(
-          Uri.parse('http://localhost:8069/recommend/popularity'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'user_id': userId, 'top_n': topN}),
+        final popularityResponse = await http.get(
+          Uri.parse('http://localhost:8069/recommend/popularity?top_n=$topN'),
         );
 
         if (popularityResponse.statusCode == 200) {
-          recipeIdList = jsonDecode(popularityResponse.body);
+          final decoded = jsonDecode(popularityResponse.body);
+          if (decoded is Map && decoded.containsKey('recipes')) {
+            recipeIdList = decoded['recipes'];
+          }
         } else {
           throw Exception('Fallback to popularity failed: ${popularityResponse.body}');
         }
@@ -690,7 +695,7 @@ class Recipe extends ChangeNotifier {
         );
       }
 
-      // Get full recipe details
+      // Fetch full recipe details
       final recipeResponse = await http.post(
         Uri.parse('http://localhost:7140/api/recipes/recipes/full/by_ids'),
         headers: {'Content-Type': 'application/json'},
@@ -704,9 +709,17 @@ class Recipe extends ChangeNotifier {
       final data = jsonDecode(recipeResponse.body);
       return RecipeResponse.fromJson(data);
     } catch (e) {
-      throw Exception('Error fetching recommended recipes: $e');
+      print('Error fetching recommended recipes: $e');
+      return RecipeResponse(
+        data: [],
+        totalElements: 0,
+        totalPages: 1,
+        page: 0,
+        pageSize: topN,
+      );
     }
   }
+
 
 
   //static Future<http.Response> _editRecipe(Uri finalUrl, Recipe recipe) async {

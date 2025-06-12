@@ -23,17 +23,21 @@ class HybridRecommender:
         """
         combined = []
 
-        for name, rec in self.recommenders.items():
+        for name, recommender in self.recommenders.items():
             try:
-                recs = rec.recommend(user_id, top_n * 2)  # fetch extra to mix better
-                # Repeat recommendations based on weight
-                weighted_recs = [r for r in recs for _ in range(int(self.weights.get(name, 1)))]
+                if name == "popularity":
+                    # Popularity does not require user_id
+                    recs = recommender.recommend(top_n * 2)
+                else:
+                    recs = recommender.recommend(user_id, top_n * 2)
+
+                weight = int(self.weights.get(name, 1))
+                weighted_recs = [r for r in recs for _ in range(weight)]
                 combined.extend(weighted_recs)
             except Exception as e:
                 print(f"[HybridRecommender] Warning: {name} failed with error → {e}")
-                continue
 
-        # Count recipe frequencies and sort
+        # Count frequency, sort, and return top_n
         counter = Counter(combined)
         top_recs = [recipe_id for recipe_id, _ in counter.most_common(top_n)]
 

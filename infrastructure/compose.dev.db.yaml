@@ -17,7 +17,7 @@ services:
       test: ["CMD-SHELL", "pg_isready -U admin -d wrc"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   wrc-liquibase-db-main:
     container_name: "wrc-liquibase-db-main"

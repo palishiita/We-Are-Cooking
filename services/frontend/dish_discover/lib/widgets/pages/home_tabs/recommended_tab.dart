@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../entities/app_state.dart';
-import '../../../entities/new_recipe.dart';
-import '../../../widgets/display/recipe_list.dart';
+import '../../../services/recommendation_service.dart';
+import '../view_recipe.dart';
 
 class RecommendedTab extends StatefulWidget {
   const RecommendedTab({super.key});
@@ -11,33 +11,110 @@ class RecommendedTab extends StatefulWidget {
 }
 
 class _RecommendedTabState extends State<RecommendedTab> {
- 
-  //final String userId = 'd33f718d-97b6-4d42-adc1-856b31ded5b4';
-final String userId = '';
+  late Future<List<String>> _recipesFuture;
+  final String userId = AppState.currentUser?.userId ?? '9aff0c98-1b53-4659-97d0-1b15027bde69';
+  final Map<String, int> _likes = {};
+  final Map<String, bool> _saved = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _recipesFuture = RecommendationService.getRecommendedRecipeTitles(userId: userId, topN: 10);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recommended'),
+        title: const Text('Recommended Recipes'),
         centerTitle: true,
       ),
-      body: RecipeList(
-        searchQuery: null,
-        getRecipes: (page) async {
-          // Only load on first page — FastAPI doesn't support pagination
-          if (page > 0) {
-            return RecipeResponse(
-              data: [],
-              totalElements: 0,
-              totalPages: 1,
-              page: 0,
-              pageSize: 10,
-            );
+      body: FutureBuilder<List<String>>(
+        future: _recipesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No recommendations found.'));
           }
-          return await Recipe.getRecommendedRecipesForUser(
-            userId: userId,
-            topN: 5,
+
+          final recipes = snapshot.data!;
+
+          return ListView.builder(
+            itemCount: recipes.length,
+            itemBuilder: (context, index) {
+              final title = recipes[index];
+              _likes.putIfAbsent(title, () => 0);
+              _saved.putIfAbsent(title, () => false);
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ViewRecipePage(recipeId: title),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          child: Icon(Icons.person, color: Colors.white),
+                        ),
+                        title: Text(title),
+                        //subtitle: const Text('Author: Placeholder'),
+                      ),
+                      Image.asset(
+                        'assets/images/image.png',
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: _likes[title]! > 0 ? Colors.red : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _likes[title] = _likes[title]! + 1;
+                                    });
+                                  },
+                                ),
+                                Text('${_likes[title]}'),
+                              ],
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                _saved[title]! ? Icons.bookmark : Icons.bookmark_border,
+                                color: _saved[title]! ? Colors.blue : Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _saved[title] = !_saved[title]!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           );
         },
       ),

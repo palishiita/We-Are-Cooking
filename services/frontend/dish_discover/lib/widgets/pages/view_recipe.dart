@@ -70,7 +70,12 @@ class _ViewRecipePageState extends ConsumerState<ViewRecipePage> {
 
           recipeProvider = ChangeNotifierProvider<Recipe>((ref) => recipe);
 
-          return done();
+          // Use setState to update the widget after provider is set
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            setState(() {});
+          });
+
+          return const SizedBox.shrink(); // Return an empty widget while setState triggers rebuild
         });
   }
 

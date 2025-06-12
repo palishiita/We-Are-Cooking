@@ -62,6 +62,7 @@ flutter:
     - assets/images/event_italian.jpg
     - assets/images/event_sushi.jpg
     - assets/images/event_vegan.jpg
+    - assets/images/image.png
 
 dependency_overrides:
   web: ^0.5.0

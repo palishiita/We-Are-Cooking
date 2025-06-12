@@ -1,14 +1,23 @@
 import os
+import time
 import pandas as pd
 import psycopg2
+import logging
 from psycopg2 import OperationalError
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
+# Recommendation imports
 from recommendation_system.fridge import FridgeBasedRecommender
 from recommendation_system.content import ContentBasedRecommender
 from recommendation_system.collaborative import CollaborativeRecommender
 from recommendation_system.popularity import PopularityRecommender
 from recommendation_system.hybrid import HybridRecommender
-from fastapi import FastAPI
-from pydantic import BaseModel
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Database configuration
 DB_CONFIG = {
@@ -19,19 +28,21 @@ DB_CONFIG = {
     "port": 5432
 }
 
-def load_table(table_name):
-    try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
-        conn.close()
-        print(f"Loaded table: {table_name}")
-        return df
-    except OperationalError as e:
-        print(f"Database connection error while loading '{table_name}':", e)
-        raise
-    except Exception as e:
-        print(f"Error loading table '{table_name}':", e)
-        raise
+def load_table(table_name, retries=30, delay=10):
+    for attempt in range(retries):
+        try:
+            conn = psycopg2.connect(**DB_CONFIG)
+            df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
+            conn.close()
+            print(f"Loaded table: {table_name}")
+            return df
+        except OperationalError as e:
+            print(f"DB not ready (attempt {attempt + 1}/{retries}): {e}")
+            time.sleep(delay)
+        except Exception as e:
+            print(f"Error loading table '{table_name}':", e)
+            raise
+    raise Exception(f"Failed to connect to DB after {retries} attempts")
 
 # Load datasets from PostgreSQL
 users_df = load_table('user_profiles')
@@ -68,10 +79,21 @@ def map_ids_to_titles(recipe_ids):
 # FastAPI app setup
 app = FastAPI()
 
+# CORS middleware to allow frontend to talk to backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8020", "http://127.0.0.1:8020"],  # Replace with frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Request schema
 class RecommendationRequest(BaseModel):
     user_id: str
     top_n: int = 5
 
+# Endpoints
 @app.get("/")
 def read_root():
     return {
@@ -93,24 +115,34 @@ def get_all_reviews():
 @app.post("/recommend/content")
 def recommend_content(req: RecommendationRequest):
     ids = content_rec.recommend(req.user_id, req.top_n)
-    return {"recipes": map_ids_to_titles(ids)}
+    titles = map_ids_to_titles(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Content-based: {titles}")
+    return {"recipes": titles}
 
 @app.post("/recommend/collaborative")
 def recommend_collaborative(req: RecommendationRequest):
     ids = collab_rec.recommend(req.user_id, req.top_n)
-    return {"recipes": map_ids_to_titles(ids)}
+    titles = map_ids_to_titles(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Collaborative: {titles}")
+    return {"recipes": titles}
 
-@app.post("/recommend/popularity")
-def recommend_popularity(req: RecommendationRequest):
-    ids = pop_rec.recommend(req.top_n)
-    return {"recipes": map_ids_to_titles(ids)}
+@app.get("/recommend/popularity")
+def recommend_popularity(top_n: int = 5):
+    ids = pop_rec.recommend(top_n)
+    titles = map_ids_to_titles(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Popularity-based: {titles}")
+    return {"recipes": titles}
 
 @app.post("/recommend/hybrid")
 def recommend_hybrid(req: RecommendationRequest):
     ids = hybrid_rec.recommend(req.user_id, req.top_n)
-    return {"recipes": map_ids_to_titles(ids)}
+    titles = map_ids_to_titles(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Hybrid: {titles}")
+    return {"recipes": titles}
 
 @app.post("/recommend/fridge")
 def recommend_fridge(req: RecommendationRequest):
     ids = fridge_rec.recommend(req.user_id, req.top_n)
-    return {"recipes": map_ids_to_titles(ids)}
+    titles = map_ids_to_titles(ids)
+    logger.info(f"[RECOMMENDER OUTPUT] Fridge-based: {titles}")
+    return {"recipes": titles}

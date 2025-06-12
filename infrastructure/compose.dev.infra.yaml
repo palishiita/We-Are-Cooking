@@ -20,7 +20,8 @@ services:
       - './keycloak/themes/themes/custom-theme/theme:/opt/keycloak/themes'
       - ./keycloak/realms:/opt/keycloak/conf
     depends_on:
-      - auth-db
+      auth-db:
+        condition: service_healthy
     healthcheck:
       test:
         [
@@ -47,6 +48,11 @@ services:
       - ./db-volumes/auth:/var/lib/postgresql/data
     networks:
       - authNetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   auth-keycloak-config-cli:
     container_name: "auth-keycloak-config-cli"
@@ -66,7 +72,6 @@ services:
       - IMPORT_FILES_LOCATIONS=/config/*
     networks:
       - authNetwork
-
 
 networks:
   authNetwork:
